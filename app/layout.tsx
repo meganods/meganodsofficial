@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from 'next'
 import { Inter, Space_Grotesk } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
 import { StarField } from '@/components/effects/shooting-stars'
+import { Preloader } from '@/components/ui/preloader'
 import './globals.css'
 
 const inter = Inter({ 
@@ -62,10 +63,8 @@ export const metadata: Metadata = {
     },
   },
   icons: {
-    icon: [
-      { url: '/icon.svg', type: 'image/svg+xml' },
-    ],
-    apple: '/icon.svg',
+    icon: '/WhatsApp Image 2026-04-04 at 12.39.24 PM.jpeg',
+    apple: '/WhatsApp Image 2026-04-04 at 12.39.24 PM.jpeg',
   },
   manifest: '/manifest.json',
 }
@@ -88,6 +87,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark">
       <body className={`${inter.variable} ${spaceGrotesk.variable} font-sans antialiased`}>
+        <Preloader />
         <StarField />
         {children}
         {process.env.NODE_ENV === 'production' && <Analytics />}
