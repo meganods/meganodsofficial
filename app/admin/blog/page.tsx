@@ -1,425 +1,189 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import {
   Plus,
   Search,
-  Filter,
   Edit2,
   Trash2,
   Eye,
   Calendar,
-  X,
-  Save,
   Clock,
-  User
+  User,
+  Tag,
+  BookOpen,
+  LayoutGrid,
+  List as ListIcon,
+  Filter,
+  ArrowUpRight,
+  Loader2,
+  Database,
+  Type
 } from "lucide-react"
-
-const initialPosts = [
-  {
-    id: 1,
-    title: "The Future of AI in Enterprise Solutions",
-    excerpt: "Discover how AI is reshaping the enterprise landscape...",
-    category: "Artificial Intelligence",
-    author: "John Mitchell",
-    status: "published",
-    date: "2024-03-15",
-    readTime: "8 min",
-    image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=400&h=300&fit=crop"
-  },
-  {
-    id: 2,
-    title: "Cloud Migration Strategies for 2024",
-    excerpt: "Learn the best practices for seamless cloud migration...",
-    category: "Cloud Computing",
-    author: "Sarah Chen",
-    status: "published",
-    date: "2024-03-12",
-    readTime: "6 min",
-    image: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=400&h=300&fit=crop"
-  },
-  {
-    id: 3,
-    title: "Cybersecurity Best Practices",
-    excerpt: "Protect your organization with essential security measures...",
-    category: "Cybersecurity",
-    author: "Michael Torres",
-    status: "draft",
-    date: "2024-03-10",
-    readTime: "10 min",
-    image: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=400&h=300&fit=crop"
-  },
-  {
-    id: 4,
-    title: "Machine Learning in Business",
-    excerpt: "Explore how ML algorithms are automating business processes...",
-    category: "Machine Learning",
-    author: "Emily Johnson",
-    status: "scheduled",
-    date: "2024-03-20",
-    readTime: "7 min",
-    image: "https://images.unsplash.com/photo-1555949963-aa79dcee981c?w=400&h=300&fit=crop"
-  }
-]
-
-const categories = ["Artificial Intelligence", "Cloud Computing", "Cybersecurity", "Machine Learning", "IoT", "Blockchain"]
+import Link from "next/link"
+import { Button } from "@/components/ui/button"
+import { db } from "@/lib/firebase";
+import { collection, getDocs, deleteDoc, doc, query, orderBy } from "firebase/firestore";
+import { toast } from "sonner";
 
 export default function AdminBlogPage() {
-  const [posts, setPosts] = useState(initialPosts)
+  const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid')
   const [searchQuery, setSearchQuery] = useState("")
-  const [statusFilter, setStatusFilter] = useState("all")
-  const [isModalOpen, setIsModalOpen] = useState(false)
-  const [editingPost, setEditingPost] = useState<typeof initialPosts[0] | null>(null)
-  const [formData, setFormData] = useState({
-    title: "",
-    excerpt: "",
-    category: "",
-    author: "",
-    status: "draft",
-    date: "",
-    readTime: "",
-    image: ""
-  })
+  const [blogs, setBlogs] = useState<any[]>([])
+  const [isLoading, setIsLoading] = useState(true)
 
-  const filteredPosts = posts.filter(post => {
-    const matchesSearch = post.title.toLowerCase().includes(searchQuery.toLowerCase())
-    const matchesStatus = statusFilter === "all" || post.status === statusFilter
-    return matchesSearch && matchesStatus
-  })
-
-  const openCreateModal = () => {
-    setEditingPost(null)
-    setFormData({
-      title: "",
-      excerpt: "",
-      category: "",
-      author: "",
-      status: "draft",
-      date: new Date().toISOString().split("T")[0],
-      readTime: "",
-      image: ""
-    })
-    setIsModalOpen(true)
-  }
-
-  const openEditModal = (post: typeof initialPosts[0]) => {
-    setEditingPost(post)
-    setFormData({
-      title: post.title,
-      excerpt: post.excerpt,
-      category: post.category,
-      author: post.author,
-      status: post.status,
-      date: post.date,
-      readTime: post.readTime,
-      image: post.image
-    })
-    setIsModalOpen(true)
-  }
-
-  const handleSave = () => {
-    if (editingPost) {
-      setPosts(posts.map(p =>
-        p.id === editingPost.id ? { ...p, ...formData } : p
-      ))
-    } else {
-      setPosts([
-        ...posts,
-        { id: Date.now(), ...formData }
-      ])
-    }
-    setIsModalOpen(false)
-  }
-
-  const handleDelete = (id: number) => {
-    if (confirm("Are you sure you want to delete this post?")) {
-      setPosts(posts.filter(p => p.id !== id))
+  const fetchBlogs = async () => {
+    setIsLoading(true);
+    try {
+      const q = query(collection(db, "blogs"), orderBy("createdAt", "desc"));
+      const querySnapshot = await getDocs(q);
+      const docs = querySnapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data()
+      }));
+      setBlogs(docs);
+    } catch (error: any) {
+      console.error("FIREBASE_FETCH_ERROR:", error);
+      toast.error(`EDITORIAL_ACCESS_DENIED: ${error.message}`);
+    } finally {
+      setIsLoading(false);
     }
   }
+
+  useEffect(() => {
+    fetchBlogs();
+  }, [])
+
+  const handleDelete = async (id: string) => {
+    if (!confirm("Are you sure you want to TERMINATE this editorial node?")) return;
+    
+    const toastId = toast.loading("TERMINATING_EDITORIAL_NODE...");
+    try {
+      await deleteDoc(doc(db, "blogs", id));
+      setBlogs(blogs.filter(b => b.id !== id));
+      toast.success("EDITORIAL_NODE_TERMINATED", { id: toastId });
+    } catch (error: any) {
+      toast.error(`TERMINATION_FAILURE: ${error.message}`, { id: toastId });
+    }
+  }
+
+  const filteredBlogs = blogs.filter(b => 
+    b.title?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    b.category?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    b.author?.name?.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   return (
-    <div className="space-y-6">
-      {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <div>
-          <h1 className="text-3xl font-bold">Blog Posts</h1>
-          <p className="text-muted-foreground">Manage your blog content</p>
-        </div>
-        <button
-          onClick={openCreateModal}
-          className="flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-xl hover:opacity-90 transition-opacity"
-        >
-          <Plus className="w-5 h-5" />
-          New Post
-        </button>
-      </div>
-
-      {/* Stats */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        {[
-          { label: "Published", value: posts.filter(p => p.status === "published").length, color: "text-emerald-500" },
-          { label: "Drafts", value: posts.filter(p => p.status === "draft").length, color: "text-amber-500" },
-          { label: "Scheduled", value: posts.filter(p => p.status === "scheduled").length, color: "text-blue-500" },
-          { label: "Total", value: posts.length, color: "text-primary" }
-        ].map((stat) => (
-          <div key={stat.label} className="bg-card border border-border rounded-xl p-4 text-center">
-            <div className={`text-2xl font-bold ${stat.color}`}>{stat.value}</div>
-            <div className="text-sm text-muted-foreground">{stat.label}</div>
-          </div>
-        ))}
-      </div>
-
-      {/* Filters */}
-      <div className="flex flex-col sm:flex-row gap-4">
-        <div className="relative flex-1">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
-          <input
-            type="text"
-            placeholder="Search posts..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-10 pr-4 py-2.5 bg-card border border-border rounded-xl focus:outline-none focus:border-primary transition-colors"
-          />
-        </div>
-        <div className="flex items-center gap-2">
-          <Filter className="w-5 h-5 text-muted-foreground" />
-          <select
-            value={statusFilter}
-            onChange={(e) => setStatusFilter(e.target.value)}
-            className="px-4 py-2.5 bg-card border border-border rounded-xl focus:outline-none focus:border-primary transition-colors"
-          >
-            <option value="all">All Status</option>
-            <option value="published">Published</option>
-            <option value="draft">Draft</option>
-            <option value="scheduled">Scheduled</option>
-          </select>
+    <div className="space-y-10 pb-20 selection:bg-indigo-500/30">
+      {/* Tactical Header */}
+      <div className="relative">
+        <div className="absolute -left-10 top-0 w-1 h-20 bg-gradient-to-b from-indigo-500 to-transparent" />
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-8">
+           <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }}>
+              <div className="flex items-center gap-3 mb-4">
+                 <div className="w-2 h-2 rounded-full bg-indigo-500 animate-pulse" />
+                 <span className="text-[10px] font-mono text-indigo-500 uppercase tracking-[0.5em] font-black">Intelligence Feed</span>
+              </div>
+              <h1 className="text-4xl md:text-5xl font-black tracking-tighter text-slate-900 dark:text-white mb-2 underline decoration-indigo-500/10 underline-offset-[12px]">Editorial <span className="text-indigo-500">Nodes</span></h1>
+              <p className="text-slate-400 dark:text-white/20 font-mono text-[10px] uppercase tracking-[0.4em]">Manage Global Insights & Technical Whitepapers</p>
+           </motion.div>
+           
+           <Link href="/admin/blog/new">
+              <Button className="h-16 px-8 bg-indigo-600 hover:bg-indigo-700 text-white rounded-3xl shadow-xl shadow-indigo-600/20 flex items-center gap-3 group transition-transform active:scale-95 border-0">
+                 <Plus className="w-5 h-5 group-hover:rotate-90 transition-transform" />
+                 <span className="font-bold uppercase tracking-widest text-xs">Initialize Article</span>
+              </Button>
+           </Link>
         </div>
       </div>
 
-      {/* Posts Grid */}
-      <div className="grid md:grid-cols-2 gap-6">
-        {filteredPosts.map((post) => (
-          <motion.div
-            key={post.id}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="bg-card border border-border rounded-2xl overflow-hidden group"
-          >
-            <div className="relative aspect-video">
-              <img
-                src={post.image}
-                alt={post.title}
-                className="w-full h-full object-cover"
-              />
-              <div className="absolute top-4 left-4">
-                <span className={`px-2.5 py-1 rounded-full text-xs font-medium ${
-                  post.status === "published" ? "bg-emerald-500/90 text-white" :
-                  post.status === "draft" ? "bg-amber-500/90 text-white" :
-                  "bg-blue-500/90 text-white"
-                }`}>
-                  {post.status.charAt(0).toUpperCase() + post.status.slice(1)}
-                </span>
-              </div>
-              <div className="absolute top-4 right-4 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                <button className="p-2 bg-card/90 backdrop-blur rounded-lg hover:bg-card transition-colors">
-                  <Eye className="w-4 h-4" />
-                </button>
-                <button
-                  onClick={() => openEditModal(post)}
-                  className="p-2 bg-card/90 backdrop-blur rounded-lg hover:bg-card transition-colors"
-                >
-                  <Edit2 className="w-4 h-4" />
-                </button>
-                <button
-                  onClick={() => handleDelete(post.id)}
-                  className="p-2 bg-destructive/90 backdrop-blur rounded-lg hover:bg-destructive transition-colors text-white"
-                >
-                  <Trash2 className="w-4 h-4" />
-                </button>
-              </div>
-            </div>
-            <div className="p-6">
-              <div className="flex items-center gap-2 mb-3">
-                <span className="text-primary text-xs font-medium">{post.category}</span>
-                <span className="text-muted-foreground">•</span>
-                <span className="text-muted-foreground text-xs flex items-center gap-1">
-                  <Clock className="w-3 h-3" />
-                  {post.readTime}
-                </span>
-              </div>
-              <h3 className="text-lg font-bold mb-2 line-clamp-2">{post.title}</h3>
-              <p className="text-muted-foreground text-sm mb-4 line-clamp-2">{post.excerpt}</p>
-              <div className="flex items-center justify-between text-sm">
-                <div className="flex items-center gap-2 text-muted-foreground">
-                  <User className="w-4 h-4" />
-                  {post.author}
+      {/* Control Strip */}
+      <div className="flex flex-col lg:flex-row items-center gap-6">
+         <div className="relative flex-1 group w-full">
+            <Search className="absolute left-6 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-300 dark:text-white/20 group-focus-within:text-indigo-500 transition-colors" />
+            <input
+              type="text"
+              placeholder="Query editorial registry..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="w-full h-16 bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-[2.5rem] pl-16 pr-8 text-sm focus:outline-none focus:border-indigo-500/30 transition-all shadow-sm dark:shadow-none"
+            />
+         </div>
+         <div className="flex items-center gap-4 bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10 p-2 rounded-[2.5rem]">
+            <button onClick={() => setViewMode('grid')} className={`w-12 h-12 flex items-center justify-center rounded-2xl transition-all ${viewMode === 'grid' ? "bg-indigo-500 text-white shadow-lg shadow-indigo-500/20" : "text-slate-400 dark:text-white/20 hover:bg-slate-50 dark:hover:bg-white/5"}`}><LayoutGrid className="w-5 h-5" /></button>
+            <button onClick={() => setViewMode('list')} className={`w-12 h-12 flex items-center justify-center rounded-2xl transition-all ${viewMode === 'list' ? "bg-indigo-500 text-white shadow-lg shadow-indigo-500/20" : "text-slate-400 dark:text-white/20 hover:bg-slate-50 dark:hover:bg-white/5"}`}><ListIcon className="w-5 h-5" /></button>
+         </div>
+      </div>
+
+      {/* Articles Grid/List */}
+      {isLoading ? (
+        <div className="flex flex-col items-center justify-center py-40 gap-4">
+           <Loader2 className="w-10 h-10 text-indigo-500 animate-spin" />
+           <p className="text-[10px] font-mono text-slate-400 dark:text-white/20 uppercase tracking-[0.4em]">Resolving Editorial Mesh...</p>
+        </div>
+      ) : blogs.length === 0 ? (
+        <div className="flex flex-col items-center justify-center py-40 gap-6 border border-dashed border-slate-200 dark:border-white/10 rounded-[3rem]">
+           <Database className="w-12 h-12 text-slate-300 dark:text-white/10" />
+           <div className="text-center">
+              <h3 className="text-xl font-bold dark:text-white uppercase tracking-tight">Editorial Registry Idle</h3>
+              <p className="text-[10px] text-slate-400 font-mono uppercase tracking-[0.3em] mt-2 font-bold leading-relaxed">No articles detected in current node hub.</p>
+           </div>
+        </div>
+      ) : (
+        <div className={viewMode === 'grid' ? "grid md:grid-cols-2 xl:grid-cols-3 gap-8" : "space-y-4"}>
+           {filteredBlogs.map((post, i) => (
+             <motion.div
+               key={post.id}
+               initial={{ opacity: 0, y: 20 }}
+               animate={{ opacity: 1, y: 0 }}
+               transition={{ delay: i * 0.05 }}
+               className={`group relative bg-white dark:bg-[#05050a]/40 backdrop-blur-3xl border border-slate-200 dark:border-white/10 rounded-[3.5rem] overflow-hidden hover:border-indigo-500/30 transition-all duration-500 shadow-xl dark:shadow-none ${viewMode === 'list' ? "flex items-center p-6" : ""}`}
+             >
+                {/* Media Hub */}
+                <div className={`relative overflow-hidden ${viewMode === 'grid' ? "aspect-[16/10]" : "w-48 h-28 rounded-3xl"}`}>
+                   {post.imageUrl ? (
+                     <img src={post.imageUrl} alt={post.title} className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" />
+                   ) : (
+                     <div className="w-full h-full bg-slate-100 dark:bg-black/40 flex items-center justify-center">
+                        <Type className="w-10 h-10 text-indigo-500/20" />
+                     </div>
+                   )}
+                   <div className="absolute top-4 left-4">
+                      <span className="px-3 py-1.5 rounded-xl bg-black/60 backdrop-blur-md border border-white/10 text-[8px] font-black text-white uppercase tracking-widest">{post.category}</span>
+                   </div>
                 </div>
-                <div className="flex items-center gap-1 text-muted-foreground">
-                  <Calendar className="w-4 h-4" />
-                  {post.date}
-                </div>
-              </div>
-            </div>
-          </motion.div>
-        ))}
-      </div>
 
-      {filteredPosts.length === 0 && (
-        <div className="py-12 text-center text-muted-foreground bg-card border border-border rounded-2xl">
-          No posts found matching your criteria.
+                {/* Content Layer */}
+                <div className={`p-10 ${viewMode === 'list' ? "flex-1 py-0 flex items-center justify-between" : ""}`}>
+                   <div className="space-y-4">
+                      <h3 className="text-2xl font-black text-slate-900 dark:text-white tracking-tighter line-clamp-2 leading-none uppercase">{post.title}</h3>
+                      <div className="flex flex-wrap items-center gap-6 text-[9px] font-mono text-slate-400 dark:text-white/20 uppercase tracking-widest font-bold">
+                         <span className="flex items-center gap-1.5"><User className="w-3.5 h-3.5" /> {post.author?.name || 'Neural Node'}</span>
+                         <span className="flex items-center gap-1.5"><Calendar className="w-3.5 h-3.5" /> {post.date}</span>
+                      </div>
+                   </div>
+
+                   <div className={`flex items-center gap-4 ${viewMode === 'grid' ? "mt-12" : ""}`}>
+                      <Link href={`/blog/${post.slug}`} target="_blank" className="flex-1">
+                        <Button variant="ghost" className="w-full h-14 rounded-2xl border border-slate-100 dark:border-white/10 text-slate-400 dark:text-white/20 hover:text-indigo-500 dark:hover:text-white flex items-center gap-2 font-black text-[10px] uppercase tracking-widest transition-all">
+                           <Eye className="w-4 h-4" /> Preview
+                        </Button>
+                      </Link>
+                      <Link href={`/admin/blog/edit/${post.id}`}>
+                        <Button variant="ghost" className="w-14 h-14 rounded-2xl border border-slate-100 dark:border-white/10 text-slate-400 dark:text-white/20 hover:text-emerald-500 dark:hover:text-white p-0">
+                           <Edit2 className="w-5 h-5" />
+                        </Button>
+                      </Link>
+                      <Button onClick={() => handleDelete(post.id)} variant="ghost" className="w-14 h-14 rounded-2xl border border-red-500/10 text-red-500/40 hover:text-red-500 p-0 transition-all hover:bg-red-500/5">
+                         <Trash2 className="w-5 h-5" />
+                      </Button>
+                   </div>
+                </div>
+             </motion.div>
+           ))}
         </div>
       )}
-
-      {/* Modal */}
-      <AnimatePresence>
-        {isModalOpen && (
-          <>
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              className="fixed inset-0 bg-background/80 backdrop-blur-sm z-50"
-              onClick={() => setIsModalOpen(false)}
-            />
-            <motion.div
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.95 }}
-              className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-lg bg-card border border-border rounded-2xl p-6 z-50 max-h-[90vh] overflow-y-auto"
-            >
-              <div className="flex items-center justify-between mb-6">
-                <h2 className="text-xl font-bold">
-                  {editingPost ? "Edit Post" : "New Blog Post"}
-                </h2>
-                <button
-                  onClick={() => setIsModalOpen(false)}
-                  className="p-2 hover:bg-muted rounded-lg transition-colors"
-                >
-                  <X className="w-5 h-5" />
-                </button>
-              </div>
-
-              <form onSubmit={(e) => { e.preventDefault(); handleSave(); }} className="space-y-4">
-                <div>
-                  <label className="block text-sm font-medium mb-2">Title</label>
-                  <input
-                    type="text"
-                    required
-                    value={formData.title}
-                    onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                    className="w-full px-4 py-2.5 bg-background border border-border rounded-xl focus:outline-none focus:border-primary transition-colors"
-                    placeholder="Enter post title"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium mb-2">Excerpt</label>
-                  <textarea
-                    required
-                    rows={2}
-                    value={formData.excerpt}
-                    onChange={(e) => setFormData({ ...formData, excerpt: e.target.value })}
-                    className="w-full px-4 py-2.5 bg-background border border-border rounded-xl focus:outline-none focus:border-primary transition-colors resize-none"
-                    placeholder="Brief description..."
-                  />
-                </div>
-
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-sm font-medium mb-2">Category</label>
-                    <select
-                      required
-                      value={formData.category}
-                      onChange={(e) => setFormData({ ...formData, category: e.target.value })}
-                      className="w-full px-4 py-2.5 bg-background border border-border rounded-xl focus:outline-none focus:border-primary transition-colors"
-                    >
-                      <option value="">Select category</option>
-                      {categories.map(cat => (
-                        <option key={cat} value={cat}>{cat}</option>
-                      ))}
-                    </select>
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium mb-2">Author</label>
-                    <input
-                      type="text"
-                      required
-                      value={formData.author}
-                      onChange={(e) => setFormData({ ...formData, author: e.target.value })}
-                      className="w-full px-4 py-2.5 bg-background border border-border rounded-xl focus:outline-none focus:border-primary transition-colors"
-                      placeholder="Author name"
-                    />
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-3 gap-4">
-                  <div>
-                    <label className="block text-sm font-medium mb-2">Status</label>
-                    <select
-                      value={formData.status}
-                      onChange={(e) => setFormData({ ...formData, status: e.target.value })}
-                      className="w-full px-4 py-2.5 bg-background border border-border rounded-xl focus:outline-none focus:border-primary transition-colors"
-                    >
-                      <option value="draft">Draft</option>
-                      <option value="published">Published</option>
-                      <option value="scheduled">Scheduled</option>
-                    </select>
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium mb-2">Date</label>
-                    <input
-                      type="date"
-                      required
-                      value={formData.date}
-                      onChange={(e) => setFormData({ ...formData, date: e.target.value })}
-                      className="w-full px-4 py-2.5 bg-background border border-border rounded-xl focus:outline-none focus:border-primary transition-colors"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium mb-2">Read Time</label>
-                    <input
-                      type="text"
-                      value={formData.readTime}
-                      onChange={(e) => setFormData({ ...formData, readTime: e.target.value })}
-                      className="w-full px-4 py-2.5 bg-background border border-border rounded-xl focus:outline-none focus:border-primary transition-colors"
-                      placeholder="5 min"
-                    />
-                  </div>
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium mb-2">Featured Image URL</label>
-                  <input
-                    type="url"
-                    value={formData.image}
-                    onChange={(e) => setFormData({ ...formData, image: e.target.value })}
-                    className="w-full px-4 py-2.5 bg-background border border-border rounded-xl focus:outline-none focus:border-primary transition-colors"
-                    placeholder="https://example.com/image.jpg"
-                  />
-                </div>
-
-                <div className="flex gap-3 pt-4">
-                  <button
-                    type="button"
-                    onClick={() => setIsModalOpen(false)}
-                    className="flex-1 px-4 py-2.5 bg-muted text-foreground rounded-xl hover:bg-muted/80 transition-colors"
-                  >
-                    Cancel
-                  </button>
-                  <button
-                    type="submit"
-                    className="flex-1 px-4 py-2.5 bg-primary text-primary-foreground rounded-xl hover:opacity-90 transition-opacity flex items-center justify-center gap-2"
-                  >
-                    <Save className="w-4 h-4" />
-                    {editingPost ? "Update" : "Create"}
-                  </button>
-                </div>
-              </form>
-            </motion.div>
-          </>
-        )}
-      </AnimatePresence>
     </div>
   )
 }

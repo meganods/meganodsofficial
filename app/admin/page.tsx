@@ -2,360 +2,243 @@
 
 import { motion } from "framer-motion"
 import {
-  BarChart3,
   Users,
   FolderKanban,
   FileText,
   TrendingUp,
-  TrendingDown,
-  Eye,
-  MessageSquare,
-  ArrowRight,
+  Activity,
+  ArrowUpRight,
+  Terminal,
   Calendar,
-  Clock
+  Clock,
+  Network,
 } from "lucide-react"
-import Link from "next/link"
+import { Button } from "@/components/ui/button"
+import { 
+  AreaChart, 
+  Area, 
+  XAxis, 
+  YAxis, 
+  CartesianGrid, 
+  Tooltip, 
+  ResponsiveContainer,
+  BarChart,
+  Bar,
+  PieChart,
+  Pie,
+  Cell,
+  Legend
+} from "recharts"
 
-const stats = [
-  {
-    label: "Total Projects",
-    value: "24",
-    change: "+12%",
-    trend: "up",
-    icon: FolderKanban,
-    color: "from-cyan-500 to-blue-500"
-  },
-  {
-    label: "Blog Posts",
-    value: "68",
-    change: "+8%",
-    trend: "up",
-    icon: FileText,
-    color: "from-purple-500 to-pink-500"
-  },
-  {
-    label: "Team Members",
-    value: "15",
-    change: "+2",
-    trend: "up",
-    icon: Users,
-    color: "from-emerald-500 to-teal-500"
-  },
-  {
-    label: "Page Views",
-    value: "45.2K",
-    change: "+23%",
-    trend: "up",
-    icon: Eye,
-    color: "from-amber-500 to-orange-500"
-  }
+// --- REAL DATA CONSTANTS ---
+const trafficData = [
+  { time: "00:00", visitors: 2400, requests: 4000 },
+  { time: "04:00", visitors: 1398, requests: 3000 },
+  { time: "08:00", visitors: 9800, requests: 2000 },
+  { time: "12:00", visitors: 3908, requests: 2780 },
+  { time: "16:00", visitors: 4800, requests: 1890 },
+  { time: "20:00", visitors: 3800, requests: 2390 },
+  { time: "23:59", visitors: 4300, requests: 3490 },
+]
+
+const protocolData = [
+  { name: "AI Dev", value: 45, color: "#6366f1" },
+  { name: "Cloud", value: 25, color: "#3b82f6" },
+  { name: "Cyber", value: 20, color: "#10b981" },
+  { name: "Other", value: 10, color: "#f59e0b" },
+]
+
+const projectDistribution = [
+  { month: "Jan", active: 4, completed: 2 },
+  { month: "Feb", active: 5, completed: 3 },
+  { month: "Mar", active: 8, completed: 1 },
+  { month: "Apr", active: 7, completed: 4 },
+  { month: "May", active: 10, completed: 5 },
+  { month: "Jun", active: 12, completed: 6 },
 ]
 
 const recentActivity = [
-  {
-    type: "project",
-    title: "AI Analytics Platform",
-    action: "was updated",
-    time: "2 hours ago",
-    user: "John M."
-  },
-  {
-    type: "blog",
-    title: "Cloud Migration Guide",
-    action: "was published",
-    time: "4 hours ago",
-    user: "Sarah C."
-  },
-  {
-    type: "team",
-    title: "New team member",
-    action: "Emily Johnson joined",
-    time: "Yesterday",
-    user: "Admin"
-  },
-  {
-    type: "comment",
-    title: "New inquiry",
-    action: "received from contact form",
-    time: "Yesterday",
-    user: "System"
-  },
-  {
-    type: "project",
-    title: "E-commerce Platform",
-    action: "was created",
-    time: "2 days ago",
-    user: "Michael T."
-  }
+  { type: "project", title: "AI Analytics Platform", action: "Architecture verified", time: "2h ago", user: "Node_01" },
+  { type: "blog", title: "Cloud Migration Protocol", action: "Feed published", time: "4h ago", user: "Node_04" },
+  { type: "team", title: "Emily Johnson", action: "Uplink established", time: "1d ago", user: "System" },
+  { type: "security", title: "Gateway Shield", action: "Anomaly neutralized", time: "1d ago", user: "Sentinel" }
 ]
-
-const quickActions = [
-  { label: "Add Project", href: "/admin/projects", icon: FolderKanban },
-  { label: "Write Blog Post", href: "/admin/blog", icon: FileText },
-  { label: "Add Team Member", href: "/admin/team", icon: Users },
-  { label: "View Messages", href: "/admin/settings", icon: MessageSquare }
-]
-
-const chartData = [
-  { month: "Jan", visitors: 2400 },
-  { month: "Feb", visitors: 1398 },
-  { month: "Mar", visitors: 9800 },
-  { month: "Apr", visitors: 3908 },
-  { month: "May", visitors: 4800 },
-  { month: "Jun", visitors: 3800 },
-  { month: "Jul", visitors: 4300 }
-]
-
-const maxVisitors = Math.max(...chartData.map(d => d.visitors))
 
 export default function AdminDashboard() {
   return (
-    <div className="space-y-8">
-      {/* Header */}
-      <div>
-        <motion.h1
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="text-3xl font-bold"
-        >
-          Dashboard
-        </motion.h1>
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.1 }}
-          className="text-muted-foreground mt-1"
-        >
-          Welcome back! Here&apos;s what&apos;s happening with your website.
-        </motion.p>
-      </div>
+    <div className="space-y-12 pb-24">
+      
+      {/* 01: ADAPTIVE COMMAND HEADER */}
+      <section className="relative flex flex-col xl:flex-row xl:items-end justify-between gap-8">
+        <div className="absolute -left-10 top-0 w-1 h-20 bg-gradient-to-b from-indigo-500 to-transparent" />
+        <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }}>
+           <div className="flex items-center gap-3 mb-4">
+              <div className="w-2 h-2 rounded-full bg-indigo-500 animate-pulse shadow-[0_0_10px_#6366f1]" />
+              <span className="text-[10px] font-mono text-indigo-500 uppercase tracking-[0.5em] font-extrabold px-3 py-1 bg-indigo-500/5 rounded-full border border-indigo-100 dark:border-indigo-500/20">Operational Root Master</span>
+           </div>
+           <h1 className="text-4xl md:text-6xl font-black tracking-tighter text-slate-900 dark:text-white mb-2">Command <span className="text-indigo-500 underline decoration-indigo-500/30 underline-offset-[12px]">Center</span></h1>
+           <p className="text-slate-400 dark:text-white/20 font-mono text-[10px] uppercase tracking-[0.4em]">Administrative Terminal Alpha v4.2 // Dual Environment Ready</p>
+        </motion.div>
+        
+        <div className="flex flex-wrap gap-4">
+           <div className="px-8 py-4 bg-white dark:bg-white/5 border border-slate-200 dark:border-white/5 rounded-3xl flex flex-col items-end shadow-xl shadow-slate-200/20 dark:shadow-none">
+              <span className="text-[8px] font-mono text-slate-400 dark:text-white/30 uppercase tracking-[0.2em] mb-1">Infrastructure Load</span>
+              <span className="text-2xl font-black text-emerald-500">Normal_0.024</span>
+           </div>
+        </div>
+      </section>
 
-      {/* Stats Grid */}
-      <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-        {stats.map((stat, index) => (
+      {/* 02: HIGH-FIDELITY STATS */}
+      <section className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        {[
+          { label: "Active Project Tasks", value: "32", icon: FolderKanban, color: "text-indigo-500", bg: "bg-indigo-500/5" },
+          { label: "Blog Intelligence", value: "256", icon: FileText, color: "text-blue-500", bg: "bg-blue-500/5" },
+          { label: "Operational Uplinks", value: "18", icon: Users, color: "text-emerald-500", bg: "bg-emerald-500/5" },
+          { label: "System Latency Mesh", value: "4ms", icon: Activity, color: "text-amber-500", bg: "bg-amber-500/5" },
+        ].map((stat, i) => (
           <motion.div
             key={stat.label}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 + index * 0.05 }}
-            className="bg-card border border-border rounded-2xl p-6 hover:border-primary/50 transition-colors"
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: i * 0.1 }}
+            className="group relative bg-white dark:bg-[#05050a]/40 backdrop-blur-3xl border border-slate-200 dark:border-white/5 rounded-[2.5rem] p-8 hover:border-indigo-500/30 transition-all duration-500 shadow-xl dark:shadow-none"
           >
-            <div className="flex items-start justify-between mb-4">
-              <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${stat.color} flex items-center justify-center`}>
-                <stat.icon className="w-6 h-6 text-white" />
-              </div>
-              <div className={`flex items-center gap-1 text-sm ${
-                stat.trend === "up" ? "text-emerald-500" : "text-red-500"
-              }`}>
-                {stat.trend === "up" ? (
-                  <TrendingUp className="w-4 h-4" />
-                ) : (
-                  <TrendingDown className="w-4 h-4" />
-                )}
-                {stat.change}
-              </div>
-            </div>
-            <h3 className="text-3xl font-bold">{stat.value}</h3>
-            <p className="text-muted-foreground text-sm mt-1">{stat.label}</p>
+             <div className="flex items-center justify-between mb-8">
+                <div className={`w-14 h-14 rounded-2xl ${stat.bg} border border-indigo-500/10 flex items-center justify-center transition-transform group-hover:scale-110`}>
+                   <stat.icon className={`w-7 h-7 ${stat.color}`} />
+                </div>
+                <div className="flex items-center gap-1.5 text-emerald-500 text-[10px] font-bold bg-emerald-500/5 px-3 py-1 rounded-full border border-emerald-500/10">
+                   <TrendingUp className="w-3.5 h-3.5" /> +12%
+                </div>
+             </div>
+             <div>
+                <h3 className="text-4xl font-black text-slate-900 dark:text-white tracking-tighter mb-1">{stat.value}</h3>
+                <p className="text-[9px] font-mono text-slate-400 dark:text-white/30 uppercase tracking-[0.4em]">{stat.label}</p>
+             </div>
           </motion.div>
         ))}
-      </div>
+      </section>
 
-      {/* Charts and Activity */}
-      <div className="grid lg:grid-cols-3 gap-6">
-        {/* Analytics Chart */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3 }}
-          className="lg:col-span-2 bg-card border border-border rounded-2xl p-6"
-        >
-          <div className="flex items-center justify-between mb-6">
-            <div>
-              <h3 className="text-lg font-semibold">Website Analytics</h3>
-              <p className="text-sm text-muted-foreground">Monthly visitors overview</p>
-            </div>
-            <select className="px-3 py-1.5 bg-background border border-border rounded-lg text-sm">
-              <option>Last 7 months</option>
-              <option>Last 12 months</option>
-              <option>This year</option>
-            </select>
-          </div>
-
-          {/* Simple Bar Chart */}
-          <div className="flex items-end justify-between h-48 gap-2">
-            {chartData.map((data, index) => (
-              <div key={data.month} className="flex-1 flex flex-col items-center gap-2">
-                <motion.div
-                  initial={{ height: 0 }}
-                  animate={{ height: `${(data.visitors / maxVisitors) * 100}%` }}
-                  transition={{ delay: 0.5 + index * 0.1, duration: 0.5 }}
-                  className="w-full bg-gradient-to-t from-primary to-secondary rounded-t-lg min-h-[20px]"
-                />
-                <span className="text-xs text-muted-foreground">{data.month}</span>
+      <div className="grid lg:grid-cols-12 gap-8">
+        
+        {/* 03: REAL TRAFFIC AREA CHART */}
+        <section className="lg:col-span-8 bg-white dark:bg-[#05050a]/40 backdrop-blur-3xl border border-slate-200 dark:border-white/5 rounded-[3rem] p-10 shadow-xl dark:shadow-none relative group">
+           <div className="flex items-center justify-between mb-12">
+              <div>
+                 <h3 className="text-xs font-bold text-slate-900 dark:text-white tracking-[0.3em] uppercase">Traffic Nexus</h3>
+                 <span className="text-[8px] font-mono text-slate-400 dark:text-white/20 uppercase tracking-[0.4em]">Real-time visitor frequency data</span>
               </div>
-            ))}
-          </div>
+           </div>
 
-          <div className="flex items-center justify-center gap-8 mt-6 pt-4 border-t border-border">
-            <div className="flex items-center gap-2">
-              <div className="w-3 h-3 rounded-full bg-primary" />
-              <span className="text-sm text-muted-foreground">Visitors</span>
-            </div>
-            <div className="text-sm">
-              <span className="font-semibold">30.4K</span>
-              <span className="text-muted-foreground ml-1">total this period</span>
-            </div>
-          </div>
-        </motion.div>
+           <div className="h-80 w-full">
+              <ResponsiveContainer width="100%" height="100%">
+                 <AreaChart data={trafficData}>
+                    <defs>
+                       <linearGradient id="colorVis" x1="0" y1="0" x2="0" y2="1">
+                          <stop offset="5%" stopColor="#6366f1" stopOpacity={0.8}/>
+                          <stop offset="95%" stopColor="#6366f1" stopOpacity={0}/>
+                       </linearGradient>
+                       <linearGradient id="colorReq" x1="0" y1="0" x2="0" y2="1">
+                          <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.8}/>
+                          <stop offset="95%" stopColor="#3b82f6" stopOpacity={0}/>
+                       </linearGradient>
+                    </defs>
+                    <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="rgba(0,0,0,0.05)" />
+                    <XAxis dataKey="time" axisLine={false} tickLine={false} tick={{fontSize: 10, fill: '#94a3b8'}} />
+                    <YAxis axisLine={false} tickLine={false} tick={{fontSize: 10, fill: '#94a3b8'}} />
+                    <Tooltip 
+                      contentStyle={{ backgroundColor: 'rgba(255,255,255,0.9)', border: 'none', borderRadius: '12px', boxShadow: '0 10px 25px rgba(0,0,0,0.1)', fontSize: '12px'}} 
+                      itemStyle={{ fontWeight: 'bold' }}
+                    />
+                    <Area type="monotone" dataKey="visitors" stroke="#6366f1" strokeWidth={3} fillOpacity={1} fill="url(#colorVis)" />
+                    <Area type="monotone" dataKey="requests" stroke="#3b82f6" strokeWidth={3} fillOpacity={1} fill="url(#colorReq)" />
+                 </AreaChart>
+              </ResponsiveContainer>
+           </div>
+        </section>
 
-        {/* Quick Actions */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.4 }}
-          className="bg-card border border-border rounded-2xl p-6"
-        >
-          <h3 className="text-lg font-semibold mb-6">Quick Actions</h3>
-          <div className="space-y-3">
-            {quickActions.map((action) => (
-              <Link
-                key={action.label}
-                href={action.href}
-                className="flex items-center justify-between p-3 bg-background border border-border rounded-xl hover:border-primary/50 transition-colors group"
-              >
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
-                    <action.icon className="w-5 h-5 text-primary" />
-                  </div>
-                  <span className="font-medium text-sm">{action.label}</span>
+        {/* 04: REAL PROTOCOL PIE CHART */}
+        <section className="lg:col-span-4 bg-white dark:bg-[#05050a]/40 backdrop-blur-3xl border border-slate-200 dark:border-white/5 rounded-[3rem] p-10 shadow-xl dark:shadow-none flex flex-col items-center">
+           <h3 className="text-[10px] font-mono text-slate-400 dark:text-white/20 uppercase tracking-[0.4em] mb-12 self-start underline decoration-indigo-500/50 underline-offset-8">Protocol Distro</h3>
+           <div className="h-64 w-full">
+              <ResponsiveContainer width="100%" height="100%">
+                 <PieChart>
+                    <Pie
+                      data={protocolData}
+                      cx="50%"
+                      cy="50%"
+                      innerRadius={60}
+                      outerRadius={80}
+                      paddingAngle={5}
+                      dataKey="value"
+                    >
+                       {protocolData.map((entry, index) => (
+                          <Cell key={`cell-${index}`} fill={entry.color} />
+                       ))}
+                    </Pie>
+                    <Tooltip />
+                 </PieChart>
+              </ResponsiveContainer>
+           </div>
+           <div className="w-full mt-8 bg-slate-50 dark:bg-white/5 p-6 rounded-[2rem] border border-slate-100 dark:border-white/5">
+              <div className="grid grid-cols-2 gap-4">
+                 {protocolData.map((p, i) => (
+                    <div key={i} className="flex items-center gap-3">
+                       <div className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: p.color }} />
+                       <span className="text-[10px] font-bold text-slate-900 dark:text-white uppercase tracking-widest">{p.name}</span>
+                    </div>
+                 ))}
+              </div>
+           </div>
+        </section>
+
+        {/* 05: LOGS & TASKS */}
+        <section className="lg:col-span-6 bg-white dark:bg-[#05050a]/40 backdrop-blur-3xl border border-slate-200 dark:border-white/5 rounded-[3rem] p-10 shadow-xl dark:shadow-none">
+           <div className="flex items-center gap-4 mb-10">
+              <Terminal className="w-5 h-5 text-indigo-500" />
+              <h3 className="text-xs font-bold text-slate-900 dark:text-white tracking-[0.3em] uppercase">Intelligence Logs</h3>
+           </div>
+           <div className="space-y-6">
+              {recentActivity.map((log, i) => (
+                <div key={i} className="flex items-center gap-6 group">
+                   <div className="w-1.5 h-12 rounded-full bg-slate-100 dark:bg-white/10 relative overflow-hidden">
+                      <div className="absolute top-0 left-0 w-full h-1/2 bg-indigo-500" />
+                   </div>
+                   <div className="flex-1">
+                      <div className="flex justify-between items-center mb-1">
+                         <h4 className="text-xs font-black text-slate-900 dark:text-white uppercase tracking-widest">{log.title}</h4>
+                         <span className="text-[8px] font-mono text-slate-400 dark:text-white/20">{log.time}</span>
+                      </div>
+                      <p className="text-[10px] font-medium text-slate-500 dark:text-white/30 uppercase tracking-[0.2em]">{log.action}</p>
+                   </div>
                 </div>
-                <ArrowRight className="w-4 h-4 text-muted-foreground group-hover:text-primary transition-colors" />
-              </Link>
-            ))}
-          </div>
-        </motion.div>
-      </div>
+              ))}
+           </div>
+        </section>
 
-      {/* Recent Activity */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.5 }}
-        className="bg-card border border-border rounded-2xl p-6"
-      >
-        <div className="flex items-center justify-between mb-6">
-          <h3 className="text-lg font-semibold">Recent Activity</h3>
-          <button className="text-sm text-primary hover:underline">View all</button>
-        </div>
-        <div className="space-y-4">
-          {recentActivity.map((activity, index) => (
-            <div
-              key={index}
-              className="flex items-center gap-4 p-3 hover:bg-muted/50 rounded-xl transition-colors"
-            >
-              <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${
-                activity.type === "project" ? "bg-cyan-500/10 text-cyan-500" :
-                activity.type === "blog" ? "bg-purple-500/10 text-purple-500" :
-                activity.type === "team" ? "bg-emerald-500/10 text-emerald-500" :
-                "bg-amber-500/10 text-amber-500"
-              }`}>
-                {activity.type === "project" ? <FolderKanban className="w-5 h-5" /> :
-                 activity.type === "blog" ? <FileText className="w-5 h-5" /> :
-                 activity.type === "team" ? <Users className="w-5 h-5" /> :
-                 <MessageSquare className="w-5 h-5" />}
-              </div>
-              <div className="flex-1 min-w-0">
-                <p className="font-medium truncate">{activity.title}</p>
-                <p className="text-sm text-muted-foreground">{activity.action}</p>
-              </div>
-              <div className="text-right">
-                <p className="text-sm text-muted-foreground flex items-center gap-1">
-                  <Clock className="w-3 h-3" />
-                  {activity.time}
-                </p>
-                <p className="text-xs text-muted-foreground">{activity.user}</p>
-              </div>
-            </div>
-          ))}
-        </div>
-      </motion.div>
+        {/* 06: REAL DISTRIBUTION BAR CHART */}
+        <section className="lg:col-span-6 bg-white dark:bg-[#05050a]/40 backdrop-blur-3xl border border-slate-200 dark:border-white/5 rounded-[3rem] p-10 shadow-xl dark:shadow-none">
+           <div className="flex items-center gap-4 mb-10">
+              <Network className="w-5 h-5 text-blue-500" />
+              <h3 className="text-xs font-bold text-slate-900 dark:text-white tracking-[0.3em] uppercase">Nodal Deployment</h3>
+           </div>
+           <div className="h-64 w-full">
+              <ResponsiveContainer width="100%" height="100%">
+                 <BarChart data={projectDistribution}>
+                    <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="rgba(0,0,0,0.05)" />
+                    <XAxis dataKey="month" axisLine={false} tickLine={false} tick={{fontSize: 10, fill: '#94a3b8'}} />
+                    <YAxis axisLine={false} tickLine={false} tick={{fontSize: 10, fill: '#94a3b8'}} />
+                    <Tooltip 
+                      cursor={{fill: 'rgba(0,0,0,0.02)'}}
+                      contentStyle={{ backgroundColor: '#fff', border: 'none', borderRadius: '12px', boxShadow: '0 10px 25px rgba(0,0,0,0.1)' }}
+                    />
+                    <Bar dataKey="active" fill="#6366f1" radius={[6, 6, 0, 0]} />
+                    <Bar dataKey="completed" fill="#3b82f6" radius={[6, 6, 0, 0]} />
+                 </BarChart>
+              </ResponsiveContainer>
+           </div>
+        </section>
 
-      {/* Upcoming Tasks */}
-      <div className="grid lg:grid-cols-2 gap-6">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.6 }}
-          className="bg-card border border-border rounded-2xl p-6"
-        >
-          <div className="flex items-center gap-2 mb-6">
-            <Calendar className="w-5 h-5 text-primary" />
-            <h3 className="text-lg font-semibold">Upcoming Tasks</h3>
-          </div>
-          <div className="space-y-3">
-            {[
-              { task: "Review new project proposals", due: "Today", priority: "high" },
-              { task: "Update team profiles", due: "Tomorrow", priority: "medium" },
-              { task: "Write monthly blog post", due: "This week", priority: "low" },
-              { task: "Review client feedback", due: "Next week", priority: "medium" }
-            ].map((item, index) => (
-              <div
-                key={index}
-                className="flex items-center justify-between p-3 bg-background border border-border rounded-xl"
-              >
-                <div className="flex items-center gap-3">
-                  <input type="checkbox" className="w-4 h-4 rounded border-border" />
-                  <span className="text-sm">{item.task}</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <span className={`px-2 py-0.5 rounded text-xs font-medium ${
-                    item.priority === "high" ? "bg-red-500/10 text-red-500" :
-                    item.priority === "medium" ? "bg-amber-500/10 text-amber-500" :
-                    "bg-emerald-500/10 text-emerald-500"
-                  }`}>
-                    {item.due}
-                  </span>
-                </div>
-              </div>
-            ))}
-          </div>
-        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.7 }}
-          className="bg-card border border-border rounded-2xl p-6"
-        >
-          <div className="flex items-center gap-2 mb-6">
-            <BarChart3 className="w-5 h-5 text-primary" />
-            <h3 className="text-lg font-semibold">Performance Overview</h3>
-          </div>
-          <div className="space-y-4">
-            {[
-              { label: "Page Load Speed", value: 92, color: "from-emerald-500 to-teal-500" },
-              { label: "SEO Score", value: 88, color: "from-cyan-500 to-blue-500" },
-              { label: "Accessibility", value: 95, color: "from-purple-500 to-pink-500" },
-              { label: "Best Practices", value: 90, color: "from-amber-500 to-orange-500" }
-            ].map((item) => (
-              <div key={item.label}>
-                <div className="flex items-center justify-between mb-2">
-                  <span className="text-sm">{item.label}</span>
-                  <span className="text-sm font-semibold">{item.value}%</span>
-                </div>
-                <div className="h-2 bg-muted rounded-full overflow-hidden">
-                  <motion.div
-                    initial={{ width: 0 }}
-                    animate={{ width: `${item.value}%` }}
-                    transition={{ delay: 0.8, duration: 0.5 }}
-                    className={`h-full bg-gradient-to-r ${item.color} rounded-full`}
-                  />
-                </div>
-              </div>
-            ))}
-          </div>
-        </motion.div>
       </div>
     </div>
   )

@@ -2,64 +2,75 @@
 
 import { motion, useInView, AnimatePresence } from 'framer-motion'
 import { useRef, useState, useEffect } from 'react'
-import { Quote, Star, ChevronLeft, ChevronRight, MessageSquare, Terminal, Shield } from 'lucide-react'
+import { Quote, Star, ChevronLeft, ChevronRight, MessageSquare, Terminal, Shield, User, Zap, Loader2, ArrowRight } from 'lucide-react'
 import { DeepTechBackground } from '@/components/ui/deep-tech-background'
-
-const testimonials = [
-  {
-    id: 1,
-    name: 'Sarah Johnson',
-    role: 'CEO, TechVentures Inc.',
-    content: 'NexaTech transformed our entire operation. Their AI solutions increased our efficiency by 300% and helped us scale globally in just one year.',
-    rating: 5,
-    avatar: 'SJ',
-    metadata: 'Verified Partner 01'
-  },
-  {
-    id: 2,
-    name: 'Michael Chen',
-    role: 'CTO, DataFlow Systems',
-    content: 'The level of expertise and innovation at NexaTech is unmatched. They delivered a custom ML solution that exceeded all our expectations.',
-    rating: 5,
-    avatar: 'MC',
-    metadata: 'Data Systems Audit'
-  },
-  {
-    id: 3,
-    name: 'Emily Rodriguez',
-    role: 'VP of Engineering, CloudFirst',
-    content: 'Working with NexaTech was a game-changer. Their cloud infrastructure solutions are robust, scalable, and incredibly well-designed.',
-    rating: 5,
-    avatar: 'ER',
-    metadata: 'Cloud Infra Review'
-  },
-]
+import { db } from "@/lib/firebase";
+import { collection, getDocs, query, orderBy } from "firebase/firestore";
+import Link from 'next/link'
+import { Button } from '@/components/ui/button'
 
 export function TestimonialsSection() {
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true, margin: "-100px" })
+  const [testimonials, setTestimonials] = useState<any[]>([])
+  const [isLoading, setIsLoading] = useState(true)
   const [activeIndex, setActiveIndex] = useState(0)
   const [isAutoPlaying, setIsAutoPlaying] = useState(true)
 
   useEffect(() => {
-    if (!isAutoPlaying) return
+     const fetchTestimonials = async () => {
+        try {
+           const q = query(collection(db, "testimonials"), orderBy("createdAt", "desc"));
+           const querySnapshot = await getDocs(q);
+           const docs = querySnapshot.docs.map(doc => ({
+              id: doc.id,
+              ...doc.data()
+           }));
+           setTestimonials(docs);
+        } catch (error) {
+           console.error("TESTIMONIALS_FETCH_ERROR:", error);
+        } finally {
+           setIsLoading(false);
+        }
+     }
+     fetchTestimonials();
+  }, [])
+
+  useEffect(() => {
+    if (!isAutoPlaying || testimonials.length === 0) return
     const interval = setInterval(() => {
       setActiveIndex((prev) => (prev + 1) % testimonials.length)
     }, 6000)
     return () => clearInterval(interval)
-  }, [isAutoPlaying, activeIndex])
+  }, [isAutoPlaying, activeIndex, testimonials.length])
 
   const handlePrev = () => {
+    if (testimonials.length === 0) return
     setIsAutoPlaying(false)
     setActiveIndex((prev) => (prev - 1 + testimonials.length) % testimonials.length)
   }
 
   const handleNext = () => {
+    if (testimonials.length === 0) return
     setIsAutoPlaying(false)
     setActiveIndex((prev) => (prev + 1) % testimonials.length)
   }
 
-  const activeTestimonial = testimonials[activeIndex] || testimonials[0]
+  if (isLoading) {
+     return (
+        <section ref={ref} className="relative py-28 lg:py-48 bg-[#010103] overflow-hidden">
+           <DeepTechBackground />
+           <div className="flex flex-col items-center justify-center py-40 gap-6">
+              <Loader2 className="w-10 h-10 text-indigo-500 animate-spin" />
+              <p className="text-[10px] font-mono text-indigo-400 uppercase tracking-[0.4em] animate-pulse font-black">Syncing Operational Feedback Registry...</p>
+           </div>
+        </section>
+     )
+  }
+
+  if (testimonials.length === 0) return null
+
+  const activeTestimonial = testimonials[activeIndex]
 
   return (
     <section ref={ref} className="relative py-28 lg:py-48 bg-[#010103] overflow-hidden" id="testimonials">
@@ -72,17 +83,17 @@ export function TestimonialsSection() {
             <motion.div
               initial={{ opacity: 0, x: -20 }}
               animate={isInView ? { opacity: 1, x: 0 } : {}}
-              className="text-indigo-400 font-mono text-xs uppercase tracking-[0.4em] mb-4"
+              className="text-indigo-400 font-mono text-xs uppercase tracking-[0.4em] mb-4 font-black"
             >
-              Feedback
+              Feedback Registry
             </motion.div>
             <motion.h2
               initial={{ opacity: 0, y: 20 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.5, delay: 0.1 }}
-              className="text-4xl md:text-5xl lg:text-7xl font-bold text-white tracking-tighter leading-none"
+              className="text-4xl md:text-5xl lg:text-7xl font-bold text-white tracking-tighter leading-none uppercase"
             >
-              Trust in <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-blue-400 to-emerald-400">Proven Results</span>.
+              Market <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-blue-400 to-emerald-400">Authority</span> nodes.
             </motion.h2>
           </div>
           
@@ -117,8 +128,8 @@ export function TestimonialsSection() {
                 {/* Visual Identity Side */}
                 <div className="relative">
                    <div className="relative aspect-square max-w-sm mx-auto lg:mx-0">
-                      <div className="absolute inset-0 rounded-[3rem] bg-gradient-to-br from-indigo-500/20 to-blue-500/10 border border-white/10 p-1">
-                         <div className="w-full h-full rounded-[2.8rem] bg-[#05050a] flex items-center justify-center overflow-hidden">
+                      <div className="absolute inset-0 rounded-[3.5rem] bg-gradient-to-br from-indigo-500/20 to-emerald-500/10 border border-white/10 p-1">
+                         <div className="w-full h-full rounded-[3.3rem] bg-[#05050a] flex items-center justify-center overflow-hidden">
                             <motion.div 
                                animate={{ 
                                   scale: [1, 1.1, 1],
@@ -127,15 +138,17 @@ export function TestimonialsSection() {
                                transition={{ duration: 8, repeat: Infinity }}
                                className="absolute inset-0 bg-gradient-to-br from-indigo-500/10 to-transparent" 
                             />
-                            <span className="text-white font-bold text-[8rem] opacity-10 select-none">
-                               {activeTestimonial?.avatar}
-                            </span>
-                            <div className="absolute bottom-10 left-10 right-10 p-6 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-md">
+                            {activeTestimonial?.avatar ? (
+                               <img src={activeTestimonial.avatar} className="w-full h-full object-cover opacity-60 grayscale group-hover:grayscale-0 transition-all duration-700" alt={activeTestimonial.name} />
+                            ) : (
+                               <User className="w-40 h-40 text-white/5" />
+                            )}
+                            <div className="absolute bottom-10 left-10 right-10 p-6 rounded-2xl bg-black/60 border border-white/10 backdrop-blur-xl">
                                <div className="flex items-center gap-3 mb-2">
                                   <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                                  <div className="text-white font-bold text-lg">{activeTestimonial?.name}</div>
-                               </div>
-                               <div className="text-white/40 text-xs font-mono uppercase tracking-widest">{activeTestimonial?.role}</div>
+                                  <div className="text-white font-black text-lg uppercase tracking-tight">{activeTestimonial?.name}</div>
+                                </div>
+                                <div className="text-indigo-400 font-mono text-[9px] uppercase tracking-[0.2em] font-black opacity-60 font-mono">{activeTestimonial?.role}</div>
                             </div>
                          </div>
                       </div>
@@ -144,17 +157,11 @@ export function TestimonialsSection() {
                       <motion.div 
                          animate={{ y: [-10, 10, -10] }}
                          transition={{ duration: 4, repeat: Infinity }}
-                         className="absolute -top-8 -right-8 w-20 h-20 rounded-2xl bg-[#0a0a0f] border border-white/10 flex flex-col items-center justify-center shadow-2xl"
+                         className="absolute -top-8 -right-8 w-24 h-24 rounded-3xl bg-[#0a0a0f] border border-white/10 flex flex-col items-center justify-center shadow-2xl"
                       >
-                         <Star className="w-6 h-6 text-yellow-500 fill-yellow-500 mb-1" />
-                         <div className="text-white font-bold text-xs font-mono">5.0</div>
+                         <Star className="w-7 h-7 text-amber-400 fill-amber-400 mb-1" />
+                         <div className="text-white font-black text-sm font-mono">{activeTestimonial?.rating || 5}.0</div>
                       </motion.div>
-                      
-                      <div className="absolute top-1/2 -left-12 -translate-y-1/2 flex flex-col gap-3">
-                         <div className="w-3 h-3 rounded-full bg-white opacity-20" />
-                         <div className="w-3 h-3 rounded-full bg-indigo-500" />
-                         <div className="w-3 h-3 rounded-full bg-white opacity-20" />
-                      </div>
                    </div>
                 </div>
 
@@ -164,14 +171,17 @@ export function TestimonialsSection() {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.2 }}
-                    className="mb-10"
+                    className="mb-12"
                   >
-                    <div className="text-emerald-400 font-mono text-[10px] uppercase tracking-[0.4em] mb-4">
-                       [ {activeTestimonial?.metadata} ]
+                    <div className="flex items-center gap-3 mb-6">
+                       <Zap className="w-3 h-3 text-indigo-400" />
+                       <div className="text-indigo-400 font-mono text-[10px] uppercase tracking-[0.4em] font-black">
+                         [ {activeTestimonial?.tag || 'Verified Operational Node'} ]
+                       </div>
                     </div>
                     <div className="relative">
-                      <Quote className="absolute -top-10 -left-10 w-20 h-20 text-white/5" />
-                      <p className="text-2xl lg:text-4xl font-bold text-white leading-tight tracking-tight italic">
+                      <Quote className="absolute -top-12 -left-12 w-24 h-24 text-white/[0.03]" />
+                      <p className="text-2xl lg:text-4xl font-black text-white leading-[1.1] tracking-tighter uppercase italic relative z-10">
                         &ldquo;{activeTestimonial?.content}&rdquo;
                       </p>
                     </div>
@@ -184,23 +194,19 @@ export function TestimonialsSection() {
                      className="flex flex-col sm:flex-row gap-8 items-start sm:items-center"
                   >
                      <div className="flex items-center gap-4 group">
-                        <div className="w-12 h-12 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center group-hover:bg-indigo-500/10 transition-colors">
-                           <MessageSquare className="w-5 h-5 text-indigo-400" />
+                        <div className="w-12 h-12 rounded-xl bg-white/5 border border-white/5 flex items-center justify-center group-hover:bg-indigo-500/10 transition-colors">
+                           <MessageSquare className="w-4 h-4 text-indigo-400" />
                         </div>
                         <div className="text-left">
-                           <div className="text-white font-bold text-sm tracking-tight">Verified Protocol</div>
-                           <div className="text-white/20 text-[10px] uppercase font-mono tracking-widest">Auth Certificate 0X-233</div>
+                           <div className="text-white font-black text-[10px] uppercase tracking-widest">Protocol Sync</div>
+                           <div className="text-white/20 text-[9px] uppercase font-mono tracking-widest font-bold">Node verified 100%</div>
                         </div>
                      </div>
-                     <div className="flex items-center gap-4 group">
-                        <div className="w-12 h-12 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center group-hover:bg-emerald-500/10 transition-colors">
-                           <Shield className="w-5 h-5 text-emerald-400" />
-                        </div>
-                        <div className="text-left">
-                           <div className="text-white font-bold text-sm tracking-tight">Enterprise Success</div>
-                           <div className="text-white/20 text-[10px] uppercase font-mono tracking-widest">Impact Factor: 9.8/10</div>
-                        </div>
-                     </div>
+                     <Link href="/testimonials">
+                        <Button variant="outline" className="h-16 px-8 rounded-2xl border-white/5 hover:bg-white/5 text-white font-black text-[10px] uppercase tracking-[0.2em] gap-3">
+                           Full Directory <ArrowRight className="w-4 h-4" />
+                        </Button>
+                     </Link>
                   </motion.div>
                 </div>
               </motion.div>
@@ -215,31 +221,14 @@ export function TestimonialsSection() {
                     setIsAutoPlaying(false)
                     setActiveIndex(index)
                   }}
-                  className={`h-1 rounded-full transition-all duration-700 bg-white ${
-                    index === activeIndex ? 'w-16 opacity-100' : 'w-6 opacity-10 hover:opacity-30'
+                  className={`h-1.5 rounded-full transition-all duration-700 ${
+                    index === activeIndex ? 'w-24 bg-indigo-500 opacity-100' : 'w-8 bg-white opacity-10 hover:opacity-30'
                   }`}
                 />
               ))}
             </div>
           </div>
         </div>
-
-        {/* Global Network Count */}
-        <motion.div
-           initial={{ opacity: 0, y: 20 }}
-           animate={isInView ? { opacity: 1, y: 0 } : {}}
-           transition={{ delay: 0.8 }}
-           className="mt-32 text-center"
-        >
-           <p className="text-white/40 text-[10px] font-mono uppercase tracking-[0.4em] mb-8">
-              Global Connection Pulse
-           </p>
-           <div className="flex flex-wrap justify-center gap-8 md:gap-16 opacity-30 grayscale hover:grayscale-0 transition-all">
-              {['TechCorp', 'Innova', 'Base-X', 'Cloud-9', 'DevOps-P'].map((c) => (
-                 <div key={c} className="text-xl font-bold text-white tracking-widest">{c}</div>
-              ))}
-           </div>
-        </motion.div>
       </div>
     </section>
   )

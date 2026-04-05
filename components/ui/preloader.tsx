@@ -77,8 +77,8 @@ export function Preloader() {
           <div className="relative w-full max-w-4xl px-8 flex flex-col items-center">
             
             {/* Visual HUD Container */}
-            <div className="relative w-full aspect-video md:aspect-[21/9] rounded-[3rem] border border-white/10 bg-[#05050a]/40 backdrop-blur-3xl overflow-hidden p-1 shadow-2xl mb-12">
-               <div className="w-full h-full rounded-[2.8rem] bg-black overflow-hidden relative p-8 md:p-12">
+            <div className="relative w-full aspect-square md:aspect-[21/9] rounded-[2.5rem] md:rounded-[3rem] border border-white/10 bg-[#05050a]/40 backdrop-blur-3xl overflow-hidden p-1 shadow-2xl mb-12">
+               <div className="w-full h-full rounded-[2.3rem] md:rounded-[2.8rem] bg-black overflow-hidden relative p-8 md:p-12">
                   
                   {/* Top Status Bar */}
                   <div className="flex items-center justify-between mb-12 opacity-40">
@@ -107,7 +107,7 @@ export function Preloader() {
                           animate={{ opacity: 1, x: 0 }}
                         >
                            <h2 className="text-white/40 font-mono text-[10px] uppercase tracking-[0.6em] mb-2">{loadingStory[currentPhase].label}</h2>
-                           <h1 className="text-3xl md:text-5xl font-black tracking-tighter leading-none text-white whitespace-nowrap">
+                           <h1 className="text-3xl md:text-5xl font-black tracking-tighter leading-none text-white whitespace-normal md:whitespace-nowrap">
                               {loadingStory[currentPhase].text}
                            </h1>
                         </motion.div>

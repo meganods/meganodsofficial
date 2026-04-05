@@ -1,6 +1,7 @@
 "use client"
 
 import Link from 'next/link'
+import Image from 'next/image'
 import { motion } from 'framer-motion'
 import { 
   Twitter, 
@@ -63,7 +64,7 @@ export function Footer() {
          </span>
       </div>
 
-      <div className="relative container mx-auto px-6 lg:px-8 pt-32 pb-16">
+      <div className="relative max-w-7xl mx-auto px-6 lg:px-8 pt-32 pb-16">
         {/* Newsletter - The Neural Subscription */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -120,9 +121,15 @@ export function Footer() {
                     transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
                     className="absolute inset-0 border border-white/10 rounded-xl" 
                  />
-                 <div className="absolute inset-1.5 bg-[#010103] rounded-lg border border-white/10 flex items-center justify-center font-black text-xl text-white group-hover:text-indigo-400 transition-colors">
-                    M
-                 </div>
+                  <div className="absolute inset-1.5 bg-[#010103] rounded-lg border border-white/10 flex items-center justify-center shadow-2xl overflow-hidden">
+                     <Image 
+                       src="/icon.svg" 
+                       alt="Meganods Logo" 
+                       width={32} 
+                       height={32}
+                       className="w-full h-full object-contain group-hover:scale-110 transition-transform duration-500"
+                     />
+                  </div>
               </div>
               <span className="text-3xl font-black tracking-tighter leading-none text-white">Mega<span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-blue-400">nods</span></span>
             </Link>

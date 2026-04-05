@@ -1,52 +1,47 @@
 "use client"
 
+import { useState, useEffect, useRef } from 'react'
 import { motion, useInView } from 'framer-motion'
-import { useRef } from 'react'
 import Link from 'next/link'
 import { ArrowRight, ArrowUpRight, Clock, User, Newspaper, Bookmark } from 'lucide-react'
+import { collection, query, orderBy, limit, getDocs, Timestamp } from 'firebase/firestore'
+import { db } from '@/lib/firebase'
 import { Button } from '@/components/ui/button'
 import { DeepTechBackground } from '@/components/ui/deep-tech-background'
 
-const blogPosts = [
-  {
-    id: 1,
-    title: 'The Future of AI in Enterprise: Trends to Watch in 2025',
-    excerpt: 'Discover how artificial intelligence is reshaping enterprise operations and what trends will dominate the coming year.',
-    category: 'AI & Technology',
-    author: 'Dr. Maya Chen',
-    date: 'Dec 15, 2024',
-    readTime: '8 min read',
-    gradient: 'from-indigo-500 via-blue-500 to-cyan-400',
-    featured: true
-  },
-  {
-    id: 2,
-    title: 'Building Scalable Cloud Architecture: Best Practices',
-    excerpt: 'Learn the essential principles for designing cloud infrastructure that grows with your business.',
-    category: 'Cloud Computing',
-    author: 'James Mitchell',
-    date: 'Dec 12, 2024',
-    readTime: '6 min read',
-    gradient: 'from-emerald-500 via-teal-500 to-cyan-400'
-  },
-  {
-    id: 3,
-    title: 'Cybersecurity in the Age of AI: Protecting Assets',
-    excerpt: 'Understanding the evolving threat landscape and how AI-powered solutions can enhance security.',
-    category: 'Cybersecurity',
-    author: 'Sarah Johnson',
-    date: 'Dec 10, 2024',
-    readTime: '7 min read',
-    gradient: 'from-rose-500 via-pink-500 to-orange-400'
-  },
-]
-
 export function BlogPreviewSection() {
+  const [posts, setPosts] = useState<any[]>([])
+  const [isLoading, setIsLoading] = useState(true)
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true, margin: "-100px" })
 
-  const featuredPost = blogPosts.find(post => post.featured)
-  const otherPosts = blogPosts.filter(post => !post.featured)
+  useEffect(() => {
+    const fetchPosts = async () => {
+      try {
+        const q = query(collection(db, 'blogs'), orderBy('createdAt', 'desc'), limit(3))
+        const querySnapshot = await getDocs(q)
+        const fetchedPosts = querySnapshot.docs.map(doc => {
+          const data = doc.data()
+          return {
+            id: doc.id,
+            ...data,
+            date: data.createdAt instanceof Timestamp 
+              ? data.createdAt.toDate().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
+              : data.date || "Just now"
+          }
+        })
+        setPosts(fetchedPosts)
+      } catch (error) {
+        console.error('BLOG_FETCH_ERROR:', error)
+      } finally {
+        setIsLoading(false)
+      }
+    }
+    fetchPosts()
+  }, [])
+
+  const featuredPost = posts[0]
+  const otherPosts = posts.slice(1)
 
   return (
     <section ref={ref} className="relative py-28 lg:py-48 bg-[#010103] overflow-hidden" id="blog">
@@ -103,22 +98,34 @@ export function BlogPreviewSection() {
               <Link href={`/blog/${featuredPost.id}`}>
                 <div className="relative bg-[#05050a]/80 backdrop-blur-xl border border-white/5 rounded-[2.5rem] overflow-hidden flex flex-col h-full hover:border-indigo-500/30 transition-all duration-500">
                   <div className="relative aspect-[16/10] overflow-hidden">
-                    {/* Visual Mockup inside card */}
-                    <div className={`absolute inset-0 bg-gradient-to-br ${featuredPost.gradient} opacity-20`} />
-                    <div className="absolute inset-0 flex items-center justify-center p-12">
-                       <div className="w-full h-full rounded-2xl border border-white/10 bg-[#0a0a0f] flex items-center justify-center relative shadow-2xl">
-                          <Newspaper className="w-24 h-24 text-indigo-400 opacity-20" />
-                          <div className="absolute bottom-4 left-4 right-4 flex gap-2">
-                             <div className="h-1.5 w-full bg-white/5 rounded-full overflow-hidden">
-                                <motion.div animate={{ width: ['0%', '100%', '0%'] }} transition={{ duration: 5, repeat: Infinity }} className="h-full bg-indigo-500" />
-                             </div>
-                             <div className="h-1.5 w-1/3 bg-white/5 rounded-full" />
-                          </div>
-                       </div>
-                    </div>
+                    {featuredPost.imageUrl ? (
+                      <div className="absolute inset-0">
+                        <img 
+                          src={featuredPost.imageUrl} 
+                          alt={featuredPost.title}
+                          className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-[#010103] via-transparent to-transparent opacity-60" />
+                      </div>
+                    ) : (
+                      <>
+                        <div className={`absolute inset-0 bg-gradient-to-br ${featuredPost.gradient || 'from-indigo-500 via-blue-500 to-cyan-400'} opacity-20`} />
+                        <div className="absolute inset-0 flex items-center justify-center p-12">
+                           <div className="w-full h-full rounded-2xl border border-white/10 bg-[#0a0a0f] flex items-center justify-center relative shadow-2xl">
+                              <Newspaper className="w-24 h-24 text-indigo-400 opacity-20" />
+                              <div className="absolute bottom-4 left-4 right-4 flex gap-2">
+                                 <div className="h-1.5 w-full bg-white/5 rounded-full overflow-hidden">
+                                    <motion.div animate={{ width: ['0%', '100%', '0%'] }} transition={{ duration: 5, repeat: Infinity }} className="h-full bg-indigo-500" />
+                                 </div>
+                                 <div className="h-1.5 w-1/3 bg-white/5 rounded-full" />
+                              </div>
+                           </div>
+                        </div>
+                      </>
+                    )}
                     <div className="absolute top-6 left-6">
                       <span className="px-4 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-widest bg-indigo-500 text-white">
-                        Special Report
+                         {featuredPost.tag || 'Special Report'}
                       </span>
                     </div>
                   </div>
@@ -136,8 +143,8 @@ export function BlogPreviewSection() {
                              <User className="w-5 h-5 text-indigo-400" />
                           </div>
                           <div className="text-left">
-                             <div className="text-white font-bold text-sm tracking-tight">{featuredPost.author}</div>
-                             <div className="text-white/40 text-xs">{featuredPost.date} • {featuredPost.readTime}</div>
+                             <div className="text-white font-bold text-sm tracking-tight">{featuredPost.author?.name || featuredPost.author || 'Neural Node'}</div>
+                             <div className="text-white/40 text-xs">{featuredPost.date} • {featuredPost.readTime || '5 min read'}</div>
                           </div>
                        </div>
                        <div className="w-12 h-12 rounded-full bg-white text-black flex items-center justify-center group-hover:scale-110 transition-transform">
@@ -163,8 +170,18 @@ export function BlogPreviewSection() {
                 <Link href={`/blog/${post.id}`}>
                   <div className="bg-white/0 hover:bg-white/5 p-6 lg:p-10 rounded-3xl border border-transparent hover:border-white/10 transition-all duration-300 flex flex-col sm:flex-row gap-8">
                     <div className={`sm:w-40 h-40 shrink-0 bg-[#05050a] rounded-2xl border border-white/10 relative overflow-hidden flex items-center justify-center group-hover:border-white/20 transition-colors`}>
-                       <div className={`absolute inset-0 bg-gradient-to-br ${post.gradient} opacity-10`} />
-                       <Bookmark className="w-10 h-10 text-white/10 group-hover:text-white/30 transition-colors" />
+                       {post.imageUrl ? (
+                         <img 
+                           src={post.imageUrl} 
+                           alt={post.title}
+                           className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                         />
+                       ) : (
+                         <>
+                           <div className={`absolute inset-0 bg-gradient-to-br ${post.gradient || 'from-indigo-500 via-blue-500 to-cyan-400'} opacity-10`} />
+                           <Bookmark className="w-10 h-10 text-white/10 group-hover:text-white/30 transition-colors" />
+                         </>
+                       )}
                     </div>
                     <div className="flex-1 flex flex-col">
                       <span className="text-emerald-400 font-mono text-[10px] uppercase tracking-widest mb-2">{post.category}</span>
@@ -173,9 +190,9 @@ export function BlogPreviewSection() {
                       </h3>
                       <p className="text-white/40 text-sm mb-6 line-clamp-2">{post.excerpt}</p>
                       <div className="mt-auto flex items-center gap-4 text-[10px] font-mono uppercase tracking-widest text-white/30">
-                        <span className="flex items-center gap-1.5"><User className="w-3.5 h-3.5" /> {post.author}</span>
+                        <span className="flex items-center gap-1.5"><User className="w-3.5 h-3.5" /> {post.author?.name || post.author || 'Neural Node'}</span>
                         <span className="w-1 h-1 rounded-full bg-white/20" />
-                        <span className="flex items-center gap-1.5"><Clock className="w-3.5 h-3.5" /> {post.readTime}</span>
+                        <span className="flex items-center gap-1.5"><Clock className="w-3.5 h-3.5" /> {post.readTime || '5 min read'}</span>
                       </div>
                     </div>
                   </div>
@@ -190,7 +207,7 @@ export function BlogPreviewSection() {
                className="pt-8"
             >
                <Link href="/blog" className="inline-flex items-center gap-2 text-indigo-400 hover:text-indigo-300 font-bold tracking-tight group transition-colors px-10">
-                  Join the Nexa Intel Network
+                  Read More Insights
                   <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                </Link>
             </motion.div>

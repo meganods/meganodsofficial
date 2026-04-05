@@ -1,386 +1,225 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import {
   Plus,
   Search,
   Filter,
-  MoreVertical,
   Edit2,
   Trash2,
   Eye,
   Calendar,
   ExternalLink,
-  X,
-  Upload,
+  ChevronRight,
+  Archive,
+  CheckCircle2,
+  Clock,
+  Layers,
+  LayoutGrid,
+  List as ListIcon,
+  Loader2,
+  Database,
+  Cloud,
+  Briefcase,
+  ArrowUpDown,
   Save
 } from "lucide-react"
-
-const initialProjects = [
-  {
-    id: 1,
-    title: "AI Analytics Platform",
-    category: "AI & Machine Learning",
-    client: "TechCorp Industries",
-    status: "completed",
-    date: "2024-03-15",
-    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=400&h=300&fit=crop"
-  },
-  {
-    id: 2,
-    title: "Enterprise Cloud Infrastructure",
-    category: "Cloud Solutions",
-    client: "GlobalFinance Corp",
-    status: "completed",
-    date: "2024-02-20",
-    image: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=400&h=300&fit=crop"
-  },
-  {
-    id: 3,
-    title: "Smart IoT Ecosystem",
-    category: "IoT Solutions",
-    client: "MetroCity Council",
-    status: "in-progress",
-    date: "2024-01-10",
-    image: "https://images.unsplash.com/photo-1573164713714-d95e436ab8d6?w=400&h=300&fit=crop"
-  },
-  {
-    id: 4,
-    title: "Cybersecurity Shield",
-    category: "Cybersecurity",
-    client: "SecureBank Ltd",
-    status: "in-progress",
-    date: "2024-03-01",
-    image: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=400&h=300&fit=crop"
-  },
-  {
-    id: 5,
-    title: "E-Commerce Platform",
-    category: "Web Development",
-    client: "RetailMax Inc",
-    status: "planning",
-    date: "2024-03-20",
-    image: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=400&h=300&fit=crop"
-  }
-]
+import Link from "next/link"
+import { Button } from "@/components/ui/button"
+import { db } from "@/lib/firebase";
+import { collection, getDocs, deleteDoc, doc, query, orderBy, updateDoc } from "firebase/firestore";
+import { toast } from "sonner";
 
 export default function AdminProjectsPage() {
-  const [projects, setProjects] = useState(initialProjects)
+  const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid')
   const [searchQuery, setSearchQuery] = useState("")
-  const [statusFilter, setStatusFilter] = useState("all")
-  const [isModalOpen, setIsModalOpen] = useState(false)
-  const [editingProject, setEditingProject] = useState<typeof initialProjects[0] | null>(null)
-  const [formData, setFormData] = useState({
-    title: "",
-    category: "",
-    client: "",
-    status: "planning",
-    date: "",
-    image: ""
-  })
+  const [projects, setProjects] = useState<any[]>([])
+  const [isLoading, setIsLoading] = useState(true)
+  const [updatingId, setUpdatingId] = useState<string | null>(null)
 
-  const filteredProjects = projects.filter(project => {
-    const matchesSearch = project.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                         project.client.toLowerCase().includes(searchQuery.toLowerCase())
-    const matchesStatus = statusFilter === "all" || project.status === statusFilter
-    return matchesSearch && matchesStatus
-  })
-
-  const openCreateModal = () => {
-    setEditingProject(null)
-    setFormData({ title: "", category: "", client: "", status: "planning", date: "", image: "" })
-    setIsModalOpen(true)
-  }
-
-  const openEditModal = (project: typeof initialProjects[0]) => {
-    setEditingProject(project)
-    setFormData({
-      title: project.title,
-      category: project.category,
-      client: project.client,
-      status: project.status,
-      date: project.date,
-      image: project.image
-    })
-    setIsModalOpen(true)
-  }
-
-  const handleSave = () => {
-    if (editingProject) {
-      setProjects(projects.map(p => 
-        p.id === editingProject.id ? { ...p, ...formData } : p
-      ))
-    } else {
-      setProjects([
-        ...projects,
-        { id: Date.now(), ...formData }
-      ])
-    }
-    setIsModalOpen(false)
-  }
-
-  const handleDelete = (id: number) => {
-    if (confirm("Are you sure you want to delete this project?")) {
-      setProjects(projects.filter(p => p.id !== id))
+  const fetchProjects = async () => {
+    setIsLoading(true);
+    try {
+      const q = query(collection(db, "projects"), orderBy("order", "asc"), orderBy("createdAt", "desc"));
+      const querySnapshot = await getDocs(q);
+      const docs = querySnapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data()
+      }));
+      setProjects(docs);
+    } catch (error: any) {
+      console.error("FIREBASE_FETCH_ERROR:", error);
+      toast.error(`REGISTRY_ACCESS_DENIED: ${error.message}`);
+    } finally {
+      setIsLoading(false);
     }
   }
+
+  useEffect(() => {
+    fetchProjects();
+  }, [])
+
+  const handleDelete = async (id: string) => {
+    if (!confirm("Are you sure you want to TERMINATE this project node?")) return;
+    
+    const toastId = toast.loading("TERMINATING_PROJECT_NODE...");
+    try {
+      await deleteDoc(doc(db, "projects", id));
+      setProjects(projects.filter(p => p.id !== id));
+      toast.success("PROJECT_NODE_TERMINATED", { id: toastId });
+    } catch (error: any) {
+      toast.error(`TERMINATION_FAILURE: ${error.message}`, { id: toastId });
+    }
+  }
+
+  const handleUpdateOrder = async (id: string, newOrder: number) => {
+    setUpdatingId(id);
+    try {
+      await updateDoc(doc(db, "projects", id), {
+        order: newOrder,
+        updatedAt: new Date()
+      });
+      setProjects(projects.map(p => p.id === id ? { ...p, order: newOrder } : p));
+      toast.success("SEQUENCE_UPDATED");
+    } catch (error: any) {
+      toast.error(`SEQUENCE_FAILURE: ${error.message}`);
+    } finally {
+      setUpdatingId(null);
+    }
+  }
+
+  const filteredProjects = projects.filter(p => 
+    p.title?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    p.category?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    p.client?.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   return (
-    <div className="space-y-6">
-      {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <div>
-          <h1 className="text-3xl font-bold">Projects</h1>
-          <p className="text-muted-foreground">Manage your portfolio projects</p>
-        </div>
-        <button
-          onClick={openCreateModal}
-          className="flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-xl hover:opacity-90 transition-opacity"
-        >
-          <Plus className="w-5 h-5" />
-          Add Project
-        </button>
-      </div>
-
-      {/* Filters */}
-      <div className="flex flex-col sm:flex-row gap-4">
-        <div className="relative flex-1">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
-          <input
-            type="text"
-            placeholder="Search projects..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-10 pr-4 py-2.5 bg-card border border-border rounded-xl focus:outline-none focus:border-primary transition-colors"
-          />
-        </div>
-        <div className="flex items-center gap-2">
-          <Filter className="w-5 h-5 text-muted-foreground" />
-          <select
-            value={statusFilter}
-            onChange={(e) => setStatusFilter(e.target.value)}
-            className="px-4 py-2.5 bg-card border border-border rounded-xl focus:outline-none focus:border-primary transition-colors"
-          >
-            <option value="all">All Status</option>
-            <option value="completed">Completed</option>
-            <option value="in-progress">In Progress</option>
-            <option value="planning">Planning</option>
-          </select>
-        </div>
-      </div>
-
-      {/* Projects Table */}
-      <div className="bg-card border border-border rounded-2xl overflow-hidden">
-        <div className="overflow-x-auto">
-          <table className="w-full">
-            <thead>
-              <tr className="border-b border-border">
-                <th className="text-left py-4 px-6 text-sm font-medium text-muted-foreground">Project</th>
-                <th className="text-left py-4 px-6 text-sm font-medium text-muted-foreground hidden md:table-cell">Category</th>
-                <th className="text-left py-4 px-6 text-sm font-medium text-muted-foreground hidden lg:table-cell">Client</th>
-                <th className="text-left py-4 px-6 text-sm font-medium text-muted-foreground">Status</th>
-                <th className="text-left py-4 px-6 text-sm font-medium text-muted-foreground hidden sm:table-cell">Date</th>
-                <th className="text-right py-4 px-6 text-sm font-medium text-muted-foreground">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {filteredProjects.map((project) => (
-                <motion.tr
-                  key={project.id}
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  className="border-b border-border last:border-0 hover:bg-muted/50 transition-colors"
-                >
-                  <td className="py-4 px-6">
-                    <div className="flex items-center gap-3">
-                      <img
-                        src={project.image}
-                        alt={project.title}
-                        className="w-12 h-12 rounded-lg object-cover"
-                      />
-                      <span className="font-medium">{project.title}</span>
-                    </div>
-                  </td>
-                  <td className="py-4 px-6 text-muted-foreground hidden md:table-cell">{project.category}</td>
-                  <td className="py-4 px-6 text-muted-foreground hidden lg:table-cell">{project.client}</td>
-                  <td className="py-4 px-6">
-                    <span className={`inline-flex px-2.5 py-1 rounded-full text-xs font-medium ${
-                      project.status === "completed" ? "bg-emerald-500/10 text-emerald-500" :
-                      project.status === "in-progress" ? "bg-amber-500/10 text-amber-500" :
-                      "bg-blue-500/10 text-blue-500"
-                    }`}>
-                      {project.status === "in-progress" ? "In Progress" : 
-                       project.status.charAt(0).toUpperCase() + project.status.slice(1)}
-                    </span>
-                  </td>
-                  <td className="py-4 px-6 text-muted-foreground hidden sm:table-cell">
-                    <div className="flex items-center gap-1">
-                      <Calendar className="w-4 h-4" />
-                      {project.date}
-                    </div>
-                  </td>
-                  <td className="py-4 px-6">
-                    <div className="flex items-center justify-end gap-2">
-                      <button className="p-2 hover:bg-muted rounded-lg transition-colors">
-                        <Eye className="w-4 h-4 text-muted-foreground" />
-                      </button>
-                      <button
-                        onClick={() => openEditModal(project)}
-                        className="p-2 hover:bg-muted rounded-lg transition-colors"
-                      >
-                        <Edit2 className="w-4 h-4 text-muted-foreground" />
-                      </button>
-                      <button
-                        onClick={() => handleDelete(project.id)}
-                        className="p-2 hover:bg-destructive/10 rounded-lg transition-colors"
-                      >
-                        <Trash2 className="w-4 h-4 text-destructive" />
-                      </button>
-                    </div>
-                  </td>
-                </motion.tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-
-        {filteredProjects.length === 0 && (
-          <div className="py-12 text-center text-muted-foreground">
-            No projects found matching your criteria.
-          </div>
-        )}
-      </div>
-
-      {/* Modal */}
-      <AnimatePresence>
-        {isModalOpen && (
-          <>
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              className="fixed inset-0 bg-background/80 backdrop-blur-sm z-50"
-              onClick={() => setIsModalOpen(false)}
-            />
-            <motion.div
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.95 }}
-              className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-lg bg-card border border-border rounded-2xl p-6 z-50 max-h-[90vh] overflow-y-auto"
-            >
-              <div className="flex items-center justify-between mb-6">
-                <h2 className="text-xl font-bold">
-                  {editingProject ? "Edit Project" : "Add New Project"}
-                </h2>
-                <button
-                  onClick={() => setIsModalOpen(false)}
-                  className="p-2 hover:bg-muted rounded-lg transition-colors"
-                >
-                  <X className="w-5 h-5" />
-                </button>
+    <div className="space-y-10 pb-20">
+      {/* Tactical Header */}
+      <div className="relative">
+        <div className="absolute -left-10 top-0 w-1 h-20 bg-gradient-to-b from-indigo-500 to-transparent" />
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-8">
+           <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }}>
+              <div className="flex items-center gap-3 mb-4">
+                 <div className="w-2 h-2 rounded-full bg-indigo-500 animate-pulse" />
+                 <span className="text-[10px] font-mono text-indigo-500 uppercase tracking-[0.5em] font-bold">Catalog Management</span>
               </div>
+              <h1 className="text-4xl md:text-5xl font-black tracking-tighter text-slate-900 dark:text-white mb-2 underline decoration-indigo-500/10 underline-offset-[12px]">Project <span className="text-indigo-500">Nodes</span></h1>
+              <p className="text-slate-400 dark:text-white/20 font-mono text-[10px] uppercase tracking-[0.4em]">Manage Global Portfolio & Sequence Mapping</p>
+           </motion.div>
+           
+           <Link href="/admin/projects/new">
+              <Button className="h-16 px-8 bg-indigo-600 hover:bg-indigo-700 text-white rounded-3xl shadow-xl shadow-indigo-600/20 flex items-center gap-3 group border border-white/10">
+                 <Plus className="w-5 h-5 group-hover:rotate-90 transition-transform" />
+                 <span className="font-bold uppercase tracking-widest text-xs">Initialize New Node</span>
+              </Button>
+           </Link>
+        </div>
+      </div>
 
-              <form onSubmit={(e) => { e.preventDefault(); handleSave(); }} className="space-y-4">
-                <div>
-                  <label className="block text-sm font-medium mb-2">Project Title</label>
-                  <input
-                    type="text"
-                    required
-                    value={formData.title}
-                    onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                    className="w-full px-4 py-2.5 bg-background border border-border rounded-xl focus:outline-none focus:border-primary transition-colors"
-                    placeholder="Enter project title"
-                  />
+      {/* Control Strip */}
+      <div className="flex flex-col lg:flex-row items-center gap-6">
+         <div className="relative flex-1 group w-full">
+            <Search className="absolute left-6 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-300 dark:text-white/20 group-focus-within:text-indigo-500 transition-colors" />
+            <input
+              type="text"
+              placeholder="Query project registry..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="w-full h-16 bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-[2.5rem] pl-16 pr-8 text-sm focus:outline-none focus:border-indigo-500/30 transition-all shadow-sm dark:shadow-none"
+            />
+         </div>
+         <div className="flex items-center gap-4 bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10 p-2 rounded-[2.5rem]">
+            <button 
+              onClick={() => setViewMode('grid')}
+              className={`w-12 h-12 flex items-center justify-center rounded-2xl transition-all ${viewMode === 'grid' ? "bg-indigo-500 text-white shadow-lg shadow-indigo-500/20" : "text-slate-400 dark:text-white/20 hover:bg-slate-50 dark:hover:bg-white/5"}`}
+            >
+               <LayoutGrid className="w-5 h-5" />
+            </button>
+            <button 
+              onClick={() => setViewMode('list')}
+              className={`w-12 h-12 flex items-center justify-center rounded-2xl transition-all ${viewMode === 'list' ? "bg-indigo-500 text-white shadow-lg shadow-indigo-500/20" : "text-slate-400 dark:text-white/20 hover:bg-slate-50 dark:hover:bg-white/5"}`}
+            >
+               <ListIcon className="w-5 h-5" />
+            </button>
+         </div>
+      </div>
+
+      {/* Projects Grid/List */}
+      {isLoading ? (
+        <div className="flex flex-col items-center justify-center py-40 gap-4">
+           <Loader2 className="w-10 h-10 text-indigo-500 animate-spin" />
+           <p className="text-[10px] font-mono text-slate-400 dark:text-white/20 uppercase tracking-[0.4em]">Synchronizing with Global Node...</p>
+        </div>
+      ) : projects.length === 0 ? (
+        <div className="flex flex-col items-center justify-center py-40 gap-6 border border-dashed border-slate-200 dark:border-white/10 rounded-[3rem]">
+           <Database className="w-12 h-12 text-slate-300 dark:text-white/10" />
+           <div className="text-center">
+              <h3 className="text-xl font-bold dark:text-white">Registry Empty</h3>
+              <p className="text-xs text-slate-400 font-mono uppercase tracking-widest mt-1">No project nodes detected in current mesh</p>
+           </div>
+        </div>
+      ) : (
+        <div className={viewMode === 'grid' ? "grid md:grid-cols-2 lg:grid-cols-3 gap-8" : "space-y-4"}>
+           {filteredProjects.map((project, i) => (
+             <motion.div
+               key={project.id}
+               initial={{ opacity: 0, y: 20 }}
+               animate={{ opacity: 1, y: 0 }}
+               transition={{ delay: i * 0.1 }}
+               className={`group relative bg-white dark:bg-[#05050a]/40 backdrop-blur-3xl border border-slate-200 dark:border-white/10 rounded-[3rem] overflow-hidden hover:border-indigo-500/30 transition-all duration-500 shadow-xl dark:shadow-none ${viewMode === 'list' ? "flex items-center p-6" : ""}`}
+             >
+                {/* Media Section */}
+                <div className={`relative overflow-hidden ${viewMode === 'grid' ? "aspect-video" : "w-56 h-32 rounded-3xl"}`}>
+                   <img src={project.heroImage || "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=400&h=300&fit=crop"} alt={project.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+                   <div className="absolute inset-0 bg-gradient-to-t from-slate-900/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                   
+                   {/* Order Badge */}
+                   <div className="absolute top-6 left-6 flex items-center gap-2">
+                      <div className="bg-white/10 backdrop-blur-md border border-white/20 px-3 py-1.5 rounded-xl flex items-center gap-2">
+                         <ArrowUpDown className="w-3 h-3 text-white/60" />
+                         <input 
+                           type="number" 
+                           defaultValue={project.order || 0}
+                           onBlur={(e) => handleUpdateOrder(project.id, parseInt(e.target.value))}
+                           className="bg-transparent border-0 text-white font-mono text-[10px] w-8 focus:outline-none"
+                         />
+                      </div>
+                   </div>
                 </div>
 
-                <div>
-                  <label className="block text-sm font-medium mb-2">Category</label>
-                  <select
-                    required
-                    value={formData.category}
-                    onChange={(e) => setFormData({ ...formData, category: e.target.value })}
-                    className="w-full px-4 py-2.5 bg-background border border-border rounded-xl focus:outline-none focus:border-primary transition-colors"
-                  >
-                    <option value="">Select category</option>
-                    <option value="AI & Machine Learning">AI & Machine Learning</option>
-                    <option value="Cloud Solutions">Cloud Solutions</option>
-                    <option value="Cybersecurity">Cybersecurity</option>
-                    <option value="IoT Solutions">IoT Solutions</option>
-                    <option value="Web Development">Web Development</option>
-                    <option value="Mobile Development">Mobile Development</option>
-                  </select>
-                </div>
+                {/* Content Section */}
+                <div className={`p-10 ${viewMode === 'list' ? "flex-1 py-0 flex items-center justify-between" : ""}`}>
+                   <div className="space-y-2">
+                       <div className="flex items-center gap-2 mb-2">
+                        <span className="text-[9px] font-mono text-indigo-500 uppercase tracking-[0.4em]">{project.category}</span>
+                        <div className="w-1 h-1 rounded-full bg-emerald-500 animate-pulse" />
+                      </div>
+                      <h3 className="text-2xl font-black text-slate-900 dark:text-white tracking-tighter leading-none">{project.title}</h3>
+                      <div className="flex items-center gap-6 text-[9px] font-mono text-slate-400 dark:text-white/20 uppercase tracking-widest pt-4">
+                         <span className="flex items-center gap-2"><Briefcase className="w-3.5 h-3.5" /> {project.client}</span>
+                         <span className="flex items-center gap-2"><Calendar className="w-3.5 h-3.5" /> {project.year}</span>
+                      </div>
+                   </div>
 
-                <div>
-                  <label className="block text-sm font-medium mb-2">Client</label>
-                  <input
-                    type="text"
-                    required
-                    value={formData.client}
-                    onChange={(e) => setFormData({ ...formData, client: e.target.value })}
-                    className="w-full px-4 py-2.5 bg-background border border-border rounded-xl focus:outline-none focus:border-primary transition-colors"
-                    placeholder="Enter client name"
-                  />
+                   <div className={`flex items-center gap-4 ${viewMode === 'grid' ? "mt-12" : ""}`}>
+                      <Link href={`/admin/projects/edit/${project.id}`} className="flex-1">
+                        <Button variant="ghost" className="w-full h-14 rounded-2xl border border-slate-100 dark:border-white/10 text-slate-400 dark:text-white/20 hover:text-indigo-500 dark:hover:text-white flex items-center gap-2">
+                           <Edit2 className="w-4 h-4" />
+                           <span className="font-bold text-[10px] uppercase tracking-widest">Configure</span>
+                        </Button>
+                      </Link>
+                      <Button onClick={() => handleDelete(project.id)} variant="ghost" className="h-14 w-14 rounded-2xl border border-red-500/10 text-red-500/40 hover:text-red-500 p-0 transition-colors">
+                         <Trash2 className="w-5 h-5" />
+                      </Button>
+                   </div>
                 </div>
-
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-sm font-medium mb-2">Status</label>
-                    <select
-                      value={formData.status}
-                      onChange={(e) => setFormData({ ...formData, status: e.target.value })}
-                      className="w-full px-4 py-2.5 bg-background border border-border rounded-xl focus:outline-none focus:border-primary transition-colors"
-                    >
-                      <option value="planning">Planning</option>
-                      <option value="in-progress">In Progress</option>
-                      <option value="completed">Completed</option>
-                    </select>
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium mb-2">Date</label>
-                    <input
-                      type="date"
-                      required
-                      value={formData.date}
-                      onChange={(e) => setFormData({ ...formData, date: e.target.value })}
-                      className="w-full px-4 py-2.5 bg-background border border-border rounded-xl focus:outline-none focus:border-primary transition-colors"
-                    />
-                  </div>
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium mb-2">Image URL</label>
-                  <input
-                    type="url"
-                    value={formData.image}
-                    onChange={(e) => setFormData({ ...formData, image: e.target.value })}
-                    className="w-full px-4 py-2.5 bg-background border border-border rounded-xl focus:outline-none focus:border-primary transition-colors"
-                    placeholder="https://example.com/image.jpg"
-                  />
-                </div>
-
-                <div className="flex gap-3 pt-4">
-                  <button
-                    type="button"
-                    onClick={() => setIsModalOpen(false)}
-                    className="flex-1 px-4 py-2.5 bg-muted text-foreground rounded-xl hover:bg-muted/80 transition-colors"
-                  >
-                    Cancel
-                  </button>
-                  <button
-                    type="submit"
-                    className="flex-1 px-4 py-2.5 bg-primary text-primary-foreground rounded-xl hover:opacity-90 transition-opacity flex items-center justify-center gap-2"
-                  >
-                    <Save className="w-4 h-4" />
-                    {editingProject ? "Update" : "Create"}
-                  </button>
-                </div>
-              </form>
-            </motion.div>
-          </>
-        )}
-      </AnimatePresence>
+             </motion.div>
+           ))}
+        </div>
+      )}
     </div>
   )
 }

@@ -1,233 +1,260 @@
 "use client"
 
-import { motion, useInView } from 'framer-motion'
-import { useRef } from 'react'
+import { motion, useInView, AnimatePresence } from 'framer-motion'
+import { useRef, useState, useEffect } from 'react'
 import Link from 'next/link'
-import { ArrowRight, ArrowUpRight, ExternalLink } from 'lucide-react'
+import { ArrowRight, ArrowUpRight, ExternalLink, ChevronLeft, ChevronRight, Loader2, Database, Layers, Target, ShieldCheck, Zap } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { DeepTechBackground } from '@/components/ui/deep-tech-background'
-
-const projects = [
-  {
-    id: 1,
-    title: 'AI-Powered Healthcare Platform',
-    category: 'Healthcare / AI',
-    description: 'Revolutionary medical diagnosis system using machine learning for early disease detection.',
-    images: [
-      'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&q=80&w=400',
-      'https://images.unsplash.com/photo-1581594658514-9988185bc032?auto=format&fit=crop&q=80&w=400',
-      'https://images.unsplash.com/photo-1532187863486-abf9d39d99c5?auto=format&fit=crop&q=80&w=400',
-      'https://images.unsplash.com/photo-1579684385127-1ef15d508118?auto=format&fit=crop&q=80&w=400',
-      'https://images.unsplash.com/photo-1576671081837-49000212a370?auto=format&fit=crop&q=80&w=400',
-      'https://images.unsplash.com/photo-1551076805-e1869033e561?auto=format&fit=crop&q=80&w=400',
-    ],
-    stats: { accuracy: '99.2%', users: '50K+' },
-    gradient: 'from-indigo-600 to-cyan-500'
-  },
-  {
-    id: 2,
-    title: 'Smart City Infrastructure',
-    category: 'IoT / Urban Tech',
-    description: 'Integrated IoT solution managing traffic, utilities, and public services across metropolitan areas.',
-    images: [
-      'https://images.unsplash.com/photo-1573804633927-bfcbcd909acd?auto=format&fit=crop&q=80&w=400',
-      'https://images.unsplash.com/photo-1526666923948-b28675651f5e?auto=format&fit=crop&q=80&w=400',
-      'https://images.unsplash.com/photo-1555939594-58d7cb561ad1?auto=format&fit=crop&q=80&w=400',
-      'https://images.unsplash.com/photo-1496560235220-1526c33f5ea0?auto=format&fit=crop&q=80&w=400',
-      'https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&q=80&w=400',
-      'https://images.unsplash.com/photo-1517048676732-d65bc937f952?auto=format&fit=crop&q=80&w=400',
-    ],
-    stats: { cities: '12', sensors: '1M+' },
-    gradient: 'from-cyan-600 to-blue-500'
-  },
-  {
-    id: 3,
-    title: 'FinTech Security Suite',
-    category: 'Finance / Security',
-    description: 'Enterprise-grade cybersecurity platform protecting billions in financial transactions.',
-    images: [
-      'https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&q=80&w=400',
-      'https://images.unsplash.com/photo-1539193143244-c83d9436d633?auto=format&fit=crop&q=80&w=400',
-      'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=400',
-      'https://images.unsplash.com/photo-1510511459019-5dee997ddfdf?auto=format&fit=crop&q=80&w=400',
-      'https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&q=80&w=400',
-      'https://images.unsplash.com/photo-1517433456452-f9633a875f6f?auto=format&fit=crop&q=80&w=400',
-    ],
-    stats: { protected: '$50B+', uptime: '99.99%' },
-    gradient: 'from-emerald-600 to-teal-500'
-  },
-  {
-    id: 4,
-    title: 'E-Commerce AI Engine',
-    category: 'Retail / ML',
-    description: 'Personalized shopping experience platform with advanced recommendation algorithms.',
-    images: [
-      'https://images.unsplash.com/photo-1557821552-17105176677c?auto=format&fit=crop&q=80&w=400',
-      'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=400',
-      'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&q=80&w=400',
-      'https://images.unsplash.com/photo-1523474253046-2cd2c78a0dbb?auto=format&fit=crop&q=80&w=400',
-      'https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&q=80&w=400',
-      'https://images.unsplash.com/photo-1556742049-dec194076746?auto=format&fit=crop&q=80&w=400',
-    ],
-    stats: { conversion: '+40%', users: '10M+' },
-    gradient: 'from-amber-600 to-orange-500'
-  },
-]
+import { db } from "@/lib/firebase";
+import { collection, getDocs, query, orderBy, limit } from "firebase/firestore";
 
 export function ProjectsPreviewSection() {
-  const ref = useRef(null)
-  const isInView = useInView(ref, { once: true, margin: "-100px" })
+  const containerRef = useRef(null)
+  const scrollRef = useRef<HTMLDivElement>(null)
+  const isInView = useInView(containerRef, { once: true, margin: "-100px" })
+  
+  const [projects, setProjects] = useState<any[]>([])
+  const [isLoading, setIsLoading] = useState(true)
+  const [canScrollLeft, setCanScrollLeft] = useState(false)
+  const [canScrollRight, setCanScrollRight] = useState(true)
+  const [isHovered, setIsHovered] = useState(false)
+
+  useEffect(() => {
+    const fetchProjects = async () => {
+      try {
+        const q = query(
+          collection(db, "projects"), 
+          orderBy("order", "asc"),
+          orderBy("createdAt", "desc"),
+          limit(12)
+        );
+        const querySnapshot = await getDocs(q);
+        const docs = querySnapshot.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data()
+        }));
+        setProjects(docs);
+      } catch (error) {
+        console.error("PROJECTS_FETCH_ERROR:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    }
+    fetchProjects();
+  }, [])
+
+  // Autonomous Motion Protocol
+  useEffect(() => {
+    if (isLoading || projects.length === 0 || isHovered) return;
+
+    const interval = setInterval(() => {
+      if (scrollRef.current) {
+        const { scrollLeft, scrollWidth, clientWidth } = scrollRef.current;
+        const maxScroll = scrollWidth - clientWidth;
+        
+        if (scrollLeft >= maxScroll - 10) {
+          scrollRef.current.scrollTo({ left: 0, behavior: 'smooth' });
+        } else {
+          scrollRef.current.scrollBy({ left: clientWidth * 0.25, behavior: 'smooth' });
+        }
+      }
+    }, 4000);
+
+    return () => clearInterval(interval);
+  }, [isLoading, projects.length, isHovered]);
+
+  const checkScroll = () => {
+    if (scrollRef.current) {
+      const { scrollLeft, scrollWidth, clientWidth } = scrollRef.current;
+      setCanScrollLeft(scrollLeft > 20);
+      setCanScrollRight(scrollLeft < scrollWidth - clientWidth - 20);
+    }
+  }
+
+  const scroll = (direction: 'left' | 'right') => {
+    if (scrollRef.current) {
+      const { clientWidth } = scrollRef.current;
+      const scrollAmount = direction === 'left' ? -clientWidth * 0.5 : clientWidth * 0.5;
+      scrollRef.current.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+    }
+  }
+
+  useEffect(() => {
+    const current = scrollRef.current;
+    if (current) {
+      current.addEventListener('scroll', checkScroll);
+      window.addEventListener('resize', checkScroll);
+      setTimeout(checkScroll, 500);
+      return () => {
+        current.removeEventListener('scroll', checkScroll);
+        window.removeEventListener('resize', checkScroll);
+      }
+    }
+  }, [projects]);
+
+  const gradients = [
+    'from-indigo-600 to-cyan-500',
+    'from-emerald-600 to-teal-500',
+    'from-amber-600 to-orange-500',
+    'from-purple-600 to-pink-500',
+    'from-blue-600 to-indigo-500',
+    'from-rose-600 to-orange-500'
+  ];
 
   return (
-    <section ref={ref} className="relative py-24 lg:py-32 overflow-hidden bg-[#010103]">
+    <section ref={containerRef} className="relative py-32 lg:py-48 overflow-hidden bg-[#010103]" id="projects">
       <DeepTechBackground />
 
-      <div className="relative container mx-auto px-4 lg:px-8">
-        {/* Section Header */}
-        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-16">
-          <div>
-            <motion.span
-              initial={{ opacity: 0, y: 20 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.5 }}
-              className="inline-block text-primary text-sm font-medium mb-4 uppercase tracking-widest"
+      <div className="relative container mx-auto px-6 lg:px-8">
+        {/* Section Header HUD */}
+        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-12 mb-20 lg:mb-32">
+          <div className="max-w-3xl">
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              animate={isInView ? { opacity: 1, x: 0 } : {}}
+              className="text-indigo-400 font-mono text-[10px] uppercase tracking-[0.5em] mb-6 font-black leading-none flex items-center gap-4"
             >
-              • Our Projects
-            </motion.span>
+              <div className="w-12 h-px bg-indigo-500/30" />
+              GLOBAL PORTFOLIO
+            </motion.div>
             <motion.h2
               initial={{ opacity: 0, y: 20 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.5, delay: 0.1 }}
-              className="text-3xl md:text-4xl lg:text-5xl font-bold"
+              className="text-6xl md:text-8xl lg:text-[10rem] font-black text-white tracking-tighter leading-[0.8] uppercase"
             >
-              <span className="text-foreground">Featured </span>
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-emerald-400">Case Studies</span>
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-white to-white/20">PROJECTS</span>.
             </motion.h2>
           </div>
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.5, delay: 0.2 }}
-          >
-            <Button 
-              asChild
-              variant="outline"
-              className="border-white/10 hover:bg-white/5 text-white"
-            >
-              <Link href="/projects">
-                View All Projects
-                <ArrowRight className="ml-2 w-4 h-4" />
-              </Link>
-            </Button>
-          </motion.div>
+          
+          <div className="flex flex-col items-end gap-10">
+            <div className="flex gap-4">
+              <button
+                 onClick={() => scroll('left')}
+                 disabled={!canScrollLeft}
+                 className={`w-16 h-16 rounded-full border flex items-center justify-center transition-all duration-500 ${canScrollLeft ? 'border-white/10 text-white hover:bg-white/5 active:scale-90 shadow-2xl' : 'border-white/5 text-white/5 grayscale cursor-not-allowed'}`}
+              >
+                 <ChevronLeft className="w-8 h-8" />
+              </button>
+              <button
+                 onClick={() => scroll('right')}
+                 disabled={!canScrollRight}
+                 className={`w-16 h-16 rounded-full border flex items-center justify-center transition-all duration-500 ${canScrollRight ? 'border-white/10 text-white hover:bg-white/5 active:scale-90 shadow-2xl' : 'border-white/5 text-white/5 grayscale cursor-not-allowed'}`}
+              >
+                 <ChevronRight className="w-8 h-8" />
+              </button>
+            </div>
+          </div>
         </div>
 
-        {/* Projects Grid */}
-        <div className="grid md:grid-cols-2 gap-6 lg:gap-8">
-          {projects.map((project, index) => (
-            <motion.div
-              key={project.id}
-              initial={{ opacity: 0, y: 30 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.5, delay: 0.1 * index }}
-              className="group relative"
+        {/* Cinematic Projects Carousel - Quad Column Layout */}
+        {isLoading ? (
+           <div className="flex flex-col items-center justify-center py-40 gap-8">
+              <Loader2 className="w-16 h-16 text-indigo-500 animate-spin" />
+              <p className="text-[10px] font-mono text-indigo-400 uppercase tracking-[0.4em] animate-pulse font-black leading-none">Syncing Portfolio Mesh...</p>
+           </div>
+        ) : projects.length === 0 ? (
+            <div className="flex flex-col items-center justify-center py-40 gap-8 border border-dashed border-white/10 rounded-[4rem]">
+               <Database className="w-16 h-16 text-white/5" />
+               <div className="text-center">
+                  <h3 className="text-4xl font-black text-white uppercase tracking-tighter">Registry Empty</h3>
+                  <p className="text-xl text-white/20 font-black uppercase mt-4 tracking-widest">No verified operational nodes detected.</p>
+               </div>
+            </div>
+        ) : (
+            <div 
+              ref={scrollRef}
+              onMouseEnter={() => setIsHovered(true)}
+              onMouseLeave={() => setIsHovered(false)}
+              className="flex gap-6 lg:gap-8 overflow-x-auto no-scrollbar scroll-smooth pb-20 -mx-6 px-6 lg:mx-0 lg:px-0"
             >
-              <Link href={`/projects/${project.id}`}>
-                <div className="bg-[#05050a]/80 backdrop-blur-sm border border-white/5 rounded-2xl overflow-hidden h-full group-hover:border-indigo-500/30 transition-all duration-500">
-                  <div className="relative aspect-[16/10] overflow-hidden">
-                    {/* Background Gradient overlay */}
-                    <div className={`absolute inset-0 bg-gradient-to-br ${project.gradient} opacity-10 group-hover:opacity-20 transition-opacity`} />
-                    
-                    {/* 6-Image Project Grid with Gaps */}
-                    <div className="absolute inset-0 grid grid-cols-3 grid-rows-2 gap-1.5 p-1.5 bg-[#010103]">
-                       {project.images.map((img, i) => (
-                          <div key={i} className="relative overflow-hidden rounded-lg">
-                             <motion.img
-                               src={img}
-                               alt={`${project.title} detail ${i}`}
-                               className="w-full h-full object-cover transition-transform duration-700"
-                               initial={{ scale: 1.2 }}
-                               whileHover={{ scale: 1 }}
-                             />
-                          </div>
-                       ))}
-                    </div>
-                    
-                    {/* Cinematic Overlay */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#05050a] via-transparent to-transparent opacity-60" />
-                    <div className={`absolute inset-0 bg-gradient-to-br ${project.gradient} opacity-20 group-hover:opacity-10 transition-opacity pointer-events-none`} />
+              {projects.map((project, index) => (
+                <motion.div
+                  key={project.id}
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={isInView ? { opacity: 1, y: 0 } : {}}
+                  transition={{ duration: 0.8, delay: 0.05 * index }}
+                  className="flex-shrink-0 w-[85vw] md:w-[45vw] lg:w-[22vw] group relative"
+                >
+                  <Link href={`/projects/${project.slug || project.id}`}>
+                    <div className="relative aspect-[1/1.3] bg-[#05050a]/40 backdrop-blur-3xl border border-white/5 rounded-[3.5rem] overflow-hidden group-hover:border-indigo-500/30 transition-all duration-700 shadow-2xl flex flex-col">
+                      <div className="relative aspect-square overflow-hidden">
+                        {/* Identity Asset */}
+                        <img 
+                           src={project.heroImage} 
+                           alt={project.title}
+                           className="w-full h-full object-cover transition-transform duration-[1.5s] scale-110 group-hover:scale-100 grayscale-[40%] group-hover:grayscale-0 opacity-60 group-hover:opacity-100"
+                        />
+                        
+                        {/* HUD Overlays */}
+                        <div className={`absolute inset-0 bg-gradient-to-br ${gradients[index % gradients.length]} opacity-30 group-hover:opacity-10 transition-all duration-700 pointer-events-none`} />
+                        <div className="absolute inset-0 bg-gradient-to-t from-[#05050a] via-transparent to-transparent opacity-90" />
 
-                    {/* Category Badge */}
-                    <div className="absolute top-4 left-4">
-                      <span className="px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-black/60 backdrop-blur-md border border-white/10 text-white/70">
-                        {project.category}
-                      </span>
-                    </div>
+                        {/* Visual Hover Target */}
+                        <div className="absolute top-8 right-8 scale-50 opacity-0 group-hover:scale-100 group-hover:opacity-100 transition-all duration-700">
+                           <div className="w-16 h-16 rounded-2xl bg-white flex items-center justify-center shadow-2xl hover:scale-110 active:scale-95 transition-transform">
+                              <ArrowUpRight className="w-8 h-8 text-black" />
+                           </div>
+                        </div>
+                      </div>
 
-                    {/* Hover Arrow */}
-                    <div className="absolute top-4 right-4 translate-x-10 group-hover:translate-x-0 transition-transform duration-500">
-                      <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center shadow-2xl">
-                        <ArrowUpRight className="w-5 h-5 text-black" />
+                      {/* Nodal Content - Refined for 1:1.3 aspect ratio */}
+                      <div className="p-8 lg:p-10 flex-1 flex flex-col">
+                        <div className="mb-4">
+                           <h3 className="text-2xl font-black text-white tracking-tighter uppercase leading-[0.9] group-hover:text-indigo-400 transition-colors duration-500 mb-2 truncate">
+                             {project.title}
+                           </h3>
+                           <p className="text-[8px] font-mono text-indigo-400 uppercase tracking-widest font-black opacity-60">{project.category}</p>
+                        </div>
+                        
+                        <p className="text-xs font-black text-white/30 uppercase tracking-tight mb-6 line-clamp-2 leading-relaxed transition-colors group-hover:text-white/50">
+                          {project.description}
+                        </p>
+                        
+                        {/* Operational Telemetry HUD */}
+                        <div className="mt-auto space-y-4 pt-6 border-t border-white/5">
+                           <div className="flex items-center justify-between text-[9px] font-mono text-white/20 uppercase tracking-widest font-black">
+                              <div className="flex items-center gap-2">
+                                 <ShieldCheck className="w-3 h-3 text-emerald-500" />
+                                 {project.client}
+                              </div>
+                           </div>
+
+                           <div className="grid grid-cols-2 gap-3">
+                              {(project.results || []).slice(0, 2).map((res: any, i: number) => (
+                                 <div key={i} className="p-3 rounded-2xl bg-white/[0.02] border border-white/5 group-hover:border-indigo-500/20 transition-all">
+                                    <div className="text-lg font-black text-white tracking-tighter uppercase mb-0.5">{res.metric}</div>
+                                    <div className="text-[6px] text-white/20 font-black uppercase tracking-widest">{res.label}</div>
+                                 </div>
+                              ))}
+                           </div>
+                        </div>
                       </div>
                     </div>
-                  </div>
-
-                  {/* Content */}
-                  <div className="p-6">
-                    <h3 className="text-xl font-semibold mb-2 text-white group-hover:text-indigo-400 transition-colors">
-                      {project.title}
-                    </h3>
-                    <p className="text-muted-foreground mb-4 line-clamp-2">
-                      {project.description}
-                    </p>
-                    
-                    {/* Stats */}
-                    <div className="flex gap-6 border-t border-white/5 pt-4">
-                      {Object.entries(project.stats).map(([key, value]) => (
-                        <div key={key}>
-                          <div className="text-lg font-bold text-white">{value}</div>
-                          <div className="text-[10px] text-white/40 uppercase font-mono">{key}</div>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              </Link>
-            </motion.div>
-          ))}
-        </div>
-
-        {/* CTA Banner */}
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6, delay: 0.6 }}
-          className="mt-20 relative rounded-[32px] overflow-hidden border border-white/10"
-        >
-          <div className="absolute inset-0 bg-gradient-to-br from-indigo-600 via-blue-600 to-emerald-500 opacity-90" />
-          <div className="absolute inset-0 opacity-10" style={{ backgroundImage: 'radial-gradient(circle at 2px 2px, white 1px, transparent 0)', backgroundSize: '24px 24px' }} />
-          
-          <div className="relative px-8 py-12 lg:px-16 lg:py-16 flex flex-col lg:flex-row items-center justify-between gap-8">
-            <div className="text-center lg:text-left">
-              <h3 className="text-2xl lg:text-4xl font-bold text-white mb-2 tracking-tight">
-                Have a Project in Mind?
-              </h3>
-              <p className="text-white/80 text-lg">
-                {"Let's collaborate and bring your vision to life today."}
-              </p>
+                  </Link>
+                </motion.div>
+              ))}
             </div>
-            <Button 
-              asChild
-              size="lg"
-              className="bg-white text-black hover:bg-white/90 font-bold rounded-2xl h-14 px-8 shadow-2xl"
-            >
-              <Link href="/contact">
-                Start a Project
-                <ExternalLink className="ml-2 w-5 h-5" />
-              </Link>
-            </Button>
-          </div>
-        </motion.div>
+        )}
+
+        {/* Global Hub Actions */}
+        <div className="mt-16 flex flex-col md:flex-row items-center justify-between gap-12">
+           <div className="flex gap-2">
+              <div className="h-1.5 w-16 bg-indigo-500 rounded-full" />
+              <div className="h-1.5 w-4 bg-white/10 rounded-full" />
+              <div className="h-1.5 w-4 bg-white/10 rounded-full" />
+           </div>
+           
+           <Link href="/projects" className="group">
+              <Button 
+                 variant="ghost" 
+                 className="h-20 px-12 rounded-[2rem] border border-white/5 hover:bg-white/5 text-white/20 hover:text-white font-black text-xs uppercase tracking-[0.5em] gap-6 transition-all"
+              >
+                 Registry Access <ArrowRight className="w-5 h-5 group-hover:translate-x-3 transition-transform" />
+              </Button>
+           </Link>
+        </div>
       </div>
     </section>
   )

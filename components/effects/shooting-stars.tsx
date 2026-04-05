@@ -112,36 +112,51 @@ export function ShootingStars() {
 }
 
 export function StarField() {
+  const [mounted, setMounted] = useState(false)
+  const [stars, setStars] = useState<any[]>([])
+
+  useEffect(() => {
+    setMounted(true)
+    const newStars = Array.from({ length: 100 }).map(() => ({
+      size: Math.random() * 2 + 0.5,
+      duration: 3 + Math.random() * 4,
+      left: Math.random() * 100,
+      top: Math.random() * 100,
+      color: Math.random() > 0.5 ? "0, 255, 255" : "168, 85, 247",
+      opacity: 0.1 + Math.random() * 0.3,
+      delay: Math.random() * 3
+    }))
+    setStars(newStars)
+  }, [])
+
+  if (!mounted) return null
+
   return (
     <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
       {/* Particle field */}
       <div className="absolute inset-0">
-        {Array.from({ length: 100 }).map((_, i) => {
-          const size = Math.random() * 2 + 0.5
-          const duration = 3 + Math.random() * 4
-          return (
-            <motion.div
-              key={i}
-              className="absolute rounded-full"
-              style={{
-                width: size,
-                height: size,
-                left: `${Math.random() * 100}%`,
-                top: `${Math.random() * 100}%`,
-                background: `rgba(${Math.random() > 0.5 ? "0, 255, 255" : "168, 85, 247"}, ${0.1 + Math.random() * 0.3})`
-              }}
-              animate={{
-                opacity: [0.2, 0.8, 0.2],
-                scale: [1, 1.5, 1]
-              }}
-              transition={{
-                duration: duration,
-                repeat: Infinity,
-                delay: Math.random() * 3
-              }}
-            />
-          )
-        })}
+        {stars.map((star, i) => (
+          <motion.div
+            key={i}
+            className="absolute rounded-full"
+            style={{
+              width: star.size,
+              height: star.size,
+              left: `${star.left}%`,
+              top: `${star.top}%`,
+              background: `rgba(${star.color}, ${star.opacity})`
+            }}
+            animate={{
+              opacity: [0.2, 0.8, 0.2],
+              scale: [1, 1.5, 1]
+            }}
+            transition={{
+              duration: star.duration,
+              repeat: Infinity,
+              delay: star.delay
+            }}
+          />
+        ))}
       </div>
 
       {/* Moving shooting stars */}

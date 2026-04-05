@@ -301,3 +301,14 @@
   pointer-events: none;
   mix-blend-mode: overlay;
 }
+
+/* Scrollbar hide utility */
+@layer utilities {
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}

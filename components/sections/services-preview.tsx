@@ -16,89 +16,13 @@ import {
   Cpu,
   Zap,
   MousePointer2,
-  Code2
+  Code2,
+  Loader2
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
-
-const services = [
-  {
-    id: 'app',
-    icon: Smartphone,
-    category: 'Development',
-    title: 'Flutter & Native Mobility',
-    description: 'High-performance cross-platform applications using Flutter and native Swift/Kotlin for seamless mobile experiences.',
-    gradient: 'from-blue-600 via-cyan-600 to-teal-500',
-    glow: 'rgba(59, 130, 246, 0.4)',
-    features: ['Flutter Development', 'iOS & Android Native', 'Offline-First Apps', 'Real-time SDKs'],
-    type: 'app'
-  },
-  {
-    id: 'web',
-    icon: Globe,
-    category: 'Development',
-    title: 'Next-Gen Web Platforms',
-    description: 'SEO-driven, high-speed web applications built on Next.js 14 and Headless CMS architectures.',
-    gradient: 'from-emerald-600 via-teal-600 to-cyan-500',
-    glow: 'rgba(16, 185, 129, 0.4)',
-    features: ['Next.js 14 Architecture', 'Headless CMS Integration', 'Edge Rendering', 'PWA Solutions'],
-    type: 'web'
-  },
-  {
-    id: 'ai',
-    icon: Brain,
-    category: 'AI Solution',
-    title: 'Neural Intelligence',
-    description: 'Bespoke LLMs and predictive models trained on your proprietary data for unmatched business insights.',
-    gradient: 'from-indigo-600 via-blue-600 to-cyan-500',
-    glow: 'rgba(99, 102, 241, 0.4)',
-    features: ['Generative AI', 'Predictive Analysis', 'Neural Search', 'Custom LLM Training'],
-    type: 'ai'
-  },
-  {
-    id: 'wordpress',
-    icon: Layout,
-    category: 'CMS Solution',
-    title: 'WordPress Development',
-    description: 'Custom WordPress architectures designed for speed, security, and effortless content management.',
-    gradient: 'from-blue-700 via-blue-500 to-cyan-400',
-    glow: 'rgba(37, 99, 235, 0.4)',
-    features: ['Custom Theme Dev', 'Headless WordPress', 'Advanced Security', 'LCP Optimization'],
-    type: 'cms'
-  },
-  {
-    id: 'shopify',
-    icon: ShoppingBag,
-    category: 'eCommerce',
-    title: 'Shopify eCommerce',
-    description: 'Scalable online stores built on Shopify Plus, featuring custom liquid components and seamless checkout.',
-    gradient: 'from-emerald-700 via-green-500 to-lime-400',
-    glow: 'rgba(5, 150, 105, 0.4)',
-    features: ['Liquid Customization', 'Shopify Plus Setup', 'Third-party Integrations', 'Conversion Tuning'],
-    type: 'shop'
-  },
-  {
-    id: 'uiux',
-    icon: Layout,
-    category: 'Experience',
-    title: 'Kinetic UI/UX Design',
-    description: 'Modern, high-fidelity user interfaces designed for conversion, featuring fluid motion and accessibility.',
-    gradient: 'from-rose-600 via-pink-600 to-orange-500',
-    glow: 'rgba(244, 63, 94, 0.4)',
-    features: ['Interactive Prototypes', 'Design Systems', 'Kinetic Animations', 'User Testing'],
-    type: 'design'
-  },
-  {
-    id: 'cloud',
-    icon: Cloud,
-    category: 'Infrastructure',
-    title: 'Edge Cloud & DevOps',
-    description: 'Distributed cloud architectures designed for sub-100ms latency across global availability zones.',
-    gradient: 'from-cyan-600 via-blue-600 to-indigo-500',
-    glow: 'rgba(6, 182, 212, 0.4)',
-    features: ['Containerization', 'Multi-Cloud Strategy', 'Serverless Compute', 'Infrastructure as Code'],
-    type: 'cloud'
-  }
-]
+import { collection, query, where, orderBy, getDocs } from 'firebase/firestore'
+import { db } from '@/lib/firebase'
+import { DeepTechBackground } from '@/components/ui/deep-tech-background'
 
 // story visual components
 const ServiceVisual = ({ type, gradient }: { type: string, gradient: string }) => {
@@ -221,36 +145,78 @@ const ServiceVisual = ({ type, gradient }: { type: string, gradient: string }) =
   }
 }
 
-import { DeepTechBackground } from '@/components/ui/deep-tech-background'
-
 export function ServicesPreviewSection() {
+  const [services, setServices] = useState<any[]>([])
+  const [isLoading, setIsLoading] = useState(true)
   const [index, setIndex] = useState(0)
   const [direction, setDirection] = useState(0)
   const [isAutoPlaying, setIsAutoPlaying] = useState(true)
 
+  useEffect(() => {
+    const fetchServices = async () => {
+      try {
+        const q = query(
+          collection(db, "services"), 
+          where("isActive", "==", true),
+          orderBy("order", "asc"), 
+          orderBy("createdAt", "desc")
+        )
+        const querySnapshot = await getDocs(q)
+        const docs = querySnapshot.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data()
+        }))
+        setServices(docs)
+      } catch (error) {
+        console.error("SERVICES_FETCH_ERROR:", error)
+      } finally {
+        setIsLoading(false)
+      }
+    }
+    fetchServices()
+  }, [])
+
   const next = () => {
+    if (services.length === 0) return
     setDirection(1)
     setIndex((prev) => (prev + 1) % services.length)
   }
 
   const prev = () => {
+    if (services.length === 0) return
     setDirection(-1)
     setIndex((prev) => (prev - 1 + services.length) % services.length)
   }
 
   // Auto-play mechanism
   useEffect(() => {
-    if (!isAutoPlaying) return
-    const interval = setInterval(next, 6000)
+    if (!isAutoPlaying || services.length === 0) return
+    const interval = setInterval(next, 8000)
     return () => clearInterval(interval)
-  }, [index, isAutoPlaying])
+  }, [index, isAutoPlaying, services.length])
 
   const handleManualNav = (action: () => void) => {
     setIsAutoPlaying(false)
     action()
-    // Resume auto-play after 10s of inactivity
+    // Resume auto-play after 12s of inactivity
     setTimeout(() => setIsAutoPlaying(true), 12000)
   }
+
+  if (isLoading) {
+    return (
+      <section className="relative py-28 lg:py-40 bg-[#010103] overflow-hidden" id="services">
+        <DeepTechBackground />
+        <div className="flex flex-col items-center justify-center py-60 gap-8">
+          <Loader2 className="w-16 h-16 text-indigo-500 animate-spin" />
+          <p className="text-[10px] font-mono text-indigo-400 uppercase tracking-[0.5em] animate-pulse font-black">Decrypting Services Mesh...</p>
+        </div>
+      </section>
+    )
+  }
+
+  if (services.length === 0) return null
+
+  const currentService = services[index]
 
   return (
     <section className="relative py-28 lg:py-40 bg-[#010103] overflow-hidden" id="services">
@@ -262,16 +228,16 @@ export function ServicesPreviewSection() {
             <motion.div
               initial={{ opacity: 0, x: -20 }}
               whileInView={{ opacity: 1, x: 0 }}
-              className="text-indigo-400 font-mono text-sm mb-4 uppercase tracking-[0.3em]"
+              className="text-indigo-400 font-mono text-sm mb-4 uppercase tracking-[0.3em] font-black"
             >
               Mastery
             </motion.div>
             <motion.h2
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
-              className="text-4xl md:text-5xl lg:text-6xl font-bold text-white tracking-tight leading-[1.1]"
+              className="text-4xl md:text-5xl lg:text-7xl font-bold text-white tracking-tight leading-[0.85] uppercase"
             >
-              The <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-blue-400 to-emerald-400">Services Story</span> Built for Digital Dominance.
+              The <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-blue-400 to-emerald-400">Services Story</span> Hub.
             </motion.h2>
           </div>
           
@@ -299,15 +265,15 @@ export function ServicesPreviewSection() {
               initial={{ opacity: 0, x: direction * 50, filter: 'blur(10px)' }}
               animate={{ opacity: 1, x: 0, filter: 'blur(0px)' }}
               exit={{ opacity: 0, x: direction * -50, filter: 'blur(10px)' }}
-              transition={{ duration: 0.6, ease: [0.4, 0, 0.2, 1] }}
-              className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center"
+              transition={{ duration: 0.8, ease: [0.4, 0, 0.2, 1] }}
+              className="grid lg:grid-cols-2 gap-12 lg:gap-24 items-center"
             >
               {/* Story Visual Side */}
               <div className="relative group perspective-1000">
-                <div className={`absolute -inset-10 bg-gradient-to-br ${services[index].gradient} rounded-[2.5rem] opacity-20 blur-[100px] pointer-events-none`} />
-                <div className="relative aspect-[4/3] rounded-[2.5rem] overflow-hidden border border-white/5 bg-[#05050a]/80 backdrop-blur-xl group-hover:border-white/10 transition-colors duration-500">
+                <div className={`absolute -inset-10 bg-gradient-to-br ${currentService.gradient || 'from-indigo-500 to-blue-500'} rounded-[2.5rem] opacity-20 blur-[100px] pointer-events-none`} />
+                <div className="relative aspect-square md:aspect-[4/3] rounded-[3.5rem] overflow-hidden border border-white/5 bg-[#05050a]/80 backdrop-blur-3xl group-hover:border-white/10 transition-colors duration-500 shadow-2xl">
                   <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-[0.03] pointer-events-none" />
-                  <ServiceVisual type={services[index].type} gradient={services[index].gradient} />
+                  <ServiceVisual type={currentService.type || currentService.id} gradient={currentService.gradient || 'from-indigo-500 to-blue-500'} />
                 </div>
               </div>
 
@@ -319,44 +285,44 @@ export function ServicesPreviewSection() {
                   transition={{ delay: 0.2 }}
                   className="flex items-center gap-3 mb-8"
                 >
-                  <span className={`px-4 py-1.5 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 text-xs font-bold uppercase tracking-wider`}>
+                  <span className={`px-4 py-1.5 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 text-[10px] font-black uppercase tracking-[0.2em]`}>
                     Episode {index + 1}
                   </span>
                   <div className="h-[1px] w-12 bg-white/10" />
-                  <span className="text-white/40 text-xs uppercase tracking-widest">{services[index].category}</span>
+                  <span className="text-white/40 text-[10px] font-black uppercase tracking-widest font-mono">[ {currentService.category || 'Strategic Node'} ]</span>
                 </motion.div>
 
                 <motion.h3
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.3 }}
-                  className="text-4xl lg:text-6xl font-bold text-white mb-8 tracking-tighter"
+                  className="text-4xl lg:text-7xl font-bold text-white mb-8 tracking-tighter uppercase leading-none"
                 >
-                  {services[index].title}
+                  {currentService.title}
                 </motion.h3>
 
                 <motion.p
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.4 }}
-                  className="text-muted-foreground text-lg lg:text-xl mb-12 leading-relaxed"
+                  className="text-white/40 text-xl lg:text-2xl mb-12 leading-relaxed font-medium"
                 >
-                  {services[index].description}
+                  {currentService.description}
                 </motion.p>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-y-6 mb-16">
-                  {services[index].features.map((feature, i) => (
+                  {(currentService.features || []).map((feature: string, i: number) => (
                     <motion.div 
                       key={feature} 
                       initial={{ opacity: 0, x: -10 }}
                       animate={{ opacity: 1, x: 0 }}
                       transition={{ delay: 0.5 + i * 0.1 }}
-                      className="flex items-center gap-4"
+                      className="flex items-center gap-4 group/item"
                     >
-                      <div className={`flex-shrink-0 w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center`}>
-                        <Zap className="w-5 h-5 text-indigo-400" />
+                      <div className={`flex-shrink-0 w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center group-hover/item:border-indigo-500/50 transition-colors`}>
+                        <Zap className="w-4 h-4 text-indigo-400" />
                       </div>
-                      <span className="text-white/80 font-medium tracking-tight leading-none">{feature}</span>
+                      <span className="text-white/60 font-black uppercase tracking-tight text-xs group-hover/item:text-white transition-colors">{feature}</span>
                     </motion.div>
                   ))}
                 </div>
@@ -369,11 +335,11 @@ export function ServicesPreviewSection() {
                   <Button
                     asChild
                     size="lg"
-                    className={`h-16 bg-white text-black hover:bg-white/90 transition-all text-base font-bold rounded-2xl group px-10 shadow-xl shadow-white/5`}
+                    className={`h-20 bg-white text-black hover:bg-white/90 transition-all text-xl font-black rounded-2xl group px-12 shadow-2xl overflow-hidden border-0`}
                   >
-                    <Link href={`/services#${services[index].id}`}>
-                      Read the Full Story
-                      <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                    <Link href={`/services#${currentService.id}`}>
+                      Read Operational Audit
+                      <ArrowRight className="ml-2 w-6 h-6 group-hover:translate-x-3 transition-transform" />
                     </Link>
                   </Button>
                 </motion.div>
@@ -389,7 +355,7 @@ export function ServicesPreviewSection() {
                     setDirection(i > index ? 1 : -1)
                     setIndex(i)
                   })}
-                  className={`h-1 rounded-full bg-white transition-all duration-700 ${i === index ? 'w-16 opacity-100' : 'w-6 opacity-10 hover:opacity-30'}`}
+                  className={`h-1.5 rounded-full bg-white transition-all duration-700 ${i === index ? 'w-24 bg-indigo-500 opacity-100' : 'w-8 opacity-10 hover:opacity-30'}`}
                 />
             ))}
           </div>

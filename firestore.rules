@@ -1,0 +1,45 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Project Registry Rules
+    match /projects/{projectId} {
+      allow read: if true;
+      allow write: if true;
+    }
+    
+    // Service Ecosystem Rules
+    match /services/{serviceId} {
+      allow read: if true;
+      allow write: if true;
+    }
+
+    // Collective Strategic Intelligence (Team) Rules
+    match /team/{memberId} {
+      allow read: if true;
+      allow write: if true;
+    }
+
+    // Editorial Intelligence (Blog) Rules
+    match /blogs/{blogId} {
+      allow read: if true;
+      allow write: if true;
+    }
+
+    // Site Settings (Contact Details, Header, Footer, etc)
+    match /settings/{settingId} {
+      allow read: if true;
+      allow write: if true;
+    }
+
+    // Intelligence Leads (Contact Form Submissions)
+    match /leads/{leadId} {
+      allow read: if true;
+      allow write: if true;
+    }
+
+    // Default: Deny all other access
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

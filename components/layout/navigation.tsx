@@ -23,7 +23,8 @@ const navLinks = [
   { href: '/projects', label: 'Projects', index: '04' },
   { href: '/team', label: 'Nodes', index: '05' },
   { href: '/blog', label: 'Insights', index: '06' },
-  { href: '/contact', label: 'Contact', index: '07' },
+  { href: '/testimonials', label: 'Matrix', index: '07' },
+  { href: '/contact', label: 'Contact', index: '08' },
 ]
 
 export function Navigation() {
@@ -50,10 +51,11 @@ export function Navigation() {
         initial={{ y: -100 }}
         animate={{ y: 0 }}
         transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-        className={`fixed top-0 left-0 right-0 z-[100] transition-all duration-700 ${isScrolled
-            ? 'py-4'
-            : 'py-8'
-          }`}
+        className={`fixed left-0 right-0 z-[100] transition-all duration-700 ${
+          isScrolled 
+            ? 'top-4' 
+            : 'top-2.5 md:top-8'
+        }`}
       >
         <div className="container mx-auto px-6 lg:px-8">
           <div className={`relative flex items-center justify-between px-8 h-20 rounded-[2rem] border transition-all duration-700 ${isScrolled
