@@ -68,6 +68,9 @@ export const metadata: Metadata = {
     apple: '/WhatsApp Image 2026-04-04 at 12.39.24 PM.jpeg',
   },
   manifest: '/manifest.json',
+  verification: {
+    google: 'google02c5a4427971ec21',
+  },
 }
 
 export const viewport: Viewport = {
