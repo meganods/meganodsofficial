@@ -1,0 +1,21 @@
+{
+  "name": "Meganods",
+  "short_name": "Meganods",
+  "description": "Meganods - Innovating the Future of Technology. Cutting-edge AI technology, cloud computing, cybersecurity, and digital transformation services.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#6366f1",
+  "icons": [
+    {
+      "src": "/WhatsApp Image 2026-04-04 at 12.39.24 PM.jpeg",
+      "sizes": "192x192",
+      "type": "image/jpeg"
+    },
+    {
+      "src": "/WhatsApp Image 2026-04-04 at 12.39.24 PM.jpeg",
+      "sizes": "512x512",
+      "type": "image/jpeg"
+    }
+  ]
+}

@@ -25,7 +25,7 @@ export default function AdminLoginPage() {
     // Simulated technical verification sequence
     await new Promise(resolve => setTimeout(resolve, 2000))
 
-    if (formData.email === "admin@meganods.com" && formData.password === "admin123") {
+    if (formData.email === "admin@patelpulse.com" && formData.password === "admin123") {
       localStorage.setItem("adminAuth", "true")
       router.push("/admin")
     } else {
@@ -54,19 +54,19 @@ export default function AdminLoginPage() {
           <div className="p-10 md:p-16 relative">
             {/* Logo Hub */}
             <div className="text-center mb-16">
-              <div className="inline-flex items-center gap-4 mb-10">
+               <div className="inline-flex items-center justify-center gap-4 mb-10">
                 <div className="relative w-14 h-14">
                   <motion.div 
                     animate={{ rotate: 360 }}
                     transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
                     className="absolute inset-0 border border-indigo-500/30 rounded-xl" 
                   />
-                  <div className="absolute inset-1.5 bg-[#010103] rounded-lg border border-white/10 flex items-center justify-center text-2xl font-black shadow-2xl">
-                    <img src="/WhatsApp Image 2026-04-04 at 12.39.24 PM.jpeg" alt="MN" className="w-full h-full object-contain grayscale opacity-50 contrast-150" />
+                  <div className="absolute inset-1.5 bg-[#010103] rounded-lg border border-white/10 flex items-center justify-center text-2xl font-black shadow-2xl text-white">
+                    P
                   </div>
                 </div>
                 <div className="text-left">
-                  <h1 className="text-2xl font-black tracking-tighter leading-none mb-1">
+                  <h1 className="text-2xl font-black tracking-tighter leading-none mb-1 text-white">
                     Mega<span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-blue-400">nods</span>
                   </h1>
                   <span className="text-[8px] font-mono text-white/30 tracking-[0.4em] uppercase">Security Portal v4.2</span>
@@ -107,7 +107,7 @@ export default function AdminLoginPage() {
                       value={formData.email}
                       onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                       className="w-full h-16 bg-white/5 border border-white/5 rounded-2xl pl-16 pr-8 text-white font-bold focus:outline-none focus:border-indigo-500/50 transition-all text-sm tracking-wide placeholder:text-white/10"
-                      placeholder="admin@meganods.com"
+                      placeholder="admin@patelpulse.com"
                     />
                   </div>
                 </div>

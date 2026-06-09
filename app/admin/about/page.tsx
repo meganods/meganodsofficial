@@ -44,7 +44,7 @@ export default function AdminAboutPage() {
   const [formData, setFormData] = useState({
     hero: {
       title: "Architecting Total Intelligence",
-      subtitle: "Enterprise Profile: NexaTech",
+      subtitle: "Enterprise Profile: Meganods",
       description: "We are not just a technology company. We are the structural foundation for the next era of human industry—powered by specialized neural networks and fortified global infrastructure.",
     },
     mission: [
@@ -70,7 +70,7 @@ export default function AdminAboutPage() {
       { title: 'Human-Centric AI', meta: 'Ethics Audit 01', description: 'Technology is a tool for humanity. We design systems that empower, never replace.', gradient: 'from-rose-600 via-pink-600 to-orange-500' },
     ],
     milestones: [
-      { year: '2015', title: 'Genesis Protocol', description: 'NexaTech founded with a vision for autonomous intelligence.' },
+      { year: '2015', title: 'Genesis Protocol', description: 'Meganods founded with a vision for autonomous intelligence.' },
       { year: '2024', title: 'The Intelligence Frontier', description: 'Dominating the market as the gold standard for Deep Tech solutions.' },
     ]
   })
@@ -131,7 +131,7 @@ export default function AdminAboutPage() {
                  <div className="w-2 h-2 rounded-full bg-indigo-500 animate-pulse" />
                  <span className="text-[10px] font-mono text-indigo-500 uppercase tracking-[0.5em] font-bold">Structural identity module</span>
               </div>
-              <h1 className="text-4xl md:text-5xl font-black tracking-tighter text-slate-900 dark:text-white mb-2">About <span className="text-indigo-500">NexaTech</span></h1>
+              <h1 className="text-4xl md:text-5xl font-black tracking-tighter text-slate-900 dark:text-white mb-2">About <span className="text-indigo-500">Meganods</span></h1>
               <p className="text-slate-400 dark:text-white/20 font-mono text-[10px] uppercase tracking-[0.3em]">Configure Global Identity & Operational Philosophy</p>
            </motion.div>
            

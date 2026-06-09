@@ -175,7 +175,7 @@ export function Preloader() {
           <div className="absolute bottom-12 right-12 text-[8px] font-mono text-white/10 uppercase tracking-[0.4em] hidden md:block">
              System Auth: SUCCESS<br />
              Uplink: ESTABLISHED<br />
-             Engine: NEXA-X42
+             Engine: MN-X42
           </div>
         </motion.div>
       )}

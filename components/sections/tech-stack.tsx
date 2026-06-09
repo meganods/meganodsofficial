@@ -26,7 +26,7 @@ export function TechStackSection() {
   const isInView = useInView(ref, { once: true, margin: "-100px" })
 
   return (
-    <section ref={ref} className="relative py-28 lg:py-48 bg-[#010103] overflow-hidden" id="tech-stack">
+    <section ref={ref} className="relative py-28 lg:py-48 bg-background overflow-hidden" id="tech-stack">
       <DeepTechBackground />
       
       <div className="relative container mx-auto px-6 lg:px-8">
@@ -34,7 +34,7 @@ export function TechStackSection() {
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             animate={isInView ? { opacity: 1, x: 0 } : {}}
-            className="text-indigo-400 font-mono text-xs uppercase tracking-[0.4em] mb-4"
+            className="text-indigo-600 dark:text-indigo-400 font-mono text-xs uppercase tracking-[0.4em] mb-4"
           >
             Capabilities
           </motion.div>
@@ -42,16 +42,16 @@ export function TechStackSection() {
             initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.5, delay: 0.1 }}
-            className="text-4xl md:text-5xl lg:text-7xl font-bold text-white tracking-tighter leading-tight"
+            className="text-4xl md:text-5xl lg:text-7xl font-bold text-foreground tracking-tighter leading-tight"
           >
-            The <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-blue-400 to-emerald-400">Technology Core</span> Powering Nexa.
+            The <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 via-blue-600 to-emerald-600 dark:from-indigo-400 dark:via-blue-400 dark:to-emerald-400">Technology Core</span> Powering Meganods.
           </motion.h2>
         </div>
 
         {/* Technical Marquee System */}
         <div className="relative space-y-12 lg:space-y-20">
           {/* Row 1 - Direct Marquee */}
-          <div className="flex overflow-hidden relative py-4 lg:py-8 border-y border-white/5">
+          <div className="flex overflow-hidden relative py-4 lg:py-8 border-y border-border">
             <motion.div
               animate={{ x: [0, '-50%'] }}
               transition={{ duration: 40, repeat: Infinity, ease: "linear" }}
@@ -62,12 +62,12 @@ export function TechStackSection() {
                   key={`marquee-1-${index}`}
                   className="flex items-center gap-6 group cursor-default"
                 >
-                  <div className="w-14 h-14 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center group-hover:border-indigo-400/50 transition-colors">
-                     <tech.icon className="w-6 h-6 text-white group-hover:text-indigo-400 transition-colors" />
+                  <div className="w-14 h-14 rounded-2xl bg-secondary border border-border flex items-center justify-center group-hover:border-indigo-600/50 dark:group-hover:border-indigo-400/50 transition-colors">
+                     <tech.icon className="w-6 h-6 text-foreground group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors" />
                   </div>
                   <div>
-                    <div className="text-white font-bold text-xl lg:text-2xl tracking-tight group-hover:text-indigo-400 transition-colors">{tech.name}</div>
-                    <div className="text-white/20 text-[10px] items-center font-mono uppercase tracking-widest">{tech.category}</div>
+                    <div className="text-foreground font-bold text-xl lg:text-2xl tracking-tight group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">{tech.name}</div>
+                    <div className="text-muted-foreground/40 text-[10px] items-center font-mono uppercase tracking-widest">{tech.category}</div>
                   </div>
                 </div>
               ))}
@@ -86,12 +86,12 @@ export function TechStackSection() {
                   key={`marquee-2-${index}`}
                   className="flex items-center gap-6 group cursor-default"
                 >
-                  <div className="w-14 h-14 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center group-hover:border-emerald-400/50 transition-colors">
-                     <tech.icon className="w-6 h-6 text-white group-hover:text-emerald-400 transition-colors" />
+                  <div className="w-14 h-14 rounded-2xl bg-secondary border border-border flex items-center justify-center group-hover:border-emerald-600/50 dark:group-hover:border-emerald-400/50 transition-colors">
+                     <tech.icon className="w-6 h-6 text-foreground group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors" />
                   </div>
                   <div>
-                    <div className="text-white font-bold text-xl lg:text-2xl tracking-tight group-hover:text-emerald-400 transition-colors">{tech.name}</div>
-                    <div className="text-white/20 text-[10px] font-mono uppercase tracking-widest">{tech.category}</div>
+                    <div className="text-foreground font-bold text-xl lg:text-2xl tracking-tight group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors">{tech.name}</div>
+                    <div className="text-muted-foreground/40 text-[10px] font-mono uppercase tracking-widest">{tech.category}</div>
                   </div>
                 </div>
               ))}
@@ -112,10 +112,10 @@ export function TechStackSection() {
               { label: 'Compliance', value: 'SOC2', sub: 'Enterprise Grade' },
               { label: 'Security', value: 'AES/V', sub: 'Encrypted Core' },
            ].map((stat, i) => (
-              <div key={stat.label} className="flex flex-col gap-2 p-6 rounded-3xl bg-white/5 border border-white/5 group hover:border-indigo-500/20 transition-all">
-                 <div className="text-white/40 text-[10px] font-mono uppercase tracking-widest">{stat.label}</div>
-                 <div className="text-3xl font-bold text-white group-hover:text-indigo-400 transition-colors">{stat.value}</div>
-                 <div className="text-white/20 text-xs font-medium">{stat.sub}</div>
+              <div key={stat.label} className="flex flex-col gap-2 p-6 rounded-3xl bg-card border border-border group hover:border-indigo-600/20 dark:hover:border-indigo-500/20 transition-all">
+                 <div className="text-muted-foreground/60 text-[10px] font-mono uppercase tracking-widest">{stat.label}</div>
+                 <div className="text-3xl font-bold text-foreground group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">{stat.value}</div>
+                 <div className="text-muted-foreground/40 text-xs font-medium">{stat.sub}</div>
               </div>
            ))}
         </motion.div>

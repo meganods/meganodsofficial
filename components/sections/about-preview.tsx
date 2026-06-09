@@ -27,7 +27,7 @@ export function AboutPreviewSection() {
   const isInView = useInView(ref, { once: true, margin: "-100px" })
 
   return (
-    <section ref={ref} className="relative py-28 lg:py-48 bg-[#010103] overflow-hidden" id="about">
+    <section ref={ref} className="relative py-28 lg:py-48 bg-background overflow-hidden" id="about">
       <DeepTechBackground />
       
       {/* Dynamic Mission HUD */}
@@ -38,33 +38,33 @@ export function AboutPreviewSection() {
           transition={{ duration: 0.8 }}
           className="relative max-w-5xl mx-auto text-center"
         >
-          <div className="absolute -top-12 left-1/2 -translate-x-1/2 flex items-center gap-2 text-indigo-400 font-mono text-xs uppercase tracking-[0.4em] mb-8">
+          <div className="absolute -top-12 left-1/2 -translate-x-1/2 flex items-center gap-2 text-indigo-600 dark:text-indigo-400 font-mono text-xs uppercase tracking-[0.4em] mb-8">
              <div className="w-12 h-[1px] bg-indigo-500/30" />
              Manifesto
              <div className="w-12 h-[1px] bg-indigo-500/30" />
           </div>
 
-          <h2 className="text-3xl md:text-5xl lg:text-6xl font-bold text-white tracking-tight leading-[1.1] mb-12">
-            Engineering the <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-blue-400 to-emerald-400">Future of Intelligence</span>. We are NexaTech.
+          <h2 className="text-3xl md:text-5xl lg:text-6xl font-bold text-foreground tracking-tight leading-[1.1] mb-12">
+            Engineering the <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 via-indigo-400 to-emerald-500 dark:from-indigo-400 dark:via-blue-400 dark:to-emerald-400">Future of Intelligence</span>. We are Meganods.
           </h2>
 
           <div className="flex flex-col md:flex-row items-center justify-center gap-8 md:gap-16">
             <div className="flex items-center gap-4 group">
-               <div className="w-12 h-12 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center group-hover:border-indigo-500/50 transition-colors">
-                  <Globe className="w-6 h-6 text-indigo-400" />
+               <div className="w-12 h-12 rounded-2xl bg-card border border-border flex items-center justify-center group-hover:border-indigo-500/50 transition-colors shadow-sm">
+                  <Globe className="w-6 h-6 text-indigo-600 dark:text-indigo-400" />
                </div>
                <div className="text-left">
-                  <div className="text-white font-bold text-lg leading-none">Global Coverage</div>
-                  <div className="text-white/40 text-sm">Edge Nodes globally</div>
+                  <div className="text-foreground font-bold text-lg leading-none">Global Coverage</div>
+                  <div className="text-muted-foreground text-sm mt-1">Edge Nodes globally</div>
                </div>
             </div>
             <div className="flex items-center gap-4 group">
-               <div className="w-12 h-12 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center group-hover:border-emerald-500/50 transition-colors">
-                  <Cpu className="w-6 h-6 text-emerald-400" />
+               <div className="w-12 h-12 rounded-2xl bg-card border border-border flex items-center justify-center group-hover:border-emerald-500/50 transition-colors shadow-sm">
+                  <Cpu className="w-6 h-6 text-emerald-600 dark:text-emerald-400" />
                </div>
                <div className="text-left">
-                  <div className="text-white font-bold text-lg leading-none">Self-Healing Infrastructure</div>
-                  <div className="text-white/40 text-sm">Automated recovery</div>
+                  <div className="text-foreground font-bold text-lg leading-none">Self-Healing Infrastructure</div>
+                  <div className="text-muted-foreground text-sm mt-1">Automated recovery</div>
                </div>
             </div>
           </div>
@@ -81,7 +81,7 @@ export function AboutPreviewSection() {
           >
             <div className="relative aspect-[4/5] max-w-md mx-auto lg:mx-0">
                {/* High-Tech Frame */}
-               <div className="absolute inset-0 rounded-[3rem] border border-white/10 bg-[#05050a]/40 backdrop-blur-xl overflow-hidden p-4">
+               <div className="absolute inset-0 rounded-[3rem] border border-border bg-card/40 backdrop-blur-xl overflow-hidden p-4 shadow-sm dark:shadow-none">
                   <div className="w-full h-full rounded-[2.2rem] bg-gradient-to-br from-indigo-500/5 via-transparent to-transparent flex items-center justify-center p-12">
                      <motion.div 
                         animate={{ y: [-20, 20, -20] }}
@@ -92,9 +92,9 @@ export function AboutPreviewSection() {
                         <div className="absolute inset-4 rounded-full border border-indigo-500/20 scale-125" />
                         <div className="absolute inset-8 rounded-full border border-indigo-500/30" />
                         
-                        <div className="relative w-48 h-48 rounded-[2.5rem] bg-gradient-to-br from-indigo-600 via-blue-600 to-emerald-500 p-[1px] shadow-2xl shadow-indigo-500/40">
-                           <div className="w-full h-full bg-[#05050a] rounded-[2.4rem] flex items-center justify-center">
-                              <Bot className="w-24 h-24 text-white" />
+                        <div className="relative w-48 h-48 rounded-[2.5rem] bg-gradient-to-br from-indigo-600 via-blue-600 to-emerald-500 p-[1px] shadow-2xl shadow-indigo-500/20 dark:shadow-indigo-500/40">
+                           <div className="w-full h-full bg-card rounded-[2.4rem] flex items-center justify-center">
+                              <Bot className="w-24 h-24 text-foreground" />
                            </div>
                         </div>
                      </motion.div>
@@ -105,10 +105,10 @@ export function AboutPreviewSection() {
                <motion.div 
                  animate={{ x: [0, 10, 0] }}
                  transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
-                 className="absolute -top-10 -right-10 p-6 rounded-3xl bg-[#0a0a0f] border border-white/10 shadow-2xl backdrop-blur-md"
+                 className="absolute -top-10 -right-10 p-6 rounded-3xl bg-card border border-border shadow-2xl backdrop-blur-md"
                >
-                  <div className="text-indigo-400 font-bold text-4xl mb-1">+285%</div>
-                  <div className="text-white/40 text-xs font-mono uppercase">Scale Intelligence</div>
+                  <div className="text-indigo-600 dark:text-indigo-400 font-bold text-4xl mb-1">+285%</div>
+                  <div className="text-muted-foreground text-xs font-mono uppercase">Scale Intelligence</div>
                </motion.div>
             </div>
           </motion.div>
@@ -121,11 +121,11 @@ export function AboutPreviewSection() {
               className="space-y-8"
             >
               <div className="space-y-4">
-                <span className="text-indigo-400 font-mono text-xs uppercase tracking-[0.3em]">
+                <span className="text-indigo-600 dark:text-indigo-400 font-mono text-xs uppercase tracking-[0.3em]">
                   Status: Operational
                 </span>
-                <h3 className="text-4xl lg:text-7xl font-bold text-white tracking-tighter leading-none">
-                  Empower Your Business With Nexa Genesis.
+                <h3 className="text-4xl lg:text-7xl font-bold text-foreground tracking-tighter leading-none">
+                  Empower Your Business With Pulse Genesis.
                 </h3>
                 <p className="text-muted-foreground text-xl leading-relaxed max-w-xl">
                   We don’t just deploy code. We architect high-performance digital ecosystems that think, evolve, and dominate markets through specialized AI integration.
@@ -142,12 +142,12 @@ export function AboutPreviewSection() {
                     transition={{ delay: 0.4 + i * 0.1 }}
                     className="flex gap-5 group"
                   >
-                    <div className="w-14 h-14 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center shrink-0 group-hover:bg-indigo-500/10 transition-colors">
-                       <h.icon className="w-6 h-6 text-white group-hover:text-indigo-400 transition-colors" />
+                    <div className="w-14 h-14 rounded-2xl bg-card border border-border flex items-center justify-center shrink-0 group-hover:bg-indigo-500/10 transition-colors shadow-sm">
+                       <h.icon className="w-6 h-6 text-foreground group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors" />
                     </div>
-                    <div className="border-b border-white/5 pb-4 w-full">
-                       <h4 className="text-white font-bold text-lg mb-1">{h.title}</h4>
-                       <p className="text-white/40 text-sm">{h.desc}</p>
+                    <div className="border-b border-border pb-4 w-full">
+                       <h4 className="text-foreground font-bold text-lg mb-1">{h.title}</h4>
+                       <p className="text-muted-foreground text-sm">{h.desc}</p>
                     </div>
                   </motion.div>
                 ))}
@@ -157,7 +157,7 @@ export function AboutPreviewSection() {
                 <Button 
                   asChild
                   size="lg"
-                  className="h-16 px-10 bg-white text-black hover:bg-white/90 font-bold rounded-2xl shadow-xl shadow-white/5 transition-all text-base group"
+                  className="h-16 px-10 bg-primary text-primary-foreground hover:bg-primary/90 font-bold rounded-2xl shadow-xl transition-all text-base group border-0"
                 >
                   <Link href="/about">
                     View Enterprise Profile
@@ -174,18 +174,18 @@ export function AboutPreviewSection() {
           initial={{ opacity: 0, y: 40 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6, delay: 0.6 }}
-          className="mt-32 lg:mt-56 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-px bg-white/5 rounded-[40px] overflow-hidden border border-white/5 shadow-2xl"
+          className="mt-32 lg:mt-56 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-px bg-border rounded-[40px] overflow-hidden border border-border shadow-lg dark:shadow-none"
         >
           {stats.map((stat, i) => (
-            <div key={stat.label} className="bg-[#010103] p-10 group hover:bg-white/5 transition-colors relative">
-               <div className="text-emerald-400/50 font-mono text-[10px] uppercase mb-4 tracking-widest flex items-center justify-between">
+            <div key={stat.label} className="bg-card p-10 group hover:bg-secondary/40 transition-colors relative">
+               <div className="text-emerald-600 dark:text-emerald-400/50 font-mono text-[10px] uppercase mb-4 tracking-widest flex items-center justify-between">
                   {stat.sub}
                   <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
                </div>
-               <div className="text-5xl font-bold text-white mb-2 tracking-tighter group-hover:text-emerald-400 transition-colors">
+               <div className="text-5xl font-bold text-foreground mb-2 tracking-tighter group-hover:text-indigo-600 dark:group-hover:text-emerald-400 transition-colors">
                   {stat.value}
                </div>
-               <div className="text-white/40 text-sm font-medium">{stat.label}</div>
+               <div className="text-muted-foreground text-sm font-medium">{stat.label}</div>
                {/* Accent decoration */}
                <div className="absolute top-0 right-0 w-8 h-8 rounded-bl-3xl bg-emerald-500/10 opacity-0 group-hover:opacity-100 transition-opacity" />
             </div>

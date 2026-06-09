@@ -75,7 +75,7 @@ export function FeaturesSection() {
   const isInView = useInView(ref, { once: true, margin: "-100px" })
 
   return (
-    <section ref={ref} className="relative py-28 lg:py-40 bg-[#010103] overflow-hidden" id="features">
+    <section ref={ref} className="relative py-28 lg:py-40 bg-background overflow-hidden" id="features">
       <DeepTechBackground />
 
       <div className="relative container mx-auto px-6 lg:px-8">
@@ -85,7 +85,7 @@ export function FeaturesSection() {
             initial={{ opacity: 0, x: -20 }}
             animate={isInView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.6 }}
-            className="flex items-center gap-2 text-indigo-400 font-mono text-sm mb-6 uppercase tracking-widest"
+            className="flex items-center gap-2 text-indigo-600 dark:text-indigo-400 font-mono text-sm mb-6 uppercase tracking-widest"
           >
             <Zap className="w-4 h-4 fill-current" />
             Capabilities
@@ -95,9 +95,9 @@ export function FeaturesSection() {
             initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.6, delay: 0.1 }}
-            className="text-4xl md:text-6xl font-bold tracking-tight mb-8 leading-[1.1]"
+            className="text-4xl md:text-6xl font-bold tracking-tight mb-8 leading-[1.1] text-foreground"
           >
-            Engineering the <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-blue-400 to-emerald-400">Next Frontier</span> of Development.
+            Engineering the <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 via-blue-600 to-emerald-600 dark:from-indigo-400 dark:via-blue-400 dark:to-emerald-400">Next Frontier</span> of Development.
           </motion.h2>
 
           <motion.p
@@ -139,7 +139,7 @@ export function FeaturesSection() {
                 />
 
                 {/* Main Card Container */}
-                <div className="relative h-full bg-[#07070a]/90 backdrop-blur-md border border-white/10 rounded-[2rem] p-8 lg:p-10 hover:border-white/20 transition-all duration-500 overflow-hidden flex flex-col">
+                <div className="relative h-full bg-card/90 backdrop-blur-md border border-border rounded-[2rem] p-8 lg:p-10 hover:border-border/80 transition-all duration-500 overflow-hidden flex flex-col">
                   
                   {/* Subtle Background Gradient Overlay */}
                   <div 
@@ -149,27 +149,27 @@ export function FeaturesSection() {
                   
                   {/* Category Header */}
                   <div className="flex items-center justify-between mb-10 relative z-10">
-                    <div className="p-3.5 rounded-2xl bg-white/5 border border-white/5 group-hover:border-white/10 group-hover:scale-110 transition-all duration-500 shadow-2xl">
-                      <Icon className="w-6 h-6 text-white" />
+                    <div className="p-3.5 rounded-2xl bg-secondary border border-border group-hover:border-border/80 group-hover:scale-110 transition-all duration-500 shadow-2xl">
+                      <Icon className="w-6 h-6 text-foreground" />
                     </div>
-                    <span className="text-[10px] font-mono text-white/30 uppercase tracking-[0.3em] font-bold">
+                    <span className="text-[10px] font-mono text-muted-foreground/60 uppercase tracking-[0.3em] font-bold">
                       {feature.category}
                     </span>
                   </div>
 
                   {/* Content */}
-                  <h3 className="text-2xl font-bold mb-4 text-white tracking-tight group-hover:text-indigo-400 transition-colors">
+                  <h3 className="text-2xl font-bold mb-4 text-foreground tracking-tight group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
                     {feature.title}
                   </h3>
                   
-                  <p className="text-white/50 text-base mb-10 line-clamp-3 leading-relaxed flex-1 group-hover:text-white/70 transition-colors">
+                  <p className="text-muted-foreground text-base mb-10 line-clamp-3 leading-relaxed flex-1 group-hover:text-foreground/80 transition-colors">
                     {feature.description}
                   </p>
 
                   {/* Sub Features List */}
-                  <div className="space-y-4 pt-8 border-t border-white/5 mt-auto relative z-10">
+                  <div className="space-y-4 pt-8 border-t border-border mt-auto relative z-10">
                     {feature.features.map((item) => (
-                      <div key={item} className="flex items-center gap-3 text-sm font-medium text-white/30 group-hover:text-white/60 transition-colors">
+                      <div key={item} className="flex items-center gap-3 text-sm font-medium text-muted-foreground/60 group-hover:text-foreground/80 transition-colors">
                         <div 
                           className="w-1.5 h-1.5 rounded-full" 
                           style={{ backgroundColor: accentColor.replace('0.1', '0.8') }} 
@@ -197,7 +197,7 @@ export function FeaturesSection() {
           initial={{ opacity: 0, y: 40 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6, delay: 0.5 }}
-          className="mt-24 lg:mt-32 p-8 lg:p-12 rounded-[40px] bg-gradient-to-br from-indigo-500/5 via-transparent to-transparent border border-white/5 flex flex-wrap justify-between gap-12"
+          className="mt-24 lg:mt-32 p-8 lg:p-12 rounded-[40px] bg-gradient-to-br from-indigo-500/5 dark:from-indigo-500/10 via-transparent to-transparent border border-border flex flex-wrap justify-between gap-12"
         >
           {[
             { label: 'Uptime SLA', value: '99.99%', sub: 'Enterprise Grade' },
@@ -207,8 +207,8 @@ export function FeaturesSection() {
           ].map((stat) => (
             <div key={stat.label} className="min-w-[120px]">
               <div className="text-muted-foreground text-sm font-mono uppercase tracking-tighter mb-2">{stat.label}</div>
-              <div className="text-4xl font-bold text-white mb-1">{stat.value}</div>
-              <div className="text-xs text-indigo-400/60 font-medium">{stat.sub}</div>
+              <div className="text-4xl font-bold text-foreground mb-1">{stat.value}</div>
+              <div className="text-xs text-indigo-600/60 dark:text-indigo-400/60 font-medium">{stat.sub}</div>
             </div>
           ))}
         </motion.div>

@@ -59,9 +59,9 @@ export function Navigation() {
       >
         <div className="container mx-auto px-6 lg:px-8">
           <div className={`relative flex items-center justify-between px-8 h-20 rounded-[2rem] border transition-all duration-700 ${isScrolled
-              ? 'bg-[#05050a]/60 backdrop-blur-3xl border-white/10 shadow-[0_0_40px_rgba(0,0,0,0.5)]'
-              : 'bg-transparent border-transparent'
-            }`}>
+               ? 'bg-background/80 backdrop-blur-3xl border-border/40 shadow-xl shadow-slate-200/50 dark:shadow-[0_0_40px_rgba(0,0,0,0.5)]'
+               : 'bg-transparent border-transparent'
+             }`}>
             {/* Logo Hub */}
             <Link href="/" className="flex items-center gap-4 group relative z-10">
               <div className="relative w-12 h-12">
@@ -70,15 +70,15 @@ export function Navigation() {
                   transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
                   className="absolute inset-0 border border-indigo-500/30 rounded-xl"
                 />
-                <div className="absolute inset-1.5 bg-[#010103] rounded-lg border border-white/10 flex items-center justify-center font-black text-xl text-white group-hover:text-indigo-400 transition-colors shadow-2xl">
+                <div className="absolute inset-1.5 bg-card rounded-lg border border-border flex items-center justify-center font-black text-xl text-foreground group-hover:text-indigo-600 transition-colors shadow-2xl">
                   M
                 </div>
               </div>
               <div className="flex flex-col">
-                <span className="text-xl font-bold tracking-tighter leading-none text-white">
-                  Mega<span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-blue-400">nods</span>
+                <span className="text-xl font-bold tracking-tighter leading-none text-foreground">
+                  Mega<span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-indigo-400">nods</span>
                 </span>
-                <span className="text-[8px] font-mono text-white/30 tracking-[0.4em] uppercase mt-1 hidden sm:block">Deep Tech Systems</span>
+                <span className="text-[8px] font-mono text-foreground/30 tracking-[0.4em] uppercase mt-1 hidden sm:block">Innovating the Future of Technology</span>
               </div>
             </Link>
 
@@ -94,11 +94,11 @@ export function Navigation() {
                   <Link
                     href={link.href}
                     className={`px-5 py-2.5 rounded-xl text-[11px] font-bold uppercase tracking-widest transition-all duration-500 flex items-center gap-3 ${pathname === link.href
-                        ? 'text-white'
-                        : 'text-white/40 hover:text-white'
-                      }`}
+                        ? 'text-foreground'
+                        : 'text-foreground/45 hover:text-foreground'
+                       }`}
                   >
-                    <span className="text-[9px] font-mono text-indigo-400/50 group-hover/nav:text-indigo-400 transition-colors">{link.index}</span>
+                    <span className="text-[9px] font-mono text-indigo-500/50 group-hover/nav:text-indigo-500 transition-colors">{link.index}</span>
                     {link.label}
                     {link.submenu && <ChevronDown className="w-3.5 h-3.5 opacity-40 group-hover/nav:rotate-180 transition-transform" />}
                   </Link>
@@ -118,17 +118,17 @@ export function Navigation() {
                         initial={{ opacity: 0, y: 10, scale: 0.95 }}
                         animate={{ opacity: 1, y: 0, scale: 1 }}
                         exit={{ opacity: 0, y: 10, scale: 0.95 }}
-                        className="absolute top-full left-0 mt-4 w-64 p-3 bg-[#05050a]/90 backdrop-blur-3xl border border-white/10 rounded-3xl shadow-[0_20px_50px_rgba(0,0,0,0.5)] overflow-hidden"
+                        className="absolute top-full left-0 mt-4 w-64 p-3 bg-card backdrop-blur-3xl border border-border rounded-3xl shadow-xl overflow-hidden"
                       >
                         <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/5 to-transparent pointer-events-none" />
                         {link.submenu.map((sublink) => (
                           <Link
                             key={sublink.href}
                             href={sublink.href}
-                            className="flex items-center gap-4 px-4 py-3.5 rounded-2xl text-[10px] font-bold text-white/40 uppercase tracking-widest hover:text-white hover:bg-white/5 transition-all group/sub"
+                            className="flex items-center gap-4 px-4 py-3.5 rounded-2xl text-[10px] font-bold text-foreground/50 uppercase tracking-widest hover:text-foreground hover:bg-secondary transition-all group/sub"
                           >
-                            <div className="w-8 h-8 rounded-lg bg-white/5 border border-white/5 flex items-center justify-center group-hover/sub:border-indigo-500/30 transition-all">
-                              <sublink.icon className="w-4 h-4 text-indigo-400/50 group-hover/sub:text-indigo-400" />
+                            <div className="w-8 h-8 rounded-lg bg-secondary border border-border flex items-center justify-center group-hover/sub:border-indigo-500/30 transition-all">
+                              <sublink.icon className="w-4 h-4 text-indigo-500/75 group-hover/sub:text-indigo-600" />
                             </div>
                             {sublink.label}
                           </Link>
@@ -144,7 +144,7 @@ export function Navigation() {
             <div className="hidden lg:flex items-center gap-6">
               <Link href="/contact">
                 <Button
-                  className="h-12 px-8 bg-white text-black hover:bg-white/90 font-bold rounded-2xl shadow-xl transition-all text-xs uppercase tracking-widest group border-0"
+                  className="h-12 px-8 bg-primary text-primary-foreground hover:bg-primary/90 font-bold rounded-2xl shadow-xl transition-all text-xs uppercase tracking-widest group border-0"
                 >
                   Establish Hub
                   <Terminal className="ml-3 w-4 h-4 group-hover:scale-110 transition-transform" />
@@ -155,7 +155,11 @@ export function Navigation() {
             {/* Mobile Tactical Trigger */}
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="lg:hidden w-12 h-12 flex items-center justify-center rounded-2xl bg-white/5 border border-white/10 text-white"
+              className={`lg:hidden w-12 h-12 flex items-center justify-center rounded-2xl transition-all duration-300 ${
+                isMobileMenuOpen 
+                  ? 'bg-secondary border-border text-foreground rotate-90 scale-90' 
+                  : 'bg-secondary/80 border-border/80 text-foreground'
+              }`}
             >
               {isMobileMenuOpen ? (
                 <X className="w-6 h-6" />
@@ -176,60 +180,82 @@ export function Navigation() {
             exit={{ opacity: 0 }}
             className="fixed inset-0 z-[90] lg:hidden overflow-hidden"
           >
-            <div className="absolute inset-0 bg-[#010103]/95 backdrop-blur-3xl" />
-
-            {/* Visual HUD grid */}
-            <div className="absolute inset-0 grid-pattern opacity-10 pointer-events-none" />
-
-            <motion.nav
-              initial={{ x: '100%' }}
-              animate={{ x: 0 }}
-              exit={{ x: '100%' }}
-              transition={{ type: 'spring', damping: 30, stiffness: 300 }}
-              className="relative h-full w-full flex flex-col justify-center px-10"
-            >
-              <div className="flex flex-col gap-6">
-                {navLinks.map((link, index) => (
-                  <motion.div
-                    key={link.href}
-                    initial={{ opacity: 0, x: 50 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: index * 0.1 }}
-                  >
-                    <Link
-                      href={link.href}
-                      className={`group flex items-end gap-6 text-5xl md:text-7xl font-black tracking-tighter uppercase transition-all ${pathname === link.href
-                          ? 'text-white'
-                          : 'text-white/20 hover:text-white'
-                        }`}
-                    >
-                      <span className="text-xl font-mono text-indigo-500 mb-2 md:mb-4">{link.index}</span>
-                      {link.label}
-                      <span className="w-0 group-hover:w-20 h-2 bg-indigo-500 rounded-full transition-all duration-500" />
-                    </Link>
-                  </motion.div>
-                ))}
+            <div className="absolute inset-0 bg-background flex flex-col">
+              {/* Top Header Row */}
+              <div className="flex items-center justify-between px-10 pt-10 pb-6">
+                <Link href="/" className="flex items-center gap-4" onClick={() => setIsMobileMenuOpen(false)}>
+                  <div className="relative w-10 h-10">
+                    <div className="absolute inset-0 border border-indigo-500/30 rounded-xl" />
+                    <div className="absolute inset-1 bg-card rounded-lg border border-border flex items-center justify-center font-black text-lg text-foreground">
+                      M
+                    </div>
+                  </div>
+                  <span className="text-lg font-bold tracking-tighter text-foreground">
+                    Mega<span className="text-indigo-600">nods</span>
+                  </span>
+                </Link>
+                
+                <button
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="w-12 h-12 flex items-center justify-center rounded-2xl bg-secondary border border-border text-foreground"
+                >
+                  <X className="w-6 h-6" />
+                </button>
               </div>
 
-              <motion.div
-                initial={{ opacity: 0, y: 50 }}
+              <motion.nav
+                initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.6 }}
-                className="mt-20 border-t border-white/10 pt-10 flex flex-col gap-8"
+                exit={{ opacity: 0, y: 20 }}
+                className="flex-1 flex flex-col justify-center px-10 overflow-y-auto no-scrollbar py-8"
               >
-                <div className="flex items-center gap-4">
-                  <Satellite className="w-6 h-6 text-indigo-400" />
-                  <span className="text-[10px] font-mono text-white/30 uppercase tracking-[0.4em]">Active Uplink: Established</span>
+                <div className="flex flex-col gap-4 py-4">
+                  {navLinks.map((link, index) => (
+                    <motion.div
+                      key={link.href}
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: index * 0.05 }}
+                    >
+                      <Link
+                        href={link.href}
+                        onClick={() => setIsMobileMenuOpen(false)}
+                        className={`group flex items-center gap-6 text-5xl font-black tracking-tighter uppercase transition-all ${
+                          pathname === link.href ? 'text-foreground' : 'text-foreground/30'
+                        }`}
+                      >
+                        <span className="text-sm font-mono text-indigo-600 w-8">{link.index}</span>
+                        {link.label}
+                      </Link>
+                    </motion.div>
+                  ))}
                 </div>
-                <Link href="/contact" className="w-full">
-                  <Button
-                    className="w-full h-20 bg-white text-black text-2xl font-black rounded-[2rem] shadow-2xl transition-all uppercase"
-                  >
+              </motion.nav>
+
+              {/* Bottom Section */}
+              <div className="px-10 pb-12 flex flex-col gap-8">
+                <div className="h-px bg-border w-full" />
+                
+                <div className="flex items-center gap-4">
+                  <Satellite className="w-5 h-5 text-indigo-500" />
+                  <span className="text-[10px] font-mono text-foreground/40 uppercase tracking-[0.3em]">
+                    Active Uplink: Established
+                  </span>
+                </div>
+
+                <Link href="/contact" onClick={() => setIsMobileMenuOpen(false)}>
+                  <Button className="w-full h-20 bg-primary text-primary-foreground hover:bg-primary/90 text-xl font-black rounded-3xl shadow-2xl transition-all uppercase hover:scale-[0.98] active:scale-95 border-0">
                     Establish Hub
                   </Button>
                 </Link>
-              </motion.div>
-            </motion.nav>
+
+                <div className="mt-4">
+                  <div className="w-10 h-10 rounded-full border border-border flex items-center justify-center text-xs font-black text-foreground/45">
+                    M
+                  </div>
+                </div>
+              </div>
+            </div>
           </motion.div>
         )}
       </AnimatePresence>

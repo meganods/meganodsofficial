@@ -3,6 +3,7 @@ import { Inter, Space_Grotesk } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
 import { StarField } from '@/components/effects/shooting-stars'
 import { Preloader } from '@/components/ui/preloader'
+import JsonLd from '@/components/seo/json-ld'
 import './globals.css'
 
 const inter = Inter({ 
@@ -19,37 +20,37 @@ const spaceGrotesk = Space_Grotesk({
 
 export const metadata: Metadata = {
   title: {
-    default: 'NexaTech Solutions | AI-Powered IT Services & Digital Transformation',
-    template: '%s | NexaTech Solutions'
+    default: 'Meganods | Innovating the Future of Technology',
+    template: '%s | Meganods'
   },
-  description: 'NexaTech Solutions delivers cutting-edge AI technology, cloud computing, cybersecurity, and digital transformation services to empower businesses worldwide.',
+  description: 'Meganods delivers cutting-edge AI technology, cloud computing, cybersecurity, and digital transformation services to empower businesses worldwide.',
   keywords: ['IT Solutions', 'AI Technology', 'Digital Transformation', 'Cloud Computing', 'Cybersecurity', 'Machine Learning', 'Data Analytics', 'Software Development'],
-  authors: [{ name: 'NexaTech Solutions' }],
-  creator: 'NexaTech Solutions',
-  publisher: 'NexaTech Solutions',
-  metadataBase: new URL('https://nexatech.com'),
+  authors: [{ name: 'Meganods' }],
+  creator: 'Meganods',
+  publisher: 'Meganods',
+  metadataBase: new URL('https://meganods.com'),
   openGraph: {
     type: 'website',
     locale: 'en_US',
-    url: 'https://nexatech.com',
-    siteName: 'NexaTech Solutions',
-    title: 'NexaTech Solutions | AI-Powered IT Services & Digital Transformation',
-    description: 'Revolutionizing the future with AI technology. We provide cutting-edge IT solutions to empower businesses.',
+    url: 'https://meganods.com',
+    siteName: 'Meganods',
+    title: 'Meganods | Innovating the Future of Technology',
+    description: 'Innovating the future with AI technology. We provide cutting-edge IT solutions to empower businesses.',
     images: [
       {
         url: '/og-image.jpg',
         width: 1200,
         height: 630,
-        alt: 'NexaTech Solutions - AI Technology Solutions',
+        alt: 'Meganods - Innovating the Future of Technology',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'NexaTech Solutions | AI-Powered IT Services',
-    description: 'Revolutionizing the future with AI technology. Cutting-edge IT solutions to empower businesses.',
+    title: 'Meganods | Innovating the Future of Technology',
+    description: 'Innovating the future with AI technology. Cutting-edge IT solutions to empower businesses.',
     images: ['/og-image.jpg'],
-    creator: '@nexatech',
+    creator: '@meganods',
   },
   robots: {
     index: true,
@@ -71,8 +72,8 @@ export const metadata: Metadata = {
 
 export const viewport: Viewport = {
   themeColor: [
-    { media: '(prefers-color-scheme: light)', color: '#0a0a12' },
-    { media: '(prefers-color-scheme: dark)', color: '#0a0a12' },
+    { media: '(prefers-color-scheme: light)', color: '#ffffff' },
+    { media: '(prefers-color-scheme: dark)', color: '#ffffff' },
   ],
   width: 'device-width',
   initialScale: 1,
@@ -85,10 +86,11 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" className="dark">
+    <html lang="en" className="light">
       <body className={`${inter.variable} ${spaceGrotesk.variable} font-sans antialiased`}>
         <Preloader />
         <StarField />
+        <JsonLd />
         {children}
         {process.env.NODE_ENV === 'production' && <Analytics />}
       </body>

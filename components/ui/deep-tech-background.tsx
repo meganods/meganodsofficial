@@ -15,15 +15,15 @@ export function DeepTechBackground() {
       }} />
 
       {/* 2. Vibrant Color Blurs (User Core Design) */}
-      <div className="absolute inset-0 mix-blend-screen opacity-90">
+      <div className="absolute inset-0 mix-blend-multiply dark:mix-blend-screen opacity-[0.25] dark:opacity-90">
          {/* Top Left: Lime/Emerald Glow */}
-         <div className="absolute top-[-10%] left-[-10%] w-[800px] h-[800px] bg-[rgba(27,245,172,0.6)] rounded-full blur-[140px]" />
+         <div className="absolute top-[-10%] left-[-10%] w-[800px] h-[800px] bg-[rgba(27,245,172,0.4)] dark:bg-[rgba(27,245,172,0.6)] rounded-full blur-[140px]" />
          
          {/* Bottom Right: Cyan/Blue Glow */}
-         <div className="absolute bottom-[-10%] right-[-10%] w-[800px] h-[800px] bg-[rgba(18,188,218,0.6)] rounded-full blur-[140px]" />
+         <div className="absolute bottom-[-10%] right-[-10%] w-[800px] h-[800px] bg-[rgba(18,188,218,0.4)] dark:bg-[rgba(18,188,218,0.6)] rounded-full blur-[140px]" />
 
          {/* Center Bottom: Indigo/Violet Core */}
-         <div className="absolute bottom-[-20%] left-1/2 -translate-x-1/2 w-[1000px] h-[800px] bg-[rgba(78,70,229,0.5)] rounded-full blur-[160px]" />
+         <div className="absolute bottom-[-20%] left-1/2 -translate-x-1/2 w-[1000px] h-[800px] bg-[rgba(78,70,229,0.3)] dark:bg-[rgba(78,70,229,0.5)] rounded-full blur-[160px]" />
       </div>
 
       {/* 3. Subtle Detail Layer (Plus Markers) */}
@@ -38,7 +38,7 @@ export function DeepTechBackground() {
 
       {/* 4. Depth Mask */}
       <div className="absolute inset-0" style={{
-        background: 'radial-gradient(circle at 50% 50%, transparent 0%, rgba(1,1,3,0.1) 70%, #010103 95%)',
+        background: 'radial-gradient(circle at 50% 50%, transparent 0%, rgba(255,255,255,0.05) 70%, var(--background) 95%)',
       }} />
     </div>
   )

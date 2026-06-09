@@ -42,25 +42,25 @@ export default function AdminConfigPage() {
   
   const [config, setConfig] = useState({
     general: {
-       siteName: "NexaTech",
+       siteName: "Meganods",
        siteTitle: "High-Fidelity Deep Tech Solutions",
        description: "Architecting the future of human industry with specialized neural networks and fortified infrastructure.",
        keywords: "AI, Blockchain, Enterprise Solutions, Deep Tech",
        status: "Operational"
     },
     contact: {
-       email: "base@nexatech.com",
-       phone: "+1 800 NEXA CORE",
+       email: "hello@patelpulse.com",
+       phone: "+1 800 PULSE CORE",
        address: "Decentralized Operations Center 01",
        social: {
-          linkedin: "https://linkedin.com/company/nexatech",
-          twitter: "https://twitter.com/nexatech",
-          github: "https://github.com/nexatech-labs"
+          linkedin: "https://linkedin.com/company/patelpulse",
+          twitter: "https://twitter.com/patelpulse",
+          github: "https://github.com/patelpulse-ventures"
        }
     },
     protocols: {
        geminiKey: "AIzaSyAhNwn7...",
-       analyticsId: "G-NEXA-CORE-001",
+       analyticsId: "G-PULSE-CORE-001",
        deploymentNode: "US-EAST-01-PRIMARY"
     },
     appearance: {

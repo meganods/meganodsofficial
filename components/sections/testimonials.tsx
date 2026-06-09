@@ -56,24 +56,24 @@ export function TestimonialsSection() {
     setActiveIndex((prev) => (prev + 1) % testimonials.length)
   }
 
-  if (isLoading) {
-     return (
-        <section ref={ref} className="relative py-28 lg:py-48 bg-[#010103] overflow-hidden">
-           <DeepTechBackground />
-           <div className="flex flex-col items-center justify-center py-40 gap-6">
-              <Loader2 className="w-10 h-10 text-indigo-500 animate-spin" />
-              <p className="text-[10px] font-mono text-indigo-400 uppercase tracking-[0.4em] animate-pulse font-black">Syncing Operational Feedback Registry...</p>
-           </div>
-        </section>
-     )
-  }
+   if (isLoading) {
+      return (
+         <section ref={ref} className="relative py-28 lg:py-48 bg-background overflow-hidden">
+            <DeepTechBackground />
+            <div className="flex flex-col items-center justify-center py-40 gap-6">
+               <Loader2 className="w-10 h-10 text-indigo-600 dark:text-indigo-500 animate-spin" />
+               <p className="text-[10px] font-mono text-indigo-600 dark:text-indigo-400 uppercase tracking-[0.4em] animate-pulse font-black">Syncing Operational Feedback Registry...</p>
+            </div>
+         </section>
+      )
+   }
 
   if (testimonials.length === 0) return null
 
   const activeTestimonial = testimonials[activeIndex]
 
   return (
-    <section ref={ref} className="relative py-28 lg:py-48 bg-[#010103] overflow-hidden" id="testimonials">
+    <section ref={ref} className="relative py-28 lg:py-48 bg-background overflow-hidden" id="testimonials">
       <DeepTechBackground />
       
       <div className="relative container mx-auto px-6 lg:px-8">
@@ -83,7 +83,7 @@ export function TestimonialsSection() {
             <motion.div
               initial={{ opacity: 0, x: -20 }}
               animate={isInView ? { opacity: 1, x: 0 } : {}}
-              className="text-indigo-400 font-mono text-xs uppercase tracking-[0.4em] mb-4 font-black"
+              className="text-indigo-600 dark:text-indigo-400 font-mono text-xs uppercase tracking-[0.4em] mb-4 font-black"
             >
               Feedback Registry
             </motion.div>
@@ -91,22 +91,22 @@ export function TestimonialsSection() {
               initial={{ opacity: 0, y: 20 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.5, delay: 0.1 }}
-              className="text-4xl md:text-5xl lg:text-7xl font-bold text-white tracking-tighter leading-none uppercase"
+              className="text-4xl md:text-5xl lg:text-7xl font-bold text-foreground tracking-tighter leading-none uppercase"
             >
-              Market <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-blue-400 to-emerald-400">Authority</span> nodes.
+              Market <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 via-blue-600 to-emerald-600 dark:from-indigo-400 dark:via-blue-400 dark:to-emerald-400">Authority</span> nodes.
             </motion.h2>
           </div>
           
           <div className="flex gap-4">
             <button
                onClick={handlePrev}
-               className="w-14 h-14 rounded-full border border-white/10 flex items-center justify-center hover:bg-white/5 transition-colors text-white"
+               className="w-14 h-14 rounded-full border border-border flex items-center justify-center hover:bg-secondary transition-colors text-foreground"
             >
                <ChevronLeft className="w-6 h-6" />
             </button>
             <button
                onClick={handleNext}
-               className="w-14 h-14 rounded-full border border-white/10 flex items-center justify-center hover:bg-white/5 transition-colors text-white"
+               className="w-14 h-14 rounded-full border border-border flex items-center justify-center hover:bg-secondary transition-colors text-foreground"
             >
                <ChevronRight className="w-6 h-6" />
             </button>
@@ -128,27 +128,27 @@ export function TestimonialsSection() {
                 {/* Visual Identity Side */}
                 <div className="relative">
                    <div className="relative aspect-square max-w-sm mx-auto lg:mx-0">
-                      <div className="absolute inset-0 rounded-[3.5rem] bg-gradient-to-br from-indigo-500/20 to-emerald-500/10 border border-white/10 p-1">
-                         <div className="w-full h-full rounded-[3.3rem] bg-[#05050a] flex items-center justify-center overflow-hidden">
+                      <div className="absolute inset-0 rounded-[3.5rem] bg-gradient-to-br from-indigo-500/20 to-emerald-500/10 border border-border p-1">
+                         <div className="w-full h-full rounded-[3.3rem] bg-card flex items-center justify-center overflow-hidden">
                             <motion.div 
                                animate={{ 
                                   scale: [1, 1.1, 1],
                                   opacity: [0.5, 0.8, 0.5]
-                               }}
+                                }}
                                transition={{ duration: 8, repeat: Infinity }}
                                className="absolute inset-0 bg-gradient-to-br from-indigo-500/10 to-transparent" 
                             />
                             {activeTestimonial?.avatar ? (
                                <img src={activeTestimonial.avatar} className="w-full h-full object-cover opacity-60 grayscale group-hover:grayscale-0 transition-all duration-700" alt={activeTestimonial.name} />
                             ) : (
-                               <User className="w-40 h-40 text-white/5" />
+                               <User className="w-40 h-40 text-muted-foreground/5" />
                             )}
-                            <div className="absolute bottom-10 left-10 right-10 p-6 rounded-2xl bg-black/60 border border-white/10 backdrop-blur-xl">
+                            <div className="absolute bottom-10 left-10 right-10 p-6 rounded-2xl bg-background/80 dark:bg-black/60 border border-border backdrop-blur-xl">
                                <div className="flex items-center gap-3 mb-2">
                                   <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                                  <div className="text-white font-black text-lg uppercase tracking-tight">{activeTestimonial?.name}</div>
+                                  <div className="text-foreground font-black text-lg uppercase tracking-tight">{activeTestimonial?.name}</div>
                                 </div>
-                                <div className="text-indigo-400 font-mono text-[9px] uppercase tracking-[0.2em] font-black opacity-60 font-mono">{activeTestimonial?.role}</div>
+                                <div className="text-indigo-600 dark:text-indigo-400 font-mono text-[9px] uppercase tracking-[0.2em] font-black opacity-60 font-mono">{activeTestimonial?.role}</div>
                             </div>
                          </div>
                       </div>
@@ -157,10 +157,10 @@ export function TestimonialsSection() {
                       <motion.div 
                          animate={{ y: [-10, 10, -10] }}
                          transition={{ duration: 4, repeat: Infinity }}
-                         className="absolute -top-8 -right-8 w-24 h-24 rounded-3xl bg-[#0a0a0f] border border-white/10 flex flex-col items-center justify-center shadow-2xl"
+                         className="absolute -top-8 -right-8 w-24 h-24 rounded-3xl bg-card border border-border flex flex-col items-center justify-center shadow-2xl"
                       >
                          <Star className="w-7 h-7 text-amber-400 fill-amber-400 mb-1" />
-                         <div className="text-white font-black text-sm font-mono">{activeTestimonial?.rating || 5}.0</div>
+                         <div className="text-foreground font-black text-sm font-mono">{activeTestimonial?.rating || 5}.0</div>
                       </motion.div>
                    </div>
                 </div>
@@ -174,14 +174,14 @@ export function TestimonialsSection() {
                     className="mb-12"
                   >
                     <div className="flex items-center gap-3 mb-6">
-                       <Zap className="w-3 h-3 text-indigo-400" />
-                       <div className="text-indigo-400 font-mono text-[10px] uppercase tracking-[0.4em] font-black">
+                       <Zap className="w-3 h-3 text-indigo-600 dark:text-indigo-400" />
+                       <div className="text-indigo-600 dark:text-indigo-400 font-mono text-[10px] uppercase tracking-[0.4em] font-black">
                          [ {activeTestimonial?.tag || 'Verified Operational Node'} ]
                        </div>
                     </div>
                     <div className="relative">
-                      <Quote className="absolute -top-12 -left-12 w-24 h-24 text-white/[0.03]" />
-                      <p className="text-2xl lg:text-4xl font-black text-white leading-[1.1] tracking-tighter uppercase italic relative z-10">
+                      <Quote className="absolute -top-12 -left-12 w-24 h-24 text-foreground/[0.03]" />
+                      <p className="text-2xl lg:text-4xl font-black text-foreground leading-[1.1] tracking-tighter uppercase italic relative z-10">
                         &ldquo;{activeTestimonial?.content}&rdquo;
                       </p>
                     </div>
@@ -194,16 +194,16 @@ export function TestimonialsSection() {
                      className="flex flex-col sm:flex-row gap-8 items-start sm:items-center"
                   >
                      <div className="flex items-center gap-4 group">
-                        <div className="w-12 h-12 rounded-xl bg-white/5 border border-white/5 flex items-center justify-center group-hover:bg-indigo-500/10 transition-colors">
-                           <MessageSquare className="w-4 h-4 text-indigo-400" />
+                        <div className="w-12 h-12 rounded-xl bg-secondary border border-border flex items-center justify-center group-hover:bg-indigo-600/10 dark:group-hover:bg-indigo-500/10 transition-colors">
+                           <MessageSquare className="w-4 h-4 text-indigo-600 dark:text-indigo-400" />
                         </div>
                         <div className="text-left">
-                           <div className="text-white font-black text-[10px] uppercase tracking-widest">Protocol Sync</div>
-                           <div className="text-white/20 text-[9px] uppercase font-mono tracking-widest font-bold">Node verified 100%</div>
+                           <div className="text-foreground font-black text-[10px] uppercase tracking-widest">Protocol Sync</div>
+                           <div className="text-muted-foreground/45 text-[9px] uppercase font-mono tracking-widest font-bold">Node verified 100%</div>
                         </div>
                      </div>
                      <Link href="/testimonials">
-                        <Button variant="outline" className="h-16 px-8 rounded-2xl border-white/5 hover:bg-white/5 text-white font-black text-[10px] uppercase tracking-[0.2em] gap-3">
+                        <Button variant="outline" className="h-16 px-8 rounded-2xl border-border hover:bg-secondary text-foreground font-black text-[10px] uppercase tracking-[0.2em] gap-3">
                            Full Directory <ArrowRight className="w-4 h-4" />
                         </Button>
                      </Link>
@@ -222,7 +222,7 @@ export function TestimonialsSection() {
                     setActiveIndex(index)
                   }}
                   className={`h-1.5 rounded-full transition-all duration-700 ${
-                    index === activeIndex ? 'w-24 bg-indigo-500 opacity-100' : 'w-8 bg-white opacity-10 hover:opacity-30'
+                    index === activeIndex ? 'w-24 bg-indigo-600 dark:bg-indigo-500 opacity-100' : 'w-8 bg-foreground opacity-20 hover:opacity-40'
                   }`}
                 />
               ))}

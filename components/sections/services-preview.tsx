@@ -30,15 +30,15 @@ const ServiceVisual = ({ type, gradient }: { type: string, gradient: string }) =
     case 'app':
       return (
         <div className="relative w-full h-full flex items-center justify-center p-8">
-          <motion.div initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} className="relative w-48 h-80 bg-[#0a0a0f] rounded-[2.5rem] border border-white/10 p-3 shadow-2xl">
-            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-20 h-5 bg-black rounded-b-xl border border-white/5" />
-            <div className="w-full h-full bg-[#05050a] rounded-[2.2rem] overflow-hidden flex flex-col p-4">
+          <motion.div initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} className="relative w-48 h-80 bg-card dark:bg-[#0a0a0f] rounded-[2.5rem] border border-border dark:border-white/10 p-3 shadow-2xl">
+            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-20 h-5 bg-background dark:bg-black rounded-b-xl border border-border dark:border-white/5" />
+            <div className="w-full h-full bg-background dark:bg-[#05050a] rounded-[2.2rem] overflow-hidden flex flex-col p-4">
               <div className="space-y-3 pt-6">
-                <motion.div initial={{ width: 0 }} animate={{ width: '80%' }} className="h-4 bg-white/5 rounded-full" />
+                <motion.div initial={{ width: 0 }} animate={{ width: '80%' }} className="h-4 bg-muted dark:bg-white/5 rounded-full" />
                 <motion.div initial={{ width: 0 }} animate={{ width: '100%' }} transition={{ delay: 0.2 }} className="h-12 bg-indigo-500/20 rounded-xl" />
                 <div className="grid grid-cols-2 gap-2">
-                   <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ delay: 0.4 }} className="h-20 bg-white/5 rounded-xl" />
-                   <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ delay: 0.5 }} className="h-20 bg-white/5 rounded-xl" />
+                   <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ delay: 0.4 }} className="h-20 bg-muted dark:bg-white/5 rounded-xl" />
+                   <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ delay: 0.5 }} className="h-20 bg-muted dark:bg-white/5 rounded-xl" />
                 </div>
               </div>
             </div>
@@ -52,23 +52,23 @@ const ServiceVisual = ({ type, gradient }: { type: string, gradient: string }) =
     case 'web':
       return (
         <div className="relative w-full h-full flex items-center justify-center p-8">
-           <motion.div initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} className="relative w-full max-w-sm aspect-video bg-[#0a0a0f] rounded-xl border border-white/10 overflow-hidden shadow-2xl">
-              <div className="h-6 bg-[#1a1a25] w-full flex items-center px-4 gap-1.5 border-b border-white/5">
+           <motion.div initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} className="relative w-full max-w-sm aspect-video bg-card dark:bg-[#0a0a0f] rounded-xl border border-border dark:border-white/10 overflow-hidden shadow-2xl">
+              <div className="h-6 bg-muted dark:bg-[#1a1a25] w-full flex items-center px-4 gap-1.5 border-b border-border/40 dark:border-white/5">
                  <div className="w-2 h-2 rounded-full bg-red-400" />
                  <div className="w-2 h-2 rounded-full bg-amber-400" />
                  <div className="w-2 h-2 rounded-full bg-emerald-400" />
               </div>
               <div className="p-4 space-y-4">
                  <div className="flex justify-between items-center">
-                    <motion.div initial={{ width: 0 }} animate={{ width: 60 }} className="h-3 bg-white/10 rounded-full" />
+                    <motion.div initial={{ width: 0 }} animate={{ width: 60 }} className="h-3 bg-muted dark:bg-white/10 rounded-full" />
                     <div className="flex gap-2">
-                       <div className="w-3 h-3 bg-white/5 rounded-full" />
-                       <div className="w-3 h-3 bg-white/5 rounded-full" />
+                       <div className="w-3 h-3 bg-muted dark:bg-white/5 rounded-full" />
+                       <div className="w-3 h-3 bg-muted dark:bg-white/5 rounded-full" />
                     </div>
                  </div>
                  <motion.div initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} className="h-24 bg-gradient-to-r from-emerald-500/10 to-transparent border border-emerald-500/20 rounded-lg p-3">
                     <div className="w-1/2 h-4 bg-emerald-400/20 rounded-full mb-2" />
-                    <div className="w-3/4 h-2 bg-white/5 rounded-full" />
+                    <div className="w-3/4 h-2 bg-muted dark:bg-white/5 rounded-full" />
                  </motion.div>
               </div>
               {/* Kinetic Code Block */}
@@ -132,8 +132,8 @@ const ServiceVisual = ({ type, gradient }: { type: string, gradient: string }) =
              transition={{ duration: 25, repeat: Infinity, ease: 'linear' }}
              className="relative w-64 h-64"
            >
-              <div className="absolute inset-0 border border-white/5 rounded-full" />
-              <div className="absolute inset-8 border border-white/5 rounded-full" />
+              <div className="absolute inset-0 border border-border/40 dark:border-white/5 rounded-full" />
+              <div className="absolute inset-8 border border-border/40 dark:border-white/5 rounded-full" />
               <div className="absolute inset-0 flex items-center justify-center rotate-[-360deg]">
                  <div className={`w-28 h-28 rounded-3xl bg-gradient-to-br ${gradient} flex items-center justify-center shadow-2xl`}>
                     <Cpu className="w-14 h-14 text-white" />
@@ -204,11 +204,11 @@ export function ServicesPreviewSection() {
 
   if (isLoading) {
     return (
-      <section className="relative py-28 lg:py-40 bg-[#010103] overflow-hidden" id="services">
+      <section className="relative py-28 lg:py-40 bg-background overflow-hidden" id="services">
         <DeepTechBackground />
         <div className="flex flex-col items-center justify-center py-60 gap-8">
           <Loader2 className="w-16 h-16 text-indigo-500 animate-spin" />
-          <p className="text-[10px] font-mono text-indigo-400 uppercase tracking-[0.5em] animate-pulse font-black">Decrypting Services Mesh...</p>
+          <p className="text-[10px] font-mono text-indigo-600 dark:text-indigo-400 uppercase tracking-[0.5em] animate-pulse font-black">Decrypting Services Mesh...</p>
         </div>
       </section>
     )
@@ -219,7 +219,7 @@ export function ServicesPreviewSection() {
   const currentService = services[index]
 
   return (
-    <section className="relative py-28 lg:py-40 bg-[#010103] overflow-hidden" id="services">
+    <section className="relative py-28 lg:py-40 bg-background overflow-hidden" id="services">
       <DeepTechBackground />
 
       <div className="relative container mx-auto px-6 lg:px-8">
@@ -228,29 +228,29 @@ export function ServicesPreviewSection() {
             <motion.div
               initial={{ opacity: 0, x: -20 }}
               whileInView={{ opacity: 1, x: 0 }}
-              className="text-indigo-400 font-mono text-sm mb-4 uppercase tracking-[0.3em] font-black"
+              className="text-indigo-600 dark:text-indigo-400 font-mono text-sm mb-4 uppercase tracking-[0.3em] font-black"
             >
               Mastery
             </motion.div>
             <motion.h2
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
-              className="text-4xl md:text-5xl lg:text-7xl font-bold text-white tracking-tight leading-[0.85] uppercase"
+              className="text-4xl md:text-5xl lg:text-7xl font-bold text-foreground tracking-tight leading-[0.85] uppercase"
             >
-              The <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-blue-400 to-emerald-400">Services Story</span> Hub.
+              The <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 via-blue-600 to-emerald-600 dark:from-indigo-400 dark:via-blue-400 dark:to-emerald-400">Services Story</span> Hub.
             </motion.h2>
           </div>
           
           <div className="flex gap-4">
             <button
               onClick={() => handleManualNav(prev)}
-              className="group w-14 h-14 rounded-full border border-white/10 flex items-center justify-center hover:bg-white/5 transition-all text-white"
+              className="group w-14 h-14 rounded-full border border-border flex items-center justify-center hover:bg-secondary transition-all text-foreground"
             >
               <ChevronLeft className="w-6 h-6 group-hover:-translate-x-1 transition-transform" />
             </button>
             <button
               onClick={() => handleManualNav(next)}
-              className="group w-14 h-14 rounded-full border border-white/10 flex items-center justify-center hover:bg-white/5 transition-all text-white"
+              className="group w-14 h-14 rounded-full border border-border flex items-center justify-center hover:bg-secondary transition-all text-foreground"
             >
               <ChevronRight className="w-6 h-6 group-hover:translate-x-1 transition-transform" />
             </button>
@@ -271,7 +271,7 @@ export function ServicesPreviewSection() {
               {/* Story Visual Side */}
               <div className="relative group perspective-1000">
                 <div className={`absolute -inset-10 bg-gradient-to-br ${currentService.gradient || 'from-indigo-500 to-blue-500'} rounded-[2.5rem] opacity-20 blur-[100px] pointer-events-none`} />
-                <div className="relative aspect-square md:aspect-[4/3] rounded-[3.5rem] overflow-hidden border border-white/5 bg-[#05050a]/80 backdrop-blur-3xl group-hover:border-white/10 transition-colors duration-500 shadow-2xl">
+                <div className="relative aspect-square md:aspect-[4/3] rounded-[3.5rem] overflow-hidden border border-border bg-card/80 backdrop-blur-3xl group-hover:border-border/80 transition-colors duration-500 shadow-2xl">
                   <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-[0.03] pointer-events-none" />
                   <ServiceVisual type={currentService.type || currentService.id} gradient={currentService.gradient || 'from-indigo-500 to-blue-500'} />
                 </div>
@@ -285,18 +285,18 @@ export function ServicesPreviewSection() {
                   transition={{ delay: 0.2 }}
                   className="flex items-center gap-3 mb-8"
                 >
-                  <span className={`px-4 py-1.5 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 text-[10px] font-black uppercase tracking-[0.2em]`}>
+                  <span className={`px-4 py-1.5 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-600 dark:text-indigo-400 text-[10px] font-black uppercase tracking-[0.2em]`}>
                     Episode {index + 1}
                   </span>
-                  <div className="h-[1px] w-12 bg-white/10" />
-                  <span className="text-white/40 text-[10px] font-black uppercase tracking-widest font-mono">[ {currentService.category || 'Strategic Node'} ]</span>
+                  <div className="h-[1px] w-12 bg-border" />
+                  <span className="text-muted-foreground text-[10px] font-black uppercase tracking-widest font-mono">[ {currentService.category || 'Strategic Node'} ]</span>
                 </motion.div>
 
                 <motion.h3
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.3 }}
-                  className="text-4xl lg:text-7xl font-bold text-white mb-8 tracking-tighter uppercase leading-none"
+                  className="text-4xl lg:text-7xl font-bold text-foreground mb-8 tracking-tighter uppercase leading-none"
                 >
                   {currentService.title}
                 </motion.h3>
@@ -305,7 +305,7 @@ export function ServicesPreviewSection() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.4 }}
-                  className="text-white/40 text-xl lg:text-2xl mb-12 leading-relaxed font-medium"
+                  className="text-muted-foreground text-xl lg:text-2xl mb-12 leading-relaxed font-medium"
                 >
                   {currentService.description}
                 </motion.p>
@@ -319,10 +319,10 @@ export function ServicesPreviewSection() {
                       transition={{ delay: 0.5 + i * 0.1 }}
                       className="flex items-center gap-4 group/item"
                     >
-                      <div className={`flex-shrink-0 w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center group-hover/item:border-indigo-500/50 transition-colors`}>
-                        <Zap className="w-4 h-4 text-indigo-400" />
+                      <div className={`flex-shrink-0 w-10 h-10 rounded-xl bg-secondary border border-border flex items-center justify-center group-hover/item:border-indigo-500/50 transition-colors`}>
+                        <Zap className="w-4 h-4 text-indigo-600 dark:text-indigo-400" />
                       </div>
-                      <span className="text-white/60 font-black uppercase tracking-tight text-xs group-hover/item:text-white transition-colors">{feature}</span>
+                      <span className="text-muted-foreground font-black uppercase tracking-tight text-xs group-hover/item:text-foreground transition-colors">{feature}</span>
                     </motion.div>
                   ))}
                 </div>
@@ -335,7 +335,7 @@ export function ServicesPreviewSection() {
                   <Button
                     asChild
                     size="lg"
-                    className={`h-20 bg-white text-black hover:bg-white/90 transition-all text-xl font-black rounded-2xl group px-12 shadow-2xl overflow-hidden border-0`}
+                    className={`h-20 bg-primary text-primary-foreground hover:bg-primary/90 transition-all text-xl font-black rounded-2xl group px-12 shadow-2xl overflow-hidden border-0`}
                   >
                     <Link href={`/services#${currentService.id}`}>
                       Read Operational Audit
@@ -355,7 +355,7 @@ export function ServicesPreviewSection() {
                     setDirection(i > index ? 1 : -1)
                     setIndex(i)
                   })}
-                  className={`h-1.5 rounded-full bg-white transition-all duration-700 ${i === index ? 'w-24 bg-indigo-500 opacity-100' : 'w-8 opacity-10 hover:opacity-30'}`}
+                  className={`h-1.5 rounded-full bg-foreground transition-all duration-700 ${i === index ? 'w-24 bg-indigo-600 opacity-100' : 'w-8 opacity-20 hover:opacity-40'}`}
                 />
             ))}
           </div>

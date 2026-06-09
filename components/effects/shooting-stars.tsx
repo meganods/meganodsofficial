@@ -50,7 +50,7 @@ export function ShootingStars() {
         {Array.from({ length: 50 }).map((_, i) => (
           <div
             key={`static-${i}`}
-            className="absolute w-0.5 h-0.5 bg-white/20 rounded-full animate-twinkle"
+            className="absolute w-0.5 h-0.5 bg-indigo-500/20 dark:bg-white/20 rounded-full animate-twinkle"
             style={{
               left: `${Math.random() * 100}%`,
               top: `${Math.random() * 100}%`,

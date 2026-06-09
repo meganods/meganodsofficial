@@ -12,7 +12,7 @@ export function CTASection() {
   const isInView = useInView(ref, { once: true, margin: "-100px" })
 
   return (
-    <section ref={ref} className="relative py-28 lg:py-48 bg-[#010103] overflow-hidden" id="contact">
+    <section ref={ref} className="relative py-28 lg:py-48 bg-background overflow-hidden" id="contact">
       <DeepTechBackground />
       
       <div className="relative container mx-auto px-6 lg:px-8">
@@ -20,7 +20,7 @@ export function CTASection() {
           initial={{ opacity: 0, scale: 0.95 }}
           animate={isInView ? { opacity: 1, scale: 1 } : {}}
           transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-          className="relative rounded-[3rem] lg:rounded-[4rem] overflow-hidden border border-white/10 bg-[#05050a]/40 backdrop-blur-2xl shadow-2xl p-1"
+          className="relative rounded-[3rem] lg:rounded-[4rem] overflow-hidden border border-border bg-card/40 backdrop-blur-2xl shadow-2xl p-1 dark:border-white/10 dark:bg-[#05050a]/40"
         >
           {/* Internal Luminous Core */}
           <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/20 via-transparent to-emerald-500/10 pointer-events-none" />
@@ -33,7 +33,7 @@ export function CTASection() {
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={isInView ? { opacity: 1, y: 0 } : {}}
-                className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 text-indigo-400 font-mono text-[10px] uppercase tracking-[0.3em] mb-10"
+                className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-secondary border border-border text-indigo-600 dark:text-indigo-400 font-mono text-[10px] uppercase tracking-[0.3em] mb-10"
               >
                  <Zap className="w-3 h-3 fill-current" />
                  Ready for Deployment
@@ -43,16 +43,16 @@ export function CTASection() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={isInView ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.5, delay: 0.1 }}
-                className="text-4xl md:text-6xl lg:text-8xl font-bold text-white mb-10 tracking-tighter leading-[0.9]"
+                className="text-4xl md:text-6xl lg:text-8xl font-bold text-foreground mb-10 tracking-tighter leading-[0.9]"
               >
-                Let’s Scale <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-blue-400 to-emerald-400">Your Vision</span> to Reality.
+                Let’s Scale <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 via-blue-500 to-emerald-400 dark:from-indigo-400 dark:via-blue-400 dark:to-emerald-400">Your Vision</span> to Reality.
               </motion.h2>
 
               <motion.p
                 initial={{ opacity: 0, y: 20 }}
                 animate={isInView ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.5, delay: 0.2 }}
-                className="text-white/40 text-xl lg:text-2xl mb-16 max-w-2xl mx-auto leading-relaxed font-medium"
+                className="text-muted-foreground text-xl lg:text-2xl mb-16 max-w-2xl mx-auto leading-relaxed font-medium"
               >
                 Join the enterprise network of high-performance innovators. From autonomous AI to global cloud architectures, we build what’s next.
               </motion.p>
@@ -67,7 +67,7 @@ export function CTASection() {
                 <Button 
                   asChild
                   size="lg"
-                  className="h-16 lg:h-20 px-12 bg-white text-black hover:bg-white/90 font-bold rounded-2xl lg:rounded-3xl shadow-2xl transition-all text-lg group"
+                  className="h-16 lg:h-20 px-12 bg-foreground text-background hover:bg-foreground/90 font-bold rounded-2xl lg:rounded-3xl shadow-2xl transition-all text-lg group border-0"
                 >
                   <Link href="/contact">
                     Initiate Project
@@ -78,7 +78,7 @@ export function CTASection() {
                   asChild
                   size="lg"
                   variant="outline"
-                  className="h-16 lg:h-20 px-12 border-white/10 text-white hover:bg-white/5 rounded-2xl lg:rounded-3xl text-lg backdrop-blur-md"
+                  className="h-16 lg:h-20 px-12 border-border text-foreground bg-card/60 hover:bg-secondary rounded-2xl lg:rounded-3xl text-lg backdrop-blur-md"
                 >
                   <Link href="/contact#schedule">
                     Schedule Technical Audit
@@ -92,28 +92,28 @@ export function CTASection() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={isInView ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.5, delay: 0.4 }}
-                className="grid grid-cols-1 md:grid-cols-3 gap-8 pt-16 border-t border-white/5"
+                className="grid grid-cols-1 md:grid-cols-3 gap-8 pt-16 border-t border-border"
               >
                 <div className="flex flex-col items-center gap-3">
-                   <div className="w-12 h-12 rounded-2xl bg-white/5 flex items-center justify-center border border-white/10">
-                      <Mail className="w-5 h-5 text-indigo-400" />
+                   <div className="w-12 h-12 rounded-2xl bg-secondary flex items-center justify-center border border-border">
+                      <Mail className="w-5 h-5 text-indigo-600 dark:text-indigo-400" />
                    </div>
-                   <div className="text-white font-bold text-sm tracking-tight">hello@nexatech.com</div>
-                   <div className="text-white/20 text-[10px] uppercase font-mono">Email Gateway</div>
+                   <div className="text-foreground font-bold text-sm tracking-tight">hello@meganods.com</div>
+                   <div className="text-muted-foreground/60 text-[10px] uppercase font-mono">Email Gateway</div>
                 </div>
                 <div className="flex flex-col items-center gap-3">
-                   <div className="w-12 h-12 rounded-2xl bg-white/5 flex items-center justify-center border border-white/10">
-                      <Globe className="w-5 h-5 text-blue-400" />
+                   <div className="w-12 h-12 rounded-2xl bg-secondary flex items-center justify-center border border-border">
+                      <Globe className="w-5 h-5 text-blue-500 dark:text-blue-400" />
                    </div>
-                   <div className="text-white font-bold text-sm tracking-tight">Global HQ / Remote</div>
-                   <div className="text-white/20 text-[10px] uppercase font-mono">Operational Base</div>
+                   <div className="text-foreground font-bold text-sm tracking-tight">Global HQ / Remote</div>
+                   <div className="text-muted-foreground/60 text-[10px] uppercase font-mono">Operational Base</div>
                 </div>
                 <div className="flex flex-col items-center gap-3">
-                   <div className="w-12 h-12 rounded-2xl bg-white/5 flex items-center justify-center border border-white/10">
-                      <Shield className="w-5 h-5 text-emerald-400" />
+                   <div className="w-12 h-12 rounded-2xl bg-secondary flex items-center justify-center border border-border">
+                      <Shield className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />
                    </div>
-                   <div className="text-white font-bold text-sm tracking-tight">256-bit Encrypted</div>
-                   <div className="text-white/20 text-[10px] uppercase font-mono">Channel Security</div>
+                   <div className="text-foreground font-bold text-sm tracking-tight">256-bit Encrypted</div>
+                   <div className="text-muted-foreground/60 text-[10px] uppercase font-mono">Channel Security</div>
                 </div>
               </motion.div>
             </div>
@@ -130,11 +130,11 @@ export function CTASection() {
           <div className="inline-flex items-center gap-4 px-6 py-3 rounded-full bg-indigo-500/5 border border-indigo-500/10">
              <div className="flex -space-x-3">
                 {[1,2,3,4].map(i => (
-                   <div key={i} className="w-8 h-8 rounded-full border-2 border-[#010103] bg-gradient-to-br from-indigo-500 to-blue-500" />
+                   <div key={i} className="w-8 h-8 rounded-full border-2 border-background bg-gradient-to-br from-indigo-500 to-blue-500" />
                 ))}
              </div>
-             <p className="text-white/40 text-sm font-medium tracking-tight">
-                Trusted by <span className="text-white font-bold">500+ Industry Leaders</span> globally.
+             <p className="text-muted-foreground text-sm font-medium tracking-tight">
+                Trusted by <span className="text-foreground font-bold">500+ Industry Leaders</span> globally.
              </p>
           </div>
         </motion.div>

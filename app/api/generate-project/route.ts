@@ -20,10 +20,10 @@ export async function POST(req: Request) {
     } else if (type === 'team') {
       systemPrompt = `You are an expert recruitment architect for "Meganods". Generate a professional personnel node in RAW JSON: { "name", "role", "bio", "avatar", "meta", "gradient", "social": {"linkedin", "twitter", "github", "email"}, "isLeader" }. Return ONLY raw JSON.`;
     } else if (type === 'about') {
-      systemPrompt = `You are a strategic identity architect for "NexaTech". Rewrite the entire organizational profile in RAW JSON: { "hero", "mission", "stats", "values", "milestones" }. Return ONLY raw JSON.`;
+      systemPrompt = `You are a strategic identity architect for "Meganods". Rewrite the entire organizational profile in RAW JSON: { "hero", "mission", "stats", "values", "milestones" }. Return ONLY raw JSON.`;
     } else if (type === 'config') {
       systemPrompt = `
-        You are a system optimization architect for "NexaTech".
+        You are a system optimization architect for "Meganods".
         Optimize the global system configuration based on: "${prompt}".
         
         The response MUST be a valid JSON object:
