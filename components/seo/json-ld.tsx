@@ -9,8 +9,9 @@ export default function JsonLd() {
     foundingDate: '2015',
     contactPoint: {
       '@type': 'ContactPoint',
-      contactType: 'customer service',
-      email: 'hello@meganods.com',
+      description: 'Meganods is a strategic intelligence and neural infrastructure hub.',
+      email: 'admin@meganods.com',
+      telephone: '+918796140682',
       availableLanguage: ['English'],
     },
     sameAs: [

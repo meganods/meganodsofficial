@@ -98,7 +98,7 @@ export function CTASection() {
                    <div className="w-12 h-12 rounded-2xl bg-secondary flex items-center justify-center border border-border">
                       <Mail className="w-5 h-5 text-indigo-600 dark:text-indigo-400" />
                    </div>
-                   <div className="text-foreground font-bold text-sm tracking-tight">hello@meganods.com</div>
+                   <div className="text-foreground font-bold text-sm tracking-tight">admin@meganods.com</div>
                    <div className="text-muted-foreground/60 text-[10px] uppercase font-mono">Email Gateway</div>
                 </div>
                 <div className="flex flex-col items-center gap-3">

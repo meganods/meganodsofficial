@@ -124,8 +124,8 @@ export default function ContactPage() {
                     <Mail className="w-6 h-6 text-emerald-500 dark:text-emerald-400 flex-shrink-0 mt-0.5" />
                     <div>
                       <div className="text-[10px] font-mono text-slate-400 dark:text-white/30 uppercase tracking-[0.2em] mb-1 font-semibold">Secure Mailbox</div>
-                      <a href="mailto:contact@meganods.com" className="text-base font-bold text-slate-900 dark:text-white hover:text-emerald-500 dark:hover:text-emerald-400 transition-colors">
-                        contact@meganods.com
+                      <a href="mailto:admin@meganods.com" className="text-base font-bold text-slate-900 dark:text-white hover:text-emerald-500 dark:hover:text-emerald-400 transition-colors">
+                        admin@meganods.com
                       </a>
                     </div>
                   </div>
@@ -219,7 +219,7 @@ export default function ContactPage() {
                           value={formData.name}
                           onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                           className="w-full h-14 bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/5 rounded-xl px-5 text-slate-900 dark:text-white font-bold focus:outline-none focus:border-indigo-500/50 transition-all text-base shadow-inner placeholder:text-slate-400 dark:placeholder:text-white/10"
-                          placeholder="e.g. Rohit Sengar"
+                          placeholder="e.g. John Doe"
                         />
                       </div>
                       <div className="space-y-3">
@@ -230,7 +230,7 @@ export default function ContactPage() {
                           value={formData.email}
                           onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                           className="w-full h-14 bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/5 rounded-xl px-5 text-slate-900 dark:text-white font-bold focus:outline-none focus:border-indigo-500/50 transition-all text-base shadow-inner placeholder:text-slate-400 dark:placeholder:text-white/10"
-                          placeholder="node@meganods.com"
+                          placeholder="admin@meganods.com"
                         />
                       </div>
                       <div className="space-y-3">

@@ -25,7 +25,7 @@ export default function AdminLoginPage() {
     // Simulated technical verification sequence
     await new Promise(resolve => setTimeout(resolve, 2000))
 
-    if (formData.email === "admin@patelpulse.com" && formData.password === "admin123") {
+    if (formData.email === "admin@meganods.com" && formData.password === "admin123") {
       localStorage.setItem("adminAuth", "true")
       router.push("/admin")
     } else {
@@ -107,7 +107,7 @@ export default function AdminLoginPage() {
                       value={formData.email}
                       onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                       className="w-full h-16 bg-white/5 border border-white/5 rounded-2xl pl-16 pr-8 text-white font-bold focus:outline-none focus:border-indigo-500/50 transition-all text-sm tracking-wide placeholder:text-white/10"
-                      placeholder="admin@patelpulse.com"
+                      placeholder="admin@meganods.com"
                     />
                   </div>
                 </div>

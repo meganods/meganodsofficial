@@ -203,7 +203,7 @@ export function Footer() {
               <li>
                  <div className="flex flex-col gap-2">
                     <span className="text-[9px] font-mono text-foreground/30 dark:text-white/20 uppercase tracking-widest">Global Mail</span>
-                    <a href="mailto:contact@meganods.com" className="text-xl font-bold text-foreground hover:text-indigo-600 transition-colors">contact@meganods.com</a>
+                    <a href="mailto:admin@meganods.com" className="text-xl font-bold text-foreground hover:text-indigo-600 transition-colors">admin@meganods.com</a>
                  </div>
               </li>
               <li>
