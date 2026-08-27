@@ -70,8 +70,8 @@ export function Navigation() {
                   transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
                   className="absolute inset-0 border border-indigo-500/30 rounded-xl"
                 />
-                <div className="absolute inset-1.5 bg-card rounded-lg border border-border flex items-center justify-center font-black text-xl text-foreground group-hover:text-indigo-600 transition-colors shadow-2xl">
-                  M
+                <div className="absolute inset-1.5 bg-card rounded-lg border border-border flex items-center justify-center font-black text-xl text-foreground group-hover:text-indigo-600 transition-colors shadow-2xl overflow-hidden">
+                  <img src="/icon.svg" alt="Meganods" className="w-full h-full object-cover p-0.5 rounded-lg" />
                 </div>
               </div>
               <div className="flex flex-col">
@@ -186,8 +186,8 @@ export function Navigation() {
                 <Link href="/" className="flex items-center gap-4" onClick={() => setIsMobileMenuOpen(false)}>
                   <div className="relative w-10 h-10">
                     <div className="absolute inset-0 border border-indigo-500/30 rounded-xl" />
-                    <div className="absolute inset-1 bg-card rounded-lg border border-border flex items-center justify-center font-black text-lg text-foreground">
-                      M
+                    <div className="absolute inset-1 bg-card rounded-lg border border-border flex items-center justify-center font-black text-lg text-foreground overflow-hidden">
+                      <img src="/icon.svg" alt="Meganods" className="w-full h-full object-cover p-0.5 rounded-lg" />
                     </div>
                   </div>
                   <span className="text-lg font-bold tracking-tighter text-foreground">
@@ -250,8 +250,8 @@ export function Navigation() {
                 </Link>
 
                 <div className="mt-4">
-                  <div className="w-10 h-10 rounded-full border border-border flex items-center justify-center text-xs font-black text-foreground/45">
-                    M
+                  <div className="w-10 h-10 rounded-full border border-border flex items-center justify-center text-xs font-black text-foreground/45 overflow-hidden">
+                    <img src="/icon.svg" alt="Meganods" className="w-full h-full object-cover p-0.5" />
                   </div>
                 </div>
               </div>
