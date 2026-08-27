@@ -115,8 +115,8 @@ export function Footer() {
           {/* Brand Vector */}
           <div className="col-span-2 lg:col-span-4">
             <Link href="/" className="flex items-center gap-4 mb-10 group">
-              <div className="relative w-12 h-12 flex items-center justify-center bg-white rounded-xl shadow-lg border border-border overflow-hidden shrink-0">
-                  <img src="/logo.jpeg" alt="Meganods" className="w-full h-full object-contain p-1.5" />
+              <div className="relative w-14 h-14 flex items-center justify-center bg-white rounded-xl shadow-lg border border-border overflow-hidden shrink-0">
+                  <img src="/logo.jpeg" alt="Meganods" className="w-full h-full object-cover" />
               </div>
               <span className="text-3xl font-black tracking-tighter leading-none text-foreground">
                 Mega<span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-indigo-400">nods</span>
