@@ -64,15 +64,8 @@ export function Navigation() {
              }`}>
             {/* Logo Hub */}
             <Link href="/" className="flex items-center gap-4 group relative z-10">
-              <div className="relative w-12 h-12">
-                <motion.div
-                  animate={{ rotate: 360 }}
-                  transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-                  className="absolute inset-0 border border-indigo-500/30 rounded-xl"
-                />
-                <div className="absolute inset-1.5 bg-card rounded-lg border border-border flex items-center justify-center font-black text-xl text-foreground group-hover:text-indigo-600 transition-colors shadow-2xl overflow-hidden">
-                  <img src="/icon.svg" alt="Meganods" className="w-full h-full object-cover p-0.5 rounded-lg" />
-                </div>
+              <div className="relative w-12 h-12 flex items-center justify-center bg-white rounded-xl shadow-lg border border-border overflow-hidden shrink-0">
+                  <img src="/logo.jpeg" alt="Meganods" className="w-full h-full object-contain p-1.5" />
               </div>
               <div className="flex flex-col">
                 <span className="text-xl font-bold tracking-tighter leading-none text-foreground">
@@ -184,11 +177,8 @@ export function Navigation() {
               {/* Top Header Row */}
               <div className="flex items-center justify-between px-10 pt-10 pb-6">
                 <Link href="/" className="flex items-center gap-4" onClick={() => setIsMobileMenuOpen(false)}>
-                  <div className="relative w-10 h-10">
-                    <div className="absolute inset-0 border border-indigo-500/30 rounded-xl" />
-                    <div className="absolute inset-1 bg-card rounded-lg border border-border flex items-center justify-center font-black text-lg text-foreground overflow-hidden">
-                      <img src="/icon.svg" alt="Meganods" className="w-full h-full object-cover p-0.5 rounded-lg" />
-                    </div>
+                  <div className="relative w-10 h-10 flex items-center justify-center bg-white rounded-lg shadow-md border border-border overflow-hidden shrink-0">
+                      <img src="/logo.jpeg" alt="Meganods" className="w-full h-full object-contain p-1.5" />
                   </div>
                   <span className="text-lg font-bold tracking-tighter text-foreground">
                     Mega<span className="text-indigo-600">nods</span>
@@ -250,8 +240,8 @@ export function Navigation() {
                 </Link>
 
                 <div className="mt-4">
-                  <div className="w-10 h-10 rounded-full border border-border flex items-center justify-center text-xs font-black text-foreground/45 overflow-hidden">
-                    <img src="/icon.svg" alt="Meganods" className="w-full h-full object-cover p-0.5" />
+                  <div className="w-10 h-10 rounded-full border border-border flex items-center justify-center bg-white overflow-hidden shrink-0 shadow-md">
+                    <img src="/logo.jpeg" alt="Meganods" className="w-full h-full object-contain p-1.5" />
                   </div>
                 </div>
               </div>

@@ -115,15 +115,8 @@ export function Footer() {
           {/* Brand Vector */}
           <div className="col-span-2 lg:col-span-4">
             <Link href="/" className="flex items-center gap-4 mb-10 group">
-              <div className="relative w-12 h-12">
-                 <motion.div 
-                    animate={{ rotate: 360 }}
-                    transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-                    className="absolute inset-0 border border-indigo-500/30 rounded-xl" 
-                 />
-                  <div className="absolute inset-1.5 bg-card rounded-lg border border-border flex items-center justify-center shadow-2xl font-black text-xl text-foreground group-hover:text-indigo-600 transition-colors overflow-hidden">
-                     <img src="/icon.svg" alt="Meganods" className="w-full h-full object-cover p-0.5 rounded-lg" />
-                  </div>
+              <div className="relative w-12 h-12 flex items-center justify-center bg-white rounded-xl shadow-lg border border-border overflow-hidden shrink-0">
+                  <img src="/logo.jpeg" alt="Meganods" className="w-full h-full object-contain p-1.5" />
               </div>
               <span className="text-3xl font-black tracking-tighter leading-none text-foreground">
                 Mega<span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-indigo-400">nods</span>
