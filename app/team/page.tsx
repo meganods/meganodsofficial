@@ -157,13 +157,7 @@ export default function TeamPage() {
                       <div className={`absolute -inset-1 bg-gradient-to-br ${member.gradient} opacity-0 group-hover:opacity-10 transition-opacity blur-2xl pointer-events-none`} />
                       
                       <div className="relative mb-8 rounded-[2.5rem] overflow-hidden aspect-square border border-border shadow-md bg-secondary">
-                         {member.avatarUrl ? (
-                            <img src={member.avatarUrl} className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" alt={member.name} />
-                         ) : (
-                            <div className={`w-full h-full bg-gradient-to-br ${member.gradient} flex items-center justify-center text-6xl font-black text-white tracking-widest shadow-inner`}>
-                               {member.initials || '??'}
-                            </div>
-                         )}
+                         <img src={member.avatarUrl || `https://i.pravatar.cc/400?${member.name?.toLowerCase().includes('virat') ? 'img=11' : `u=${encodeURIComponent(member.name)}`}`} className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" alt={member.name} />
                          
                          {/* Social HUD Overlay */}
                          <div className="absolute inset-0 bg-black/80 backdrop-blur-md flex items-center justify-center gap-4 opacity-0 group-hover:opacity-100 transition-all duration-500 translate-y-8 group-hover:translate-y-0">
@@ -222,13 +216,7 @@ export default function TeamPage() {
                   >
                     <div className="bg-card border border-border rounded-[3rem] p-10 text-center hover:border-indigo-500/30 transition-all shadow-md dark:shadow-none">
                       <div className={`relative w-28 h-28 mx-auto rounded-[2rem] overflow-hidden mb-8 group-hover:scale-110 transition-transform duration-700 shadow-lg`}>
-                        {member.avatarUrl ? (
-                           <img src={member.avatarUrl} className="w-full h-full object-cover" alt={member.name} />
-                        ) : (
-                           <div className={`w-full h-full bg-gradient-to-br ${member.gradient} flex items-center justify-center text-4xl font-black text-white tracking-widest shadow-inner`}>
-                              {member.initials || '??'}
-                           </div>
-                        )}
+                        <img src={member.avatarUrl || `https://i.pravatar.cc/400?${member.name?.toLowerCase().includes('virat') ? 'img=11' : `u=${encodeURIComponent(member.name)}`}`} className="w-full h-full object-cover" alt={member.name} />
                       </div>
                       <div className="text-indigo-600 dark:text-indigo-400 font-mono text-[9px] uppercase tracking-[0.4em] mb-3 font-bold">[ {member.meta} ]</div>
                       <h3 className="text-2xl font-black text-foreground mb-1 leading-none tracking-tighter uppercase">{member.name}</h3>

@@ -66,8 +66,8 @@ export default function AdminLoginPage() {
                   </div>
                 </div>
                 <div className="text-left">
-                  <h1 className="text-2xl font-black tracking-tighter leading-none mb-1 text-white">
-                    Mega<span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-blue-400">nods</span>
+                  <h1 className="text-2xl font-black tracking-tighter leading-none mb-1 text-[#42b4c7]">
+                    MegaNods
                   </h1>
                   <span className="text-[8px] font-mono text-white/30 tracking-[0.4em] uppercase">Security Portal v4.2</span>
                 </div>

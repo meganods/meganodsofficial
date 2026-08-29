@@ -60,7 +60,7 @@ export function Footer() {
       {/* Background Large Text Logo */}
       <div className="absolute top-20 left-1/2 -translate-x-1/2 pointer-events-none select-none">
          <span className="text-[10rem] md:text-[18rem] font-bold text-foreground/[0.015] dark:text-white/[0.02] tracking-tighter leading-none whitespace-nowrap">
-            Meganods
+            MegaNods
          </span>
       </div>
 
@@ -115,11 +115,11 @@ export function Footer() {
           {/* Brand Vector */}
           <div className="col-span-2 lg:col-span-4">
             <Link href="/" className="flex items-center gap-4 mb-10 group">
-              <div className="relative w-14 h-14 flex items-center justify-center bg-white rounded-xl shadow-lg border border-border overflow-hidden shrink-0">
-                  <img src="/logo.jpeg" alt="Meganods" className="w-full h-full object-cover" />
+              <div className="relative w-14 h-14 flex items-center justify-center shrink-0">
+                  <img src="/logo.png" alt="Meganods" className="w-full h-full object-contain" />
               </div>
-              <span className="text-3xl font-black tracking-tighter leading-none text-foreground">
-                Mega<span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-indigo-400">nods</span>
+              <span className="text-3xl font-black tracking-tighter leading-none text-[#154954] dark:text-[#42b4c7]">
+                MegaNods
               </span>
             </Link>
             <p className="text-muted-foreground text-lg leading-relaxed font-medium mb-12 max-w-sm">
@@ -219,7 +219,7 @@ export function Footer() {
         <div className="pt-20 border-t border-border flex flex-col md:flex-row items-center justify-between gap-10">
           <div className="flex flex-wrap items-center justify-center md:justify-start gap-8">
              <p className="text-foreground/30 dark:text-white/20 text-[10px] font-mono uppercase tracking-[0.3em]">
-               © {new Date().getFullYear()} Meganods. All systems operational.
+               © {new Date().getFullYear()} MegaNods. All systems operational.
              </p>
              <div className="flex items-center gap-6">
                 <div className="flex items-center gap-2">

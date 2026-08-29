@@ -158,7 +158,7 @@ export default function BlogPage() {
                         transition={{ delay: index * 0.1 }}
                         className="group relative"
                       >
-                        <Link href={`/blog/${post.slug}`}>
+                        <Link href={`/blog/${post.slug || post.id}`}>
                           <div className="relative bg-card/85 backdrop-blur-3xl border border-border rounded-[4.5rem] overflow-hidden p-1.5 hover:border-primary/30 transition-all duration-700 shadow-2xl">
                             <div className="relative aspect-[16/10] overflow-hidden rounded-[4rem] bg-muted border border-border">
                               {post.imageUrl ? (
@@ -227,7 +227,7 @@ export default function BlogPage() {
                       transition={{ delay: index * 0.1 }}
                       className="group relative"
                     >
-                      <Link href={`/blog/${post.slug}`}>
+                      <Link href={`/blog/${post.slug || post.id}`}>
                         <div className="bg-card/70 backdrop-blur-3xl border border-border rounded-[3.5rem] p-10 h-full flex flex-col hover:border-primary/30 transition-all duration-700 overflow-hidden shadow-2xl">
                           <div className="relative aspect-video overflow-hidden rounded-[2.5rem] mb-10 shadow-2xl border border-border bg-secondary">
                             {post.imageUrl ? (

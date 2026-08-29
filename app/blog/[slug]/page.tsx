@@ -20,7 +20,7 @@ import {
 } from "lucide-react"
 import { use, useState, useEffect } from "react"
 import { db } from "@/lib/firebase";
-import { collection, query, where, getDocs, limit } from "firebase/firestore";
+import { collection, query, where, getDocs, limit, doc, getDoc } from "firebase/firestore";
 import { Navigation } from "@/components/layout/navigation"
 import { Footer } from "@/components/layout/footer"
 import { SmoothScrollProvider } from "@/components/providers/smooth-scroll-provider"
@@ -39,9 +39,20 @@ export default function BlogDetailPage({ params }: { params: Promise<{ slug: str
         const q = query(collection(db, "blogs"), where("slug", "==", resolvedParams.slug), limit(1));
         const querySnapshot = await getDocs(q);
         
+        let postData: any = null;
+
         if (!querySnapshot.empty) {
           const docSnap = querySnapshot.docs[0];
-          const postData = { id: docSnap.id, ...docSnap.data() } as any;
+          postData = { id: docSnap.id, ...docSnap.data() };
+        } else {
+          const docRef = doc(db, "blogs", resolvedParams.slug);
+          const docSnap = await getDoc(docRef);
+          if (docSnap.exists()) {
+            postData = { id: docSnap.id, ...docSnap.data() };
+          }
+        }
+
+        if (postData) {
           setPost(postData);
           
           // Fetch related
@@ -120,13 +131,7 @@ export default function BlogDetailPage({ params }: { params: Promise<{ slug: str
               <div className="flex flex-wrap items-center gap-x-12 gap-y-8 pt-8 border-t border-border">
                 <div className="flex items-center gap-4">
                   <div className="w-16 h-16 rounded-[1.2rem] overflow-hidden border border-border bg-secondary">
-                     {post.author?.avatarUrl ? (
-                        <img src={post.author.avatarUrl} alt={post.author.name} className="w-full h-full object-cover" />
-                     ) : (
-                        <div className="w-full h-full flex items-center justify-center">
-                           <User className="w-8 h-8 text-muted-foreground/30" />
-                        </div>
-                     )}
+                     <img src={post.author?.avatarUrl || `https://i.pravatar.cc/400?${post.author?.name?.toLowerCase().includes('virat') ? 'img=11' : `u=${encodeURIComponent(post.author?.name || 'author')}`}`} alt={post.author?.name || 'Author'} className="w-full h-full object-cover" />
                   </div>
                   <div>
                     <p className="font-black text-xl tracking-tight uppercase leading-none mb-1 text-foreground">{post.author?.name || 'Neural Node'}</p>

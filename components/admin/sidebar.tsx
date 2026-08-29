@@ -125,8 +125,8 @@ export function AdminSidebar({ children }: AdminSidebarProps) {
                 animate={{ opacity: 1, x: 0 }}
                 className="flex flex-col"
               >
-                <span className={`text-2xl font-black tracking-tighter leading-none flex items-center gap-1 ${isDarkMode ? "text-white" : "text-slate-900"}`}>
-                  Mega<span className="text-indigo-500">nods</span>
+                <span className="text-2xl font-black tracking-tighter leading-none flex items-center gap-1 text-[#154954] dark:text-[#42b4c7]">
+                  MegaNods
                   <div className="w-1 h-1 rounded-full bg-indigo-500 animate-pulse mt-3" />
                 </span>
                 <span className={`text-[8px] font-mono tracking-[0.4em] uppercase mt-2.5 font-bold ${isDarkMode ? "text-white/30" : "text-slate-400"}`}>Operational HUD v4.5</span>
@@ -316,7 +316,7 @@ export function AdminSidebar({ children }: AdminSidebarProps) {
             >
               <div className="p-10 border-b border-white/5 flex items-center justify-between">
                 <div>
-                  <div className="text-2xl font-black tracking-tighter text-white">Mega<span className="text-indigo-500">nods</span></div>
+                  <div className="text-2xl font-black tracking-tighter text-[#42b4c7]">MegaNods</div>
                   <div className="text-[8px] font-mono text-indigo-500 tracking-[0.4em] uppercase mt-2">Mobile Client</div>
                 </div>
                 <button onClick={() => setIsMobileOpen(false)} className="w-12 h-12 flex items-center justify-center bg-white/5 border border-white/10 rounded-2xl">

@@ -95,7 +95,7 @@ export function BlogPreviewSection() {
               transition={{ duration: 0.6, delay: 0.2 }}
               className="group h-full"
             >
-              <Link href={`/blog/${featuredPost.id}`}>
+              <Link href={`/blog/${featuredPost.slug || featuredPost.id}`}>
                 <div className="relative bg-card/80 backdrop-blur-xl border border-border rounded-[2.5rem] overflow-hidden flex flex-col h-full hover:border-indigo-500/30 transition-all duration-500 shadow-md">
                   <div className="relative aspect-[16/10] overflow-hidden">
                     {featuredPost.imageUrl ? (
@@ -167,7 +167,7 @@ export function BlogPreviewSection() {
                 transition={{ duration: 0.5, delay: 0.3 + index * 0.1 }}
                 className="group relative"
               >
-                <Link href={`/blog/${post.id}`}>
+                <Link href={`/blog/${post.slug || post.id}`}>
                   <div className="bg-transparent hover:bg-card p-6 lg:p-10 rounded-3xl border border-transparent hover:border-border hover:shadow-md transition-all duration-300 flex flex-col sm:flex-row gap-8">
                     <div className={`sm:w-40 h-40 shrink-0 bg-secondary rounded-2xl border border-border relative overflow-hidden flex items-center justify-center group-hover:border-indigo-500/20 transition-colors`}>
                        {post.imageUrl ? (

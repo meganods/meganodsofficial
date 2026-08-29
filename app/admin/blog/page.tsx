@@ -165,7 +165,7 @@ export default function AdminBlogPage() {
                    </div>
 
                    <div className={`flex items-center gap-4 ${viewMode === 'grid' ? "mt-12" : ""}`}>
-                      <Link href={`/blog/${post.slug}`} target="_blank" className="flex-1">
+                      <Link href={`/blog/${post.slug || post.id}`} target="_blank" className="flex-1">
                         <Button variant="ghost" className="w-full h-14 rounded-2xl border border-slate-100 dark:border-white/10 text-slate-400 dark:text-white/20 hover:text-indigo-500 dark:hover:text-white flex items-center gap-2 font-black text-[10px] uppercase tracking-widest transition-all">
                            <Eye className="w-4 h-4" /> Preview
                         </Button>

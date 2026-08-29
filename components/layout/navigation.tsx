@@ -64,12 +64,12 @@ export function Navigation() {
              }`}>
             {/* Logo Hub */}
             <Link href="/" className="flex items-center gap-4 group relative z-10">
-              <div className="relative w-14 h-14 flex items-center justify-center bg-white rounded-xl shadow-lg border border-border overflow-hidden shrink-0">
-                  <img src="/logo.jpeg" alt="Meganods" className="w-full h-full object-cover" />
+              <div className="relative w-14 h-14 flex items-center justify-center shrink-0">
+                  <img src="/logo.png" alt="Meganods" className="w-full h-full object-contain" />
               </div>
               <div className="flex flex-col">
-                <span className="text-xl font-bold tracking-tighter leading-none text-foreground">
-                  Mega<span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-indigo-400">nods</span>
+                <span className="text-xl font-bold tracking-tighter leading-none text-[#154954] dark:text-[#42b4c7]">
+                  MegaNods
                 </span>
                 <span className="text-[8px] font-mono text-foreground/30 tracking-[0.4em] uppercase mt-1 hidden sm:block">Innovating the Future of Technology</span>
               </div>
@@ -177,11 +177,11 @@ export function Navigation() {
               {/* Top Header Row */}
               <div className="flex items-center justify-between px-10 pt-10 pb-6">
                 <Link href="/" className="flex items-center gap-4" onClick={() => setIsMobileMenuOpen(false)}>
-                  <div className="relative w-12 h-12 flex items-center justify-center bg-white rounded-lg shadow-md border border-border overflow-hidden shrink-0">
-                      <img src="/logo.jpeg" alt="Meganods" className="w-full h-full object-cover" />
+                  <div className="relative w-12 h-12 flex items-center justify-center shrink-0">
+                      <img src="/logo.png" alt="Meganods" className="w-full h-full object-contain" />
                   </div>
-                  <span className="text-lg font-bold tracking-tighter text-foreground">
-                    Mega<span className="text-indigo-600">nods</span>
+                  <span className="text-lg font-bold tracking-tighter text-[#154954] dark:text-[#42b4c7]">
+                    MegaNods
                   </span>
                 </Link>
                 
@@ -240,8 +240,8 @@ export function Navigation() {
                 </Link>
 
                 <div className="mt-4">
-                  <div className="w-12 h-12 rounded-full border border-border flex items-center justify-center bg-white overflow-hidden shrink-0 shadow-md">
-                    <img src="/logo.jpeg" alt="Meganods" className="w-full h-full object-cover scale-110" />
+                  <div className="w-12 h-12 flex items-center justify-center shrink-0">
+                    <img src="/logo.png" alt="Meganods" className="w-full h-full object-contain" />
                   </div>
                 </div>
               </div>

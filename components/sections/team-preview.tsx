@@ -190,13 +190,7 @@ export function TeamPreviewSection() {
                             
                             {/* Visual Profile Node */}
                             <div className="relative mb-10 rounded-[2.5rem] overflow-hidden aspect-square border border-border shadow-2xl bg-muted">
-                               {member.avatarUrl ? (
-                                  <img src={member.avatarUrl} className="w-full h-full object-cover transition-transform duration-1000 group-hover/card:scale-110" alt={member.name} />
-                               ) : (
-                                  <div className={`w-full h-full bg-gradient-to-br ${member.gradient} flex items-center justify-center text-6xl font-black text-primary-foreground tracking-widest shadow-inner`}>
-                                     {member.initials || '??'}
-                                  </div>
-                               )}
+                               <img src={member.avatarUrl || `https://i.pravatar.cc/400?${member.name?.toLowerCase().includes('virat') ? 'img=11' : `u=${encodeURIComponent(member.name)}`}`} className="w-full h-full object-cover transition-transform duration-1000 group-hover/card:scale-110" alt={member.name} />
                                
                                {/* Social HUD Overlay - Cinematic */}
                                <div className="absolute inset-0 bg-background/80 dark:bg-black/80 backdrop-blur-md flex items-center justify-center gap-4 opacity-0 group-hover/card:opacity-100 transition-all duration-500 translate-y-12 group-hover/card:translate-y-0">
