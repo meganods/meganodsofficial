@@ -185,50 +185,52 @@ export function TeamPreviewSection() {
                          transition={{ duration: 0.5, delay: 0.1 * index }}
                          className="min-w-[320px] md:min-w-[400px] snap-center first:ml-0 last:mr-10"
                        >
-                         <div className="bg-card/80 backdrop-blur-3xl border border-border rounded-[3.5rem] p-10 h-full flex flex-col hover:border-indigo-600/30 dark:hover:border-indigo-500/30 transition-all duration-700 overflow-hidden relative shadow-2xl group/card">
-                            <div className={`absolute -inset-1 bg-gradient-to-br ${member.gradient} opacity-0 group-hover/card:opacity-10 transition-opacity blur-2xl pointer-events-none`} />
-                            
-                            {/* Visual Profile Node */}
-                            <div className="relative mb-10 rounded-[2.5rem] overflow-hidden aspect-square border border-border shadow-2xl bg-muted">
-                               <img src={member.avatarUrl || `https://i.pravatar.cc/400?${member.name?.toLowerCase().includes('virat') ? 'img=11' : `u=${encodeURIComponent(member.name)}`}`} className="w-full h-full object-cover transition-transform duration-1000 group-hover/card:scale-110" alt={member.name} />
-                               
-                               {/* Social HUD Overlay - Cinematic */}
-                               <div className="absolute inset-0 bg-background/80 dark:bg-black/80 backdrop-blur-md flex items-center justify-center gap-4 opacity-0 group-hover/card:opacity-100 transition-all duration-500 translate-y-12 group-hover/card:translate-y-0">
-                                  {member.social?.linkedin && (
-                                    <a href={member.social.linkedin} target="_blank" rel="noopener noreferrer" className="w-14 h-14 rounded-2xl bg-secondary border border-border flex items-center justify-center text-foreground hover:bg-indigo-600 hover:text-white dark:hover:bg-indigo-500 hover:scale-110 transition-all shadow-xl">
-                                       <Linkedin className="w-6 h-6" />
-                                    </a>
-                                  )}
-                                  {member.social?.twitter && (
-                                    <a href={member.social.twitter} target="_blank" rel="noopener noreferrer" className="w-14 h-14 rounded-2xl bg-secondary border border-border flex items-center justify-center text-foreground hover:bg-blue-600 hover:text-white dark:hover:bg-blue-500 hover:scale-110 transition-all shadow-xl">
-                                       <Twitter className="w-6 h-6" />
-                                    </a>
-                                  )}
-                                  {member.social?.github && (
-                                    <a href={member.social.github} target="_blank" rel="noopener noreferrer" className="w-14 h-14 rounded-2xl bg-secondary border border-border flex items-center justify-center text-foreground hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black hover:scale-110 transition-all shadow-xl">
-                                       <Github className="w-6 h-6" />
-                                    </a>
-                                  )}
-                                  {member.social?.email && (
-                                    <a href={`mailto:${member.social.email}`} className="w-14 h-14 rounded-2xl bg-secondary border border-border flex items-center justify-center text-foreground hover:bg-rose-600 hover:text-white dark:hover:bg-rose-500 hover:scale-110 transition-all shadow-xl">
-                                       <Mail className="w-6 h-6" />
-                                    </a>
-                                  )}
-                               </div>
-                            </div>
- 
-                            <div className="flex-1">
-                               <div className="text-indigo-600 dark:text-indigo-400 font-mono text-[9px] uppercase tracking-[0.4em] mb-4 font-black opacity-60 relative z-10">[ {member.meta || 'Strategic Node'} ]</div>
-                               <h3 className="text-3xl font-black text-foreground mb-2 group-hover/card:text-indigo-600 dark:group-hover/card:text-indigo-400 transition-colors relative z-10 leading-none tracking-tighter uppercase">{member.name}</h3>
-                               <div className="text-muted-foreground/60 text-[10px] font-black uppercase tracking-[0.2em] mb-8 relative z-10 font-mono">{member.role}</div>
-                               <p className="text-muted-foreground/50 text-base leading-relaxed font-medium relative z-10 group-hover/card:text-muted-foreground/80 transition-colors line-clamp-3">{member.bio}</p>
-                            </div>
-                            
-                            {/* Decorative Node ID */}
-                            <div className="absolute top-8 right-8 text-[40px] font-black text-foreground/[0.02] tracking-tighter leading-none select-none">
-                               {index < 9 ? `0${index + 1}` : index + 1}
-                            </div>
-                         </div>
+                         <Link href={`/team/${member.id}`} className="block h-full">
+                           <div className="bg-card/80 backdrop-blur-3xl border border-border rounded-[3.5rem] p-10 h-full flex flex-col hover:border-indigo-600/30 dark:hover:border-indigo-500/30 transition-all duration-700 overflow-hidden relative shadow-2xl group/card cursor-pointer">
+                              <div className={`absolute -inset-1 bg-gradient-to-br ${member.gradient} opacity-0 group-hover/card:opacity-10 transition-opacity blur-2xl pointer-events-none`} />
+                              
+                              {/* Visual Profile Node */}
+                              <div className="relative mb-10 rounded-[2.5rem] overflow-hidden aspect-square border border-border shadow-2xl bg-muted">
+                                 <img src={member.avatarUrl || `https://i.pravatar.cc/400?${member.name?.toLowerCase().includes('virat') ? 'img=11' : `u=${encodeURIComponent(member.name)}`}`} className="w-full h-full object-cover transition-transform duration-1000 group-hover/card:scale-110" alt={member.name} />
+                                 
+                                 {/* Social HUD Overlay - Cinematic */}
+                                 <div className="absolute inset-0 bg-background/40 dark:bg-black/40 flex items-center justify-center gap-4 opacity-0 group-hover/card:opacity-100 transition-all duration-500 translate-y-12 group-hover/card:translate-y-0" onClick={(e) => e.preventDefault()}>
+                                    {member.social?.linkedin && (
+                                      <span onClick={(e) => { e.preventDefault(); e.stopPropagation(); window.open(member.social.linkedin, '_blank'); }} className="w-14 h-14 rounded-2xl bg-secondary border border-border flex items-center justify-center text-foreground hover:bg-indigo-600 hover:text-white dark:hover:bg-indigo-500 hover:scale-110 transition-all shadow-xl cursor-pointer">
+                                         <Linkedin className="w-6 h-6" />
+                                      </span>
+                                    )}
+                                    {member.social?.twitter && (
+                                      <span onClick={(e) => { e.preventDefault(); e.stopPropagation(); window.open(member.social.twitter, '_blank'); }} className="w-14 h-14 rounded-2xl bg-secondary border border-border flex items-center justify-center text-foreground hover:bg-blue-600 hover:text-white dark:hover:bg-blue-500 hover:scale-110 transition-all shadow-xl cursor-pointer">
+                                         <Twitter className="w-6 h-6" />
+                                      </span>
+                                    )}
+                                    {member.social?.github && (
+                                      <span onClick={(e) => { e.preventDefault(); e.stopPropagation(); window.open(member.social.github, '_blank'); }} className="w-14 h-14 rounded-2xl bg-secondary border border-border flex items-center justify-center text-foreground hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black hover:scale-110 transition-all shadow-xl cursor-pointer">
+                                         <Github className="w-6 h-6" />
+                                      </span>
+                                    )}
+                                    {member.social?.email && (
+                                      <span onClick={(e) => { e.preventDefault(); e.stopPropagation(); window.location.href = `mailto:${member.social.email}`; }} className="w-14 h-14 rounded-2xl bg-secondary border border-border flex items-center justify-center text-foreground hover:bg-rose-600 hover:text-white dark:hover:bg-rose-500 hover:scale-110 transition-all shadow-xl cursor-pointer">
+                                         <Mail className="w-6 h-6" />
+                                      </span>
+                                    )}
+                                 </div>
+                              </div>
+   
+                              <div className="flex-1">
+                                 <div className="text-indigo-600 dark:text-indigo-400 font-mono text-[9px] uppercase tracking-[0.4em] mb-4 font-black opacity-60 relative z-10">[ {member.meta || 'Strategic Node'} ]</div>
+                                 <h3 className="text-3xl font-black text-foreground mb-2 group-hover/card:text-indigo-600 dark:group-hover/card:text-indigo-400 transition-colors relative z-10 leading-none tracking-tighter uppercase">{member.name}</h3>
+                                 <div className="text-muted-foreground/60 text-[10px] font-black uppercase tracking-[0.2em] mb-8 relative z-10 font-mono">{member.role}</div>
+                                 <p className="text-muted-foreground/50 text-base leading-relaxed font-medium relative z-10 group-hover/card:text-muted-foreground/80 transition-colors line-clamp-3">{member.bio}</p>
+                              </div>
+                              
+                              {/* Decorative Node ID */}
+                              <div className="absolute top-8 right-8 text-[40px] font-black text-foreground/[0.02] tracking-tighter leading-none select-none">
+                                 {index < 9 ? `0${index + 1}` : index + 1}
+                              </div>
+                           </div>
+                         </Link>
                        </motion.div>
                      ))}
                  </div>

@@ -25,7 +25,7 @@ export default function AdminLoginPage() {
     // Simulated technical verification sequence
     await new Promise(resolve => setTimeout(resolve, 2000))
 
-    if (formData.email === "admin@meganods.com" && formData.password === "admin123") {
+    if (formData.email === "admin@meganods.com" && formData.password === "Admin@821") {
       localStorage.setItem("adminAuth", "true")
       router.push("/admin")
     } else {
@@ -39,7 +39,7 @@ export default function AdminLoginPage() {
     <main className="min-h-screen bg-[#010103] text-white flex items-center justify-center p-6 relative overflow-hidden">
       {/* Cinematic Deep Tech Foundation */}
       <div className="fixed inset-0 pointer-events-none z-0">
-         <DeepTechBackground />
+        <DeepTechBackground />
       </div>
 
       <motion.div
@@ -50,16 +50,16 @@ export default function AdminLoginPage() {
       >
         <div className="bg-[#05050a]/60 backdrop-blur-3xl border border-white/10 rounded-[3rem] p-1 shadow-2xl overflow-hidden group hover:border-indigo-500/30 transition-all duration-700">
           <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/10 via-transparent to-blue-500/10 pointer-events-none" />
-          
+
           <div className="p-10 md:p-16 relative">
             {/* Logo Hub */}
             <div className="text-center mb-16">
-               <div className="inline-flex items-center justify-center gap-4 mb-10">
+              <div className="inline-flex items-center justify-center gap-4 mb-10">
                 <div className="relative w-14 h-14">
-                  <motion.div 
+                  <motion.div
                     animate={{ rotate: 360 }}
                     transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-                    className="absolute inset-0 border border-indigo-500/30 rounded-xl" 
+                    className="absolute inset-0 border border-indigo-500/30 rounded-xl"
                   />
                   <div className="absolute inset-1.5 bg-[#010103] rounded-lg border border-white/10 flex items-center justify-center text-2xl font-black shadow-2xl text-white">
                     P
@@ -72,7 +72,7 @@ export default function AdminLoginPage() {
                   <span className="text-[8px] font-mono text-white/30 tracking-[0.4em] uppercase">Security Portal v4.2</span>
                 </div>
               </div>
-              
+
               <h2 className="text-4xl md:text-5xl font-black tracking-tighter mb-4">Establish <span className="text-glow">Access</span></h2>
               <p className="text-white/40 text-sm font-medium tracking-wide">
                 Terminal authorization required for administrative control.
@@ -99,7 +99,7 @@ export default function AdminLoginPage() {
                   <label className="text-[10px] font-mono text-white/30 uppercase tracking-[0.4em] pl-2">Operator ID</label>
                   <div className="relative group/input">
                     <div className="absolute left-6 top-1/2 -translate-y-1/2 w-5 h-5 text-indigo-400 opacity-40 group-focus-within/input:opacity-100 transition-opacity">
-                       <Mail className="w-full h-full" />
+                      <Mail className="w-full h-full" />
                     </div>
                     <input
                       type="email"
@@ -116,7 +116,7 @@ export default function AdminLoginPage() {
                   <label className="text-[10px] font-mono text-white/30 uppercase tracking-[0.4em] pl-2">Access Frequency</label>
                   <div className="relative group/input">
                     <div className="absolute left-6 top-1/2 -translate-y-1/2 w-5 h-5 text-indigo-400 opacity-40 group-focus-within/input:opacity-100 transition-opacity">
-                       <Lock className="w-full h-full" />
+                      <Lock className="w-full h-full" />
                     </div>
                     <input
                       type={showPassword ? "text" : "password"}
@@ -167,18 +167,18 @@ export default function AdminLoginPage() {
             </form>
 
             <div className="mt-12 pt-10 border-t border-white/5 flex items-center justify-between">
-               <div className="flex items-center gap-3">
-                  <div className="w-2 h-2 rounded-full bg-indigo-500 animate-pulse" />
-                  <span className="text-white/20 font-mono text-[8px] uppercase tracking-widest">Security: Optimal</span>
-               </div>
-               <Cpu className="w-8 h-8 text-white/5" />
+              <div className="flex items-center gap-3">
+                <div className="w-2 h-2 rounded-full bg-indigo-500 animate-pulse" />
+                <span className="text-white/20 font-mono text-[8px] uppercase tracking-widest">Security: Optimal</span>
+              </div>
+              <Cpu className="w-8 h-8 text-white/5" />
             </div>
           </div>
         </div>
-        
+
         <div className="text-center mt-10">
           <Link href="/" className="text-[10px] font-mono text-white/20 hover:text-white uppercase tracking-[0.4em] transition-all">
-             Abort Mission & Return to Base
+            Abort Mission & Return to Base
           </Link>
         </div>
       </motion.div>

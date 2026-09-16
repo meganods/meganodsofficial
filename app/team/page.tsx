@@ -153,42 +153,44 @@ export default function TeamPage() {
                     transition={{ delay: index * 0.1 }}
                     className="group relative"
                   >
-                    <div className="bg-card/60 backdrop-blur-3xl border border-border rounded-[3.5rem] p-10 h-full flex flex-col hover:border-indigo-500/30 transition-all duration-500 overflow-hidden relative shadow-sm dark:shadow-none">
-                      <div className={`absolute -inset-1 bg-gradient-to-br ${member.gradient} opacity-0 group-hover:opacity-10 transition-opacity blur-2xl pointer-events-none`} />
-                      
-                      <div className="relative mb-8 rounded-[2.5rem] overflow-hidden aspect-square border border-border shadow-md bg-secondary">
-                         <img src={member.avatarUrl || `https://i.pravatar.cc/400?${member.name?.toLowerCase().includes('virat') ? 'img=11' : `u=${encodeURIComponent(member.name)}`}`} className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" alt={member.name} />
-                         
-                         {/* Social HUD Overlay */}
-                         <div className="absolute inset-0 bg-black/80 backdrop-blur-md flex items-center justify-center gap-4 opacity-0 group-hover:opacity-100 transition-all duration-500 translate-y-8 group-hover:translate-y-0">
-                            {member.social?.linkedin && (
-                              <a href={member.social.linkedin} target="_blank" rel="noopener noreferrer" className="w-14 h-14 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-white hover:bg-indigo-500 hover:scale-110 transition-all shadow-xl">
-                                 <Linkedin className="w-6 h-6" />
-                              </a>
-                            )}
-                            {member.social?.twitter && (
-                              <a href={member.social.twitter} target="_blank" rel="noopener noreferrer" className="w-14 h-14 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-white hover:bg-blue-500 hover:scale-110 transition-all shadow-xl">
-                                 <Twitter className="w-6 h-6" />
-                              </a>
-                            )}
-                            {member.social?.github && (
-                              <a href={member.social.github} target="_blank" rel="noopener noreferrer" className="w-14 h-14 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-white hover:bg-black hover:scale-110 transition-all shadow-xl">
-                                 <Github className="w-6 h-6" />
-                              </a>
-                            )}
-                            {member.social?.email && (
-                              <a href={`mailto:${member.social.email}`} className="w-14 h-14 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-white hover:bg-rose-500 hover:scale-110 transition-all shadow-xl">
-                                 <Mail className="w-6 h-6" />
-                              </a>
-                            )}
-                         </div>
+                    <Link href={`/team/${member.id}`} className="block h-full">
+                      <div className="bg-card/60 backdrop-blur-3xl border border-border rounded-[3.5rem] p-10 h-full flex flex-col hover:border-indigo-500/30 transition-all duration-500 overflow-hidden relative shadow-sm dark:shadow-none cursor-pointer">
+                        <div className={`absolute -inset-1 bg-gradient-to-br ${member.gradient} opacity-0 group-hover:opacity-10 transition-opacity blur-2xl pointer-events-none`} />
+                        
+                        <div className="relative mb-8 rounded-[2.5rem] overflow-hidden aspect-square border border-border shadow-md bg-secondary">
+                           <img src={member.avatarUrl || `https://i.pravatar.cc/400?${member.name?.toLowerCase().includes('virat') ? 'img=11' : `u=${encodeURIComponent(member.name)}`}`} className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" alt={member.name} />
+                           
+                           {/* Social HUD Overlay */}
+                           <div className="absolute inset-0 bg-black/40 flex items-center justify-center gap-4 opacity-0 group-hover:opacity-100 transition-all duration-500 translate-y-8 group-hover:translate-y-0" onClick={(e) => e.preventDefault()}>
+                              {member.social?.linkedin && (
+                                <span onClick={(e) => { e.preventDefault(); e.stopPropagation(); window.open(member.social.linkedin, '_blank'); }} className="w-14 h-14 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-white hover:bg-indigo-500 hover:scale-110 transition-all shadow-xl cursor-pointer">
+                                   <Linkedin className="w-6 h-6" />
+                                </span>
+                              )}
+                              {member.social?.twitter && (
+                                <span onClick={(e) => { e.preventDefault(); e.stopPropagation(); window.open(member.social.twitter, '_blank'); }} className="w-14 h-14 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-white hover:bg-blue-500 hover:scale-110 transition-all shadow-xl cursor-pointer">
+                                   <Twitter className="w-6 h-6" />
+                                </span>
+                              )}
+                              {member.social?.github && (
+                                <span onClick={(e) => { e.preventDefault(); e.stopPropagation(); window.open(member.social.github, '_blank'); }} className="w-14 h-14 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-white hover:bg-black hover:scale-110 transition-all shadow-xl cursor-pointer">
+                                   <Github className="w-6 h-6" />
+                                </span>
+                              )}
+                              {member.social?.email && (
+                                <span onClick={(e) => { e.preventDefault(); e.stopPropagation(); window.location.href = `mailto:${member.social.email}`; }} className="w-14 h-14 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-white hover:bg-rose-500 hover:scale-110 transition-all shadow-xl cursor-pointer">
+                                   <Mail className="w-6 h-6" />
+                                </span>
+                              )}
+                           </div>
+                        </div>
+  
+                        <div className="text-indigo-600 dark:text-indigo-400 font-mono text-[10px] uppercase tracking-[0.4em] mb-4 font-black relative z-10">[ {member.meta} ]</div>
+                        <h3 className="text-3xl font-black text-foreground mb-2 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors relative z-10 leading-none tracking-tighter">{member.name}</h3>
+                        <div className="text-muted-foreground text-[10px] font-black uppercase tracking-[0.3em] mb-8 relative z-10 font-mono">{member.role}</div>
+                        <p className="text-muted-foreground text-base leading-relaxed font-medium relative z-10 group-hover:text-foreground/80 transition-colors line-clamp-4">{member.bio}</p>
                       </div>
-
-                      <div className="text-indigo-600 dark:text-indigo-400 font-mono text-[10px] uppercase tracking-[0.4em] mb-4 font-black relative z-10">[ {member.meta} ]</div>
-                      <h3 className="text-3xl font-black text-foreground mb-2 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors relative z-10 leading-none tracking-tighter">{member.name}</h3>
-                      <div className="text-muted-foreground text-[10px] font-black uppercase tracking-[0.3em] mb-8 relative z-10 font-mono">{member.role}</div>
-                      <p className="text-muted-foreground text-base leading-relaxed font-medium relative z-10 group-hover:text-foreground/80 transition-colors line-clamp-4">{member.bio}</p>
-                    </div>
+                    </Link>
                   </motion.div>
                 ))}
               </div>
@@ -214,14 +216,16 @@ export default function TeamPage() {
                     transition={{ delay: index * 0.05 }}
                     className="group"
                   >
-                    <div className="bg-card border border-border rounded-[3rem] p-10 text-center hover:border-indigo-500/30 transition-all shadow-md dark:shadow-none">
-                      <div className={`relative w-28 h-28 mx-auto rounded-[2rem] overflow-hidden mb-8 group-hover:scale-110 transition-transform duration-700 shadow-lg`}>
-                        <img src={member.avatarUrl || `https://i.pravatar.cc/400?${member.name?.toLowerCase().includes('virat') ? 'img=11' : `u=${encodeURIComponent(member.name)}`}`} className="w-full h-full object-cover" alt={member.name} />
+                    <Link href={`/team/${member.id}`} className="block h-full">
+                      <div className="bg-card border border-border rounded-[3rem] p-10 text-center hover:border-indigo-500/30 transition-all shadow-md dark:shadow-none h-full flex flex-col items-center cursor-pointer">
+                        <div className={`relative w-28 h-28 mx-auto rounded-[2rem] overflow-hidden mb-8 group-hover:scale-110 transition-transform duration-700 shadow-lg`}>
+                          <img src={member.avatarUrl || `https://i.pravatar.cc/400?${member.name?.toLowerCase().includes('virat') ? 'img=11' : `u=${encodeURIComponent(member.name)}`}`} className="w-full h-full object-cover" alt={member.name} />
+                        </div>
+                        <div className="text-indigo-600 dark:text-indigo-400 font-mono text-[9px] uppercase tracking-[0.4em] mb-3 font-bold">[ {member.meta} ]</div>
+                        <h3 className="text-2xl font-black text-foreground mb-1 leading-none tracking-tighter uppercase">{member.name}</h3>
+                        <p className="text-muted-foreground text-[10px] font-black uppercase tracking-[0.2em] font-mono">{member.role}</p>
                       </div>
-                      <div className="text-indigo-600 dark:text-indigo-400 font-mono text-[9px] uppercase tracking-[0.4em] mb-3 font-bold">[ {member.meta} ]</div>
-                      <h3 className="text-2xl font-black text-foreground mb-1 leading-none tracking-tighter uppercase">{member.name}</h3>
-                      <p className="text-muted-foreground text-[10px] font-black uppercase tracking-[0.2em] font-mono">{member.role}</p>
-                    </div>
+                    </Link>
                   </motion.div>
                 ))}
               </div>
