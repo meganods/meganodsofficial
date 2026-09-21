@@ -3,6 +3,7 @@ import { Inter, Space_Grotesk } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
 import { StarField } from '@/components/effects/shooting-stars'
 import { Preloader } from '@/components/ui/preloader'
+import { CustomCursor } from '@/components/effects/custom-cursor'
 import JsonLd from '@/components/seo/json-ld'
 import './globals.css'
 
@@ -91,6 +92,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="light">
       <body className={`${inter.variable} ${spaceGrotesk.variable} font-sans antialiased`}>
+        <CustomCursor />
         <Preloader />
         <StarField />
         <JsonLd />

@@ -319,3 +319,11 @@
     scrollbar-width: none;
   }
 }
+
+/* Custom Cursor - Hide native cursor on desktop fine pointers */
+@media (pointer: fine) {
+  html, body, a, button, input, select, textarea, [role="button"], .cursor-pointer {
+    cursor: none !important;
+  }
+}
+

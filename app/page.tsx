@@ -1,6 +1,7 @@
 import { Navigation } from '@/components/layout/navigation'
 import { Footer } from '@/components/layout/footer'
 import { HeroSection } from '@/components/sections/hero'
+import { TechShowcaseSlider } from '@/components/sections/tech-showcase-slider'
 import { FeaturesSection } from '@/components/sections/features'
 import { AboutPreviewSection } from '@/components/sections/about-preview'
 import { ServicesPreviewSection } from '@/components/sections/services-preview'
@@ -19,6 +20,9 @@ export default function HomePage() {
       <main>
         {/* Section 1: Hero */}
         <HeroSection />
+        
+        {/* Technology Slider Section */}
+        <TechShowcaseSlider />
         
         {/* Section 2: Services Preview */}
         <ServicesPreviewSection />
