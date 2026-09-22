@@ -83,36 +83,262 @@ export default function ServicesPage() {
            <DeepTechBackground />
         </div>
 
-        {/* Hero Section - Capabilities Catalog */}
-        <section className="relative pt-32 lg:pt-48 pb-20 z-10 text-center px-6">
+        {/* ═══ HERO SECTION — home page style ═══ */}
+        <section className="relative min-h-screen flex items-center overflow-hidden pt-28 pb-16 bg-gradient-to-b from-slate-50/70 via-white to-slate-50/50">
+
+          {/* Grid + ambient glow background */}
+          <div className="absolute inset-0 pointer-events-none -z-10 overflow-hidden">
+            <div
+              className="absolute inset-0 opacity-[0.035]"
+              style={{
+                backgroundImage: `linear-gradient(to right, #4f46e5 1px, transparent 1px), linear-gradient(to bottom, #4f46e5 1px, transparent 1px)`,
+                backgroundSize: '48px 48px',
+              }}
+            />
+            <div className="absolute top-12 left-1/2 -translate-x-1/2 w-[1100px] h-[520px] bg-gradient-to-tr from-blue-200/40 via-indigo-200/30 to-purple-200/40 rounded-full blur-[140px]" />
+            <div className="absolute top-1/3 -left-20 w-80 h-80 bg-cyan-200/30 rounded-full blur-[110px]" />
+            <div className="absolute top-1/3 -right-20 w-80 h-80 bg-violet-200/30 rounded-full blur-[110px]" />
+            <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[600px] h-40 bg-indigo-100/40 rounded-full blur-[80px]" />
+          </div>
+
+          <div className="relative container mx-auto px-6 lg:px-8 max-w-7xl z-10">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-center">
+
+              {/* ── LEFT: Content ── */}
+              <div className="lg:col-span-6 flex flex-col items-center lg:items-start text-center lg:text-left space-y-6">
+
+                {/* Status pill */}
+                <motion.div
+                  initial={{ opacity: 0, y: -15, scale: 0.95 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  transition={{ duration: 0.5 }}
+                  className="inline-flex items-center gap-3 rounded-full border border-indigo-200/90 bg-white/90 px-4 py-1.5 text-xs shadow-md shadow-indigo-500/5 backdrop-blur-xl hover:border-indigo-400 transition-all cursor-default"
+                >
+                  <span className="relative flex h-2.5 w-2.5">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+                    <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500" />
+                  </span>
+                  <span className="font-mono text-[11px] tracking-wider uppercase text-slate-500 font-bold">Capabilities Active</span>
+                  <span className="text-slate-300">|</span>
+                  <span className="bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 bg-clip-text text-transparent font-black tracking-wide">
+                    Protocol v4.5
+                  </span>
+                  <Layers className="w-3.5 h-3.5 text-indigo-600 animate-pulse" />
+                </motion.div>
+
+                {/* Sub label */}
+                <motion.div
+                  initial={{ opacity: 0, y: 15 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: 0.05 }}
+                  className="text-xs sm:text-sm font-mono tracking-[0.3em] text-slate-400 uppercase font-bold"
+                >
+                  Design • Develop • Deploy • <span className="text-emerald-500 font-black">Scale</span>
+                </motion.div>
+
+                {/* Main headline */}
+                <div className="relative pt-1">
+                  <div className="absolute top-1/2 left-1/2 lg:left-0 -translate-x-1/2 lg:translate-x-0 -translate-y-1/2 w-full max-w-lg h-28 bg-gradient-to-r from-blue-500/15 via-indigo-500/20 to-teal-400/15 rounded-full blur-3xl pointer-events-none -z-10 animate-pulse" />
+                  <motion.h1
+                    initial={{ opacity: 0, y: 22 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1], delay: 0.1 }}
+                    className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight text-slate-900 leading-[1.1]"
+                  >
+                    <span className="block text-slate-900 drop-shadow-sm">Strategic</span>
+                    <span className="relative inline-block mt-1 font-extrabold italic bg-gradient-to-r from-blue-600 via-indigo-600 via-purple-600 via-cyan-500 to-blue-600 bg-clip-text text-transparent animate-gradient-flow drop-shadow-sm">
+                      Digital Services.
+                    </span>
+                  </motion.h1>
+                </div>
+
+                {/* Subtext */}
+                <motion.p
+                  initial={{ opacity: 0, y: 15 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 0.18 }}
+                  className="max-w-xl text-base sm:text-lg text-slate-600 leading-relaxed"
+                >
+                  From <span className="font-semibold text-slate-900">custom web & mobile apps</span> to <span className="font-semibold text-slate-900">AI integrations</span> and enterprise infrastructure — end-to-end technology services built to perform at scale.
+                </motion.p>
+
+                {/* CTA Buttons */}
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 0.26 }}
+                  className="flex flex-wrap items-center justify-center lg:justify-start gap-4 pt-2"
+                >
+                  <Link href="/contact">
+                    <Button
+                      size="lg"
+                      className="h-12 px-8 bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 hover:from-blue-700 hover:to-indigo-700 text-white font-bold rounded-xl shadow-xl shadow-blue-500/20 text-sm border-0 flex items-center gap-2 hover:scale-105 active:scale-95 transition-all"
+                    >
+                      Start a Project <ArrowRight className="h-4 w-4" />
+                    </Button>
+                  </Link>
+                  <Link href="/projects">
+                    <Button
+                      variant="outline"
+                      size="lg"
+                      className="h-12 px-6 rounded-xl border-slate-200 bg-white/90 hover:bg-slate-50 text-slate-700 text-sm font-semibold shadow-sm flex items-center gap-2 hover:scale-105 active:scale-95 transition-all"
+                    >
+                      <ChevronRight className="h-4 w-4 text-indigo-600" />
+                      View Portfolio
+                    </Button>
+                  </Link>
+                </motion.div>
+
+                {/* Stats row */}
+                <motion.div
+                  initial={{ opacity: 0, y: 16 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 0.35 }}
+                  className="flex flex-wrap gap-6 pt-3 justify-center lg:justify-start"
+                >
+                  {[
+                    { value: '20+', label: 'Services Offered' },
+                    { value: '320+', label: 'Projects Delivered' },
+                    { value: '48hr', label: 'Avg Kickoff Time' },
+                  ].map((stat) => (
+                    <div key={stat.label} className="text-center lg:text-left">
+                      <div className="text-2xl font-black bg-gradient-to-r from-indigo-600 to-blue-600 bg-clip-text text-transparent">{stat.value}</div>
+                      <div className="text-[10px] font-mono uppercase tracking-widest text-slate-400 font-bold">{stat.label}</div>
+                    </div>
+                  ))}
+                </motion.div>
+              </div>
+
+              {/* ── RIGHT: Animated service stack visual ── */}
+              <motion.div
+                initial={{ opacity: 0, scale: 0.94, x: 24 }}
+                animate={{ opacity: 1, scale: 1, x: 0 }}
+                transition={{ duration: 0.75, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+                className="lg:col-span-6 relative flex items-center justify-center"
+              >
+                {/* Floating cards */}
+                <motion.div
+                  animate={{ y: [-8, 8, -8] }}
+                  transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
+                  className="absolute -top-6 -left-4 z-20 hidden lg:flex items-center gap-3 p-3.5 rounded-2xl bg-white/90 backdrop-blur-xl border border-indigo-200/80 shadow-2xl shadow-indigo-500/10"
+                >
+                  <div className="w-9 h-9 rounded-xl bg-blue-50 border border-blue-100 flex items-center justify-center text-blue-600 shrink-0">
+                    <Zap className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <p className="text-[9px] font-mono font-bold uppercase text-slate-400">Avg Delivery</p>
+                    <p className="text-sm font-black text-slate-900">2–6 Weeks</p>
+                  </div>
+                </motion.div>
+
+                <motion.div
+                  animate={{ y: [8, -8, 8] }}
+                  transition={{ duration: 4.5, repeat: Infinity, ease: 'easeInOut', delay: 0.5 }}
+                  className="absolute -top-4 -right-4 z-20 hidden lg:flex items-center gap-3 p-3.5 rounded-2xl bg-white/90 backdrop-blur-xl border border-indigo-200/80 shadow-2xl shadow-indigo-500/10"
+                >
+                  <div className="w-9 h-9 rounded-xl bg-emerald-50 border border-emerald-100 flex items-center justify-center text-emerald-600 shrink-0">
+                    <Shield className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <p className="text-[9px] font-mono font-bold uppercase text-slate-400">Quality</p>
+                    <p className="text-sm font-black text-slate-900">100% Guaranteed</p>
+                  </div>
+                </motion.div>
+
+                <motion.div
+                  animate={{ y: [6, -6, 6] }}
+                  transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut', delay: 1 }}
+                  className="absolute -bottom-4 -left-4 z-20 hidden lg:flex items-center gap-3 p-3.5 rounded-2xl bg-white/90 backdrop-blur-xl border border-indigo-200/80 shadow-2xl shadow-indigo-500/10"
+                >
+                  <div className="w-9 h-9 rounded-xl bg-purple-50 border border-purple-100 flex items-center justify-center text-purple-600 shrink-0">
+                    <Globe className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <p className="text-[9px] font-mono font-bold uppercase text-slate-400">Clients</p>
+                    <p className="text-sm font-black text-slate-900">150+ Worldwide</p>
+                  </div>
+                </motion.div>
+
+                {/* Central service stack cards */}
+                <div className="relative w-full max-w-sm space-y-3">
+                  {[
+                    { icon: Code2, label: 'Web & Mobile Development', tag: 'React · Next.js · Flutter', color: 'from-blue-500 to-indigo-600' },
+                    { icon: Brain, label: 'AI & Machine Learning', tag: 'LLMs · Automation · RAG', color: 'from-purple-500 to-indigo-600' },
+                    { icon: Cloud, label: 'Cloud & DevOps', tag: 'AWS · GCP · CI/CD', color: 'from-cyan-500 to-blue-600' },
+                    { icon: Settings, label: 'CRM & ERP Solutions', tag: 'Salesforce · Odoo · Custom', color: 'from-emerald-500 to-teal-600' },
+                  ].map(({ icon: Icon, label, tag, color }, i) => (
+                    <motion.div
+                      key={label}
+                      initial={{ opacity: 0, x: 30 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: 0.3 + i * 0.08, duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+                      whileHover={{ x: 6, scale: 1.02 }}
+                      className="flex items-center gap-4 p-4 bg-white/95 border border-slate-200/80 rounded-2xl shadow-sm hover:shadow-md hover:border-indigo-200 transition-all duration-300 cursor-default"
+                    >
+                      <div className={`w-10 h-10 rounded-xl bg-gradient-to-br ${color} flex items-center justify-center shrink-0 shadow-md`}>
+                        <Icon className="w-5 h-5 text-white" />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <div className="text-slate-900 font-bold text-sm truncate">{label}</div>
+                        <div className="text-slate-400 font-mono text-[9px] uppercase tracking-wider">{tag}</div>
+                      </div>
+                      <ChevronRight className="w-4 h-4 text-slate-300 shrink-0" />
+                    </motion.div>
+                  ))}
+
+                  {/* More services pill */}
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 0.65 }}
+                    className="text-center pt-1"
+                  >
+                    <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-indigo-50 border border-indigo-200 text-indigo-600 font-mono text-[9px] uppercase tracking-widest font-bold">
+                      <span className="w-1.5 h-1.5 rounded-full bg-indigo-500 animate-pulse" />
+                      +16 More Services Available
+                    </span>
+                  </motion.div>
+                </div>
+              </motion.div>
+            </div>
+
+            {/* Bottom feature strip */}
             <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              className="inline-flex items-center gap-3 px-6 py-2.5 rounded-full bg-secondary border border-border text-indigo-600 dark:text-indigo-400 font-mono text-[10px] uppercase tracking-[0.4em] mb-12 shadow-md dark:shadow-none"
-            >
-               <Layers className="w-4 h-4" />
-               Capabilities Protocol 4.5
-            </motion.div>
-
-            <motion.h1
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8 }}
-              className="text-4xl md:text-7xl lg:text-[10rem] font-bold mb-12 tracking-tighter leading-[0.85] uppercase"
-            >
-              Strategic <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 via-blue-500 to-emerald-400 dark:from-indigo-400 dark:to-emerald-400">Operations</span>.
-            </motion.h1>
-
-            <motion.p
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2 }}
-              className="text-xl lg:text-3xl text-muted-foreground max-w-6xl mx-auto mb-16 leading-relaxed font-bold"
+              transition={{ duration: 0.6, delay: 0.45 }}
+              className="grid grid-cols-1 sm:grid-cols-3 gap-5 mt-16 max-w-5xl mx-auto"
             >
-              Multi-sector intelligence and high-performance infrastructure services designed to provide permanent competitive dominance.
-            </motion.p>
+              {[
+                { icon: Terminal, title: 'Discovery & Audit', desc: 'We start with a deep understanding of your business before writing a single line of code.' },
+                { icon: Cpu, title: 'Agile Execution', desc: 'Sprint-based delivery with weekly updates, live demos, and zero surprise scope creep.' },
+                { icon: Server, title: 'Launch & Support', desc: 'Production-ready deployment, monitoring, and ongoing maintenance included as standard.' },
+              ].map(({ icon: Icon, title, desc }) => (
+                <div
+                  key={title}
+                  className="p-6 rounded-2xl bg-white border border-slate-200/80 shadow-sm flex flex-col items-center text-center group hover:border-indigo-300 hover:shadow-md transition-all duration-300"
+                >
+                  <div className="w-11 h-11 rounded-xl bg-indigo-50 border border-indigo-100 flex items-center justify-center text-indigo-600 mb-4 group-hover:scale-110 group-hover:bg-indigo-600 group-hover:text-white transition-all duration-300">
+                    <Icon className="w-5 h-5" />
+                  </div>
+                  <h3 className="text-sm font-bold text-slate-900 mb-1.5">{title}</h3>
+                  <p className="text-xs text-slate-500 leading-relaxed">{desc}</p>
+                </div>
+              ))}
+            </motion.div>
+          </div>
+
+          {/* Scroll indicator */}
+          <motion.div
+            animate={{ y: [0, 10, 0] }}
+            transition={{ duration: 2, repeat: Infinity }}
+            className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-30"
+          >
+            <div className="w-px h-10 bg-gradient-to-b from-transparent via-slate-400 to-transparent" />
+            <span className="text-[9px] font-mono uppercase tracking-widest text-slate-500">Scroll</span>
+          </motion.div>
         </section>
+
 
         {/* Dynamic Services Catalog */}
         <section className="py-24 relative z-10">
