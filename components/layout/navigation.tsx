@@ -65,18 +65,20 @@ export function Navigation() {
             {/* Logo Hub */}
             <Link href="/" className="flex items-center gap-4 group relative z-10">
               <div className="relative w-14 h-14 flex items-center justify-center shrink-0">
-                  <img src="/logo.png" alt="Meganods" className="w-full h-full object-contain" />
+                  <img src="/logo.png" alt="MegaNods" className="w-full h-full object-contain" />
               </div>
               <div className="flex flex-col">
                 <span className="text-xl font-bold tracking-tighter leading-none text-[#154954] dark:text-[#42b4c7]">
                   MegaNods
                 </span>
-                <span className="text-[8px] font-mono text-foreground/30 tracking-[0.4em] uppercase mt-1 hidden sm:block">Innovating the Future of Technology</span>
+                <span className="text-[8.5px] font-mono text-slate-700 dark:text-slate-300 font-bold tracking-[0.25em] uppercase mt-1 hidden sm:block">
+                  Innovating The Future Of Technology
+                </span>
               </div>
             </Link>
 
             {/* Tactical Navigation Links */}
-            <div className="hidden lg:flex items-center gap-2">
+            <div className="hidden lg:flex items-center gap-1 xl:gap-2">
               {navLinks.map((link) => (
                 <div
                   key={link.href}
@@ -86,21 +88,21 @@ export function Navigation() {
                 >
                   <Link
                     href={link.href}
-                    className={`px-5 py-2.5 rounded-xl text-[11px] font-bold uppercase tracking-widest transition-all duration-500 flex items-center gap-3 ${pathname === link.href
-                        ? 'text-foreground'
-                        : 'text-foreground/45 hover:text-foreground'
+                    className={`px-4 py-2.5 rounded-xl text-[12px] font-black uppercase tracking-wider transition-all duration-300 flex items-center gap-2 ${pathname === link.href
+                        ? 'text-slate-950 dark:text-white font-black'
+                        : 'text-slate-800 hover:text-indigo-600 dark:text-slate-200 dark:hover:text-white'
                        }`}
                   >
-                    <span className="text-[9px] font-mono text-indigo-500/50 group-hover/nav:text-indigo-500 transition-colors">{link.index}</span>
-                    {link.label}
-                    {link.submenu && <ChevronDown className="w-3.5 h-3.5 opacity-40 group-hover/nav:rotate-180 transition-transform" />}
+                    <span className="text-[10px] font-mono text-indigo-600 font-bold group-hover/nav:text-indigo-700 transition-colors">{link.index}</span>
+                    <span>{link.label}</span>
+                    {link.submenu && <ChevronDown className="w-3.5 h-3.5 text-slate-700 group-hover/nav:text-indigo-600 group-hover/nav:rotate-180 transition-transform" />}
                   </Link>
 
                   {/* Under-glow Indicator */}
                   {pathname === link.href && (
                     <motion.div
                       layoutId="nav-glow"
-                      className="absolute bottom-0 left-5 right-5 h-px bg-gradient-to-r from-transparent via-indigo-500 to-transparent opacity-80"
+                      className="absolute bottom-0 left-4 right-4 h-[2px] bg-gradient-to-r from-indigo-500 via-indigo-600 to-purple-600 rounded-full"
                     />
                   )}
 
@@ -111,17 +113,17 @@ export function Navigation() {
                         initial={{ opacity: 0, y: 10, scale: 0.95 }}
                         animate={{ opacity: 1, y: 0, scale: 1 }}
                         exit={{ opacity: 0, y: 10, scale: 0.95 }}
-                        className="absolute top-full left-0 mt-4 w-64 p-3 bg-card backdrop-blur-3xl border border-border rounded-3xl shadow-xl overflow-hidden"
+                        className="absolute top-full left-0 mt-4 w-64 p-3 bg-white/95 dark:bg-card/95 backdrop-blur-3xl border border-slate-200 dark:border-border rounded-3xl shadow-2xl overflow-hidden z-50"
                       >
                         <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/5 to-transparent pointer-events-none" />
                         {link.submenu.map((sublink) => (
                           <Link
                             key={sublink.href}
                             href={sublink.href}
-                            className="flex items-center gap-4 px-4 py-3.5 rounded-2xl text-[10px] font-bold text-foreground/50 uppercase tracking-widest hover:text-foreground hover:bg-secondary transition-all group/sub"
+                            className="flex items-center gap-4 px-4 py-3.5 rounded-2xl text-[11px] font-black text-slate-900 dark:text-slate-100 uppercase tracking-wider hover:text-indigo-600 hover:bg-slate-50 dark:hover:bg-secondary transition-all group/sub"
                           >
-                            <div className="w-8 h-8 rounded-lg bg-secondary border border-border flex items-center justify-center group-hover/sub:border-indigo-500/30 transition-all">
-                              <sublink.icon className="w-4 h-4 text-indigo-500/75 group-hover/sub:text-indigo-600" />
+                            <div className="w-8 h-8 rounded-lg bg-indigo-50 border border-indigo-100 flex items-center justify-center group-hover/sub:border-indigo-500/50 transition-all">
+                              <sublink.icon className="w-4 h-4 text-indigo-600 group-hover/sub:text-indigo-700" />
                             </div>
                             {sublink.label}
                           </Link>
