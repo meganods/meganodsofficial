@@ -1,6 +1,25 @@
+export interface ProjectWorkflowStep {
+  step: string;
+  role: string;
+  action: string;
+  color: string;
+}
+
+export interface ProjectTimelineMilestone {
+  phase: string;
+  title: string;
+  desc: string;
+}
+
+export interface ProjectHighlight {
+  title: string;
+  desc: string;
+}
+
 export interface ProjectNode {
   id: string;
   title: string;
+  tagline?: string;
   category: string;
   slug: string;
   client: string;
@@ -16,6 +35,9 @@ export interface ProjectNode {
   results: { metric: string; label: string }[];
   features: string[];
   technologies: string[];
+  workflow?: ProjectWorkflowStep[];
+  timeline?: ProjectTimelineMilestone[];
+  highlights?: ProjectHighlight[];
   testimonial?: {
     quote: string;
     author: string;
@@ -29,29 +51,56 @@ export const defaultProjects: ProjectNode[] = [
   {
     id: 'meganods-team-platform',
     title: 'MegaNods Team Platform',
+    tagline: 'Team collaboration for new startups that scale',
     slug: 'meganods-team-platform',
-    category: 'Enterprise Platform & AI',
+    category: 'Enterprise CRM & Collaboration',
     client: 'MegaNods Global Ecosystem',
     liveUrl: 'https://www.meganodsteam.com/',
     duration: '6 Months',
     team: '14 Specialists',
     year: '2025',
-    heroImage: 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=2000&auto=format&fit=crop',
-    description: 'Next-generation enterprise collaboration, talent acceleration matrix, and cloud orchestration platform engineered for distributed tech squads.',
-    challenge: 'Coordinating high-frequency global tech squads, project pipelines, and cross-border resource allocation with zero latency.',
-    solution: 'Engineered a unified talent hub and project command center with automated telemetry, real-time node coordination, and ultra-fast Next.js architecture.',
+    heroImage: '/meganodsteam-hero.png',
+    description: 'Modern CRM, team collaboration, and automated pipeline engine designed for hyper-scaling startups and distributed engineering teams. Features intelligent task delegation, live lead monitoring, and dual-role Admin & Agent operational workspaces.',
+    challenge: 'Early-stage startups and high-growth ventures struggle with fragmented pipeline management, chaotic task distribution, and disconnected communication between leadership, managers, and clients.',
+    solution: 'Architected a unified real-time CRM and collaboration platform featuring automated lead intake, wavy node status telemetry, dedicated Admin and Agent portals, and instant client onboarding tracking.',
     order: 1,
     results: [
-      { metric: '100+', label: 'Global Tech Squads' },
-      { metric: '4x', label: 'Delivery Velocity' },
-      { metric: '99.99%', label: 'Platform Uptime' }
+      { metric: '100+', label: 'Global Startups' },
+      { metric: '4x', label: 'Task Execution Velocity' },
+      { metric: '99.99%', label: 'Platform Availability' }
     ],
-    features: ['Global Squad Orchestration', 'Real-Time Telemetry', 'Dynamic Resource Mesh', 'Automated CI/CD Workflows'],
-    technologies: ['Next.js 14', 'TypeScript', 'Tailwind CSS', 'Cloud Architecture', 'Node.js'],
+    features: [
+      'Interactive Pipeline & Lead Management',
+      'Intelligent Task Delegation & Automation',
+      'Dual Role Portals: Admin & Agent Workspaces',
+      'Real-Time Telemetry & Company Analytics',
+      'Client Lifecycle & Deal Won Tracking',
+      'Role-Based Access Control & Department Mesh'
+    ],
+    workflow: [
+      { step: '01', role: 'Priya (CEO)', action: 'Assigns Task', color: '#9333ea' },
+      { step: '02', role: 'Amit (Team Member)', action: 'Qualifies Task', color: '#06b6d4' },
+      { step: '03', role: 'Neha (Team Member)', action: 'Updates Status', color: '#10b981' },
+      { step: '04', role: 'Vikram (Manager)', action: 'Reviews Progress', color: '#ec4899' },
+      { step: '05', role: 'Rahul (Team Member)', action: 'Completes Tasks', color: '#6366f1' },
+      { step: '06', role: 'Client', action: 'Onboard Won', color: '#f59e0b' }
+    ],
+    timeline: [
+      { phase: 'Phase 01', title: 'Architecture & Pipeline Design', desc: 'Engineered the unified database schema, lead pipeline stages, and multi-tenant workspace isolation.' },
+      { phase: 'Phase 02', title: 'Admin & Agent Portal Engineering', desc: 'Developed specialized role-specific dashboards with granular permission matrices and task assignment engines.' },
+      { phase: 'Phase 03', title: 'Real-Time Wavy Telemetry Mesh', desc: 'Integrated real-time socket events and visual animation nodes for live process flow monitoring.' },
+      { phase: 'Phase 04', title: 'Global Production Deployment', desc: 'Deployed on high-frequency edge servers with zero-downtime scaling and automated database backups.' }
+    ],
+    highlights: [
+      { title: 'Full Lifecycle Pipeline', desc: 'Track deals from initial contact to closed-won with visual drag-and-drop stages.' },
+      { title: 'Sub-second Sync', desc: 'Instant live updates across all active team members with zero reload latency.' },
+      { title: 'Automated Reminders', desc: 'Intelligent notifications and task SLA monitors ensure zero missed milestones.' }
+    ],
+    technologies: ['Next.js 14', 'TypeScript', 'Tailwind CSS', 'PostgreSQL', 'Socket.io', 'Cloud Architecture'],
     testimonial: {
-      quote: 'The MegaNods Team platform revolutionized how our engineering matrix organizes and delivers critical software worldwide.',
-      author: 'Alex Rivera',
-      role: 'VP of Engineering, Global Tech Labs',
+      quote: 'MegaNods Team streamlined our entire startup workflow from lead generation to client onboarding in record time.',
+      author: 'Priya Singh',
+      role: 'CEO & Founder, Startup Velocity',
       avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=150&h=150&auto=format&fit=crop'
     },
     gallery: [
@@ -62,6 +111,7 @@ export const defaultProjects: ProjectNode[] = [
   {
     id: 'mediguide4u-healthcare',
     title: 'MediGuide4U Healthcare',
+    tagline: 'Intelligent patient triage & verified medical specialist discovery',
     slug: 'mediguide4u-healthcare-ecosystem',
     category: 'HealthTech & Telemedicine',
     client: 'MediGuide Health Network',
@@ -70,7 +120,7 @@ export const defaultProjects: ProjectNode[] = [
     team: '12 Specialists',
     year: '2025',
     heroImage: 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?q=80&w=2000&auto=format&fit=crop',
-    description: 'Intelligent patient guidance, specialist discovery, and telemedicine navigation platform streamlining clinical access worldwide.',
+    description: 'Intelligent patient guidance, specialist discovery, and telemedicine navigation platform streamlining clinical access worldwide with HIPAA-compliant telemedicine infrastructure.',
     challenge: 'Fragmented patient pathways and complex medical navigation preventing patients from finding verified specialists promptly.',
     solution: 'Architected an AI-assisted clinical triage portal and verified medical directory with real-time appointment scheduling and HIPAA compliance.',
     order: 2,
@@ -79,8 +129,30 @@ export const defaultProjects: ProjectNode[] = [
       { metric: '< 2s', label: 'Specialist Matching' },
       { metric: '98%', label: 'Triage Accuracy' }
     ],
-    features: ['AI Clinical Triage', 'Verified Specialist Directory', 'HIPAA Compliant Mesh', 'Real-time Booking'],
-    technologies: ['React', 'Next.js', 'Tailwind CSS', 'Cloud Database', 'REST APIs'],
+    features: [
+      'AI Clinical Triage & Symptom Evaluation',
+      'Verified Specialist & Doctor Directory',
+      'HIPAA-Compliant Patient Data Mesh',
+      'Real-time Consultation & Telehealth Booking',
+      'Multilingual Health Navigation Support',
+      'Automated Prescription Routing'
+    ],
+    workflow: [
+      { step: '01', role: 'Patient Intake', action: 'Symptom Triage', color: '#3b82f6' },
+      { step: '02', role: 'Neural Engine', action: 'Specialist Matching', color: '#6366f1' },
+      { step: '03', role: 'Clinical Desk', action: 'Appointment Scheduled', color: '#10b981' },
+      { step: '04', role: 'Physician', action: 'Consultation Complete', color: '#ec4899' }
+    ],
+    timeline: [
+      { phase: 'Phase 01', title: 'HIPAA Architecture & Compliance', desc: 'Implemented end-to-end encrypted medical record databases and patient consent protocols.' },
+      { phase: 'Phase 02', title: 'Specialist Directory Engine', desc: 'Built geo-indexed doctor database with real-time slot synchronization.' },
+      { phase: 'Phase 03', title: 'Telehealth WebRTC Portal', desc: 'Integrated high-definition encrypted video calling and instant prescription generation.' }
+    ],
+    highlights: [
+      { title: 'Zero-Wait Triage', desc: 'Instant AI symptom checker routes patients to the correct medical specialty.' },
+      { title: 'Verified Credentials', desc: '100% board-certified physicians with verified licenses.' }
+    ],
+    technologies: ['React', 'Next.js 14', 'Tailwind CSS', 'Cloud Database', 'WebRTC', 'HIPAA Mesh'],
     testimonial: {
       quote: 'MediGuide4U has set a new benchmark for patient discovery and seamless digital healthcare navigation.',
       author: 'Dr. Sarah Al-Mansoor',
@@ -95,6 +167,7 @@ export const defaultProjects: ProjectNode[] = [
   {
     id: 'multimallpro-marketplace',
     title: 'MultiMallPro Marketplace',
+    tagline: 'High-performance multi-vendor commerce platform',
     slug: 'multimallpro-multi-vendor-commerce',
     category: 'eCommerce & Marketplace',
     client: 'MultiMallPro Global Retail',
@@ -103,7 +176,7 @@ export const defaultProjects: ProjectNode[] = [
     team: '11 Specialists',
     year: '2025',
     heroImage: 'https://images.unsplash.com/photo-1472851294608-062f824d29cc?q=80&w=2000&auto=format&fit=crop',
-    description: 'High-performance multi-vendor digital commerce marketplace featuring real-time vendor dashboards, unified checkout, and automated catalog sync.',
+    description: 'High-performance multi-vendor digital commerce marketplace featuring real-time vendor dashboards, unified checkout, split payment disbursements, and automated catalog sync.',
     challenge: 'Scaling concurrent multi-vendor operations, split payments, and inventory synchronization across hundreds of independent sellers.',
     solution: 'Engineered a scalable headless multi-vendor commerce hub with sub-second page loads, automated merchant payouts, and localized international currencies.',
     order: 3,
@@ -112,8 +185,30 @@ export const defaultProjects: ProjectNode[] = [
       { metric: '65%', label: 'Checkout Conversion' },
       { metric: '< 100ms', label: 'Catalog Search' }
     ],
-    features: ['Multi-Vendor Portal', 'Split Payment Gateway', 'Real-time Inventory Mesh', 'Headless Storefront'],
-    technologies: ['Next.js 14', 'Node.js', 'Stripe Connect', 'Tailwind CSS', 'PostgreSQL'],
+    features: [
+      'Multi-Vendor Merchant Portal & Storefronts',
+      'Automated Split Payment Gateway & Payouts',
+      'Real-time Inventory & Stock Telemetry',
+      'Headless Ultra-Fast Next.js Storefront',
+      'Dynamic Currency & Tax Localization',
+      'Merchant Performance Analytics HUD'
+    ],
+    workflow: [
+      { step: '01', role: 'Merchant Onboarding', action: 'Store Verified', color: '#10b981' },
+      { step: '02', role: 'Catalog Mesh', action: 'Products Listed', color: '#3b82f6' },
+      { step: '03', role: 'Customer Hub', action: 'Unified Cart Checkout', color: '#8b5cf6' },
+      { step: '04', role: 'Automated Payout', action: 'Split Disbursement', color: '#f59e0b' }
+    ],
+    timeline: [
+      { phase: 'Phase 01', title: 'Headless Commerce Core', desc: 'Architected high-throughput catalog indexer with sub-second product filtering.' },
+      { phase: 'Phase 02', title: 'Stripe Connect Split Engine', desc: 'Configured automated multi-party escrow disbursements with automated tax calculation.' },
+      { phase: 'Phase 03', title: 'Merchant Self-Service Dashboard', desc: 'Built comprehensive sales analytics, inventory manager, and fulfillment tracker.' }
+    ],
+    highlights: [
+      { title: 'Universal Checkout', desc: 'Buy from multiple merchants in a single transaction with automated split billing.' },
+      { title: 'Sub-100ms Search', desc: 'Algolia-powered instant indexing across 50,000+ SKU inventory items.' }
+    ],
+    technologies: ['Next.js 14', 'Node.js', 'Stripe Connect', 'Tailwind CSS', 'PostgreSQL', 'Redis'],
     testimonial: {
       quote: 'MultiMallPro transformed our multi-merchant ecosystem into a rapid-growth, highly lucrative global marketplace.',
       author: 'Marcus Sterling',
@@ -127,6 +222,7 @@ export const defaultProjects: ProjectNode[] = [
   {
     id: 'neural-finance-bridge',
     title: 'Neural Finance Bridge',
+    tagline: 'Predictive neural routing for cross-chain liquidity',
     slug: 'neural-finance-bridge',
     category: 'DeFi & AI',
     client: 'Apex Capital',
@@ -134,10 +230,10 @@ export const defaultProjects: ProjectNode[] = [
     team: '12 Specialists',
     year: '2024',
     heroImage: 'https://images.unsplash.com/photo-1639762681485-074b7f938ba0?q=80&w=2000&auto=format&fit=crop',
-    description: 'A decentralized liquidity bridge powered by predictive neural models to optimize cross-chain asset transfers.',
+    description: 'A decentralized liquidity bridge powered by predictive neural models to optimize cross-chain asset transfers with sub-second routing.',
     challenge: 'High latency and slippage in multi-chain environments leading to capital inefficiency.',
     solution: 'Implemented an AI-driven routing engine that predicts liquidity shifts and executes swaps at sub-100ms speeds.',
-    order: 3,
+    order: 4,
     results: [
       { metric: '40%', label: 'Slippage Reduction' },
       { metric: 'sub-100ms', label: 'Execution Speed' },
@@ -159,6 +255,7 @@ export const defaultProjects: ProjectNode[] = [
   {
     id: 'kinetic-logistics-mesh',
     title: 'Kinetic Logistics Mesh',
+    tagline: 'Hyper-local IoT fleet tracking & telemetry control plane',
     slug: 'kinetic-logistics-mesh',
     category: 'Logistics & IoT',
     client: 'SwiftLog Global',
@@ -166,10 +263,10 @@ export const defaultProjects: ProjectNode[] = [
     team: '18 Specialists',
     year: '2024',
     heroImage: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?q=80&w=2000&auto=format&fit=crop',
-    description: 'A global logistics tracking mesh utilizing hyper-local IoT nodes and real-time visualization HUDs.',
+    description: 'A global logistics tracking mesh utilizing hyper-local IoT nodes and real-time visualization HUDs for worldwide supply chain operations.',
     challenge: 'Fragmentation in global supply chain data resulting in 15% annual inventory loss.',
     solution: 'Developed a unified control plane using high-frequency IoT data and kinetic UI dashboards.',
-    order: 4,
+    order: 5,
     results: [
       { metric: '95%', label: 'Tracking Accuracy' },
       { metric: '20%', label: 'Inventory Recovery' },
@@ -190,6 +287,7 @@ export const defaultProjects: ProjectNode[] = [
   {
     id: 'cyber-shield-protocol',
     title: 'Cyber-Shield Protocol',
+    tagline: 'Zero-trust automated threat detection and incident kill-switch',
     slug: 'cyber-shield-protocol',
     category: 'Cybersecurity',
     client: 'Defense One',
@@ -197,10 +295,10 @@ export const defaultProjects: ProjectNode[] = [
     team: '25 Specialists',
     year: '2023',
     heroImage: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=2000&auto=format&fit=crop',
-    description: 'An advanced threat detection system utilizing zero-trust architecture and automated response nodes.',
+    description: 'An advanced threat detection system utilizing zero-trust architecture, behavioral fingerprinting, and automated response nodes.',
     challenge: 'Increasing frequency of sub-millisecond automated brute-force attacks on core systems.',
     solution: 'Engineered a multi-layered defense protocol that uses behavioral analysis to terminate threats before breach.',
-    order: 5,
+    order: 6,
     results: [
       { metric: '100%', label: 'Breach Prevention' },
       { metric: '0.5s', label: 'Response Time' },
@@ -219,6 +317,7 @@ export const defaultProjects: ProjectNode[] = [
   {
     id: 'eco-grid-intelligence',
     title: 'Eco-Grid Intelligence',
+    tagline: 'Intelligent renewable energy load balancing grid',
     slug: 'eco-grid-intelligence',
     category: 'Sustainability',
     client: 'GreenWave Energy',
@@ -226,10 +325,10 @@ export const defaultProjects: ProjectNode[] = [
     team: '10 Specialists',
     year: '2024',
     heroImage: 'https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?q=80&w=2000&auto=format&fit=crop',
-    description: 'An intelligent energy grid management system that optimizes renewable distribution across urban sectors.',
+    description: 'An intelligent energy grid management system that optimizes renewable distribution across urban sectors using predictive demand analysis.',
     challenge: 'Energy waste due to inefficient peak-load distribution from renewable sources.',
     solution: 'Designed a self-healing energy mesh that redirects surplus power to high-demand nodes in real-time.',
-    order: 6,
+    order: 7,
     results: [
       { metric: '30%', label: 'Waste Reduction' },
       { metric: '1M+', label: 'Households Served' },
@@ -248,6 +347,7 @@ export const defaultProjects: ProjectNode[] = [
   {
     id: 'horizon-mobile-mesh',
     title: 'Horizon Mobile Mesh',
+    tagline: 'Resilient offline-first telecommunications architecture',
     slug: 'horizon-mobile-mesh',
     category: 'Communication',
     client: 'Horizon Telecom',
@@ -255,10 +355,10 @@ export const defaultProjects: ProjectNode[] = [
     team: '14 Specialists',
     year: '2024',
     heroImage: 'https://images.unsplash.com/photo-1512428559083-a4051eba336f?q=80&w=2000&auto=format&fit=crop',
-    description: 'A revolutionary cross-platform communication app designed for 100% uptime in low-connectivity areas.',
+    description: 'A revolutionary cross-platform communication app designed for 100% uptime in low-connectivity areas using peer-to-peer data syncing.',
     challenge: 'Poor mobile application performance in emerging markets with intermittent network nodes.',
     solution: 'Built a local-first architecture using Flutter with synchronized offline data mesh capabilities.',
-    order: 7,
+    order: 8,
     results: [
       { metric: '99.9%', label: 'Uptime' },
       { metric: '200M+', label: 'Active Sessions' },
@@ -277,6 +377,7 @@ export const defaultProjects: ProjectNode[] = [
   {
     id: 'neural-retail-hub',
     title: 'Neural Retail Hub',
+    tagline: 'AI-infused luxury retail personalization platform',
     slug: 'neural-retail-hub',
     category: 'eCommerce',
     client: 'Velvet Mode',
@@ -284,10 +385,10 @@ export const defaultProjects: ProjectNode[] = [
     team: '8 Specialists',
     year: '2024',
     heroImage: 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?q=80&w=2000&auto=format&fit=crop',
-    description: 'An AI-infused luxury retail platform that personalizes the browsing experience through eye-tracking simulation.',
+    description: 'An AI-infused luxury retail platform that personalizes the browsing experience through neural recommendation models and dynamic catalog curation.',
     challenge: 'Lower conversion rates on high-ticket luxury items due to non-personalized browsing journeys.',
     solution: 'Implemented a neural recommendation hub that analyzes browsing patterns to curate highly specific visual galleries.',
-    order: 8,
+    order: 9,
     results: [
       { metric: '55%', label: 'Conversion Boost' },
       { metric: '$500+', label: 'Average Order' },
