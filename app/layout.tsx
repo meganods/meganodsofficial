@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from 'next'
 import { Inter, Space_Grotesk } from 'next/font/google'
+import Script from 'next/script'
 import { Analytics } from '@vercel/analytics/next'
 import { StarField } from '@/components/effects/shooting-stars'
 import { Preloader } from '@/components/ui/preloader'
@@ -92,6 +93,20 @@ export default function RootLayout({
   return (
     <html lang="en" className="light">
       <body className={`${inter.variable} ${spaceGrotesk.variable} font-sans antialiased`}>
+        {/* Google tag (gtag.js) for Google Ads */}
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=AW-18420745292"
+          strategy="afterInteractive"
+        />
+        <Script id="google-ads-tag" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'AW-18420745292');
+          `}
+        </Script>
+
         <CustomCursor />
         <Preloader />
         <StarField />
