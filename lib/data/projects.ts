@@ -93,6 +93,38 @@ export const defaultProjects: ProjectNode[] = [
     ]
   },
   {
+    id: 'multimallpro-marketplace',
+    title: 'MultiMallPro Marketplace',
+    slug: 'multimallpro-multi-vendor-commerce',
+    category: 'eCommerce & Marketplace',
+    client: 'MultiMallPro Global Retail',
+    liveUrl: 'https://www.multimallpro.com/',
+    duration: '7 Months',
+    team: '11 Specialists',
+    year: '2025',
+    heroImage: 'https://images.unsplash.com/photo-1472851294608-062f824d29cc?q=80&w=2000&auto=format&fit=crop',
+    description: 'High-performance multi-vendor digital commerce marketplace featuring real-time vendor dashboards, unified checkout, and automated catalog sync.',
+    challenge: 'Scaling concurrent multi-vendor operations, split payments, and inventory synchronization across hundreds of independent sellers.',
+    solution: 'Engineered a scalable headless multi-vendor commerce hub with sub-second page loads, automated merchant payouts, and localized international currencies.',
+    order: 3,
+    results: [
+      { metric: '300+', label: 'Verified Merchants' },
+      { metric: '65%', label: 'Checkout Conversion' },
+      { metric: '< 100ms', label: 'Catalog Search' }
+    ],
+    features: ['Multi-Vendor Portal', 'Split Payment Gateway', 'Real-time Inventory Mesh', 'Headless Storefront'],
+    technologies: ['Next.js 14', 'Node.js', 'Stripe Connect', 'Tailwind CSS', 'PostgreSQL'],
+    testimonial: {
+      quote: 'MultiMallPro transformed our multi-merchant ecosystem into a rapid-growth, highly lucrative global marketplace.',
+      author: 'Marcus Sterling',
+      role: 'Head of Global eCommerce, Retail Ventures',
+      avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=150&h=150&auto=format&fit=crop'
+    },
+    gallery: [
+      'https://images.unsplash.com/photo-1441986300917-64674bd600d8?q=80&w=1000&auto=format&fit=crop'
+    ]
+  },
+  {
     id: 'neural-finance-bridge',
     title: 'Neural Finance Bridge',
     slug: 'neural-finance-bridge',

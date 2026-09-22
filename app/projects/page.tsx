@@ -24,20 +24,29 @@ export default function ProjectsPage() {
       try {
         const q = query(collection(db, "projects"), orderBy("order", "asc"), orderBy("createdAt", "desc"));
         const querySnapshot = await getDocs(q);
+        const priorityProjects = defaultProjects.slice(0, 3);
+        const prioritySlugs = new Set(priorityProjects.map(p => p.slug));
+
         if (!querySnapshot.empty) {
           const docs = querySnapshot.docs.map(doc => ({
             id: doc.id,
             ...doc.data()
           })) as ProjectNode[];
           
-          setProjects(docs);
+          const otherDocs = docs.filter((d: ProjectNode) => !prioritySlugs.has(d.slug));
+          const merged = [...priorityProjects, ...otherDocs];
+          setProjects(merged);
           
           // Extract unique categories
-          const cats = ['All', ...new Set(docs.map(p => p.category).filter(Boolean))];
+          const cats = ['All', ...new Set(merged.map(p => p.category).filter(Boolean))];
           setCategories(cats);
+        } else {
+          setProjects(defaultProjects);
+          setCategories(['All', ...new Set(defaultProjects.map(p => p.category))]);
         }
       } catch (error) {
         console.error("REGISTRY_FETCH_ERROR:", error);
+        setProjects(defaultProjects);
       }
     }
     fetchProjects();
@@ -153,16 +162,18 @@ export default function ProjectsPage() {
                                 {project.year} PROTOCOL
                              </span>
                              {project.liveUrl && (
-                                <a 
-                                   href={project.liveUrl} 
-                                   target="_blank" 
-                                   rel="noopener noreferrer" 
-                                   onClick={(e) => e.stopPropagation()} 
-                                   className="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-[9px] font-black uppercase tracking-widest rounded-lg shadow-xl flex items-center gap-1.5 transition-all hover:scale-105 z-20"
+                                <button
+                                   type="button"
+                                   onClick={(e) => {
+                                      e.preventDefault();
+                                      e.stopPropagation();
+                                      window.open(project.liveUrl, '_blank', 'noopener,noreferrer');
+                                   }}
+                                   className="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-[9px] font-black uppercase tracking-widest rounded-lg shadow-xl flex items-center gap-1.5 transition-all hover:scale-105 z-20 cursor-pointer"
                                 >
                                    <span>Live System</span>
                                    <ExternalLink className="w-3 h-3" />
-                                </a>
+                                </button>
                              )}
                           </div>
                           

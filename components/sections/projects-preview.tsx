@@ -31,15 +31,22 @@ export function ProjectsPreviewSection() {
           limit(12)
         );
         const querySnapshot = await getDocs(q);
+        const priorityProjects = defaultProjects.slice(0, 3);
+        const prioritySlugs = new Set(priorityProjects.map(p => p.slug));
+
         if (!querySnapshot.empty) {
           const docs = querySnapshot.docs.map(doc => ({
             id: doc.id,
             ...doc.data()
           }));
-          setProjects(docs);
+          const otherDocs = docs.filter((d: any) => !prioritySlugs.has(d.slug));
+          setProjects([...priorityProjects, ...otherDocs]);
+        } else {
+          setProjects(defaultProjects);
         }
       } catch (error) {
         console.error("PROJECTS_FETCH_ERROR:", error);
+        setProjects(defaultProjects);
       }
     }
     fetchProjects();
