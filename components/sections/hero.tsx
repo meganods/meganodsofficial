@@ -89,7 +89,7 @@ export function HeroSection() {
                 </span>
                 <span className="text-slate-300">|</span>
                 <span className="bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 bg-clip-text text-transparent font-black tracking-wide">
-                  MegaNods Next-Gen Matrix
+                  MegaNods Enterprise Platform
                 </span>
                 <Sparkles className="w-3.5 h-3.5 text-indigo-600 animate-pulse" />
               </motion.div>

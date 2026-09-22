@@ -41,10 +41,38 @@ const iconMap: Record<string, any> = {
 }
 
 const processSteps = [
-  { icon: Terminal, title: 'Network Audit', description: 'Deep scan of your existing infrastructure to identify optimization vectors.' },
-  { icon: Cpu, title: 'Core Design', description: 'Architecting custom neural and structural components for your specific sector.' },
-  { icon: Zap, title: 'Rapid Deployment', description: 'High-speed implementation through automated delivery pipelines.' },
-  { icon: Globe, title: 'Global Scale', description: 'Multiplying your operational footprint across the global mesh network.' },
+  {
+    icon: Terminal,
+    step: '01',
+    title: 'Discovery Call',
+    description: 'We start with a deep 60-minute consultation — understanding your goals, pain points, tech stack, and timeline before anything else.',
+    tag: 'Free & No Obligation',
+    color: 'from-blue-500 to-indigo-600'
+  },
+  {
+    icon: Cpu,
+    step: '02',
+    title: 'Proposal & Scoping',
+    description: 'Within 48 hours we deliver a detailed proposal — clear scope, tech stack recommendations, timeline breakdown, and fixed pricing. No surprises.',
+    tag: '48hr Turnaround',
+    color: 'from-purple-500 to-indigo-600'
+  },
+  {
+    icon: Zap,
+    step: '03',
+    title: 'Agile Development',
+    description: 'We build in 2-week sprints with weekly live demos, Slack updates, and full transparency. You see progress — always.',
+    tag: 'Sprint-Based Delivery',
+    color: 'from-cyan-500 to-blue-600'
+  },
+  {
+    icon: Globe,
+    step: '04',
+    title: 'Launch & Handover',
+    description: 'Production deployment, QA testing, documentation, and 30-day post-launch support — all included. You own everything, source code and all.',
+    tag: '30-Day Support Included',
+    color: 'from-emerald-500 to-teal-600'
+  },
 ]
 
 export default function ServicesPage() {
@@ -450,66 +478,212 @@ export default function ServicesPage() {
           </div>
         </section>
 
-        {/* Operational Deployment Lifecycle (Process) */}
-        <section className="py-32 lg:py-56 relative z-10 bg-secondary/40 backdrop-blur-3xl border-y border-border overflow-hidden">
-          <div className="container mx-auto px-6 lg:px-8">
-            <div className="text-center max-w-4xl mx-auto mb-32">
-               <span className="text-indigo-600 dark:text-indigo-400 font-mono text-xs uppercase tracking-[0.4em] mb-6 block font-bold">The Pipeline</span>
-               <h2 className="text-5xl md:text-7xl font-black mb-8 tracking-tighter uppercase text-foreground">
-                  Tactical <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 to-blue-500 dark:from-indigo-400 dark:to-blue-400">Deployment</span>.
-               </h2>
-               <p className="text-muted-foreground text-xl lg:text-2xl font-medium leading-relaxed">
-                  Our hyper-accelerated delivery lifecycle ensures your infrastructure is optimized and active in record cycles.
-               </p>
-            </div>
+        {/* How We Work — Process Section */}
+        <section className="py-20 lg:py-28 relative z-10 overflow-hidden bg-gradient-to-b from-slate-50/60 via-white to-slate-50/40 border-y border-slate-100">
+          {/* Ambient glow */}
+          <div className="absolute inset-0 pointer-events-none">
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-gradient-to-tr from-indigo-100/40 via-blue-100/30 to-cyan-100/40 rounded-full blur-[120px]" />
+          </div>
 
-            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-px bg-border rounded-[3rem] overflow-hidden border border-border shadow-md dark:shadow-none">
+          <div className="container mx-auto px-6 lg:px-8 relative">
+            {/* Section header */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+              className="text-center max-w-2xl mx-auto mb-16"
+            >
+              <div className="inline-flex items-center gap-3 mb-5">
+                <div className="w-6 h-px bg-indigo-400/60" />
+                <span className="text-indigo-600 font-mono text-[10px] uppercase tracking-[0.4em] font-bold">Our Process</span>
+                <div className="w-6 h-px bg-indigo-400/60" />
+              </div>
+              <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-slate-900 mb-4 leading-tight">
+                How We{' '}
+                <span className="italic text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 via-blue-500 to-cyan-400">
+                  Deliver
+                </span>
+                .
+              </h2>
+              <p className="text-slate-500 text-base lg:text-lg leading-relaxed">
+                A clear, predictable delivery process — from first call to final launch. No hidden steps, no vague timelines.
+              </p>
+            </motion.div>
+
+            {/* Process steps */}
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-5">
               {processSteps.map((step, index) => (
-                <div key={step.title} className="bg-card p-12 group hover:bg-secondary/40 transition-all duration-300 relative">
-                   <div className="text-5xl font-black text-foreground/5 absolute top-10 right-10 group-hover:text-indigo-500/10 transition-colors pointer-events-none">0{index + 1}</div>
-                   <div className="w-16 h-16 rounded-2xl bg-indigo-500/5 border border-indigo-500/10 dark:border-indigo-500/20 flex items-center justify-center mb-10 group-hover:scale-110 transition-transform">
-                      <step.icon className="w-8 h-8 text-indigo-600 dark:text-indigo-400" />
-                   </div>
-                   <h3 className="text-2xl font-black text-foreground mb-4 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors uppercase tracking-tight">{step.title}</h3>
-                   <p className="text-muted-foreground text-sm font-medium leading-relaxed">{step.description}</p>
-                   
-                   {/* Kinetic Indicator */}
-                   <div className="absolute bottom-0 left-0 w-full h-1 bg-indigo-500 scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-700" />
-                </div>
+                <motion.div
+                  key={step.title}
+                  initial={{ opacity: 0, y: 24 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: index * 0.1, duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+                  whileHover={{ y: -5 }}
+                  className="group relative"
+                >
+                  {/* Connector line between steps */}
+                  {index < processSteps.length - 1 && (
+                    <div className="hidden lg:block absolute top-8 left-full w-5 h-px bg-gradient-to-r from-slate-200 to-slate-100 z-10 -translate-y-px" />
+                  )}
+
+                  <div className="relative bg-white border border-slate-200/80 rounded-2xl p-7 h-full flex flex-col overflow-hidden shadow-sm hover:shadow-lg hover:border-indigo-200 transition-all duration-300">
+                    {/* Gradient top accent on hover */}
+                    <div className={`absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r ${step.color} opacity-0 group-hover:opacity-100 transition-opacity duration-400 rounded-t-2xl`} />
+
+                    {/* Step number */}
+                    <div className="absolute top-5 right-5 text-3xl font-black text-slate-100 group-hover:text-indigo-100 transition-colors duration-300 leading-none">{step.step}</div>
+
+                    {/* Icon */}
+                    <motion.div
+                      whileHover={{ scale: 1.1, rotate: 5 }}
+                      transition={{ type: 'spring', stiffness: 300 }}
+                      className={`w-11 h-11 rounded-xl bg-gradient-to-br ${step.color} flex items-center justify-center mb-5 shadow-md`}
+                    >
+                      <step.icon className="w-5 h-5 text-white" />
+                    </motion.div>
+
+                    {/* Tag */}
+                    <div className="text-indigo-500 font-mono text-[9px] uppercase tracking-[0.3em] mb-2 opacity-70">{step.tag}</div>
+
+                    {/* Title */}
+                    <h3 className="text-base font-bold mb-2.5 text-slate-900 group-hover:text-indigo-600 transition-colors duration-300">{step.title}</h3>
+
+                    {/* Description */}
+                    <p className="text-slate-500 text-sm leading-relaxed flex-1">{step.description}</p>
+
+                    {/* Bottom scan line */}
+                    <motion.div
+                      initial={{ scaleX: 0 }}
+                      whileInView={{ scaleX: 1 }}
+                      viewport={{ once: true }}
+                      transition={{ delay: index * 0.12 + 0.4, duration: 0.8 }}
+                      className={`absolute bottom-0 left-0 right-0 h-[1px] bg-gradient-to-r ${step.color} opacity-20 origin-left`}
+                    />
+                  </div>
+                </motion.div>
               ))}
             </div>
           </div>
         </section>
 
-        {/* Global Connection Hub CTA */}
-        <section className="py-32 lg:py-56 relative z-10 px-6">
-           <div className="container mx-auto max-w-5xl">
-              <div className="relative rounded-[4rem] lg:rounded-[5rem] border border-border bg-card/60 backdrop-blur-3xl overflow-hidden p-1 shadow-md dark:shadow-none">
-                 <div className="relative px-8 py-24 lg:px-24 lg:py-32 text-center overflow-hidden">
-                    <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/10 via-transparent to-blue-500/10 pointer-events-none" />
-                    <Server className="w-16 h-16 text-indigo-600/20 dark:text-indigo-400/20 mx-auto mb-10" />
-                    
-                    <h2 className="text-4xl md:text-7xl lg:text-9xl font-black text-foreground mb-10 tracking-tighter leading-[0.85] uppercase">
-                       Establish <br />
-                       <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 via-blue-400 to-emerald-400 dark:from-indigo-400 dark:via-blue-400 dark:to-emerald-400">Authority</span>.
-                    </h2>
-                    <p className="text-muted-foreground text-xl lg:text-3xl mb-16 max-w-3xl mx-auto font-medium leading-relaxed">
-                       Don't just compete. Dominate your market sector with the world's most advanced technology infrastructure.
-                    </p>
-                    <div className="flex flex-col sm:flex-row justify-center gap-6">
-                       <Button 
+        {/* CTA Section */}
+        <section className="py-20 lg:py-28 relative z-10 px-6">
+          <div className="container mx-auto max-w-5xl">
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+            >
+              <div className="relative rounded-3xl overflow-hidden border border-slate-200/80 bg-white shadow-xl">
+                <div className="absolute inset-0 bg-gradient-to-br from-indigo-50/80 via-white to-blue-50/60 pointer-events-none" />
+                <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-indigo-500 to-transparent" />
+
+                <div className="relative px-8 py-16 lg:px-20 lg:py-20">
+                  <div className="grid lg:grid-cols-2 gap-10 items-center">
+                    {/* Left: Text */}
+                    <div>
+                      <motion.div
+                        initial={{ opacity: 0, scale: 0.9 }}
+                        whileInView={{ opacity: 1, scale: 1 }}
+                        viewport={{ once: true }}
+                        transition={{ delay: 0.1 }}
+                        className="inline-flex items-center gap-2 mb-5 px-4 py-1.5 rounded-full bg-indigo-50 border border-indigo-200"
+                      >
+                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                        <span className="text-indigo-600 font-mono text-[10px] uppercase tracking-[0.35em] font-bold">Available for New Projects</span>
+                      </motion.div>
+
+                      <motion.h2
+                        initial={{ opacity: 0, y: 18 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ delay: 0.15, duration: 0.6 }}
+                        className="text-3xl sm:text-4xl font-extrabold text-slate-900 mb-4 tracking-tight leading-tight"
+                      >
+                        Have a project in mind?{' '}
+                        <span className="italic text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 to-blue-600">
+                          Let&apos;s talk.
+                        </span>
+                      </motion.h2>
+
+                      <motion.p
+                        initial={{ opacity: 0, y: 14 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ delay: 0.22 }}
+                        className="text-slate-500 text-base leading-relaxed mb-8"
+                      >
+                        Book a free 30-minute discovery call. We&apos;ll review your requirements, suggest the right tech approach, and give you a ballpark estimate — all before you commit to anything.
+                      </motion.p>
+
+                      <motion.div
+                        initial={{ opacity: 0, y: 12 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ delay: 0.3 }}
+                        className="flex flex-wrap gap-4"
+                      >
+                        <Button
                           asChild
-                          className="h-24 px-16 bg-foreground text-background hover:bg-foreground/90 font-black rounded-[2rem] shadow-2xl transition-all text-2xl group border-0"
-                       >
-                          <Link href="/contact" className="flex items-center">
-                             Request Operational Audit
-                             <ArrowRight className="ml-4 w-8 h-8 group-hover:translate-x-3 transition-transform" />
+                          size="lg"
+                          className="h-12 px-8 bg-gradient-to-r from-indigo-600 to-blue-600 hover:from-indigo-700 hover:to-blue-700 text-white font-bold rounded-xl shadow-lg shadow-indigo-500/20 text-sm border-0 gap-2 hover:scale-105 active:scale-95 transition-all"
+                        >
+                          <Link href="/contact">
+                            Book Free Discovery Call <ArrowRight className="w-4 h-4" />
                           </Link>
-                       </Button>
+                        </Button>
+                        <Button
+                          asChild
+                          variant="outline"
+                          size="lg"
+                          className="h-12 px-6 rounded-xl border-slate-200 bg-white hover:bg-slate-50 text-slate-700 text-sm font-semibold shadow-sm hover:scale-105 active:scale-95 transition-all"
+                        >
+                          <Link href="/projects">See Our Work</Link>
+                        </Button>
+                      </motion.div>
                     </div>
-                 </div>
+
+                    {/* Right: Trust checklist */}
+                    <motion.div
+                      initial={{ opacity: 0, x: 20 }}
+                      whileInView={{ opacity: 1, x: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ delay: 0.25, duration: 0.6 }}
+                      className="bg-slate-50 border border-slate-200/80 rounded-2xl p-7 space-y-4"
+                    >
+                      <div className="text-slate-900 font-bold text-sm mb-5">What happens after you reach out:</div>
+                      {[
+                        { icon: CheckCircle2, title: 'Response within 4 hours', desc: 'We reply fast — no waiting days for a callback.' },
+                        { icon: Zap, title: '30-min discovery call', desc: 'A focused call to understand your needs and goals.' },
+                        { icon: Server, title: 'Detailed proposal in 48hrs', desc: 'Scope, timeline, stack, and fixed price — no fluff.' },
+                        { icon: Shield, title: 'NDA available on request', desc: 'Your ideas are protected from day one.' },
+                      ].map(({ icon: Icon, title, desc }, i) => (
+                        <motion.div
+                          key={title}
+                          initial={{ opacity: 0, x: 10 }}
+                          whileInView={{ opacity: 1, x: 0 }}
+                          viewport={{ once: true }}
+                          transition={{ delay: 0.3 + i * 0.07 }}
+                          className="flex items-start gap-3"
+                        >
+                          <div className="w-8 h-8 rounded-lg bg-indigo-50 border border-indigo-100 flex items-center justify-center shrink-0 mt-0.5">
+                            <Icon className="w-4 h-4 text-indigo-600" />
+                          </div>
+                          <div>
+                            <div className="text-slate-900 font-semibold text-sm">{title}</div>
+                            <div className="text-slate-500 text-xs leading-relaxed">{desc}</div>
+                          </div>
+                        </motion.div>
+                      ))}
+                    </motion.div>
+                  </div>
+                </div>
               </div>
-           </div>
+            </motion.div>
+          </div>
         </section>
       </main>
       <Footer />

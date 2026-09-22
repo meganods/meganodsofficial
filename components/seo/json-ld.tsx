@@ -57,8 +57,7 @@ export default function JsonLd() {
       { '@type': 'ListItem', position: 4, name: 'Projects', item: 'https://meganods.com/projects' },
       { '@type': 'ListItem', position: 5, name: 'Team', item: 'https://meganods.com/team' },
       { '@type': 'ListItem', position: 6, name: 'Blog', item: 'https://meganods.com/blog' },
-      { '@type': 'ListItem', position: 7, name: 'Testimonials', item: 'https://meganods.com/testimonials' },
-      { '@type': 'ListItem', position: 8, name: 'Contact', item: 'https://meganods.com/contact' },
+      { '@type': 'ListItem', position: 7, name: 'Contact', item: 'https://meganods.com/contact' },
     ],
   }
 

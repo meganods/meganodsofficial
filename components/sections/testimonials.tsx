@@ -375,9 +375,9 @@ export function TestimonialsSection() {
                       <div className="text-muted-foreground/40 text-[8px] uppercase font-mono tracking-widest font-bold">Node verified 100%</div>
                     </div>
                   </div>
-                  <Link href="/testimonials">
-                    <Button variant="outline" className="h-12 px-6 rounded-2xl border-border hover:bg-secondary text-foreground font-black text-[10px] uppercase tracking-[0.2em] gap-2">
-                      Full Directory <ArrowRight className="w-3.5 h-3.5" />
+                  <Link href="/contact">
+                    <Button variant="outline" className="h-12 px-6 rounded-2xl border-border hover:bg-secondary text-foreground font-bold text-xs uppercase tracking-wider gap-2">
+                      Get In Touch <ArrowRight className="w-3.5 h-3.5" />
                     </Button>
                   </Link>
                 </motion.div>

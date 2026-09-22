@@ -4,27 +4,17 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Menu, X, ChevronDown, Satellite, Terminal, Shield, Zap, Target } from 'lucide-react'
+import { Menu, X, ChevronDown, Satellite, Terminal } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 
 const navLinks = [
   { href: '/', label: 'Home', index: '01' },
   { href: '/about', label: 'About', index: '02' },
-  {
-    href: '/services',
-    label: 'Services',
-    index: '03',
-    submenu: [
-      { href: '/services#ai', label: 'AI Solutions', icon: Target },
-      { href: '/services#cloud', label: 'Cloud Core', icon: Zap },
-      { href: '/services#cyber', label: 'Security', icon: Shield },
-    ]
-  },
+  { href: '/services', label: 'Services', index: '03' },
   { href: '/projects', label: 'Projects', index: '04' },
   { href: '/team', label: 'Nodes', index: '05' },
   { href: '/blog', label: 'Insights', index: '06' },
-  { href: '/testimonials', label: 'Matrix', index: '07' },
-  { href: '/contact', label: 'Contact', index: '08' },
+  { href: '/contact', label: 'Contact', index: '07' },
 ]
 
 export function Navigation() {
