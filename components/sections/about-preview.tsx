@@ -38,14 +38,14 @@ export function AboutPreviewSection() {
           transition={{ duration: 0.8 }}
           className="relative max-w-5xl mx-auto text-center"
         >
-          <div className="absolute -top-12 left-1/2 -translate-x-1/2 flex items-center gap-2 text-indigo-600 dark:text-indigo-400 font-mono text-xs uppercase tracking-[0.4em] mb-8">
-             <div className="w-12 h-[1px] bg-indigo-500/30" />
-             Manifesto
-             <div className="w-12 h-[1px] bg-indigo-500/30" />
+          <div className="flex items-center justify-center gap-3 text-indigo-600 dark:text-indigo-400 font-mono text-[11px] uppercase tracking-[0.35em] mb-4 font-bold">
+             <div className="w-8 h-px bg-indigo-600/50" />
+             COMPANY MANIFESTO
+             <div className="w-8 h-px bg-indigo-600/50" />
           </div>
 
-          <h2 className="text-3xl md:text-5xl lg:text-6xl font-bold text-foreground tracking-tight leading-[1.1] mb-12">
-            Engineering the <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 via-indigo-400 to-emerald-500 dark:from-indigo-400 dark:via-blue-400 dark:to-emerald-400">Future of Intelligence</span>. We are Meganods.
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-foreground tracking-tight leading-tight mb-8 max-w-4xl mx-auto">
+            Engineering the <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 via-indigo-500 to-emerald-500">Future of Intelligence</span>.
           </h2>
 
           <div className="flex flex-col md:flex-row items-center justify-center gap-8 md:gap-16">

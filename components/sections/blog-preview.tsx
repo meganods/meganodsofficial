@@ -54,17 +54,18 @@ export function BlogPreviewSection() {
             <motion.div
               initial={{ opacity: 0, x: -20 }}
               animate={isInView ? { opacity: 1, x: 0 } : {}}
-              className="text-indigo-600 dark:text-indigo-400 font-mono text-xs uppercase tracking-[0.4em] mb-4"
+              className="text-indigo-600 dark:text-indigo-400 font-mono text-[11px] uppercase tracking-[0.35em] mb-3 font-bold flex items-center gap-3"
             >
-              Intelligence
+              <div className="w-8 h-px bg-indigo-600/50" />
+              INTELLIGENCE & INSIGHTS
             </motion.div>
             <motion.h2
               initial={{ opacity: 0, y: 20 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.5, delay: 0.1 }}
-              className="text-4xl md:text-5xl lg:text-7xl font-bold text-foreground tracking-tighter leading-none"
+              className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-foreground tracking-tight leading-tight"
             >
-              Tech <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 via-blue-500 to-emerald-400 dark:from-indigo-400 dark:via-blue-400 dark:to-emerald-400">Insights</span> & Global News.
+              Latest <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 via-blue-600 to-emerald-600">Tech Insights</span> & News.
             </motion.h2>
           </div>
           <motion.div

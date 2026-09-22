@@ -85,26 +85,26 @@ export function FeaturesSection() {
             initial={{ opacity: 0, x: -20 }}
             animate={isInView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.6 }}
-            className="flex items-center gap-2 text-indigo-600 dark:text-indigo-400 font-mono text-sm mb-6 uppercase tracking-widest"
+            className="flex items-center gap-3 text-indigo-600 dark:text-indigo-400 font-mono text-[11px] mb-3 uppercase tracking-[0.35em] font-bold"
           >
-            <Zap className="w-4 h-4 fill-current" />
-            Capabilities
+            <div className="w-8 h-px bg-indigo-600/50" />
+            CORE CAPABILITIES
           </motion.div>
           
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.6, delay: 0.1 }}
-            className="text-4xl md:text-6xl font-bold tracking-tight mb-8 leading-[1.1] text-foreground"
+            className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight mb-5 leading-tight text-foreground"
           >
-            Engineering the <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 via-blue-600 to-emerald-600 dark:from-indigo-400 dark:via-blue-400 dark:to-emerald-400">Next Frontier</span> of Development.
+            Engineering the <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 via-blue-600 to-emerald-600">Next Frontier</span> of Tech.
           </motion.h2>
 
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="text-muted-foreground text-lg md:text-xl max-w-2xl leading-relaxed"
+            className="text-muted-foreground text-sm sm:text-base max-w-2xl leading-relaxed font-normal"
           >
             We don't just build software. We architect high-performance digital ecosystems that leverage AI, Automation, and Cloud to dominate markets.
           </motion.p>

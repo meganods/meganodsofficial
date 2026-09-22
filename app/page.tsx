@@ -36,17 +36,17 @@ export default function HomePage() {
         {/* Section 6: Tech Stack */}
         <TechStackSection />
         
-        {/* Section 7: Testimonials */}
-        <TestimonialsSection />
-        
-        {/* Section 8: Team Preview */}
+        {/* Section 7: Team Preview - Engineering Leadership Hub */}
         <TeamPreviewSection />
         
-        {/* Section 9: Blog Preview */}
-        <BlogPreviewSection />
-        
-        {/* Section 10: CTA */}
+        {/* Section 8: Testimonials - Trusted by Industry Leaders */}
+        <TestimonialsSection />
+
+        {/* Section 9: CTA - Expand the Intelligence Mesh */}
         <CTASection />
+        
+        {/* Section 10: Blog Preview */}
+        <BlogPreviewSection />
       </main>
       <Footer />
     </SmoothScrollProvider>

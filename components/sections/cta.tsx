@@ -43,16 +43,16 @@ export function CTASection() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={isInView ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.5, delay: 0.1 }}
-                className="text-4xl md:text-6xl lg:text-8xl font-bold text-foreground mb-10 tracking-tighter leading-[0.9]"
+                className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold text-foreground mb-6 tracking-tight leading-tight"
               >
-                Let’s Scale <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 via-blue-500 to-emerald-400 dark:from-indigo-400 dark:via-blue-400 dark:to-emerald-400">Your Vision</span> to Reality.
+                Let’s Scale <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 via-blue-600 to-purple-600">Your Vision</span> to Reality.
               </motion.h2>
 
               <motion.p
                 initial={{ opacity: 0, y: 20 }}
                 animate={isInView ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.5, delay: 0.2 }}
-                className="text-muted-foreground text-xl lg:text-2xl mb-16 max-w-2xl mx-auto leading-relaxed font-medium"
+                className="text-muted-foreground text-sm sm:text-base mb-12 max-w-xl mx-auto leading-relaxed font-normal"
               >
                 Join the enterprise network of high-performance innovators. From autonomous AI to global cloud architectures, we build what’s next.
               </motion.p>
