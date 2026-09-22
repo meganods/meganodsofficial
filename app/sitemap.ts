@@ -53,5 +53,35 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: 'monthly',
       priority: 0.8,
     },
+    {
+      url: `${baseUrl}/technologies/neural-ai-cognitive-systems`,
+      lastModified,
+      changeFrequency: 'monthly',
+      priority: 0.8,
+    },
+    {
+      url: `${baseUrl}/technologies/distributed-cloud-edge-mesh`,
+      lastModified,
+      changeFrequency: 'monthly',
+      priority: 0.8,
+    },
+    {
+      url: `${baseUrl}/technologies/zero-trust-cyber-shield`,
+      lastModified,
+      changeFrequency: 'monthly',
+      priority: 0.8,
+    },
+    {
+      url: `${baseUrl}/technologies/spatial-robotics-vision-ai`,
+      lastModified,
+      changeFrequency: 'monthly',
+      priority: 0.8,
+    },
+    {
+      url: `${baseUrl}/technologies/hyper-scale-web-mobile-frameworks`,
+      lastModified,
+      changeFrequency: 'monthly',
+      priority: 0.8,
+    },
   ]
 }
