@@ -73,6 +73,9 @@ export const metadata: Metadata = {
   verification: {
     google: 'google02c5a4427971ec21',
   },
+  other: {
+    'google-adsense-account': 'ca-pub-5266755800049907',
+  },
 }
 
 export const viewport: Viewport = {
@@ -93,6 +96,14 @@ export default function RootLayout({
   return (
     <html lang="en" className="light">
       <body className={`${inter.variable} ${spaceGrotesk.variable} font-sans antialiased`}>
+        {/* Google AdSense Script */}
+        <Script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5266755800049907"
+          crossOrigin="anonymous"
+          strategy="lazyOnload"
+        />
+
         {/* Google tag (gtag.js) for Google Ads */}
         <Script
           src="https://www.googletagmanager.com/gtag/js?id=AW-18420745292"
