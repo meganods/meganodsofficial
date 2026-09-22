@@ -8,49 +8,36 @@ import { Footer } from '@/components/layout/footer'
 import { SmoothScrollProvider } from '@/components/providers/smooth-scroll-provider'
 import { Button } from '@/components/ui/button'
 import { DeepTechBackground } from '@/components/ui/deep-tech-background'
-import { ArrowRight, ArrowUpRight, Filter, Layers, Rocket, Loader2, Database } from 'lucide-react'
+import { ArrowRight, ArrowUpRight, Filter, Layers, Rocket, Loader2, Database, ExternalLink } from 'lucide-react'
 import { db } from "@/lib/firebase";
 import { collection, getDocs, query, orderBy } from "firebase/firestore";
-
-interface ProjectNode {
-  id: string;
-  title: string;
-  category: string;
-  slug: string;
-  heroImage: string;
-  description: string;
-  client: string;
-  year: string;
-  results?: { metric: string; label: string }[];
-  technologies?: string[];
-  gallery?: string[];
-}
+import { defaultProjects, ProjectNode } from "@/lib/data/projects";
 
 export default function ProjectsPage() {
   const [activeCategory, setActiveCategory] = useState('All')
-  const [projects, setProjects] = useState<ProjectNode[]>([])
-  const [isLoading, setIsLoading] = useState(true)
-  const [categories, setCategories] = useState(['All'])
+  const [projects, setProjects] = useState<ProjectNode[]>(defaultProjects)
+  const [isLoading, setIsLoading] = useState(false)
+  const [categories, setCategories] = useState<string[]>(['All', ...new Set(defaultProjects.map(p => p.category))])
 
   useEffect(() => {
     const fetchProjects = async () => {
       try {
         const q = query(collection(db, "projects"), orderBy("order", "asc"), orderBy("createdAt", "desc"));
         const querySnapshot = await getDocs(q);
-        const docs = querySnapshot.docs.map(doc => ({
-          id: doc.id,
-          ...doc.data()
-        })) as ProjectNode[];
-        
-        setProjects(docs);
-        
-        // Extract unique categories
-        const cats = ['All', ...new Set(docs.map(p => p.category).filter(Boolean))];
-        setCategories(cats);
+        if (!querySnapshot.empty) {
+          const docs = querySnapshot.docs.map(doc => ({
+            id: doc.id,
+            ...doc.data()
+          })) as ProjectNode[];
+          
+          setProjects(docs);
+          
+          // Extract unique categories
+          const cats = ['All', ...new Set(docs.map(p => p.category).filter(Boolean))];
+          setCategories(cats);
+        }
       } catch (error) {
         console.error("REGISTRY_FETCH_ERROR:", error);
-      } finally {
-        setIsLoading(false);
       }
     }
     fetchProjects();
@@ -158,13 +145,25 @@ export default function ProjectsPage() {
                           
                           <div className="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent opacity-95 pointer-events-none" />
                           
-                          <div className="absolute top-8 left-8 flex gap-3">
+                          <div className="absolute top-8 left-8 flex flex-wrap gap-3">
                              <span className="px-5 py-2 bg-emerald-500 text-white text-[9px] font-black uppercase tracking-widest rounded-lg shadow-xl">
                                 {project.category}
                              </span>
                              <span className="px-5 py-2 bg-secondary border border-border backdrop-blur-md text-foreground text-[9px] font-black uppercase tracking-widest rounded-lg">
                                 {project.year} PROTOCOL
                              </span>
+                             {project.liveUrl && (
+                                <a 
+                                   href={project.liveUrl} 
+                                   target="_blank" 
+                                   rel="noopener noreferrer" 
+                                   onClick={(e) => e.stopPropagation()} 
+                                   className="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-[9px] font-black uppercase tracking-widest rounded-lg shadow-xl flex items-center gap-1.5 transition-all hover:scale-105 z-20"
+                                >
+                                   <span>Live System</span>
+                                   <ExternalLink className="w-3 h-3" />
+                                </a>
+                             )}
                           </div>
                           
                           <div className="absolute bottom-10 left-10 right-10">

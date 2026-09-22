@@ -8,14 +8,15 @@ import { Button } from '@/components/ui/button'
 import { DeepTechBackground } from '@/components/ui/deep-tech-background'
 import { db } from "@/lib/firebase";
 import { collection, getDocs, query, orderBy, limit } from "firebase/firestore";
+import { defaultProjects } from "@/lib/data/projects";
 
 export function ProjectsPreviewSection() {
   const containerRef = useRef(null)
   const scrollRef = useRef<HTMLDivElement>(null)
   const isInView = useInView(containerRef, { once: true, margin: "-100px" })
   
-  const [projects, setProjects] = useState<any[]>([])
-  const [isLoading, setIsLoading] = useState(true)
+  const [projects, setProjects] = useState<any[]>(defaultProjects)
+  const [isLoading, setIsLoading] = useState(false)
   const [canScrollLeft, setCanScrollLeft] = useState(false)
   const [canScrollRight, setCanScrollRight] = useState(true)
   const [isHovered, setIsHovered] = useState(false)
@@ -30,15 +31,15 @@ export function ProjectsPreviewSection() {
           limit(12)
         );
         const querySnapshot = await getDocs(q);
-        const docs = querySnapshot.docs.map(doc => ({
-          id: doc.id,
-          ...doc.data()
-        }));
-        setProjects(docs);
+        if (!querySnapshot.empty) {
+          const docs = querySnapshot.docs.map(doc => ({
+            id: doc.id,
+            ...doc.data()
+          }));
+          setProjects(docs);
+        }
       } catch (error) {
         console.error("PROJECTS_FETCH_ERROR:", error);
-      } finally {
-        setIsLoading(false);
       }
     }
     fetchProjects();
@@ -191,10 +192,20 @@ export function ProjectsPreviewSection() {
                         <div className={`absolute inset-0 bg-gradient-to-br ${gradients[index % gradients.length]} opacity-30 group-hover:opacity-10 transition-all duration-700 pointer-events-none`} />
                         <div className="absolute inset-0 bg-gradient-to-t from-card dark:from-[#05050a] via-transparent to-transparent opacity-90" />
  
+                        {/* Visual Top Badges */}
+                        {project.liveUrl && (
+                          <div className="absolute top-8 left-8 z-10">
+                            <span className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-emerald-500/90 text-white text-[8px] font-mono font-black uppercase tracking-wider shadow-lg backdrop-blur-md">
+                              <span className="w-1.5 h-1.5 rounded-full bg-white animate-ping" />
+                              Live Platform
+                            </span>
+                          </div>
+                        )}
+
                         {/* Visual Hover Target */}
                         <div className="absolute top-8 right-8 scale-50 opacity-0 group-hover:scale-100 group-hover:opacity-100 transition-all duration-700">
-                           <div className="w-16 h-16 rounded-2xl bg-primary flex items-center justify-center shadow-2xl hover:scale-110 active:scale-95 transition-transform">
-                              <ArrowUpRight className="w-8 h-8 text-primary-foreground" />
+                           <div className="w-14 h-14 rounded-2xl bg-indigo-600 text-white flex items-center justify-center shadow-2xl hover:scale-110 active:scale-95 transition-transform">
+                              <ArrowUpRight className="w-6 h-6" />
                            </div>
                         </div>
                       </div>

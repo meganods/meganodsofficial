@@ -8,16 +8,16 @@ import { db } from "@/lib/firebase";
 import { collection, query, where, getDocs, limit } from "firebase/firestore";
 import { Navigation } from "@/components/layout/navigation";
 import { Footer } from "@/components/layout/footer";
+import { defaultProjects } from "@/lib/data/projects";
 
 export default function ProjectDetailPage({ params }: { params: Promise<{ slug: string }> }) {
   const resolvedParams = use(params)
-  const [project, setProject] = useState<any>(null)
-  const [relatedProjects, setRelatedProjects] = useState<any[]>([])
-  const [isLoading, setIsLoading] = useState(true)
+  const [project, setProject] = useState<any>(() => defaultProjects.find(p => p.slug === resolvedParams.slug) || null)
+  const [relatedProjects, setRelatedProjects] = useState<any[]>(() => defaultProjects.filter(p => p.slug !== resolvedParams.slug).slice(0, 3))
+  const [isLoading, setIsLoading] = useState(false)
 
   useEffect(() => {
     const fetchProjectData = async () => {
-      setIsLoading(true);
       try {
         // Fetch current project
         const q = query(collection(db, "projects"), where("slug", "==", resolvedParams.slug), limit(1));
@@ -38,8 +38,6 @@ export default function ProjectDetailPage({ params }: { params: Promise<{ slug: 
         }
       } catch (error) {
         console.error("FIREBASE_NODE_ERROR:", error);
-      } finally {
-        setIsLoading(false);
       }
     }
     fetchProjectData();
@@ -89,7 +87,7 @@ export default function ProjectDetailPage({ params }: { params: Promise<{ slug: 
               Registry Archive
             </Link>
 
-            <div className="flex gap-4 mb-6">
+            <div className="flex flex-wrap items-center gap-4 mb-6">
                <span className="inline-flex items-center gap-2 px-5 py-2 bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 rounded-full text-[9px] font-black uppercase tracking-widest">
                  <Zap className="w-3.5 h-3.5" />
                  {project.category}
@@ -97,6 +95,17 @@ export default function ProjectDetailPage({ params }: { params: Promise<{ slug: 
                <span className="inline-flex items-center gap-2 px-5 py-2 bg-white/5 backdrop-blur-md text-white/40 border border-white/5 rounded-full text-[9px] font-black uppercase tracking-widest">
                  {project.year} PROTOCOL
                </span>
+               {project.liveUrl && (
+                 <a 
+                   href={project.liveUrl} 
+                   target="_blank" 
+                   rel="noopener noreferrer" 
+                   className="inline-flex items-center gap-2 px-6 py-2 bg-indigo-600 hover:bg-indigo-500 text-white rounded-full text-[9px] font-black uppercase tracking-widest shadow-xl shadow-indigo-600/20 transition-all hover:scale-105"
+                 >
+                   <span>Visit Live Platform</span>
+                   <ExternalLink className="w-3.5 h-3.5" />
+                 </a>
+               )}
             </div>
 
             <h1 className="text-3xl md:text-5xl lg:text-7xl font-black max-w-4xl tracking-tighter leading-[1.1] uppercase mb-10">
