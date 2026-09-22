@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Menu, X, ChevronDown, Satellite, Terminal } from 'lucide-react'
+import { Menu, X, ChevronDown, Satellite, ArrowRight } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 
 const navLinks = [
@@ -14,7 +14,6 @@ const navLinks = [
   { href: '/projects', label: 'Projects', index: '04' },
   { href: '/team', label: 'Nodes', index: '05' },
   { href: '/blog', label: 'Insights', index: '06' },
-  { href: '/contact', label: 'Contact', index: '07' },
 ]
 
 export function Navigation() {
@@ -68,7 +67,7 @@ export function Navigation() {
             </Link>
 
             {/* Tactical Navigation Links */}
-            <div className="hidden lg:flex items-center gap-1 xl:gap-2">
+            <div className="hidden lg:flex items-center gap-1.5 xl:gap-3">
               {navLinks.map((link) => (
                 <div
                   key={link.href}
@@ -78,21 +77,21 @@ export function Navigation() {
                 >
                   <Link
                     href={link.href}
-                    className={`px-4 py-2.5 rounded-xl text-[12px] font-black uppercase tracking-wider transition-all duration-300 flex items-center gap-2 ${pathname === link.href
+                    className={`px-3 xl:px-4 py-2.5 rounded-xl text-[14px] xl:text-[15px] font-extrabold uppercase tracking-wider transition-all duration-300 flex items-center gap-2 ${pathname === link.href
                         ? 'text-slate-950 dark:text-white font-black'
                         : 'text-slate-800 hover:text-indigo-600 dark:text-slate-200 dark:hover:text-white'
                        }`}
                   >
-                    <span className="text-[10px] font-mono text-indigo-600 font-bold group-hover/nav:text-indigo-700 transition-colors">{link.index}</span>
+                    <span className="text-[11px] xl:text-[12px] font-mono text-indigo-600 font-bold group-hover/nav:text-indigo-700 transition-colors">{link.index}</span>
                     <span>{link.label}</span>
-                    {link.submenu && <ChevronDown className="w-3.5 h-3.5 text-slate-700 group-hover/nav:text-indigo-600 group-hover/nav:rotate-180 transition-transform" />}
+                    {link.submenu && <ChevronDown className="w-4 h-4 text-slate-700 group-hover/nav:text-indigo-600 group-hover/nav:rotate-180 transition-transform" />}
                   </Link>
 
                   {/* Under-glow Indicator */}
                   {pathname === link.href && (
                     <motion.div
                       layoutId="nav-glow"
-                      className="absolute bottom-0 left-4 right-4 h-[2px] bg-gradient-to-r from-indigo-500 via-indigo-600 to-purple-600 rounded-full"
+                      className="absolute bottom-0 left-3 right-3 xl:left-4 xl:right-4 h-[2.5px] bg-gradient-to-r from-indigo-500 via-indigo-600 to-purple-600 rounded-full"
                     />
                   )}
 
@@ -110,7 +109,7 @@ export function Navigation() {
                           <Link
                             key={sublink.href}
                             href={sublink.href}
-                            className="flex items-center gap-4 px-4 py-3.5 rounded-2xl text-[11px] font-black text-slate-900 dark:text-slate-100 uppercase tracking-wider hover:text-indigo-600 hover:bg-slate-50 dark:hover:bg-secondary transition-all group/sub"
+                            className="flex items-center gap-4 px-4 py-3.5 rounded-2xl text-[13px] font-extrabold text-slate-900 dark:text-slate-100 uppercase tracking-wider hover:text-indigo-600 hover:bg-slate-50 dark:hover:bg-secondary transition-all group/sub"
                           >
                             <div className="w-8 h-8 rounded-lg bg-indigo-50 border border-indigo-100 flex items-center justify-center group-hover/sub:border-indigo-500/50 transition-all">
                               <sublink.icon className="w-4 h-4 text-indigo-600 group-hover/sub:text-indigo-700" />
@@ -125,14 +124,14 @@ export function Navigation() {
               ))}
             </div>
 
-            {/* Portal Actions */}
+            {/* Desktop Contact CTA Button */}
             <div className="hidden lg:flex items-center gap-6">
               <Link href="/contact">
                 <Button
-                  className="h-12 px-8 bg-primary text-primary-foreground hover:bg-primary/90 font-bold rounded-2xl shadow-xl transition-all text-xs uppercase tracking-widest group border-0"
+                  className="h-11 px-7 bg-primary text-primary-foreground hover:bg-primary/90 font-extrabold rounded-2xl shadow-xl transition-all text-[13px] xl:text-[14px] uppercase tracking-wider group border-0 flex items-center gap-2 hover:scale-105 active:scale-95 cursor-pointer"
                 >
-                  Establish Hub
-                  <Terminal className="ml-3 w-4 h-4 group-hover:scale-110 transition-transform" />
+                  Contact
+                  <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
                 </Button>
               </Link>
             </div>
@@ -226,12 +225,13 @@ export function Navigation() {
                 </div>
 
                 <Link href="/contact" onClick={() => setIsMobileMenuOpen(false)}>
-                  <Button className="w-full h-20 bg-primary text-primary-foreground hover:bg-primary/90 text-xl font-black rounded-3xl shadow-2xl transition-all uppercase hover:scale-[0.98] active:scale-95 border-0">
-                    Establish Hub
+                  <Button className="w-full h-14 bg-primary text-primary-foreground hover:bg-primary/90 text-base font-bold rounded-2xl shadow-xl transition-all uppercase hover:scale-[0.98] active:scale-95 border-0 flex items-center justify-center gap-2">
+                    Contact Us
+                    <ArrowRight className="w-4 h-4" />
                   </Button>
                 </Link>
 
-                <div className="mt-4">
+                <div className="mt-2">
                   <div className="w-12 h-12 flex items-center justify-center shrink-0">
                     <img src="/logo.png" alt="Meganods" className="w-full h-full object-contain" />
                   </div>

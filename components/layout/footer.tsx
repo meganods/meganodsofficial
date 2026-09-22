@@ -23,22 +23,22 @@ import { Button } from '@/components/ui/button'
 
 const footerLinks = {
   company: [
-    { label: 'About Node', href: '/about', id: '01' },
-    { label: 'Operational Team', href: '/team', id: '02' },
-    { label: 'Career Mesh', href: '/careers', id: '03' },
-    { label: 'Terminal Connect', href: '/contact', id: '04' },
+    { label: 'About Us', href: '/about', id: '01' },
+    { label: 'Our Team', href: '/team', id: '02' },
+    { label: 'Careers', href: '/careers', id: '03' },
+    { label: 'Contact Us', href: '/contact', id: '04' },
   ],
   services: [
-    { label: 'Neural AI', href: '/services#ai', id: '05' },
-    { label: 'Cloud Fabric', href: '/services#cloud', id: '06' },
-    { label: 'Cyber Defense', href: '/services#cyber', id: '07' },
-    { label: 'High-Freq Data', href: '/services#data', id: '08' },
+    { label: 'AI & Machine Learning', href: '/services#ai', id: '05' },
+    { label: 'Cloud Infrastructure', href: '/services#cloud', id: '06' },
+    { label: 'Cybersecurity', href: '/services#cyber', id: '07' },
+    { label: 'Data Engineering', href: '/services#data', id: '08' },
   ],
   resources: [
-    { label: 'Intelligence Feed', href: '/blog', id: '09' },
-    { label: 'Audit Portfolio', href: '/projects', id: '10' },
-    { label: 'Technical Docs', href: '/docs', id: '11' },
-    { label: 'Support Uplink', href: '/support', id: '12' },
+    { label: 'Engineering Insights', href: '/blog', id: '09' },
+    { label: 'Project Portfolio', href: '/projects', id: '10' },
+    { label: 'Documentation', href: '/docs', id: '11' },
+    { label: 'Client Support', href: '/support', id: '12' },
   ],
 }
 
@@ -99,7 +99,7 @@ export function Footer() {
                    type="submit"
                    className="px-10 py-5 bg-primary text-primary-foreground hover:bg-primary/90 font-bold rounded-2xl lg:rounded-[2rem] transition-all text-lg shadow-2xl flex items-center justify-center gap-3 group border-0"
                  >
-                   Establish <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                   Subscribe <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                  </Button>
                </form>
                <div className="mt-6 flex items-center justify-center lg:justify-start gap-3">
