@@ -66,8 +66,8 @@ export const metadata: Metadata = {
     },
   },
   icons: {
-    icon: '/WhatsApp Image 2026-04-04 at 12.39.24 PM.jpeg',
-    apple: '/WhatsApp Image 2026-04-04 at 12.39.24 PM.jpeg',
+    icon: '/logo.png',
+    apple: '/logo.png',
   },
   manifest: '/manifest.json',
   verification: {
@@ -95,29 +95,34 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="light">
-      <body className={`${inter.variable} ${spaceGrotesk.variable} font-sans antialiased`}>
+      <head>
+        {/* Google AdSense Account Meta Tag */}
+        <meta name="google-adsense-account" content="ca-pub-5266755800049907" />
+
         {/* Google AdSense Script */}
-        <Script
+        <script
           async
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5266755800049907"
           crossOrigin="anonymous"
-          strategy="lazyOnload"
         />
 
         {/* Google tag (gtag.js) for Google Ads */}
-        <Script
+        <script
+          async
           src="https://www.googletagmanager.com/gtag/js?id=AW-18420745292"
-          strategy="afterInteractive"
         />
-        <Script id="google-ads-tag" strategy="afterInteractive">
-          {`
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', 'AW-18420745292');
-          `}
-        </Script>
-
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', 'AW-18420745292');
+            `,
+          }}
+        />
+      </head>
+      <body className={`${inter.variable} ${spaceGrotesk.variable} font-sans antialiased`}>
         <CustomCursor />
         <Preloader />
         <StarField />

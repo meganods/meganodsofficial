@@ -4,7 +4,7 @@ export default function JsonLd() {
     '@type': 'Organization',
     name: 'Meganods',
     url: 'https://meganods.com',
-    logo: 'https://meganods.com/WhatsApp Image 2026-04-04 at 12.39.24 PM.jpeg',
+    logo: 'https://meganods.com/logo.png',
     description: 'Meganods delivers cutting-edge AI technology, cloud computing, cybersecurity, and digital transformation services to empower businesses worldwide.',
     foundingDate: '2015',
     contactPoint: {

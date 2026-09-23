@@ -8,14 +8,14 @@
   "theme_color": "#6366f1",
   "icons": [
     {
-      "src": "/WhatsApp Image 2026-04-04 at 12.39.24 PM.jpeg",
+      "src": "/logo.png",
       "sizes": "192x192",
-      "type": "image/jpeg"
+      "type": "image/png"
     },
     {
-      "src": "/WhatsApp Image 2026-04-04 at 12.39.24 PM.jpeg",
+      "src": "/logo.png",
       "sizes": "512x512",
-      "type": "image/jpeg"
+      "type": "image/png"
     }
   ]
 }

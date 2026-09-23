@@ -13,6 +13,18 @@ export default function robots(): MetadataRoute.Robots {
         allow: '/',
         disallow: ['/admin/', '/api/'],
       },
+      {
+        userAgent: 'Mediapartners-Google',
+        allow: '/',
+      },
+      {
+        userAgent: 'AdsBot-Google',
+        allow: '/',
+      },
+      {
+        userAgent: 'AdsBot-Google-Mobile',
+        allow: '/',
+      },
     ],
     sitemap: 'https://meganods.com/sitemap.xml',
   }
