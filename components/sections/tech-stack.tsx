@@ -6,19 +6,136 @@ import { DeepTechBackground } from '@/components/ui/deep-tech-background'
 import { Brain, Cloud, Cpu, Database, Flame, Globe, Lock, Terminal } from 'lucide-react'
 
 const technologies = [
-  { name: 'TensorFlow', category: 'AI/ML', icon: Brain },
-  { name: 'PyTorch', category: 'AI/ML', icon: Brain },
-  { name: 'AWS', category: 'Cloud', icon: Cloud },
-  { name: 'Azure', category: 'Cloud', icon: Cloud },
-  { name: 'GCP', category: 'Cloud', icon: Cloud },
-  { name: 'Kubernetes', category: 'DevOps', icon: Cpu },
-  { name: 'Docker', category: 'DevOps', icon: Cpu },
-  { name: 'Next.js', category: 'Frontend', icon: Globe },
-  { name: 'Node.js', category: 'Backend', icon: Terminal },
-  { name: 'Python', category: 'Backend', icon: Terminal },
-  { name: 'PostgreSQL', category: 'Database', icon: Database },
-  { name: 'Redis', category: 'Database', icon: Flame },
-  { name: 'Terraform', category: 'IaC', icon: Lock },
+  {
+    name: 'TensorFlow',
+    category: 'AI/ML',
+    icon: Brain,
+    color: 'text-amber-500',
+    bgColor: 'bg-amber-500/15 dark:bg-amber-500/25',
+    borderColor: 'border-amber-500/40 group-hover:border-amber-500',
+    glowColor: 'shadow-amber-500/20 group-hover:shadow-amber-500/40',
+    accentText: 'group-hover:text-amber-500',
+  },
+  {
+    name: 'PyTorch',
+    category: 'AI/ML',
+    icon: Flame,
+    color: 'text-orange-500',
+    bgColor: 'bg-orange-500/15 dark:bg-orange-500/25',
+    borderColor: 'border-orange-500/40 group-hover:border-orange-500',
+    glowColor: 'shadow-orange-500/20 group-hover:shadow-orange-500/40',
+    accentText: 'group-hover:text-orange-500',
+  },
+  {
+    name: 'AWS',
+    category: 'Cloud',
+    icon: Cloud,
+    color: 'text-amber-500 dark:text-amber-400',
+    bgColor: 'bg-amber-500/15 dark:bg-amber-500/25',
+    borderColor: 'border-amber-500/40 group-hover:border-amber-400',
+    glowColor: 'shadow-amber-500/20 group-hover:shadow-amber-500/40',
+    accentText: 'group-hover:text-amber-500 dark:group-hover:text-amber-400',
+  },
+  {
+    name: 'Azure',
+    category: 'Cloud',
+    icon: Cloud,
+    color: 'text-sky-500',
+    bgColor: 'bg-sky-500/15 dark:bg-sky-500/25',
+    borderColor: 'border-sky-500/40 group-hover:border-sky-500',
+    glowColor: 'shadow-sky-500/20 group-hover:shadow-sky-500/40',
+    accentText: 'group-hover:text-sky-500',
+  },
+  {
+    name: 'GCP',
+    category: 'Cloud',
+    icon: Globe,
+    color: 'text-blue-500',
+    bgColor: 'bg-blue-500/15 dark:bg-blue-500/25',
+    borderColor: 'border-blue-500/40 group-hover:border-blue-500',
+    glowColor: 'shadow-blue-500/20 group-hover:shadow-blue-500/40',
+    accentText: 'group-hover:text-blue-500',
+  },
+  {
+    name: 'Kubernetes',
+    category: 'DevOps',
+    icon: Cpu,
+    color: 'text-blue-600 dark:text-blue-400',
+    bgColor: 'bg-blue-600/15 dark:bg-blue-600/25',
+    borderColor: 'border-blue-600/40 group-hover:border-blue-500',
+    glowColor: 'shadow-blue-600/20 group-hover:shadow-blue-600/40',
+    accentText: 'group-hover:text-blue-600 dark:group-hover:text-blue-400',
+  },
+  {
+    name: 'Docker',
+    category: 'DevOps',
+    icon: Cpu,
+    color: 'text-cyan-500',
+    bgColor: 'bg-cyan-500/15 dark:bg-cyan-500/25',
+    borderColor: 'border-cyan-500/40 group-hover:border-cyan-400',
+    glowColor: 'shadow-cyan-500/20 group-hover:shadow-cyan-500/40',
+    accentText: 'group-hover:text-cyan-500',
+  },
+  {
+    name: 'Next.js',
+    category: 'Frontend',
+    icon: Globe,
+    color: 'text-indigo-600 dark:text-indigo-400',
+    bgColor: 'bg-indigo-500/15 dark:bg-indigo-500/25',
+    borderColor: 'border-indigo-500/40 group-hover:border-indigo-500',
+    glowColor: 'shadow-indigo-500/20 group-hover:shadow-indigo-500/40',
+    accentText: 'group-hover:text-indigo-600 dark:group-hover:text-indigo-400',
+  },
+  {
+    name: 'Node.js',
+    category: 'Backend',
+    icon: Terminal,
+    color: 'text-emerald-500',
+    bgColor: 'bg-emerald-500/15 dark:bg-emerald-500/25',
+    borderColor: 'border-emerald-500/40 group-hover:border-emerald-500',
+    glowColor: 'shadow-emerald-500/20 group-hover:shadow-emerald-500/40',
+    accentText: 'group-hover:text-emerald-500',
+  },
+  {
+    name: 'Python',
+    category: 'Backend',
+    icon: Terminal,
+    color: 'text-yellow-500 dark:text-yellow-400',
+    bgColor: 'bg-yellow-500/15 dark:bg-yellow-500/25',
+    borderColor: 'border-yellow-500/40 group-hover:border-yellow-400',
+    glowColor: 'shadow-yellow-500/20 group-hover:shadow-yellow-500/40',
+    accentText: 'group-hover:text-yellow-600 dark:group-hover:text-yellow-400',
+  },
+  {
+    name: 'PostgreSQL',
+    category: 'Database',
+    icon: Database,
+    color: 'text-blue-500 dark:text-blue-400',
+    bgColor: 'bg-blue-500/15 dark:bg-blue-500/25',
+    borderColor: 'border-blue-500/40 group-hover:border-blue-500',
+    glowColor: 'shadow-blue-500/20 group-hover:shadow-blue-500/40',
+    accentText: 'group-hover:text-blue-500 dark:group-hover:text-blue-400',
+  },
+  {
+    name: 'Redis',
+    category: 'Database',
+    icon: Flame,
+    color: 'text-rose-500',
+    bgColor: 'bg-rose-500/15 dark:bg-rose-500/25',
+    borderColor: 'border-rose-500/40 group-hover:border-rose-500',
+    glowColor: 'shadow-rose-500/20 group-hover:shadow-rose-500/40',
+    accentText: 'group-hover:text-rose-500',
+  },
+  {
+    name: 'Terraform',
+    category: 'IaC',
+    icon: Lock,
+    color: 'text-purple-500 dark:text-purple-400',
+    bgColor: 'bg-purple-500/15 dark:bg-purple-500/25',
+    borderColor: 'border-purple-500/40 group-hover:border-purple-500',
+    glowColor: 'shadow-purple-500/20 group-hover:shadow-purple-500/40',
+    accentText: 'group-hover:text-purple-500 dark:group-hover:text-purple-400',
+  },
 ]
 
 export function TechStackSection() {
@@ -41,7 +158,7 @@ export function TechStackSection() {
           </motion.div>
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            animate={isInView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.5, delay: 0.1 }}
             className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-foreground tracking-tight leading-tight"
           >
@@ -61,14 +178,19 @@ export function TechStackSection() {
               {[...technologies, ...technologies].map((tech, index) => (
                 <div
                   key={`marquee-1-${index}`}
-                  className="flex items-center gap-6 group cursor-default"
+                  className="flex items-center gap-6 group cursor-pointer"
                 >
-                  <div className="w-14 h-14 rounded-2xl bg-secondary border border-border flex items-center justify-center group-hover:border-indigo-600/50 dark:group-hover:border-indigo-400/50 transition-colors">
-                     <tech.icon className="w-6 h-6 text-foreground group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors" />
-                  </div>
+                  <motion.div 
+                    whileHover={{ scale: 1.15, rotate: [0, -6, 6, 0] }}
+                    transition={{ duration: 0.35 }}
+                    className={`w-14 h-14 rounded-2xl ${tech.bgColor} border ${tech.borderColor} shadow-lg ${tech.glowColor} flex items-center justify-center transition-all duration-300 relative overflow-hidden`}
+                  >
+                    <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity" />
+                    <tech.icon className={`w-7 h-7 ${tech.color} group-hover:scale-110 transition-transform duration-300 drop-shadow-sm animate-pulse`} />
+                  </motion.div>
                   <div>
-                    <div className="text-foreground font-bold text-xl lg:text-2xl tracking-tight group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">{tech.name}</div>
-                    <div className="text-muted-foreground/40 text-[10px] items-center font-mono uppercase tracking-widest">{tech.category}</div>
+                    <div className={`text-foreground font-bold text-xl lg:text-2xl tracking-tight ${tech.accentText} transition-colors duration-300`}>{tech.name}</div>
+                    <div className="text-muted-foreground/50 text-[10px] items-center font-mono uppercase tracking-widest">{tech.category}</div>
                   </div>
                 </div>
               ))}
@@ -85,14 +207,19 @@ export function TechStackSection() {
               {[...technologies, ...technologies].reverse().map((tech, index) => (
                 <div
                   key={`marquee-2-${index}`}
-                  className="flex items-center gap-6 group cursor-default"
+                  className="flex items-center gap-6 group cursor-pointer"
                 >
-                  <div className="w-14 h-14 rounded-2xl bg-secondary border border-border flex items-center justify-center group-hover:border-emerald-600/50 dark:group-hover:border-emerald-400/50 transition-colors">
-                     <tech.icon className="w-6 h-6 text-foreground group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors" />
-                  </div>
+                  <motion.div 
+                    whileHover={{ scale: 1.15, rotate: [0, 6, -6, 0] }}
+                    transition={{ duration: 0.35 }}
+                    className={`w-14 h-14 rounded-2xl ${tech.bgColor} border ${tech.borderColor} shadow-lg ${tech.glowColor} flex items-center justify-center transition-all duration-300 relative overflow-hidden`}
+                  >
+                    <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity" />
+                    <tech.icon className={`w-7 h-7 ${tech.color} group-hover:scale-110 transition-transform duration-300 drop-shadow-sm animate-pulse`} />
+                  </motion.div>
                   <div>
-                    <div className="text-foreground font-bold text-xl lg:text-2xl tracking-tight group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors">{tech.name}</div>
-                    <div className="text-muted-foreground/40 text-[10px] font-mono uppercase tracking-widest">{tech.category}</div>
+                    <div className={`text-foreground font-bold text-xl lg:text-2xl tracking-tight ${tech.accentText} transition-colors duration-300`}>{tech.name}</div>
+                    <div className="text-muted-foreground/50 text-[10px] font-mono uppercase tracking-widest">{tech.category}</div>
                   </div>
                 </div>
               ))}

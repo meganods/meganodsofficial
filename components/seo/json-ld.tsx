@@ -15,9 +15,9 @@ export default function JsonLd() {
       availableLanguage: ['English'],
     },
     sameAs: [
+      'https://www.linkedin.com/in/meganods-08b7b5400/',
+      'https://www.instagram.com/mega.nods/',
       'https://twitter.com/meganods',
-      'https://linkedin.com/company/meganods',
-      'https://github.com/meganods',
     ],
     address: {
       '@type': 'PostalAddress',

@@ -44,9 +44,8 @@ const footerLinks = {
 
 const socialLinks = [
   { icon: Twitter, href: '#', label: 'Twitter', color: 'hover:text-indigo-500 hover:border-indigo-500/50' },
-  { icon: Linkedin, href: '#', label: 'LinkedIn', color: 'hover:text-indigo-600 hover:border-indigo-600/50' },
-  { icon: Github, href: '#', label: 'GitHub', color: 'hover:text-foreground hover:border-foreground/50' },
-  { icon: Instagram, href: '#', label: 'Instagram', color: 'hover:text-pink-500 hover:border-pink-500/50' },
+  { icon: Linkedin, href: 'https://www.linkedin.com/in/meganods-08b7b5400/', label: 'LinkedIn', color: 'hover:text-indigo-600 hover:border-indigo-600/50' },
+  { icon: Instagram, href: 'https://www.instagram.com/mega.nods/', label: 'Instagram', color: 'hover:text-pink-500 hover:border-pink-500/50' },
 ]
 
 export function Footer() {
@@ -130,6 +129,8 @@ export function Footer() {
                 <a
                   key={social.label}
                   href={social.href}
+                  target={social.href.startsWith('http') ? '_blank' : undefined}
+                  rel={social.href.startsWith('http') ? 'noopener noreferrer' : undefined}
                   className={`w-14 h-14 rounded-2xl bg-card border border-border flex items-center justify-center text-foreground/40 transition-all shadow-md group ${social.color}`}
                 >
                   <social.icon className="w-6 h-6 group-hover:scale-125 transition-transform" />
@@ -192,23 +193,23 @@ export function Footer() {
 
           <div className="lg:col-span-2">
             <h4 className="text-[10px] font-mono text-indigo-600 dark:text-indigo-400 uppercase tracking-[0.4em] mb-10">Terminal</h4>
-            <ul className="space-y-8">
+            <ul className="space-y-6">
               <li>
-                 <div className="flex flex-col gap-2">
-                    <span className="text-[9px] font-mono text-foreground/30 dark:text-white/20 uppercase tracking-widest">Global Mail</span>
-                    <a href="mailto:admin@meganods.com" className="text-xl font-bold text-foreground hover:text-indigo-600 transition-colors">admin@meganods.com</a>
+                 <div className="flex flex-col gap-1.5">
+                    <span className="text-[9px] font-mono text-foreground/40 dark:text-white/30 uppercase tracking-widest">Global Mail</span>
+                    <a href="mailto:admin@meganods.com" className="text-sm md:text-[15px] font-bold text-foreground hover:text-indigo-600 transition-colors break-all sm:break-normal">admin@meganods.com</a>
                  </div>
               </li>
               <li>
-                 <div className="flex flex-col gap-2">
-                    <span className="text-[9px] font-mono text-foreground/30 dark:text-white/20 uppercase tracking-widest">Base Phone</span>
-                    <a href="tel:+918796140682" className="text-xl font-bold text-foreground hover:text-indigo-600 transition-colors">+91 8796140682</a>
+                 <div className="flex flex-col gap-1.5">
+                    <span className="text-[9px] font-mono text-foreground/40 dark:text-white/30 uppercase tracking-widest">Base Phone</span>
+                    <a href="tel:+918796140682" className="text-sm md:text-[15px] font-bold text-foreground hover:text-indigo-600 transition-colors whitespace-nowrap">+91 8796140682</a>
                  </div>
               </li>
               <li>
-                 <div className="flex flex-col gap-2">
-                    <span className="text-[9px] font-mono text-foreground/30 dark:text-white/20 uppercase tracking-widest">HQ Sector</span>
-                    <span className="text-sm font-bold text-muted-foreground">OC-821 8th Floor, Gaur City Centre, Greater Noida West, Uttar Pradesh.</span>
+                 <div className="flex flex-col gap-1.5">
+                    <span className="text-[9px] font-mono text-foreground/40 dark:text-white/30 uppercase tracking-widest">HQ Sector</span>
+                    <span className="text-xs md:text-[13px] font-medium text-muted-foreground leading-relaxed">OC-821 8th Floor, Gaur City Centre, Greater Noida West, Uttar Pradesh.</span>
                  </div>
               </li>
             </ul>

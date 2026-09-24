@@ -385,12 +385,12 @@ export default function TeamPage() {
         <section id="leadership-grid" className="py-20 lg:py-32 relative z-10">
           <div className="container mx-auto px-6 lg:px-8">
             <div className="text-center max-w-3xl mx-auto mb-16">
-               <span className="text-indigo-600 font-mono text-xs uppercase tracking-[0.35em] mb-3 block font-bold">Leadership Team</span>
+               <span className="text-indigo-600 font-mono text-xs uppercase tracking-[0.35em] mb-3 block font-bold">Executive Board</span>
                <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold mb-4 tracking-tight leading-tight text-slate-900">
-                  Strategic <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-blue-600">Directors</span>.
+                  Leadership <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-blue-600">Council</span>.
                </h2>
                <p className="text-slate-500 text-base sm:text-lg leading-relaxed">
-                  The technical leaders responsible for our engineering standards, innovation culture, and project excellence.
+                  The visionary leaders responsible for our engineering standards, innovation culture, and project excellence.
                </p>
             </div>
 
@@ -447,7 +447,7 @@ export default function TeamPage() {
                            </div>
                         </div>
   
-                        <div className="text-indigo-600 font-mono text-[9px] uppercase tracking-[0.3em] mb-2 font-bold relative z-10">[ {member.meta} ]</div>
+                        <div className="text-indigo-600 font-mono text-[9px] uppercase tracking-[0.3em] mb-2 font-bold relative z-10">[ {member.meta ? member.meta.replace(/STRATEGIC NODE/i, 'LEADERSHIP').replace(/NODE/i, 'TEAM') : `LEADERSHIP 0${index + 1}`} ]</div>
                         <h3 className="text-xl sm:text-2xl font-bold text-slate-900 mb-1 group-hover:text-indigo-600 transition-colors relative z-10 leading-tight tracking-tight">{member.name}</h3>
                         <div className="text-slate-500 text-[10px] font-bold uppercase tracking-wider mb-4 relative z-10 font-mono">{member.role}</div>
                         <p className="text-slate-600 text-xs sm:text-sm leading-relaxed relative z-10 group-hover:text-slate-800 transition-colors line-clamp-3">{member.bio}</p>

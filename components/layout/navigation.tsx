@@ -12,7 +12,7 @@ const navLinks = [
   { href: '/about', label: 'About', index: '02' },
   { href: '/services', label: 'Services', index: '03' },
   { href: '/projects', label: 'Projects', index: '04' },
-  { href: '/team', label: 'Nodes', index: '05' },
+  { href: '/team', label: 'Team', index: '05' },
   { href: '/blog', label: 'Insights', index: '06' },
 ]
 
