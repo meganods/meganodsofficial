@@ -2,6 +2,7 @@ import { Navigation } from '@/components/layout/navigation'
 import { Footer } from '@/components/layout/footer'
 import { HeroSection } from '@/components/sections/hero'
 import { TechShowcaseSlider } from '@/components/sections/tech-showcase-slider'
+import { TrustQuoteSection } from '@/components/sections/trust-quote'
 import { FeaturesSection } from '@/components/sections/features'
 import { AboutPreviewSection } from '@/components/sections/about-preview'
 import { ServicesPreviewSection } from '@/components/sections/services-preview'
@@ -41,6 +42,9 @@ export default function HomePage() {
         
         {/* Section 8: Testimonials - Trusted by Industry Leaders */}
         <TestimonialsSection />
+
+        {/* Trust & Engineering Creed Quote */}
+        <TrustQuoteSection />
 
         {/* Section 9: CTA - Expand the Intelligence Mesh */}
         <CTASection />
