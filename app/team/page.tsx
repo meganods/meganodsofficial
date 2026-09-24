@@ -405,7 +405,7 @@ export default function TeamPage() {
                   <p className="text-base text-muted-foreground font-medium font-mono uppercase tracking-widest">Leadership Registry Empty</p>
                </div>
             ) : (
-              <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+              <div className="flex flex-wrap justify-center gap-8 max-w-6xl mx-auto">
                 {leadership.map((member, index) => (
                   <motion.div
                     key={member.id}
@@ -413,7 +413,7 @@ export default function TeamPage() {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ delay: index * 0.1 }}
-                    className="group relative"
+                    className="w-full sm:w-[calc(50%-1rem)] lg:w-[calc(33.333%-1.5rem)] max-w-[360px] group relative flex flex-col"
                   >
                     <Link href={`/team/${member.id}`} className="block h-full">
                       <div className="bg-card/60 backdrop-blur-3xl border border-border rounded-[2.5rem] p-8 h-full flex flex-col hover:border-indigo-500/30 transition-all duration-500 overflow-hidden relative shadow-sm cursor-pointer">
@@ -469,7 +469,7 @@ export default function TeamPage() {
                  <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight leading-tight text-slate-900">Key Team <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-blue-600">Collaborators</span>.</h2>
               </div>
               
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+              <div className="flex flex-wrap justify-center gap-8 max-w-6xl mx-auto">
                 {teamMembers.map((member, index) => (
                   <motion.div
                     key={member.id}
@@ -477,16 +477,16 @@ export default function TeamPage() {
                     whileInView={{ opacity: 1, scale: 1 }}
                     viewport={{ once: true }}
                     transition={{ delay: index * 0.05 }}
-                    className="group"
+                    className="w-full sm:w-[calc(50%-1rem)] lg:w-[calc(33.333%-1.5rem)] max-w-[340px] group flex flex-col"
                   >
                     <Link href={`/team/${member.id}`} className="block h-full">
-                      <div className="bg-white border border-slate-200 rounded-3xl p-6 text-center hover:border-indigo-300 hover:shadow-md transition-all h-full flex flex-col items-center cursor-pointer">
-                        <div className="relative w-20 h-20 mx-auto rounded-2xl overflow-hidden mb-5 group-hover:scale-105 transition-transform duration-500 shadow-md">
+                      <div className="bg-white border border-slate-200 rounded-[2.25rem] p-7 text-center hover:border-indigo-300 hover:shadow-lg transition-all h-full flex flex-col items-center cursor-pointer shadow-sm">
+                        <div className="relative w-36 h-36 mx-auto rounded-2xl overflow-hidden mb-5 group-hover:scale-105 transition-transform duration-500 shadow-md border border-slate-100 bg-secondary">
                           <img src={member.avatarUrl || `https://i.pravatar.cc/400?${member.name?.toLowerCase().includes('virat') ? 'img=11' : `u=${encodeURIComponent(member.name)}`}`} className="w-full h-full object-cover" alt={member.name} />
                         </div>
-                        <div className="text-indigo-600 font-mono text-[8.5px] uppercase tracking-wider mb-1 font-bold">[ {member.meta} ]</div>
-                        <h3 className="text-base font-bold text-slate-900 mb-0.5 leading-snug tracking-tight">{member.name}</h3>
-                        <p className="text-slate-500 text-[10px] font-medium uppercase tracking-wider font-mono">{member.role}</p>
+                        <div className="text-indigo-600 font-mono text-[9px] uppercase tracking-wider mb-2 font-bold">[ {member.meta ? member.meta.replace(/STRATEGIC NODE/i, 'TEAM').replace(/NODE/i, 'MEMBER') : `TEAM MEMBER 0${index + 1}`} ]</div>
+                        <h3 className="text-lg font-bold text-slate-900 mb-1 leading-snug tracking-tight group-hover:text-indigo-600 transition-colors">{member.name}</h3>
+                        <p className="text-slate-500 text-[11px] font-bold uppercase tracking-wider font-mono">{member.role}</p>
                       </div>
                     </Link>
                   </motion.div>
