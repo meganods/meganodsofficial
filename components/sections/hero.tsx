@@ -19,48 +19,65 @@ import { IsometricHeroAnimation } from '@/components/effects/isometric-hero-anim
 
 export function HeroSection() {
   const videoRef = useRef<HTMLVideoElement>(null)
-  const [isMuted, setIsMuted] = useState(false)
+  const [isMuted, setIsMuted] = useState(true)
 
   useEffect(() => {
     const video = videoRef.current
     if (!video) return
 
-    video.volume = 1.0
-    // Try to play with audio on load
-    video.muted = false
+    // Ensure video starts playing immediately on page load in all browsers
+    video.muted = true
+    video.play().catch(() => {})
 
-    const playPromise = video.play()
-    if (playPromise !== undefined) {
-      playPromise
-        .then(() => {
-          setIsMuted(false)
-        })
-        .catch(() => {
-          // If browser restricts unmuted autoplay, play muted first then unmute on first user interaction
-          video.muted = true
-          setIsMuted(true)
-          video.play().catch(() => {})
-
-          const handleUserInteraction = () => {
+    // Attempt to unmute immediately if browser policy permits
+    const tryUnmute = () => {
+      if (!videoRef.current) return
+      videoRef.current.muted = false
+      videoRef.current.volume = 1.0
+      const promise = videoRef.current.play()
+      if (promise !== undefined) {
+        promise
+          .then(() => {
+            setIsMuted(false)
+          })
+          .catch(() => {
+            // Browser restricted unmuted autoplay on initial load, ensure video stays playing muted
             if (videoRef.current) {
-              videoRef.current.muted = false
-              videoRef.current.volume = 1.0
-              setIsMuted(false)
-              if (videoRef.current.paused) {
-                videoRef.current.play().catch(() => {})
-              }
+              videoRef.current.muted = true
+              videoRef.current.play().catch(() => {})
             }
-            window.removeEventListener('click', handleUserInteraction)
-            window.removeEventListener('touchstart', handleUserInteraction)
-            window.removeEventListener('keydown', handleUserInteraction)
-            window.removeEventListener('scroll', handleUserInteraction)
-          }
+            setIsMuted(true)
+          })
+      }
+    }
 
-          window.addEventListener('click', handleUserInteraction, { once: true })
-          window.addEventListener('touchstart', handleUserInteraction, { once: true })
-          window.addEventListener('keydown', handleUserInteraction, { once: true })
-          window.addEventListener('scroll', handleUserInteraction, { once: true })
-        })
+    tryUnmute()
+
+    // Unmute automatically upon first user interaction anywhere on the screen
+    const handleFirstInteraction = () => {
+      if (videoRef.current) {
+        videoRef.current.muted = false
+        videoRef.current.volume = 1.0
+        videoRef.current.play().then(() => {
+          setIsMuted(false)
+        }).catch(() => {})
+      }
+      window.removeEventListener('click', handleFirstInteraction)
+      window.removeEventListener('touchstart', handleFirstInteraction)
+      window.removeEventListener('keydown', handleFirstInteraction)
+      window.removeEventListener('scroll', handleFirstInteraction)
+    }
+
+    window.addEventListener('click', handleFirstInteraction, { once: true, passive: true })
+    window.addEventListener('touchstart', handleFirstInteraction, { once: true, passive: true })
+    window.addEventListener('keydown', handleFirstInteraction, { once: true, passive: true })
+    window.addEventListener('scroll', handleFirstInteraction, { once: true, passive: true })
+
+    return () => {
+      window.removeEventListener('click', handleFirstInteraction)
+      window.removeEventListener('touchstart', handleFirstInteraction)
+      window.removeEventListener('keydown', handleFirstInteraction)
+      window.removeEventListener('scroll', handleFirstInteraction)
     }
   }, [])
 
