@@ -111,11 +111,11 @@ export default function RootLayout({
           crossOrigin="anonymous"
         />
 
-        {/* Google tag (gtag.js) for Google Ads */}
+        {/* Google tag (gtag.js) for Google Analytics & Google Ads */}
         <Script
           id="gtag-loader"
           strategy="afterInteractive"
-          src="https://www.googletagmanager.com/gtag/js?id=AW-18420745292"
+          src="https://www.googletagmanager.com/gtag/js?id=G-EHJZPCJ8NP"
         />
         <Script
           id="gtag-config"
@@ -125,6 +125,7 @@ export default function RootLayout({
               window.dataLayer = window.dataLayer || [];
               function gtag(){dataLayer.push(arguments);}
               gtag('js', new Date());
+              gtag('config', 'G-EHJZPCJ8NP');
               gtag('config', 'AW-18420745292');
             `,
           }}
