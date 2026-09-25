@@ -25,20 +25,20 @@ const footerLinks = {
   company: [
     { label: 'About Us', href: '/about', id: '01' },
     { label: 'Our Team', href: '/team', id: '02' },
-    { label: 'Careers', href: '/careers', id: '03' },
+    { label: 'Careers', href: '/contact', id: '03' },
     { label: 'Contact Us', href: '/contact', id: '04' },
   ],
   services: [
-    { label: 'AI & Machine Learning', href: '/services#ai', id: '05' },
-    { label: 'Cloud Infrastructure', href: '/services#cloud', id: '06' },
-    { label: 'Cybersecurity', href: '/services#cyber', id: '07' },
-    { label: 'Data Engineering', href: '/services#data', id: '08' },
+    { label: 'AI & Machine Learning', href: '/services', id: '05' },
+    { label: 'Cloud Infrastructure', href: '/services', id: '06' },
+    { label: 'Cybersecurity', href: '/services', id: '07' },
+    { label: 'Data Engineering', href: '/services', id: '08' },
   ],
   resources: [
     { label: 'Engineering Insights', href: '/blog', id: '09' },
     { label: 'Project Portfolio', href: '/projects', id: '10' },
-    { label: 'Documentation', href: '/docs', id: '11' },
-    { label: 'Client Support', href: '/support', id: '12' },
+    { label: 'Technology Stack', href: '/technologies/neural-ai-cognitive-systems', id: '11' },
+    { label: 'Client Support', href: '/contact', id: '12' },
   ],
 }
 
@@ -235,13 +235,17 @@ export function Footer() {
           </div>
           
           <div className="flex gap-8">
-            {['Privacy', 'Terms', 'License'].map((item) => (
+            {[
+              { label: 'Privacy', href: '/privacy' },
+              { label: 'Terms', href: '/terms' },
+              { label: 'Contact', href: '/contact' },
+            ].map((item) => (
               <Link
-                key={item}
-                href="#"
+                key={item.label}
+                href={item.href}
                 className="text-[10px] font-mono text-foreground/30 dark:text-white/20 uppercase tracking-[0.3em] hover:text-foreground transition-colors"
               >
-                {item}
+                {item.label}
               </Link>
             ))}
           </div>
