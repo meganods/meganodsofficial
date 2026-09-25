@@ -19,16 +19,49 @@ import { IsometricHeroAnimation } from '@/components/effects/isometric-hero-anim
 
 export function HeroSection() {
   const videoRef = useRef<HTMLVideoElement>(null)
-  const [isMuted, setIsMuted] = useState(true)
+  const [isMuted, setIsMuted] = useState(false)
 
   useEffect(() => {
     const video = videoRef.current
     if (!video) return
 
     video.volume = 1.0
-    video.muted = true
-    setIsMuted(true)
-    video.play().catch(() => {})
+    // Try to play with audio on load
+    video.muted = false
+
+    const playPromise = video.play()
+    if (playPromise !== undefined) {
+      playPromise
+        .then(() => {
+          setIsMuted(false)
+        })
+        .catch(() => {
+          // If browser restricts unmuted autoplay, play muted first then unmute on first user interaction
+          video.muted = true
+          setIsMuted(true)
+          video.play().catch(() => {})
+
+          const handleUserInteraction = () => {
+            if (videoRef.current) {
+              videoRef.current.muted = false
+              videoRef.current.volume = 1.0
+              setIsMuted(false)
+              if (videoRef.current.paused) {
+                videoRef.current.play().catch(() => {})
+              }
+            }
+            window.removeEventListener('click', handleUserInteraction)
+            window.removeEventListener('touchstart', handleUserInteraction)
+            window.removeEventListener('keydown', handleUserInteraction)
+            window.removeEventListener('scroll', handleUserInteraction)
+          }
+
+          window.addEventListener('click', handleUserInteraction, { once: true })
+          window.addEventListener('touchstart', handleUserInteraction, { once: true })
+          window.addEventListener('keydown', handleUserInteraction, { once: true })
+          window.addEventListener('scroll', handleUserInteraction, { once: true })
+        })
+    }
   }, [])
 
   const toggleMute = () => {
@@ -236,7 +269,8 @@ export function HeroSection() {
               <div className="relative w-full rounded-[22px] overflow-hidden bg-slate-950">
                 <video
                   ref={videoRef}
-                  src="/robot-welcome.mp4"
+                  src="/hero-video.mp4"
+                  poster="https://cdn.jumpshare.com/preview/FlVNv5fa6Yuzv8WzU517lvfTt_eD4Xx8Dagk3cadFfaXMZ2lFLMZw9iIAxaO--i9YOHe-2CSey8F1wMafnLCe_jfowcVPMucKCCZM-4V7t4-4h3unfsVFOq8J"
                   autoPlay
                   loop
                   muted={isMuted}

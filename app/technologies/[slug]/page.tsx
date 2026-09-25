@@ -23,12 +23,27 @@ export async function generateMetadata({
     }
   }
 
+  const pageUrl = `https://meganods.com/technologies/${encodeURIComponent(slug)}`
+
   return {
     title: `${tech.title} | Meganods Technology Stack`,
     description: tech.description,
+    keywords: [
+      tech.title,
+      tech.category,
+      ...tech.techStack,
+      'Meganods Technology',
+      'Enterprise Architecture',
+    ],
+    alternates: {
+      canonical: pageUrl,
+    },
     openGraph: {
       title: `${tech.title} | Meganods`,
       description: tech.description,
+      url: pageUrl,
+      type: 'website',
+      siteName: 'Meganods',
       images: [
         {
           url: tech.image,
@@ -37,6 +52,13 @@ export async function generateMetadata({
           alt: tech.title,
         },
       ],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: `${tech.title} | Meganods`,
+      description: tech.description,
+      images: [tech.image],
+      creator: '@meganods',
     },
   }
 }
@@ -53,5 +75,60 @@ export default async function TechnologyDetailPage({
     notFound()
   }
 
-  return <TechnologyDetailView tech={tech} />
+  const pageUrl = `https://meganods.com/technologies/${encodeURIComponent(slug)}`
+
+  // FAQ Schema
+  const faqSchema = tech.faqs && tech.faqs.length > 0 ? {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: tech.faqs.map((faq) => ({
+      '@type': 'Question',
+      name: faq.question,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: faq.answer,
+      },
+    })),
+  } : null
+
+  // TechArticle / Service Schema
+  const techArticleSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'TechArticle',
+    mainEntityOfPage: {
+      '@type': 'WebPage',
+      '@id': pageUrl,
+    },
+    headline: tech.title,
+    description: tech.description,
+    image: [`https://meganods.com${tech.image}`],
+    author: {
+      '@type': 'Organization',
+      name: 'Meganods',
+    },
+    publisher: {
+      '@type': 'Organization',
+      name: 'Meganods',
+      logo: {
+        '@type': 'ImageObject',
+        url: 'https://meganods.com/logo.png',
+      },
+    },
+  }
+
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(techArticleSchema) }}
+      />
+      {faqSchema && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+        />
+      )}
+      <TechnologyDetailView tech={tech} />
+    </>
+  )
 }

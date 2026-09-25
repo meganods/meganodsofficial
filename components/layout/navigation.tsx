@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Menu, X, ChevronDown, Satellite, ArrowRight } from 'lucide-react'
@@ -54,7 +55,7 @@ export function Navigation() {
             {/* Logo Hub */}
             <Link href="/" className="flex items-center gap-4 group relative z-10">
               <div className="relative w-14 h-14 flex items-center justify-center shrink-0">
-                  <img src="/logo.png" alt="MegaNods" className="w-full h-full object-contain" />
+                  <Image src="/logo.png" alt="MegaNods Logo" width={56} height={56} priority className="w-full h-full object-contain" />
               </div>
               <div className="flex flex-col">
                 <span className="text-xl font-bold tracking-tighter leading-none text-[#154954] dark:text-[#42b4c7]">
@@ -169,7 +170,7 @@ export function Navigation() {
               <div className="flex items-center justify-between px-10 pt-10 pb-6">
                 <Link href="/" className="flex items-center gap-4" onClick={() => setIsMobileMenuOpen(false)}>
                   <div className="relative w-12 h-12 flex items-center justify-center shrink-0">
-                      <img src="/logo.png" alt="Meganods" className="w-full h-full object-contain" />
+                      <Image src="/logo.png" alt="Meganods Logo" width={48} height={48} className="w-full h-full object-contain" />
                   </div>
                   <span className="text-lg font-bold tracking-tighter text-[#154954] dark:text-[#42b4c7]">
                     MegaNods
@@ -233,7 +234,7 @@ export function Navigation() {
 
                 <div className="mt-2">
                   <div className="w-12 h-12 flex items-center justify-center shrink-0">
-                    <img src="/logo.png" alt="Meganods" className="w-full h-full object-contain" />
+                    <Image src="/logo.png" alt="Meganods Logo" width={48} height={48} className="w-full h-full object-contain" />
                   </div>
                 </div>
               </div>

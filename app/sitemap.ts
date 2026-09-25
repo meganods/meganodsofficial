@@ -1,10 +1,12 @@
 import type { MetadataRoute } from 'next'
+import { db } from '@/lib/firebase'
+import { collection, getDocs, Timestamp } from 'firebase/firestore'
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = 'https://meganods.com'
   const lastModified = new Date()
 
-  return [
+  const staticRoutes: MetadataRoute.Sitemap = [
     {
       url: baseUrl,
       lastModified,
@@ -78,4 +80,87 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.8,
     },
   ]
+
+  let blogRoutes: MetadataRoute.Sitemap = []
+  try {
+    const blogSnapshot = await getDocs(collection(db, 'blogs'))
+    blogRoutes = blogSnapshot.docs.map((docSnap) => {
+      const data = docSnap.data()
+      const slug = data.slug || docSnap.id
+      let postModifiedDate = lastModified
+      if (data.updatedAt instanceof Timestamp) {
+        postModifiedDate = data.updatedAt.toDate()
+      } else if (data.createdAt instanceof Timestamp) {
+        postModifiedDate = data.createdAt.toDate()
+      }
+      return {
+        url: `${baseUrl}/blog/${encodeURIComponent(slug)}`,
+        lastModified: postModifiedDate,
+        changeFrequency: 'weekly' as const,
+        priority: 0.7,
+      }
+    })
+  } catch (err) {
+    console.error('SITEMAP_BLOG_FETCH_ERROR:', err)
+  }
+
+  let projectRoutes: MetadataRoute.Sitemap = [
+    {
+      url: `${baseUrl}/projects/meganods-team-platform`,
+      lastModified,
+      changeFrequency: 'monthly' as const,
+      priority: 0.8,
+    },
+    {
+      url: `${baseUrl}/projects/deep-threat-sentinel`,
+      lastModified,
+      changeFrequency: 'monthly' as const,
+      priority: 0.8,
+    },
+    {
+      url: `${baseUrl}/projects/omni-neural-mesh`,
+      lastModified,
+      changeFrequency: 'monthly' as const,
+      priority: 0.8,
+    },
+    {
+      url: `${baseUrl}/projects/quantum-ledger-core`,
+      lastModified,
+      changeFrequency: 'monthly' as const,
+      priority: 0.8,
+    },
+    {
+      url: `${baseUrl}/projects/spatial-vision-copilot`,
+      lastModified,
+      changeFrequency: 'monthly' as const,
+      priority: 0.8,
+    },
+    {
+      url: `${baseUrl}/projects/synapse-biometric-id`,
+      lastModified,
+      changeFrequency: 'monthly' as const,
+      priority: 0.8,
+    },
+  ]
+
+  try {
+    const projectSnapshot = await getDocs(collection(db, 'projects'))
+    const dynamicProjectRoutes = projectSnapshot.docs
+      .map((docSnap) => {
+        const data = docSnap.data()
+        const slug = data.slug || docSnap.id
+        return {
+          url: `${baseUrl}/projects/${encodeURIComponent(slug)}`,
+          lastModified,
+          changeFrequency: 'monthly' as const,
+          priority: 0.8,
+        }
+      })
+      .filter((r) => !projectRoutes.some((pr) => pr.url === r.url))
+    projectRoutes = [...projectRoutes, ...dynamicProjectRoutes]
+  } catch (err) {
+    console.error('SITEMAP_PROJECT_FETCH_ERROR:', err)
+  }
+
+  return [...staticRoutes, ...projectRoutes, ...blogRoutes]
 }

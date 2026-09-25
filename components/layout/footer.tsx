@@ -115,7 +115,7 @@ export function Footer() {
           <div className="col-span-2 lg:col-span-4">
             <Link href="/" className="flex items-center gap-4 mb-10 group">
               <div className="relative w-14 h-14 flex items-center justify-center shrink-0">
-                  <img src="/logo.png" alt="Meganods" className="w-full h-full object-contain" />
+                  <Image src="/logo.png" alt="MegaNods Logo" width={56} height={56} className="w-full h-full object-contain" />
               </div>
               <span className="text-3xl font-black tracking-tighter leading-none text-[#154954] dark:text-[#42b4c7]">
                 MegaNods

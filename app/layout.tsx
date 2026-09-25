@@ -70,6 +70,9 @@ export const metadata: Metadata = {
     apple: '/logo.png',
   },
   manifest: '/manifest.json',
+  alternates: {
+    canonical: 'https://meganods.com',
+  },
   verification: {
     google: 'google02c5a4427971ec21',
   },
@@ -98,20 +101,25 @@ export default function RootLayout({
       <head>
         {/* Google AdSense Account Meta Tag */}
         <meta name="google-adsense-account" content="ca-pub-5266755800049907" />
-
+      </head>
+      <body className={`${inter.variable} ${spaceGrotesk.variable} font-sans antialiased`}>
         {/* Google AdSense Script */}
-        <script
-          async
+        <Script
+          id="adsense-script"
+          strategy="afterInteractive"
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5266755800049907"
           crossOrigin="anonymous"
         />
 
         {/* Google tag (gtag.js) for Google Ads */}
-        <script
-          async
+        <Script
+          id="gtag-loader"
+          strategy="afterInteractive"
           src="https://www.googletagmanager.com/gtag/js?id=AW-18420745292"
         />
-        <script
+        <Script
+          id="gtag-config"
+          strategy="afterInteractive"
           dangerouslySetInnerHTML={{
             __html: `
               window.dataLayer = window.dataLayer || [];
@@ -121,8 +129,6 @@ export default function RootLayout({
             `,
           }}
         />
-      </head>
-      <body className={`${inter.variable} ${spaceGrotesk.variable} font-sans antialiased`}>
         <CustomCursor />
         <Preloader />
         <StarField />
