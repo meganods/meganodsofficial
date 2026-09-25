@@ -467,7 +467,7 @@ export function Preloader() {
               </motion.div>
             </div>
 
-            {/* Kinetic Typography Brand Name - Seamless single word */}
+            {/* Kinetic Typography Brand Name - Single solid unified color */}
             <motion.div
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
@@ -475,7 +475,7 @@ export function Preloader() {
               className="space-y-2 mb-6"
             >
               <h1 className="text-3xl sm:text-5xl font-black tracking-tight text-white inline-block drop-shadow-2xl">
-                <span>Mega</span><span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-purple-300 to-teal-300 animate-gradient">nods</span>
+                Meganods
               </h1>
               
               <div className="flex items-center justify-center gap-2">

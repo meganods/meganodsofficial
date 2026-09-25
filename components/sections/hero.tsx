@@ -95,7 +95,7 @@ export function HeroSection() {
 
 
   return (
-    <section className="relative min-h-screen pt-32 sm:pt-36 pb-24 overflow-hidden bg-gradient-to-b from-slate-50/70 via-white to-slate-50/50">
+    <section className="relative min-h-screen pt-10 sm:pt-14 pb-20 overflow-hidden bg-gradient-to-b from-slate-50/70 via-white to-slate-50/50">
       {/* Dynamic 3D Isometric Background Grid & Ambient Glows */}
       <div className="absolute inset-0 pointer-events-none -z-10 overflow-hidden">
         {/* Fine perspective grid */}

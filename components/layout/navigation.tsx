@@ -18,18 +18,9 @@ const navLinks = [
 ]
 
 export function Navigation() {
-  const [isScrolled, setIsScrolled] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const [activeSubmenu, setActiveSubmenu] = useState<string | null>(null)
   const pathname = usePathname()
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50)
-    }
-    window.addEventListener('scroll', handleScroll)
-    return () => window.removeEventListener('scroll', handleScroll)
-  }, [])
 
   useEffect(() => {
     setIsMobileMenuOpen(false)
@@ -37,24 +28,12 @@ export function Navigation() {
 
   return (
     <>
-      <motion.header
-        initial={{ y: -100 }}
-        animate={{ y: 0 }}
-        transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-        className={`fixed left-0 right-0 z-[100] transition-all duration-700 ${
-          isScrolled 
-            ? 'top-4' 
-            : 'top-2.5 md:top-8'
-        }`}
-      >
-        <div className="container mx-auto px-6 lg:px-8">
-          <div className={`relative flex items-center justify-between px-8 h-20 rounded-[2rem] border transition-all duration-700 ${isScrolled
-               ? 'bg-background/80 backdrop-blur-3xl border-border/40 shadow-xl shadow-slate-200/50 dark:shadow-[0_0_40px_rgba(0,0,0,0.5)]'
-               : 'bg-transparent border-transparent'
-             }`}>
+      <header className="relative w-full z-50 bg-white/95 dark:bg-background/95 backdrop-blur-md border-b border-slate-200/80 dark:border-border/60">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="relative flex items-center justify-between h-20">
             {/* Logo Hub */}
-            <Link href="/" className="flex items-center gap-4 group relative z-10">
-              <div className="relative w-14 h-14 flex items-center justify-center shrink-0">
+            <Link href="/" className="flex items-center gap-3.5 group relative z-10">
+              <div className="relative w-12 h-12 sm:w-14 sm:h-14 flex items-center justify-center shrink-0">
                   <Image src="/logo.png" alt="MegaNods Logo" width={56} height={56} priority className="w-full h-full object-contain" />
               </div>
               <div className="flex flex-col">
@@ -154,7 +133,7 @@ export function Navigation() {
             </button>
           </div>
         </div>
-      </motion.header>
+      </header>
 
       {/* Cinematic Mobile HUD */}
       <AnimatePresence>
