@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Contact Us | Meganods',
     description: 'Get in touch with Meganods for AI, cloud, and cybersecurity solutions. Submit your project inquiry today.',
-    url: 'https://meganods.com/contact',
+    url: 'https://www.meganods.com/contact',
     type: 'website',
   },
   twitter: {
@@ -15,7 +15,7 @@ export const metadata: Metadata = {
     description: 'Reach out to Meganods for AI, cloud, and cybersecurity solutions.',
   },
   alternates: {
-    canonical: 'https://meganods.com/contact',
+    canonical: 'https://www.meganods.com/contact',
   },
 }
 

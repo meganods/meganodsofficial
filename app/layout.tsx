@@ -30,11 +30,11 @@ export const metadata: Metadata = {
   authors: [{ name: 'Meganods' }],
   creator: 'Meganods',
   publisher: 'Meganods',
-  metadataBase: new URL('https://meganods.com'),
+  metadataBase: new URL('https://www.meganods.com'),
   openGraph: {
     type: 'website',
     locale: 'en_US',
-    url: 'https://meganods.com',
+    url: 'https://www.meganods.com',
     siteName: 'Meganods',
     title: 'Meganods | Innovating the Future of Technology',
     description: 'Innovating the future with AI technology. We provide cutting-edge IT solutions to empower businesses.',
@@ -71,7 +71,7 @@ export const metadata: Metadata = {
   },
   manifest: '/manifest.json',
   alternates: {
-    canonical: 'https://meganods.com',
+    canonical: 'https://www.meganods.com',
   },
   verification: {
     google: 'google02c5a4427971ec21',

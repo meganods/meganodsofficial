@@ -50,7 +50,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     }
   }
 
-  const pageUrl = `https://meganods.com/projects/${encodeURIComponent(slug)}`
+  const pageUrl = `https://www.meganods.com/projects/${encodeURIComponent(slug)}`
   const ogImage = project.heroImage || '/og-image.jpg'
 
   return {
@@ -98,7 +98,7 @@ export default async function ProjectDetailPage({ params }: PageProps) {
 
   let creativeWorkSchema: any = null
   if (project) {
-    const pageUrl = `https://meganods.com/projects/${encodeURIComponent(slug)}`
+    const pageUrl = `https://www.meganods.com/projects/${encodeURIComponent(slug)}`
     creativeWorkSchema = {
       '@context': 'https://schema.org',
       '@type': 'CreativeWork',
@@ -109,7 +109,7 @@ export default async function ProjectDetailPage({ params }: PageProps) {
       name: project.title,
       headline: project.title,
       description: project.description || project.tagline,
-      image: project.heroImage ? [`https://meganods.com${project.heroImage.startsWith('/') ? '' : '/'}${project.heroImage}`] : ['https://meganods.com/og-image.jpg'],
+      image: project.heroImage ? [`https://www.meganods.com${project.heroImage.startsWith('/') ? '' : '/'}${project.heroImage}`] : ['https://www.meganods.com/og-image.jpg'],
       creator: {
         '@type': 'Organization',
         name: 'Meganods',
@@ -119,7 +119,7 @@ export default async function ProjectDetailPage({ params }: PageProps) {
         name: 'Meganods',
         logo: {
           '@type': 'ImageObject',
-          url: 'https://meganods.com/logo.png',
+          url: 'https://www.meganods.com/logo.png',
         },
       },
       keywords: project.technologies ? project.technologies.join(', ') : undefined,

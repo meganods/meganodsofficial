@@ -23,7 +23,7 @@ export async function generateMetadata({
     }
   }
 
-  const pageUrl = `https://meganods.com/technologies/${encodeURIComponent(slug)}`
+  const pageUrl = `https://www.meganods.com/technologies/${encodeURIComponent(slug)}`
 
   return {
     title: `${tech.title} | Meganods Technology Stack`,
@@ -75,7 +75,7 @@ export default async function TechnologyDetailPage({
     notFound()
   }
 
-  const pageUrl = `https://meganods.com/technologies/${encodeURIComponent(slug)}`
+  const pageUrl = `https://www.meganods.com/technologies/${encodeURIComponent(slug)}`
 
   // FAQ Schema
   const faqSchema = tech.faqs && tech.faqs.length > 0 ? {
@@ -101,7 +101,7 @@ export default async function TechnologyDetailPage({
     },
     headline: tech.title,
     description: tech.description,
-    image: [`https://meganods.com${tech.image}`],
+    image: [`https://www.meganods.com${tech.image}`],
     author: {
       '@type': 'Organization',
       name: 'Meganods',
@@ -111,7 +111,7 @@ export default async function TechnologyDetailPage({
       name: 'Meganods',
       logo: {
         '@type': 'ImageObject',
-        url: 'https://meganods.com/logo.png',
+        url: 'https://www.meganods.com/logo.png',
       },
     },
   }

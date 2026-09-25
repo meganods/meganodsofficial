@@ -90,7 +90,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
   const rawDescription = post.excerpt || stripHtml(post.content || '').slice(0, 160)
   const description = rawDescription.length > 160 ? `${rawDescription.slice(0, 157)}...` : rawDescription
-  const pageUrl = `https://meganods.com/blog/${encodeURIComponent(slug)}`
+  const pageUrl = `https://www.meganods.com/blog/${encodeURIComponent(slug)}`
   const ogImage = post.imageUrl || '/og-image.jpg'
   const authorName = post.author?.name || (typeof post.author === 'string' ? post.author : 'Meganods Team')
 
@@ -138,7 +138,7 @@ export default async function BlogDetailPage({ params }: PageProps) {
   if (post) {
     const rawDescription = post.excerpt || stripHtml(post.content || '').slice(0, 160)
     const authorName = post.author?.name || (typeof post.author === 'string' ? post.author : 'Meganods Team')
-    const pageUrl = `https://meganods.com/blog/${encodeURIComponent(slug)}`
+    const pageUrl = `https://www.meganods.com/blog/${encodeURIComponent(slug)}`
 
     blogPostingSchema = {
       '@context': 'https://schema.org',
@@ -149,7 +149,7 @@ export default async function BlogDetailPage({ params }: PageProps) {
       },
       headline: post.title,
       description: rawDescription,
-      image: post.imageUrl ? [post.imageUrl] : ['https://meganods.com/og-image.jpg'],
+      image: post.imageUrl ? [post.imageUrl] : ['https://www.meganods.com/og-image.jpg'],
       datePublished: post.createdAt?.toDate ? post.createdAt.toDate().toISOString() : post.date,
       dateModified: post.updatedAt?.toDate ? post.updatedAt.toDate().toISOString() : (post.createdAt?.toDate ? post.createdAt.toDate().toISOString() : post.date),
       author: {
@@ -161,7 +161,7 @@ export default async function BlogDetailPage({ params }: PageProps) {
         name: 'Meganods',
         logo: {
           '@type': 'ImageObject',
-          url: 'https://meganods.com/logo.png',
+          url: 'https://www.meganods.com/logo.png',
         },
       },
       articleSection: post.category,

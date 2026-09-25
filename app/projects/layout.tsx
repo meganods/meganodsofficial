@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Projects & Case Studies | Meganods',
     description: 'Explore real-world enterprise deployments by Meganods across healthcare, finance, logistics, and more.',
-    url: 'https://meganods.com/projects',
+    url: 'https://www.meganods.com/projects',
     type: 'website',
   },
   twitter: {
@@ -15,7 +15,7 @@ export const metadata: Metadata = {
     description: 'Enterprise AI, cloud, and cybersecurity deployments by Meganods.',
   },
   alternates: {
-    canonical: 'https://meganods.com/projects',
+    canonical: 'https://www.meganods.com/projects',
   },
 }
 

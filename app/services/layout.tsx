@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Services | Meganods — AI Solutions, Cloud & Cybersecurity',
     description: 'Multi-sector intelligence and high-performance infrastructure services by Meganods. AI, cloud, security, and custom software development.',
-    url: 'https://meganods.com/services',
+    url: 'https://www.meganods.com/services',
     type: 'website',
   },
   twitter: {
@@ -15,7 +15,7 @@ export const metadata: Metadata = {
     description: 'Multi-sector intelligence and high-performance infrastructure services by Meganods.',
   },
   alternates: {
-    canonical: 'https://meganods.com/services',
+    canonical: 'https://www.meganods.com/services',
   },
 }
 

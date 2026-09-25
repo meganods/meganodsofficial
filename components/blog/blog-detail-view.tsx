@@ -105,7 +105,7 @@ export function BlogDetailView({ initialPost, initialRelatedPosts = [], slug }: 
     )
   }
 
-  const shareUrl = typeof window !== 'undefined' ? window.location.href : `https://meganods.com/blog/${slug}`
+  const shareUrl = typeof window !== 'undefined' ? window.location.href : `https://www.meganods.com/blog/${slug}`
   const shareTitle = post.title || 'Meganods Article'
 
   const handleShare = async () => {

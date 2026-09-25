@@ -63,6 +63,6 @@ export default function robots(): MetadataRoute.Robots {
         allow: '/',
       },
     ],
-    sitemap: 'https://meganods.com/sitemap.xml',
+    sitemap: 'https://www.meganods.com/sitemap.xml',
   }
 }

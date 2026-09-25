@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'About Meganods | Our Mission, Vision & Story',
     description: 'Discover the mission, values, and milestones behind Meganods — a technology company innovating the future through AI and digital transformation.',
-    url: 'https://meganods.com/about',
+    url: 'https://www.meganods.com/about',
     type: 'website',
   },
   twitter: {
@@ -15,7 +15,7 @@ export const metadata: Metadata = {
     description: 'Discover the mission, values, and milestones behind Meganods.',
   },
   alternates: {
-    canonical: 'https://meganods.com/about',
+    canonical: 'https://www.meganods.com/about',
   },
 }
 

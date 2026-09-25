@@ -3,7 +3,7 @@ import { db } from '@/lib/firebase'
 import { collection, getDocs, Timestamp } from 'firebase/firestore'
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const baseUrl = 'https://meganods.com'
+  const baseUrl = 'https://www.meganods.com'
   const lastModified = new Date()
 
   const staticRoutes: MetadataRoute.Sitemap = [

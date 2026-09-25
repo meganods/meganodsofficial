@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Client Testimonials | Meganods',
     description: 'Verified testimonials from global enterprises who trust Meganods for AI, cloud, and cybersecurity solutions.',
-    url: 'https://meganods.com/testimonials',
+    url: 'https://www.meganods.com/testimonials',
     type: 'website',
   },
   twitter: {
@@ -15,7 +15,7 @@ export const metadata: Metadata = {
     description: 'See why enterprises trust Meganods for technology solutions.',
   },
   alternates: {
-    canonical: 'https://meganods.com/testimonials',
+    canonical: 'https://www.meganods.com/testimonials',
   },
 }
 
