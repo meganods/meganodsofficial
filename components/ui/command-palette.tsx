@@ -142,6 +142,27 @@ export function CommandPalette() {
     }
   }, [isOpen])
 
+  // Prevent background scrolling when search palette is open
+  useEffect(() => {
+    if (isOpen) {
+      const originalOverflow = document.body.style.overflow
+      document.body.style.overflow = 'hidden'
+      return () => {
+        document.body.style.overflow = originalOverflow
+      }
+    }
+  }, [isOpen])
+
+  // Scroll active item into view when navigating with arrow keys
+  useEffect(() => {
+    if (listRef.current) {
+      const activeElement = listRef.current.querySelector<HTMLElement>('[data-selected="true"]')
+      if (activeElement) {
+        activeElement.scrollIntoView({ block: 'nearest', behavior: 'smooth' })
+      }
+    }
+  }, [selectedIndex])
+
   // Focus input when opened
   useEffect(() => {
     if (isOpen) {
@@ -180,7 +201,11 @@ export function CommandPalette() {
   return (
     <AnimatePresence>
       {isOpen && (
-        <div className="fixed inset-0 z-[100] flex items-start justify-center pt-16 sm:pt-24 px-4 sm:px-6">
+        <div 
+          className="fixed inset-0 z-[100] flex items-start justify-center pt-16 sm:pt-24 px-4 sm:px-6"
+          data-lenis-prevent="true"
+          data-lenis-prevent
+        >
           {/* Backdrop */}
           <motion.div
             initial={{ opacity: 0 }}
@@ -197,10 +222,12 @@ export function CommandPalette() {
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.96, y: -15 }}
             transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
-            className="relative w-full max-w-2xl bg-white dark:bg-slate-900 rounded-3xl shadow-2xl border border-slate-200 dark:border-slate-800 overflow-hidden flex flex-col max-h-[80vh] z-10"
+            data-lenis-prevent="true"
+            data-lenis-prevent
+            className="relative w-full max-w-2xl bg-white dark:bg-slate-900 rounded-3xl shadow-2xl border border-slate-200 dark:border-slate-800 overflow-hidden flex flex-col max-h-[80vh] z-10 overscroll-contain"
           >
             {/* Top Search Input Bar */}
-            <div className="relative flex items-center px-5 py-4 border-b border-slate-100 dark:border-slate-800/80">
+            <div className="relative flex items-center px-5 py-4 border-b border-slate-100 dark:border-slate-800/80 shrink-0">
               <Search className="w-5 h-5 text-indigo-600 dark:text-indigo-400 shrink-0 mr-3" />
               <input
                 ref={inputRef}
@@ -225,7 +252,10 @@ export function CommandPalette() {
             </div>
 
             {/* Category Filter Pills */}
-            <div className="flex items-center gap-2 px-5 py-2.5 overflow-x-auto border-b border-slate-100 dark:border-slate-800/60 no-scrollbar bg-slate-50/50 dark:bg-slate-900/50">
+            <div 
+              data-lenis-prevent="true"
+              className="flex items-center gap-2 px-5 py-2.5 overflow-x-auto border-b border-slate-100 dark:border-slate-800/60 no-scrollbar bg-slate-50/50 dark:bg-slate-900/50 shrink-0 overscroll-contain"
+            >
               {categories.map((cat) => (
                 <button
                   key={cat}
@@ -243,7 +273,14 @@ export function CommandPalette() {
             </div>
 
             {/* Search Results List */}
-            <div ref={listRef} className="flex-1 overflow-y-auto p-3 space-y-1">
+            <div 
+              ref={listRef} 
+              data-lenis-prevent="true"
+              data-lenis-prevent
+              onWheel={(e) => e.stopPropagation()}
+              onTouchMove={(e) => e.stopPropagation()}
+              className="flex-1 overflow-y-auto p-3 space-y-1 overscroll-contain touch-pan-y"
+            >
               {filteredItems.length === 0 ? (
                 <div className="py-16 text-center text-slate-400">
                   <Search className="w-8 h-8 mx-auto mb-3 opacity-40 text-slate-400" />
@@ -259,6 +296,7 @@ export function CommandPalette() {
                     <button
                       key={item.id}
                       type="button"
+                      data-selected={isSelected ? "true" : "false"}
                       onClick={() => handleSelect(item)}
                       onMouseEnter={() => setSelectedIndex(index)}
                       className={`w-full flex items-center justify-between p-3 rounded-2xl text-left transition-all cursor-pointer ${
@@ -302,7 +340,7 @@ export function CommandPalette() {
             </div>
 
             {/* Footer Shortcut Guide */}
-            <div className="px-5 py-3 border-t border-slate-100 dark:border-slate-800/80 bg-slate-50/70 dark:bg-slate-900/70 flex items-center justify-between text-[11px] font-mono text-slate-400">
+            <div className="px-5 py-3 border-t border-slate-100 dark:border-slate-800/80 bg-slate-50/70 dark:bg-slate-900/70 flex items-center justify-between text-[11px] font-mono text-slate-400 shrink-0">
               <div className="flex items-center gap-4">
                 <span className="flex items-center gap-1">
                   <kbd className="px-1.5 py-0.5 rounded bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-2xs">↑</kbd>
