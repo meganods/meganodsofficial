@@ -386,7 +386,7 @@ export default function ProjectsPage() {
         </section>
 
         {/* Tactical Filter Bar */}
-        <section id="portfolio-grid" className="sticky top-[80px] z-50 bg-background/80 backdrop-blur-2xl border-y border-border py-4">
+        <section id="portfolio-grid" className="relative z-20 bg-background/90 backdrop-blur-md border-y border-border py-4">
           <div className="container mx-auto px-6 overflow-x-auto no-scrollbar">
             <div className="flex gap-2.5 min-w-max justify-center items-center">
               <Filter className="w-4 h-4 text-indigo-600 mr-1" />

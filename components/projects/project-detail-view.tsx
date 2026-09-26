@@ -219,7 +219,7 @@ export function ProjectDetailView({
       </section>
 
       {/* Interactive Navigation Tabs */}
-      <section className="sticky top-20 z-40 bg-white/80 backdrop-blur-xl border-y border-slate-200/80 px-6 py-3">
+      <section className="relative z-20 bg-white/90 backdrop-blur-xl border-y border-slate-200/80 px-6 py-3">
         <div className="container mx-auto max-w-7xl flex items-center justify-between">
           <div className="flex items-center gap-2 overflow-x-auto no-scrollbar">
             <button
