@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { db } from '@/lib/firebase';
-import { collection, addDoc, serverTimestamp, getDocs, query, where } from 'firebase/firestore';
+import { collection, addDoc, updateDoc, doc, serverTimestamp, getDocs } from 'firebase/firestore';
 
 const salesMembers = [
   {
@@ -38,11 +38,11 @@ const salesMembers = [
     }
   },
   {
-    name: 'Rhea Sen',
+    name: 'Sneha Patel',
     role: 'Enterprise Client Solutions & Account Executive',
     bio: 'Results-oriented technology sales consultant dedicated to aligning complex technical architectures with client business objectives, accelerating deal velocity, and ensuring customer success.',
-    avatarUrl: '/team/rhea-sen.jpg',
-    initials: 'RS',
+    avatarUrl: '/team/sneha-patel.jpg',
+    initials: 'SP',
     meta: 'Sales Solutions 03',
     gradient: 'from-emerald-600 via-teal-600 to-cyan-500',
     order: 6,
@@ -60,7 +60,22 @@ export async function GET() {
   try {
     const colRef = collection(db, 'team');
     const existing = await getDocs(colRef);
-    const existingNames = new Set(existing.docs.map(d => d.data().name?.toLowerCase()));
+    
+    // Check if any existing doc is named 'Rhea Sen' and update to 'Sneha Patel'
+    for (const docItem of existing.docs) {
+      const data = docItem.data();
+      if (data.name?.toLowerCase().includes('rhea')) {
+        const snehaData = salesMembers.find(m => m.name === 'Sneha Patel')!;
+        await updateDoc(doc(db, 'team', docItem.id), {
+          ...snehaData,
+          slug: 'sneha-patel',
+          updatedAt: serverTimestamp()
+        });
+      }
+    }
+
+    const refreshed = await getDocs(colRef);
+    const existingNames = new Set(refreshed.docs.map(d => d.data().name?.toLowerCase()));
 
     const added = [];
     for (const member of salesMembers) {
@@ -79,9 +94,11 @@ export async function GET() {
       success: true, 
       message: 'SALES_PERSONNEL_NODES_SYNCHRONIZED',
       addedCount: added.length,
-      added 
+      added,
+      currentMembers: refreshed.docs.map(d => ({ id: d.id, name: d.data().name, avatarUrl: d.data().avatarUrl }))
     });
   } catch (error: any) {
     return NextResponse.json({ success: false, error: error.message }, { status: 500 });
   }
 }
+
