@@ -6,7 +6,7 @@ export default function JsonLd() {
     url: 'https://www.meganods.com',
     logo: 'https://www.meganods.com/logo.png',
     description: 'Meganods delivers cutting-edge AI technology, cloud computing, cybersecurity, and digital transformation services to empower businesses worldwide.',
-    foundingDate: '2015',
+    foundingDate: '2025',
     contactPoint: {
       '@type': 'ContactPoint',
       description: 'Meganods is a strategic intelligence and neural infrastructure hub.',

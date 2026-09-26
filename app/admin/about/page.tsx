@@ -60,18 +60,18 @@ export default function AdminAboutPage() {
       }
     ],
     stats: [
-      { value: '1.2B', label: 'Nodes Managed', sub: 'Global Scale' },
-      { value: '50ms', label: 'Avg Latency', sub: 'Ultra-Fast' },
-      { value: '450+', label: 'Enterprise Partners', sub: 'Strategic' },
-      { value: '99.9%', label: 'Active Uptime', sub: 'Fault Tolerant' },
+      { value: '99.9%', label: 'Production Uptime', sub: 'Fault Tolerant' },
+      { value: '< 50ms', label: 'Avg Latency', sub: 'Edge Routing' },
+      { value: '50+', label: 'Delivered Projects', sub: 'Global Reach' },
+      { value: '100%', label: 'Milestone Tracking', sub: 'Agile Delivery' },
     ],
     values: [
-      { title: 'Precision First', meta: 'Operational Core', description: 'We prioritize sub-millisecond precision in every algorithm we deploy to the global network.', gradient: 'from-indigo-600 via-blue-600 to-cyan-500' },
-      { title: 'Human-Centric AI', meta: 'Ethics Audit 01', description: 'Technology is a tool for humanity. We design systems that empower, never replace.', gradient: 'from-rose-600 via-pink-600 to-orange-500' },
+      { title: 'Precision First', meta: 'Operational Core', description: 'We prioritize high precision in every system we deploy to production.', gradient: 'from-indigo-600 via-blue-600 to-cyan-500' },
+      { title: 'Human-Centric AI', meta: 'Ethics Audit', description: 'Technology is a tool for humanity. We design systems that empower, never replace.', gradient: 'from-rose-600 via-pink-600 to-orange-500' },
     ],
     milestones: [
-      { year: '2015', title: 'Genesis Protocol', description: 'Meganods founded with a vision for autonomous intelligence.' },
-      { year: '2024', title: 'The Intelligence Frontier', description: 'Dominating the market as the gold standard for Deep Tech solutions.' },
+      { year: '2025', title: 'Meganods Founded', description: 'Meganods officially launched with a vision for modern intelligent software systems.' },
+      { year: '2026', title: 'Global Delivery Reach', description: 'Delivering robust full-stack engineering and AI integration to global clients.' },
     ]
   })
 

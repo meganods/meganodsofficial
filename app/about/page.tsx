@@ -234,9 +234,9 @@ export default function AboutPage() {
                   className="flex flex-wrap gap-6 pt-3 justify-center lg:justify-start"
                 >
                   {[
-                    { value: '450+', label: 'Enterprise Partners' },
+                    { value: '50+', label: 'Delivered Projects' },
                     { value: '99.9%', label: 'Uptime SLA' },
-                    { value: '1.2B+', label: 'Nodes Managed' },
+                    { value: '< 50ms', label: 'Average Latency' },
                   ].map((stat) => (
                     <div key={stat.label} className="text-center lg:text-left">
                       <div className="text-2xl font-black text-slate-900 bg-gradient-to-r from-indigo-600 to-blue-600 bg-clip-text text-transparent">{stat.value}</div>
@@ -264,7 +264,7 @@ export default function AboutPage() {
                   </div>
                   <div>
                     <p className="text-[9px] font-mono font-bold uppercase text-slate-400">Founded</p>
-                    <p className="text-sm font-black text-slate-900">Since 2015</p>
+                    <p className="text-sm font-black text-slate-900">Est. 2025</p>
                   </div>
                 </motion.div>
 
@@ -278,7 +278,7 @@ export default function AboutPage() {
                   </div>
                   <div>
                     <p className="text-[9px] font-mono font-bold uppercase text-slate-400">Global Reach</p>
-                    <p className="text-sm font-black text-slate-900">40+ Countries</p>
+                    <p className="text-sm font-black text-slate-900">Cross-Border</p>
                   </div>
                 </motion.div>
 
@@ -291,8 +291,8 @@ export default function AboutPage() {
                     <Award className="w-4 h-4" />
                   </div>
                   <div>
-                    <p className="text-[9px] font-mono font-bold uppercase text-slate-400">Recognition</p>
-                    <p className="text-sm font-black text-slate-900">Top 1% Firms</p>
+                    <p className="text-[9px] font-mono font-bold uppercase text-slate-400">Standards</p>
+                    <p className="text-sm font-black text-slate-900">ISO Aligned</p>
                   </div>
                 </motion.div>
 
@@ -412,20 +412,20 @@ export default function AboutPage() {
                       </div>
                       <div>
                         <div className="text-slate-900 font-bold text-sm">MegaNods</div>
-                        <div className="text-indigo-500 font-mono text-[9px] uppercase tracking-widest">Impact Report 2024</div>
+                        <div className="text-indigo-500 font-mono text-[9px] uppercase tracking-widest">Quality Audit</div>
                       </div>
                       <div className="ml-auto flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 border border-emerald-200">
                         <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-                        <span className="text-emerald-600 font-mono text-[9px] uppercase font-black">Live</span>
+                        <span className="text-emerald-600 font-mono text-[9px] uppercase font-black">Active</span>
                       </div>
                     </div>
 
                     {/* Achievement rows */}
                     {[
-                      { label: 'Projects Delivered', value: '320+', progress: 92, color: 'from-indigo-500 to-blue-500' },
-                      { label: 'Client Satisfaction', value: '98.6%', progress: 98, color: 'from-emerald-500 to-teal-500' },
-                      { label: 'On-Time Delivery', value: '97%', progress: 97, color: 'from-purple-500 to-indigo-500' },
-                      { label: 'Enterprise Clients', value: '150+', progress: 75, color: 'from-amber-500 to-orange-500' },
+                      { label: 'Delivered Projects', value: '50+', progress: 95, color: 'from-indigo-500 to-blue-500' },
+                      { label: 'Client Satisfaction', value: '4.9 / 5.0', progress: 98, color: 'from-emerald-500 to-teal-500' },
+                      { label: 'On-Time Delivery', value: '99%', progress: 99, color: 'from-purple-500 to-indigo-500' },
+                      { label: 'Code Review Rigor', value: '100%', progress: 100, color: 'from-amber-500 to-orange-500' },
                     ].map((item, i) => (
                       <motion.div
                         key={item.label}
@@ -460,8 +460,8 @@ export default function AboutPage() {
                   >
                     <Award className="w-4 h-4 text-amber-500" />
                     <div>
-                      <div className="text-slate-900 font-black text-xs">Top 1%</div>
-                      <div className="text-slate-400 font-mono text-[8px] uppercase tracking-wider">Tech Firms India</div>
+                      <div className="text-slate-900 font-black text-xs">Quality Core</div>
+                      <div className="text-slate-400 font-mono text-[8px] uppercase tracking-wider">Peer-Reviewed</div>
                     </div>
                   </motion.div>
 
@@ -473,8 +473,8 @@ export default function AboutPage() {
                   >
                     <Globe className="w-4 h-4 text-indigo-500" />
                     <div>
-                      <div className="text-slate-900 font-black text-xs">40+ Countries</div>
-                      <div className="text-slate-400 font-mono text-[8px] uppercase tracking-wider">Global Footprint</div>
+                      <div className="text-slate-900 font-black text-xs">Global Reach</div>
+                      <div className="text-slate-400 font-mono text-[8px] uppercase tracking-wider">Remote Delivery</div>
                     </div>
                   </motion.div>
                 </div>
