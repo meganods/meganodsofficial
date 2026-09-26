@@ -5,6 +5,7 @@ import { Analytics } from '@vercel/analytics/next'
 import { StarField } from '@/components/effects/shooting-stars'
 import { Preloader } from '@/components/ui/preloader'
 import { CustomCursor } from '@/components/effects/custom-cursor'
+import { CookieConsent } from '@/components/ui/cookie-consent'
 import JsonLd from '@/components/seo/json-ld'
 import './globals.css'
 
@@ -134,6 +135,7 @@ export default function RootLayout({
         <Preloader />
         <StarField />
         <JsonLd />
+        <CookieConsent />
         {children}
         {process.env.NODE_ENV === 'production' && <Analytics />}
       </body>
