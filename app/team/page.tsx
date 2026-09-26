@@ -590,7 +590,7 @@ export default function TeamPage() {
                         className="inline-flex items-center gap-2 mb-4 px-4 py-1.5 rounded-full bg-indigo-50 border border-indigo-200"
                       >
                         <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-                        <span className="text-indigo-600 font-mono text-[10px] uppercase tracking-[0.35em] font-bold">Careers & Partnership</span>
+                        <span className="text-indigo-600 font-mono text-[10px] uppercase tracking-[0.35em] font-bold">Collaborations & Partnerships</span>
                       </motion.div>
 
                       <motion.h2

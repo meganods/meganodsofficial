@@ -266,8 +266,8 @@ export function TeamPreviewSection() {
                asChild
                className="h-20 px-16 bg-primary text-primary-foreground hover:bg-primary/90 font-black rounded-[2rem] group transition-all text-xl shadow-2xl border-0"
              >
-               <Link href="/careers">
-                 Explore Protocol Openings
+               <Link href="/contact">
+                 Connect With Our Team
                  <ArrowRight className="ml-4 w-6 h-6 group-hover:translate-x-3 transition-transform" />
                </Link>
              </Button>
