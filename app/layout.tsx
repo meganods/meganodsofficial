@@ -6,6 +6,7 @@ import { StarField } from '@/components/effects/shooting-stars'
 import { Preloader } from '@/components/ui/preloader'
 import { CustomCursor } from '@/components/effects/custom-cursor'
 import { CookieConsent } from '@/components/ui/cookie-consent'
+import { CommandPalette } from '@/components/ui/command-palette'
 import JsonLd from '@/components/seo/json-ld'
 import './globals.css'
 
@@ -136,6 +137,7 @@ export default function RootLayout({
         <StarField />
         <JsonLd />
         <CookieConsent />
+        <CommandPalette />
         {children}
         {process.env.NODE_ENV === 'production' && <Analytics />}
       </body>

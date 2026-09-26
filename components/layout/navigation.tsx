@@ -5,7 +5,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Menu, X, ChevronDown, Satellite, ArrowRight } from 'lucide-react'
+import { Menu, X, ChevronDown, Satellite, ArrowRight, Search } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 
 const navLinks = [
@@ -104,11 +104,24 @@ export function Navigation() {
               ))}
             </div>
 
-            {/* Desktop Contact CTA Button */}
-            <div className="hidden lg:flex items-center gap-6">
+            {/* Desktop Actions (Search & Contact) */}
+            <div className="hidden lg:flex items-center gap-3 xl:gap-4">
+              <button
+                type="button"
+                onClick={() => window.dispatchEvent(new CustomEvent('open-search'))}
+                aria-label="Search"
+                className="h-11 px-3.5 rounded-2xl bg-slate-100 hover:bg-slate-200/80 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 font-medium flex items-center gap-2.5 transition-all cursor-pointer border border-slate-200/60 dark:border-slate-700/60 hover:scale-105 active:scale-95 shadow-2xs"
+              >
+                <Search className="w-4 h-4 text-indigo-600 dark:text-indigo-400" />
+                <span className="text-xs text-slate-500 font-sans hidden xl:inline">Search...</span>
+                <span className="text-[10px] font-mono font-bold px-1.5 py-0.5 rounded bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-slate-500">
+                  ⌘K
+                </span>
+              </button>
+
               <Link href="/contact">
                 <Button
-                  className="h-11 px-7 bg-primary text-primary-foreground hover:bg-primary/90 font-extrabold rounded-2xl shadow-xl transition-all text-[13px] xl:text-[14px] uppercase tracking-wider group border-0 flex items-center gap-2 hover:scale-105 active:scale-95 cursor-pointer"
+                  className="h-11 px-6 xl:px-7 bg-primary text-primary-foreground hover:bg-primary/90 font-extrabold rounded-2xl shadow-xl transition-all text-[13px] xl:text-[14px] uppercase tracking-wider group border-0 flex items-center gap-2 hover:scale-105 active:scale-95 cursor-pointer"
                 >
                   Contact
                   <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
@@ -116,21 +129,33 @@ export function Navigation() {
               </Link>
             </div>
 
-            {/* Mobile Tactical Trigger */}
-            <button
-              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className={`lg:hidden w-12 h-12 flex items-center justify-center rounded-2xl transition-all duration-300 ${
-                isMobileMenuOpen 
-                  ? 'bg-secondary border-border text-foreground rotate-90 scale-90' 
-                  : 'bg-secondary/80 border-border/80 text-foreground'
-              }`}
-            >
-              {isMobileMenuOpen ? (
-                <X className="w-6 h-6" />
-              ) : (
-                <Menu className="w-6 h-6" />
-              )}
-            </button>
+            {/* Mobile Tactical Trigger & Search */}
+            <div className="lg:hidden flex items-center gap-2">
+              <button
+                type="button"
+                onClick={() => window.dispatchEvent(new CustomEvent('open-search'))}
+                aria-label="Open Search"
+                className="w-11 h-11 flex items-center justify-center rounded-2xl bg-secondary/80 border border-border/80 text-foreground cursor-pointer active:scale-95 transition-all"
+              >
+                <Search className="w-5 h-5 text-indigo-600 dark:text-indigo-400" />
+              </button>
+
+              <button
+                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                aria-label="Toggle Menu"
+                className={`w-11 h-11 flex items-center justify-center rounded-2xl transition-all duration-300 cursor-pointer ${
+                  isMobileMenuOpen 
+                    ? 'bg-secondary border-border text-foreground rotate-90 scale-90' 
+                    : 'bg-secondary/80 border-border/80 text-foreground'
+                }`}
+              >
+                {isMobileMenuOpen ? (
+                  <X className="w-6 h-6" />
+                ) : (
+                  <Menu className="w-6 h-6" />
+                )}
+              </button>
+            </div>
           </div>
         </div>
       </header>
@@ -170,6 +195,24 @@ export function Navigation() {
                 exit={{ opacity: 0, y: 20 }}
                 className="flex-1 flex flex-col justify-center px-10 overflow-y-auto no-scrollbar py-8"
               >
+                {/* Mobile Search Button */}
+                <button
+                  type="button"
+                  onClick={() => {
+                    setIsMobileMenuOpen(false)
+                    window.dispatchEvent(new CustomEvent('open-search'))
+                  }}
+                  className="mb-8 w-full p-4 rounded-2xl bg-slate-100 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 flex items-center justify-between text-slate-500 font-medium text-sm cursor-pointer"
+                >
+                  <div className="flex items-center gap-3">
+                    <Search className="w-5 h-5 text-indigo-600" />
+                    <span>Search all services & articles...</span>
+                  </div>
+                  <span className="text-xs font-mono font-bold px-2 py-0.5 rounded bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700">
+                    ⌘K
+                  </span>
+                </button>
+
                 <div className="flex flex-col gap-4 py-4">
                   {navLinks.map((link, index) => (
                     <motion.div
