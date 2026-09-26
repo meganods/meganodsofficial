@@ -35,24 +35,28 @@ import { Button } from "@/components/ui/button"
 import { db } from "@/lib/firebase";
 import { collection, getDocs, query, orderBy } from "firebase/firestore";
 
+import { defaultBlogs } from "@/lib/data/blogs";
+
 const categories = ["All", "Artificial Intelligence", "Cloud Computing", "Security Ops", "Machine Learning", "IoT", "Blockchain"]
 
 export default function BlogPage() {
   const [selectedCategory, setSelectedCategory] = useState("All")
   const [searchQuery, setSearchQuery] = useState("")
-  const [blogs, setBlogs] = useState<any[]>([])
-  const [isLoading, setIsLoading] = useState(true)
+  const [blogs, setBlogs] = useState<any[]>(defaultBlogs)
+  const [isLoading, setIsLoading] = useState(false)
 
   useEffect(() => {
     const fetchBlogs = async () => {
       try {
         const q = query(collection(db, "blogs"), orderBy("createdAt", "desc"));
         const querySnapshot = await getDocs(q);
-        const docs = querySnapshot.docs.map(doc => ({
-          id: doc.id,
-          ...doc.data()
-        }));
-        setBlogs(docs);
+        if (!querySnapshot.empty) {
+          const docs = querySnapshot.docs.map(doc => ({
+            id: doc.id,
+            ...doc.data()
+          }));
+          setBlogs(docs);
+        }
       } catch (error) {
         console.error("BLOG_FETCH_ERROR:", error);
       } finally {

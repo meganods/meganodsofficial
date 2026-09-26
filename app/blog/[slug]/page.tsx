@@ -2,9 +2,16 @@ import type { Metadata } from 'next'
 import { db } from '@/lib/firebase'
 import { collection, query, where, getDocs, limit, doc, getDoc, Timestamp } from 'firebase/firestore'
 import { BlogDetailView } from '@/components/blog/blog-detail-view'
+import { defaultBlogs } from '@/lib/data/blogs'
 
 interface PageProps {
   params: Promise<{ slug: string }>
+}
+
+export async function generateStaticParams() {
+  return defaultBlogs.map((b) => ({
+    slug: b.slug,
+  }))
 }
 
 function stripHtml(html: string = ''): string {
@@ -26,6 +33,14 @@ async function getBlogPost(slug: string) {
       const docSnap = await getDoc(docRef)
       if (docSnap.exists()) {
         postData = { id: docSnap.id, ...docSnap.data() }
+      }
+    }
+
+    // Fallback to rich static humanized articles
+    if (!postData) {
+      const localPost = defaultBlogs.find((b) => b.slug === slug || b.id === slug)
+      if (localPost) {
+        postData = { ...localPost }
       }
     }
 

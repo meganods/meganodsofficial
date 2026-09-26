@@ -8,10 +8,11 @@ import { collection, query, orderBy, limit, getDocs, Timestamp } from 'firebase/
 import { db } from '@/lib/firebase'
 import { Button } from '@/components/ui/button'
 import { DeepTechBackground } from '@/components/ui/deep-tech-background'
+import { defaultBlogs } from '@/lib/data/blogs'
 
 export function BlogPreviewSection() {
-  const [posts, setPosts] = useState<any[]>([])
-  const [isLoading, setIsLoading] = useState(true)
+  const [posts, setPosts] = useState<any[]>(defaultBlogs.slice(0, 3))
+  const [isLoading, setIsLoading] = useState(false)
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true, margin: "-100px" })
 
@@ -20,17 +21,19 @@ export function BlogPreviewSection() {
       try {
         const q = query(collection(db, 'blogs'), orderBy('createdAt', 'desc'), limit(3))
         const querySnapshot = await getDocs(q)
-        const fetchedPosts = querySnapshot.docs.map(doc => {
-          const data = doc.data()
-          return {
-            id: doc.id,
-            ...data,
-            date: data.createdAt instanceof Timestamp 
-              ? data.createdAt.toDate().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
-              : data.date || "Just now"
-          }
-        })
-        setPosts(fetchedPosts)
+        if (!querySnapshot.empty) {
+          const fetchedPosts = querySnapshot.docs.map(doc => {
+            const data = doc.data()
+            return {
+              id: doc.id,
+              ...data,
+              date: data.createdAt instanceof Timestamp 
+                ? data.createdAt.toDate().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
+                : data.date || "Just now"
+            }
+          })
+          setPosts(fetchedPosts)
+        }
       } catch (error) {
         console.error('BLOG_FETCH_ERROR:', error)
       } finally {

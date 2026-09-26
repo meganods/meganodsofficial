@@ -23,6 +23,8 @@ import { SmoothScrollProvider } from "@/components/providers/smooth-scroll-provi
 import { Button } from "@/components/ui/button"
 import { toast } from "sonner"
 
+import { defaultBlogs } from "@/lib/data/blogs"
+
 interface BlogDetailViewProps {
   initialPost?: any
   initialRelatedPosts?: any[]
@@ -30,14 +32,20 @@ interface BlogDetailViewProps {
 }
 
 export function BlogDetailView({ initialPost, initialRelatedPosts = [], slug }: BlogDetailViewProps) {
-  const [post, setPost] = useState<any>(initialPost || null)
-  const [relatedPosts, setRelatedPosts] = useState<any[]>(initialRelatedPosts)
-  const [isLoading, setIsLoading] = useState(!initialPost)
+  const [post, setPost] = useState<any>(() => {
+    if (initialPost) return initialPost
+    return defaultBlogs.find(b => b.slug === slug || b.id === slug) || null
+  })
+  const [relatedPosts, setRelatedPosts] = useState<any[]>(() => {
+    if (initialRelatedPosts.length > 0) return initialRelatedPosts
+    return defaultBlogs.filter(b => b.slug !== slug).slice(0, 3)
+  })
+  const [isLoading, setIsLoading] = useState(!initialPost && !post)
 
   useEffect(() => {
     if (initialPost) {
       setPost(initialPost)
-      setRelatedPosts(initialRelatedPosts)
+      setRelatedPosts(initialRelatedPosts.length > 0 ? initialRelatedPosts : defaultBlogs.filter(b => b.slug !== slug).slice(0, 3))
       setIsLoading(false)
       return
     }
@@ -60,18 +68,27 @@ export function BlogDetailView({ initialPost, initialRelatedPosts = [], slug }: 
           }
         }
 
+        if (!postData) {
+          const fallback = defaultBlogs.find(b => b.slug === slug || b.id === slug)
+          if (fallback) postData = fallback
+        }
+
         if (postData) {
           setPost(postData)
           
           // Fetch related
           const relatedQ = query(collection(db, "blogs"), where("category", "==", postData.category), limit(4))
           const relatedSnap = await getDocs(relatedQ)
-          setRelatedPosts(relatedSnap.docs.map(d => ({ id: d.id, ...d.data() })).filter((d: any) => d.id !== postData.id))
-        } else {
-          toast.error("EDITORIAL_NODE_NOT_FOUND")
+          if (!relatedSnap.empty) {
+            setRelatedPosts(relatedSnap.docs.map(d => ({ id: d.id, ...d.data() })).filter((d: any) => d.id !== postData.id))
+          } else {
+            setRelatedPosts(defaultBlogs.filter(b => b.slug !== slug).slice(0, 3))
+          }
         }
       } catch (error) {
         console.error("BLOG_DETAIL_FETCH_ERROR:", error)
+        const fallback = defaultBlogs.find(b => b.slug === slug || b.id === slug)
+        if (fallback) setPost(fallback)
       } finally {
         setIsLoading(false)
       }
@@ -268,8 +285,34 @@ export function BlogDetailView({ initialPost, initialRelatedPosts = [], slug }: 
                   />
                 </motion.div>
 
+                {/* Author Bio & E-E-A-T Verification Box */}
+                {post.author && (
+                  <div className="mt-20 p-8 sm:p-10 rounded-3xl bg-slate-50 dark:bg-card border border-slate-200 dark:border-border shadow-sm">
+                    <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6">
+                      <div className="w-20 h-20 rounded-2xl overflow-hidden shrink-0 border-2 border-indigo-500/20 bg-indigo-50 dark:bg-indigo-950/40">
+                        <img 
+                          src={post.author.avatar || post.author.avatarUrl || `https://i.pravatar.cc/400?u=${encodeURIComponent(post.author.name || 'author')}`} 
+                          alt={post.author.name} 
+                          className="w-full h-full object-cover" 
+                        />
+                      </div>
+                      <div className="space-y-2 flex-1">
+                        <div className="flex flex-wrap items-center gap-3">
+                          <h4 className="text-xl font-bold text-slate-900 dark:text-slate-100">{post.author.name}</h4>
+                          <span className="px-3 py-1 rounded-full bg-indigo-50 dark:bg-indigo-900/40 border border-indigo-200 dark:border-indigo-800 text-indigo-600 dark:text-indigo-400 text-xs font-mono font-bold uppercase tracking-wider">
+                            {post.author.role || 'Senior Technical Contributor'}
+                          </span>
+                        </div>
+                        <p className="text-sm text-slate-600 dark:text-slate-300 leading-relaxed font-medium">
+                          {post.author.bio || 'Principal engineer and distributed systems architect researching scalable infrastructure and AI deployment workflows.'}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
                 {/* Tactical Footer Segment */}
-                <div className="mt-40 pt-20 border-t border-border">
+                <div className="mt-24 pt-16 border-t border-border">
                    <div className="flex flex-col md:flex-row items-center justify-between gap-10">
                       <div className="flex items-center gap-6">
                          <div className="w-20 h-20 rounded-[2rem] bg-primary flex items-center justify-center shadow-2xl shadow-primary/20">

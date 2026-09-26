@@ -109,11 +109,27 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         url: `${baseUrl}/blog/${encodeURIComponent(slug)}`,
         lastModified: postModifiedDate,
         changeFrequency: 'weekly' as const,
-        priority: 0.7,
+        priority: 0.8,
       }
     })
   } catch (err) {
     console.error('SITEMAP_BLOG_FETCH_ERROR:', err)
+  }
+
+  // Merge default high-value technical articles
+  const { defaultBlogs } = await import('@/lib/data/blogs')
+  const staticBlogRoutes: MetadataRoute.Sitemap = defaultBlogs.map((b) => ({
+    url: `${baseUrl}/blog/${encodeURIComponent(b.slug)}`,
+    lastModified,
+    changeFrequency: 'weekly' as const,
+    priority: 0.8,
+  }))
+
+  const allBlogUrls = new Set(blogRoutes.map((r) => r.url))
+  for (const sRoute of staticBlogRoutes) {
+    if (!allBlogUrls.has(sRoute.url)) {
+      blogRoutes.push(sRoute)
+    }
   }
 
   let projectRoutes: MetadataRoute.Sitemap = [
