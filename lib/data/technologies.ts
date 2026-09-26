@@ -52,10 +52,10 @@ export const TECHNOLOGIES_DATA: TechnologyDetail[] = [
     glowColor: 'rgba(59, 130, 246, 0.35)',
     badge: 'Autonomous Neural Engine',
     metrics: [
-      { label: 'Inference Latency', value: '< 18ms', subtext: 'Global edge-accelerated TTFT' },
-      { label: 'Context Processing', value: '2M+ Tokens', subtext: 'Multi-modal context windows' },
-      { label: 'Agent Coordination', value: '500+ Swarms', subtext: 'Concurrent autonomous task agents' },
-      { label: 'Uptime & Reliability', value: '99.99%', subtext: 'Redundant neural model failover' },
+      { label: 'Inference Latency', value: '< 50ms', subtext: 'Optimized model response time' },
+      { label: 'Context Processing', value: 'High Capacity', subtext: 'Multi-modal context windows' },
+      { label: 'Agent Coordination', value: 'Scalable', subtext: 'Autonomous task workflows' },
+      { label: 'Uptime & Reliability', value: '99.9%', subtext: 'Redundant model failover' },
     ],
     overview: [
       'Our Neural AI & Cognitive Systems framework transforms raw enterprise data into actionable intelligence. By blending sparse-mixture-of-experts (MoE) neural models with vectorized knowledge embeddings, we empower businesses with self-learning autonomous assistants.',
@@ -164,9 +164,9 @@ export const TECHNOLOGIES_DATA: TechnologyDetail[] = [
     glowColor: 'rgba(20, 184, 166, 0.35)',
     badge: 'Global Edge Fabric',
     metrics: [
-      { label: 'Global Edge PoPs', value: '300+ Locations', subtext: 'Distributed CDN & Anycast routing' },
-      { label: 'P99 Latency', value: '< 24ms', subtext: 'Edge compute response time' },
-      { label: 'Scaling Velocity', value: '0 to 100k QPS', subtext: 'In under 3.5 seconds' },
+      { label: 'Edge Network', value: 'Multi-Region', subtext: 'Distributed CDN & Anycast routing' },
+      { label: 'P95 Latency', value: '< 45ms', subtext: 'Edge compute response time' },
+      { label: 'Elastic Scaling', value: 'Automated', subtext: 'Horizontal pod autoscaling' },
       { label: 'Downtime SLA', value: '99.9%', subtext: 'Multi-region active-active mesh' },
     ],
     overview: [

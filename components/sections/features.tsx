@@ -200,7 +200,7 @@ export function FeaturesSection() {
           className="mt-24 lg:mt-32 p-8 lg:p-12 rounded-[40px] bg-gradient-to-br from-indigo-500/5 dark:from-indigo-500/10 via-transparent to-transparent border border-border flex flex-wrap justify-between gap-12"
         >
           {[
-            { label: 'Uptime SLA', value: '99.99%', sub: 'Enterprise Grade' },
+            { label: 'Uptime SLA', value: '99.9%', sub: 'Enterprise Grade' },
             { label: 'Latency', value: '<100ms', sub: 'Global Edge' },
             { label: 'Deployment', value: 'Atomic', sub: 'Zero Downtime' },
             { label: 'Security', value: 'SOC2', sub: 'Encryption At Rest' }

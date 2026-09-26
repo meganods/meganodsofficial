@@ -225,8 +225,8 @@ export default function ServicesPage() {
                   className="flex flex-wrap gap-6 pt-3 justify-center lg:justify-start"
                 >
                   {[
-                    { value: '20+', label: 'Services Offered' },
-                    { value: '320+', label: 'Projects Delivered' },
+                    { value: 'End-to-End', label: 'Service Coverage' },
+                    { value: '50+', label: 'Delivered Projects' },
                     { value: '48hr', label: 'Avg Kickoff Time' },
                   ].map((stat) => (
                     <div key={stat.label} className="text-center lg:text-left">

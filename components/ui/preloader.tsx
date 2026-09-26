@@ -22,8 +22,8 @@ export function Preloader() {
     {
       id: "card-1",
       icon: Cpu,
-      title: "Neural Engine",
-      value: "99.8% Efficiency",
+      title: "Production Uptime",
+      value: "99.9% SLA",
       initialX: -260,
       initialY: -140,
       floatX: [-10, 15, -10],
@@ -36,8 +36,8 @@ export function Preloader() {
     {
       id: "card-2",
       icon: Network,
-      title: "Edge Mesh",
-      value: "0.2ms Latency",
+      title: "Edge Network",
+      value: "< 45ms Response",
       initialX: 260,
       initialY: -120,
       floatX: [15, -12, 15],
@@ -50,7 +50,7 @@ export function Preloader() {
     {
       id: "card-3",
       icon: Shield,
-      title: "Quantum Cipher",
+      title: "Security Shield",
       value: "Zero-Trust Active",
       initialX: -270,
       initialY: 130,
@@ -64,8 +64,8 @@ export function Preloader() {
     {
       id: "card-4",
       icon: Database,
-      title: "Global Nodes",
-      value: "128 Nodes Synced",
+      title: "Cloud Infrastructure",
+      value: "Multi-Region Mesh",
       initialX: 270,
       initialY: 140,
       floatX: [10, -15, 10],

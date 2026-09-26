@@ -198,9 +198,9 @@ export default function TeamPage() {
                   className="flex flex-wrap gap-6 pt-3 justify-center lg:justify-start"
                 >
                   {[
-                    { value: '50+', label: 'Core Engineers' },
+                    { value: 'Full-Stack', label: 'Engineering Core' },
                     { value: '15+', label: 'Tech Disciplines' },
-                    { value: '94%', label: 'Retention Rate' },
+                    { value: 'Peer-Reviewed', label: 'Code Quality' },
                     { value: '100%', label: 'Remote First' },
                   ].map((stat) => (
                     <div key={stat.label} className="text-center lg:text-left">
@@ -538,10 +538,10 @@ export default function TeamPage() {
                  <div className="absolute inset-0 bg-gradient-to-br from-indigo-50/50 via-white to-blue-50/30 pointer-events-none" />
                  <div className="relative grid grid-cols-2 gap-8">
                     {[
-                      { value: '50+', label: 'Active Engineers' },
-                      { value: '25+', label: 'Industry Sectors' },
-                      { value: '4.9/5', label: 'Satisfaction Score' },
-                      { value: '99.8%', label: 'Delivery Reliability' },
+                      { value: 'Dedicated', label: 'Technical Leads' },
+                      { value: 'Full-Cycle', label: 'Project Delivery' },
+                      { value: '4.9/5', label: 'Client Rating' },
+                      { value: '99.9%', label: 'SLA Reliability' },
                     ].map((stat, index) => (
                       <div key={stat.label} className="text-left">
                         <div className="text-3xl sm:text-4xl lg:text-5xl font-extrabold bg-gradient-to-r from-indigo-600 to-blue-600 bg-clip-text text-transparent tracking-tight mb-1">

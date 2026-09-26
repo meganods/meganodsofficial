@@ -14,10 +14,10 @@ const highlights = [
 ]
 
 const stats = [
-  { value: '1.2B', label: 'Predictions / Day', sub: 'High-Volume throughput' },
-  { value: '500+', label: 'Enterprise Partners', sub: 'Global scale' },
-  { value: '99.9%', label: 'Infrastructure Uptime', sub: 'Critical reliability' },
-  { value: '250ms', label: 'Response Time', sub: 'Global average' },
+  { value: '99.9%', label: 'Production Uptime', sub: 'Enterprise SLA' },
+  { value: '50+', label: 'Delivered Projects', sub: 'Cross-industry delivery' },
+  { value: '< 50ms', label: 'Average Latency', sub: 'Edge infrastructure' },
+  { value: '100%', label: 'Code Delivery Rate', sub: 'On-time milestone tracking' },
 ]
 
 import { Brain } from 'lucide-react'
@@ -107,8 +107,8 @@ export function AboutPreviewSection() {
                  transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
                  className="absolute -top-10 -right-10 p-6 rounded-3xl bg-card border border-border shadow-2xl backdrop-blur-md"
                >
-                  <div className="text-indigo-600 dark:text-indigo-400 font-bold text-4xl mb-1">+285%</div>
-                  <div className="text-muted-foreground text-xs font-mono uppercase">Scale Intelligence</div>
+                  <div className="text-indigo-600 dark:text-indigo-400 font-bold text-3xl mb-1">SOC-2</div>
+                  <div className="text-muted-foreground text-xs font-mono uppercase">Security Standard</div>
                </motion.div>
             </div>
           </motion.div>

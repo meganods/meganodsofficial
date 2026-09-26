@@ -84,10 +84,10 @@ const milestones = [
 
 
 const stats = [
-  { value: '1.2B', label: 'Nodes Managed', icon: Layers, sub: 'Global Scale' },
-  { value: '50ms', label: 'Avg Latency', icon: Zap, sub: 'Ultra-Fast' },
-  { value: '450+', label: 'Enterprise Partners', icon: Award, sub: 'Strategic' },
-  { value: '99.9%', label: 'Active Uptime', icon: Shield, sub: 'Fault Tolerant' },
+  { value: '99.9%', label: 'Production Uptime', icon: Shield, sub: 'Fault Tolerant' },
+  { value: '< 50ms', label: 'Avg Latency', icon: Zap, sub: 'Edge Routing' },
+  { value: '50+', label: 'Delivered Projects', icon: Award, sub: 'Global Reach' },
+  { value: '100%', label: 'Milestone Tracking', icon: Layers, sub: 'Agile Delivery' },
 ]
 
 function AnimatedSection({ children, className = '' }: { children: React.ReactNode; className?: string }) {

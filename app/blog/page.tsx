@@ -228,10 +228,10 @@ export default function BlogPage() {
                   className="flex flex-wrap gap-6 pt-2 justify-center lg:justify-start"
                 >
                   {[
-                    { value: '40+', label: 'Deep Dives' },
+                    { value: 'Verified', label: 'Technical Guides' },
                     { value: '100%', label: 'Engineering Led' },
-                    { value: '12k+', label: 'Monthly Readers' },
-                    { value: 'Weekly', label: 'Dispatches' },
+                    { value: 'Open', label: 'Architecture Patterns' },
+                    { value: 'Continuous', label: 'Research Dispatches' },
                   ].map((stat) => (
                     <div key={stat.label} className="text-center lg:text-left">
                       <div className="text-2xl font-black bg-gradient-to-r from-indigo-600 to-blue-600 bg-clip-text text-transparent">{stat.value}</div>
