@@ -46,7 +46,7 @@ const footerLinks = {
 }
 
 const socialLinks = [
-  { icon: Twitter, href: '#', label: 'Twitter', color: 'hover:text-indigo-600 hover:border-indigo-600' },
+  { icon: Twitter, href: 'https://x.com/MegaNods33550', label: 'X (Twitter)', color: 'hover:text-indigo-600 hover:border-indigo-600' },
   { icon: Linkedin, href: 'https://www.linkedin.com/in/meganods-08b7b5400/', label: 'LinkedIn', color: 'hover:text-indigo-600 hover:border-indigo-600' },
   { icon: Instagram, href: 'https://www.instagram.com/mega.nods/', label: 'Instagram', color: 'hover:text-pink-600 hover:border-pink-600' },
 ]

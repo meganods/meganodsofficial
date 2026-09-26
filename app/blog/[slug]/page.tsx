@@ -140,7 +140,8 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       title: post.title,
       description,
       images: [ogImage],
-      creator: '@meganods',
+      creator: '@MegaNods33550',
+      site: '@MegaNods33550',
     },
   }
 }

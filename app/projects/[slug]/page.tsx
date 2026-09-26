@@ -87,7 +87,8 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       title: `${project.title} | Meganods Case Study`,
       description: project.description || project.tagline,
       images: [ogImage],
-      creator: '@meganods',
+      creator: '@MegaNods33550',
+      site: '@MegaNods33550',
     },
   }
 }

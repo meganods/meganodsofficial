@@ -58,7 +58,8 @@ export async function generateMetadata({
       title: `${tech.title} | Meganods`,
       description: tech.description,
       images: [tech.image],
-      creator: '@meganods',
+      creator: '@MegaNods33550',
+      site: '@MegaNods33550',
     },
   }
 }

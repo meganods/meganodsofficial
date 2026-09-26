@@ -17,7 +17,7 @@ export default function JsonLd() {
     sameAs: [
       'https://www.linkedin.com/in/meganods-08b7b5400/',
       'https://www.instagram.com/mega.nods/',
-      'https://twitter.com/meganods',
+      'https://x.com/MegaNods33550',
     ],
     address: {
       '@type': 'PostalAddress',

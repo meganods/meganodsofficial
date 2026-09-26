@@ -54,7 +54,8 @@ export const metadata: Metadata = {
     title: 'Meganods | Innovating the Future of Technology',
     description: 'Innovating the future with AI technology. Cutting-edge IT solutions to empower businesses.',
     images: ['/og-image.jpg'],
-    creator: '@meganods',
+    creator: '@MegaNods33550',
+    site: '@MegaNods33550',
   },
   robots: {
     index: true,
