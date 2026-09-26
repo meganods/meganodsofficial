@@ -247,7 +247,7 @@ const ServiceVisual = ({ service, gradient }: { service: any, gradient: string }
           <div className="space-y-3 font-mono text-xs">
             <div className="p-3 rounded-xl bg-white/5 border border-white/10 flex justify-between items-center">
               <span>US-East / EU-Central / AP-South</span>
-              <span className="text-emerald-400 font-bold">99.999% SLA</span>
+              <span className="text-emerald-400 font-bold">99.9% Enterprise SLA</span>
             </div>
             <div className="grid grid-cols-2 gap-2 text-[11px]">
               <div className="p-3 rounded-xl bg-white/5 border border-white/10">
@@ -256,7 +256,7 @@ const ServiceVisual = ({ service, gradient }: { service: any, gradient: string }
               </div>
               <div className="p-3 rounded-xl bg-white/5 border border-white/10">
                 <div className="text-slate-400 text-[9px]">LATENCY MESH</div>
-                <div className="text-emerald-400 font-bold mt-1">&lt; 18ms Global</div>
+                <div className="text-emerald-400 font-bold mt-1">&lt; 45ms Global</div>
               </div>
             </div>
           </div>

@@ -323,7 +323,7 @@ go processEventWorkerPool(ctx, workerChan, 32)
     id: "blog-05",
     slug: "zero-downtime-database-migrations-500m-rows",
     title: "Zero-Downtime Database Migrations on PostgreSQL with 500M+ Rows: The Expand/Contract Strategy",
-    excerpt: "How to safely rename columns, migrate data types, and split high-velocity transaction tables with zero lock contention and 99.999% uptime.",
+    excerpt: "How to safely rename columns, migrate data types, and split high-velocity transaction tables with zero lock contention and 99.99% uptime.",
     category: "Cloud Computing",
     readTime: "9 min read",
     date: "Sep 12, 2026",

@@ -267,8 +267,8 @@ export function HeroSection() {
                 <Zap className="w-5 h-5" />
               </div>
               <div>
-                <p className="text-[10px] font-mono font-bold uppercase text-slate-400">INFERENCE SPEED</p>
-                <p className="text-sm font-black text-slate-900">&lt; 18ms Latency</p>
+                <p className="text-[10px] font-mono font-bold uppercase text-slate-400">EDGE RESPONSE</p>
+                <p className="text-sm font-black text-slate-900">&lt; 45ms Latency</p>
               </div>
             </motion.div>
 
@@ -282,7 +282,7 @@ export function HeroSection() {
                 <ShieldCheck className="w-5 h-5" />
               </div>
               <div>
-                <p className="text-[10px] font-mono font-bold uppercase text-slate-400">SECURITY PROTOCOL</p>
+                <p className="text-[10px] font-mono font-bold uppercase text-slate-400">SECURITY COMPLIANCE</p>
                 <p className="text-sm font-black text-slate-900">Zero-Trust Active</p>
               </div>
             </motion.div>
@@ -297,8 +297,8 @@ export function HeroSection() {
                 <Cpu className="w-5 h-5" />
               </div>
               <div>
-                <p className="text-[10px] font-mono font-bold uppercase text-slate-400">COGNITIVE SWARMS</p>
-                <p className="text-sm font-black text-slate-900">500+ Concurrent</p>
+                <p className="text-[10px] font-mono font-bold uppercase text-slate-400">CONCURRENCY</p>
+                <p className="text-sm font-black text-slate-900">High-Throughput</p>
               </div>
             </motion.div>
 

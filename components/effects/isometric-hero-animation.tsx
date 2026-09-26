@@ -183,8 +183,8 @@ export function IsometricHeroAnimation() {
               <Activity className="w-5 h-5 animate-pulse" />
             </div>
             <div>
-              <span className="text-[10px] font-mono text-slate-400 font-bold uppercase block">TELEMETRY</span>
-              <span className="text-xs font-extrabold text-emerald-600">99.999% Optimal</span>
+              <span className="text-[10px] font-mono text-slate-400 font-bold uppercase block">UPTIME METRIC</span>
+              <span className="text-xs font-extrabold text-emerald-600">99.9% SLA Uptime</span>
             </div>
           </div>
         </motion.div>
@@ -208,8 +208,8 @@ export function IsometricHeroAnimation() {
               <Zap className="w-5 h-5" />
             </div>
             <div>
-              <span className="text-[10px] font-mono text-slate-400 font-bold uppercase block">PROCESSING</span>
-              <span className="text-xs font-extrabold text-slate-900">&lt; 15ms Pipeline</span>
+              <span className="text-[10px] font-mono text-slate-400 font-bold uppercase block">API LATENCY</span>
+              <span className="text-xs font-extrabold text-slate-900">&lt; 45ms Response</span>
             </div>
           </div>
         </motion.div>

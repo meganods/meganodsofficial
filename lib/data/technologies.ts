@@ -167,7 +167,7 @@ export const TECHNOLOGIES_DATA: TechnologyDetail[] = [
       { label: 'Global Edge PoPs', value: '300+ Locations', subtext: 'Distributed CDN & Anycast routing' },
       { label: 'P99 Latency', value: '< 24ms', subtext: 'Edge compute response time' },
       { label: 'Scaling Velocity', value: '0 to 100k QPS', subtext: 'In under 3.5 seconds' },
-      { label: 'Downtime SLA', value: '99.999%', subtext: 'Multi-region active-active mesh' },
+      { label: 'Downtime SLA', value: '99.9%', subtext: 'Multi-region active-active mesh' },
     ],
     overview: [
       'In today’s hyper-connected landscape, centralized computing creates latency bottlenecks. Our Distributed Cloud & Edge Mesh architecture redistributes business logic, static assets, and dynamic database replicas across 300+ edge points of presence worldwide.',
