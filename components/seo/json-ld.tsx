@@ -21,9 +21,11 @@ export default function JsonLd() {
     ],
     address: {
       '@type': 'PostalAddress',
-      addressLocality: 'Silicon Valley',
-      addressRegion: 'CA',
-      addressCountry: 'US',
+      streetAddress: 'OC-821, 8th Floor, Gaur City Centre, Greater Noida West',
+      addressLocality: 'Greater Noida',
+      addressRegion: 'Uttar Pradesh',
+      postalCode: '201306',
+      addressCountry: 'IN',
     },
   }
 

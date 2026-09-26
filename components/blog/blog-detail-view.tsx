@@ -12,7 +12,9 @@ import {
   Twitter,
   Linkedin,
   Mail,
-  Share2
+  Share2,
+  ShieldCheck,
+  FileCheck2
 } from "lucide-react"
 import { useState, useEffect } from "react"
 import { db } from "@/lib/firebase"
@@ -286,9 +288,32 @@ export function BlogDetailView({ initialPost, initialRelatedPosts = [], slug }: 
                   />
                 </motion.div>
 
+                {/* Editorial Standards & Technical Fact-Checking Trust Box */}
+                <div className="mt-16 p-6 sm:p-7 rounded-2xl bg-indigo-50/50 dark:bg-indigo-950/20 border border-indigo-100 dark:border-indigo-900/40 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                  <div className="flex items-center gap-3.5">
+                    <div className="w-10 h-10 rounded-xl bg-indigo-600 text-white flex items-center justify-center shrink-0 shadow-md shadow-indigo-500/20">
+                      <ShieldCheck className="w-5 h-5" />
+                    </div>
+                    <div>
+                      <h4 className="text-sm font-bold text-slate-900 dark:text-slate-100 flex items-center gap-2">
+                        Peer-Reviewed Engineering Article
+                        <span className="inline-flex items-center gap-1 text-[10px] font-mono px-2 py-0.5 rounded-full bg-emerald-100 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-400 font-bold">
+                          ✓ Fact Checked
+                        </span>
+                      </h4>
+                      <p className="text-xs text-slate-600 dark:text-slate-400 mt-0.5 font-medium">
+                        Authored by senior engineering practitioners. Verified for production reproducibility and accuracy.
+                      </p>
+                    </div>
+                  </div>
+                  <div className="text-[11px] font-mono text-indigo-700 dark:text-indigo-400 font-bold shrink-0">
+                    Meganods Editorial Policy
+                  </div>
+                </div>
+
                 {/* Author Bio & E-E-A-T Verification Box */}
                 {post.author && (
-                  <div className="mt-20 p-8 sm:p-10 rounded-3xl bg-slate-50 dark:bg-card border border-slate-200 dark:border-border shadow-sm">
+                  <div className="mt-8 p-8 sm:p-10 rounded-3xl bg-slate-50 dark:bg-card border border-slate-200 dark:border-border shadow-sm">
                     <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6">
                       <div className="w-20 h-20 rounded-2xl overflow-hidden shrink-0 border-2 border-indigo-500/20 bg-indigo-50 dark:bg-indigo-950/40">
                         <img 
