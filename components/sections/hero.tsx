@@ -19,76 +19,99 @@ import { IsometricHeroAnimation } from '@/components/effects/isometric-hero-anim
 
 export function HeroSection() {
   const videoRef = useRef<HTMLVideoElement>(null)
-  const [isMuted, setIsMuted] = useState(true)
+  const [isMuted, setIsMuted] = useState(false)
 
   useEffect(() => {
     const video = videoRef.current
     if (!video) return
 
-    // Ensure video starts playing immediately on page load in all browsers
-    video.muted = true
-    video.play().catch(() => {})
+    // Start video unmuted by default
+    video.muted = false
+    video.defaultMuted = false
+    video.volume = 1.0
+    video.playsInline = true
 
-    // Attempt to unmute immediately if browser policy permits
-    const tryUnmute = () => {
-      if (!videoRef.current) return
-      videoRef.current.muted = false
-      videoRef.current.volume = 1.0
-      const promise = videoRef.current.play()
-      if (promise !== undefined) {
-        promise
-          .then(() => {
-            setIsMuted(false)
-          })
-          .catch(() => {
-            // Browser restricted unmuted autoplay on initial load, ensure video stays playing muted
-            if (videoRef.current) {
-              videoRef.current.muted = true
-              videoRef.current.play().catch(() => {})
-            }
-            setIsMuted(true)
-          })
-      }
+    const playPromise = video.play()
+    if (playPromise !== undefined) {
+      playPromise
+        .then(() => {
+          setIsMuted(false)
+        })
+        .catch(() => {
+          // If browser autoplay policy blocks unmuted audio on load, fallback to muted playback
+          if (videoRef.current) {
+            videoRef.current.muted = true
+            videoRef.current.play().catch(() => {})
+          }
+          setIsMuted(true)
+        })
     }
 
-    tryUnmute()
-
-    // Unmute automatically upon first user interaction anywhere on the screen
+    // Unmute automatically on first genuine user interaction if initially restricted by browser
     const handleFirstInteraction = () => {
       if (videoRef.current) {
         videoRef.current.muted = false
         videoRef.current.volume = 1.0
-        videoRef.current.play().then(() => {
+        const promise = videoRef.current.play()
+        if (promise !== undefined) {
+          promise
+            .then(() => {
+              setIsMuted(false)
+            })
+            .catch(() => {})
+        } else {
           setIsMuted(false)
-        }).catch(() => {})
+        }
       }
+      cleanupListeners()
+    }
+
+    const cleanupListeners = () => {
       window.removeEventListener('click', handleFirstInteraction)
+      window.removeEventListener('pointerdown', handleFirstInteraction)
       window.removeEventListener('touchstart', handleFirstInteraction)
       window.removeEventListener('keydown', handleFirstInteraction)
-      window.removeEventListener('scroll', handleFirstInteraction)
     }
 
     window.addEventListener('click', handleFirstInteraction, { once: true, passive: true })
+    window.addEventListener('pointerdown', handleFirstInteraction, { once: true, passive: true })
     window.addEventListener('touchstart', handleFirstInteraction, { once: true, passive: true })
     window.addEventListener('keydown', handleFirstInteraction, { once: true, passive: true })
-    window.addEventListener('scroll', handleFirstInteraction, { once: true, passive: true })
 
     return () => {
-      window.removeEventListener('click', handleFirstInteraction)
-      window.removeEventListener('touchstart', handleFirstInteraction)
-      window.removeEventListener('keydown', handleFirstInteraction)
-      window.removeEventListener('scroll', handleFirstInteraction)
+      cleanupListeners()
     }
   }, [])
 
   const toggleMute = () => {
-    if (videoRef.current) {
-      const nextMuted = !videoRef.current.muted
-      videoRef.current.muted = nextMuted
-      videoRef.current.volume = 1.0
-      setIsMuted(nextMuted)
-      if (videoRef.current.paused) {
-        videoRef.current.play().catch(() => {})
+    const video = videoRef.current
+    if (!video) return
+
+    if (video.muted) {
+      // User wants to unmute
+      video.muted = false
+      video.volume = 1.0
+      const playPromise = video.play()
+      if (playPromise !== undefined) {
+        playPromise
+          .then(() => {
+            setIsMuted(false)
+          })
+          .catch(() => {
+            // If browser blocked unmuting, revert to muted and ensure playback continues
+            video.muted = true
+            video.play().catch(() => {})
+            setIsMuted(true)
+          })
+      } else {
+        setIsMuted(false)
+      }
+    } else {
+      // User wants to mute
+      video.muted = true
+      setIsMuted(true)
+      if (video.paused) {
+        video.play().catch(() => {})
       }
     }
   }
