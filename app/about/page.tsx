@@ -363,9 +363,9 @@ export default function AboutPage() {
               className="grid grid-cols-1 sm:grid-cols-3 gap-5 mt-16 max-w-5xl mx-auto"
             >
               {[
-                { icon: Cpu, title: 'AI & Neural Systems', desc: 'Autonomous cognitive agents, custom LLM fine-tuning, and scalable neural inference.', color: 'indigo' },
-                { icon: Globe, title: 'Global Infrastructure', desc: '500+ edge nodes deployed across all major continents with sub-50ms latency.', color: 'blue' },
-                { icon: Shield, title: 'Enterprise Security', desc: 'Zero-trust encryption meshes, SOC 2 compliance, and fortified cloud architecture.', color: 'purple' },
+                { icon: Cpu, title: 'AI & Intelligent Systems', desc: 'Custom LLM fine-tuning, automated cognitive workflows, and intelligent business tooling.', color: 'indigo' },
+                { icon: Globe, title: 'Cloud Infrastructure', desc: 'Multi-region cloud architecture, CDN acceleration, and high-availability container clusters.', color: 'blue' },
+                { icon: Shield, title: 'Enterprise Security', desc: 'Zero-trust architecture, encrypted data pipelines, and hardened cloud infrastructure.', color: 'purple' },
               ].map(({ icon: Icon, title, desc, color }) => (
                 <div
                   key={title}
