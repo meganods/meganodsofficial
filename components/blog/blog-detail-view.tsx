@@ -156,40 +156,41 @@ export function BlogDetailView({ initialPost, initialRelatedPosts = [], slug }: 
             <div className="absolute inset-0 bg-gradient-to-b from-background/40 via-background/80 to-background" />
           </div>
 
-          <div className="container mx-auto px-6 lg:px-8 relative z-10 pt-40 lg:pt-56 pb-20">
-            <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }}>
-              <Link href="/blog" className="inline-flex items-center gap-3 text-muted-foreground hover:text-primary transition-all font-mono text-[10px] uppercase tracking-[0.4em] mb-12">
-                <ArrowLeft className="w-4 h-4" /> Back to Intelligence Grid
+          <div className="container mx-auto px-6 lg:px-8 relative z-10 pt-28 sm:pt-36 pb-16">
+            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
+              <Link href="/blog" className="inline-flex items-center gap-2.5 text-slate-500 hover:text-indigo-600 transition-colors font-mono text-xs uppercase tracking-[0.25em] mb-8 font-bold">
+                <ArrowLeft className="w-3.5 h-3.5" /> Back to Insights
               </Link>
 
-              <div className="flex items-center gap-4 mb-8">
-                 <div className="w-3 h-3 rounded-full bg-primary shadow-[0_0_15px_rgba(99,102,241,0.5)]" />
-                 <span className="text-primary font-mono text-[11px] uppercase tracking-[0.4em] font-black">{post.category}</span>
+              <div className="flex items-center gap-3 mb-6">
+                 <span className="px-3.5 py-1.5 rounded-full bg-indigo-50 dark:bg-indigo-950/60 border border-indigo-200 dark:border-indigo-800 text-indigo-600 dark:text-indigo-400 font-mono text-xs uppercase tracking-wider font-bold">
+                   {post.category}
+                 </span>
               </div>
 
-              <h1 className="text-4xl md:text-7xl lg:text-9xl font-black mb-10 tracking-tighter leading-none uppercase max-w-6xl">
+              <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black tracking-tight leading-[1.2] text-slate-900 dark:text-foreground max-w-4xl mb-8">
                 {post.title}
               </h1>
 
-              <div className="flex flex-wrap items-center gap-x-12 gap-y-8 pt-8 border-t border-border">
-                <div className="flex items-center gap-4">
-                  <div className="w-16 h-16 rounded-[1.2rem] overflow-hidden border border-border bg-secondary">
-                     <img src={post.author?.avatarUrl || `https://i.pravatar.cc/400?${post.author?.name?.toLowerCase().includes('virat') ? 'img=11' : `u=${encodeURIComponent(post.author?.name || 'author')}`}`} alt={post.author?.name || 'Author'} className="w-full h-full object-cover" />
+              <div className="flex flex-wrap items-center gap-x-10 gap-y-6 pt-6 border-t border-slate-200 dark:border-border/80">
+                <div className="flex items-center gap-3.5">
+                  <div className="w-12 h-12 rounded-xl overflow-hidden border border-slate-200 dark:border-border bg-secondary shrink-0">
+                     <img src={post.author?.avatar || post.author?.avatarUrl || `https://i.pravatar.cc/400?u=${encodeURIComponent(post.author?.name || 'author')}`} alt={post.author?.name || 'Author'} className="w-full h-full object-cover" />
                   </div>
                   <div>
-                    <p className="font-black text-xl tracking-tight uppercase leading-none mb-1 text-foreground">{post.author?.name || 'Neural Node'}</p>
-                    <p className="text-[10px] font-mono text-muted-foreground uppercase tracking-widest font-bold">{post.author?.role || 'Strategic Director'}</p>
+                    <p className="font-bold text-base tracking-tight text-slate-900 dark:text-slate-100">{post.author?.name || 'Meganods Team'}</p>
+                    <p className="text-xs font-mono text-slate-500 uppercase tracking-wider font-semibold">{post.author?.role || 'Technical Contributor'}</p>
                   </div>
                 </div>
                 
-                <div className="flex gap-10">
-                   <div className="space-y-1">
-                      <p className="text-[9px] font-mono text-muted-foreground/40 uppercase tracking-widest">Release Date</p>
-                      <p className="text-sm font-black uppercase text-foreground/75 tracking-tight">{post.date}</p>
+                <div className="flex items-center gap-8 text-xs font-mono">
+                   <div className="space-y-0.5">
+                      <p className="text-[10px] text-slate-400 uppercase tracking-widest font-semibold">Published</p>
+                      <p className="font-bold text-slate-700 dark:text-slate-300">{post.date}</p>
                    </div>
-                   <div className="space-y-1">
-                      <p className="text-[9px] font-mono text-muted-foreground/40 uppercase tracking-widest">Intake Span</p>
-                      <p className="text-sm font-black uppercase text-foreground/75 tracking-tight">{post.readTime || '5 min read'}</p>
+                   <div className="space-y-0.5">
+                      <p className="text-[10px] text-slate-400 uppercase tracking-widest font-semibold">Read Time</p>
+                      <p className="font-bold text-slate-700 dark:text-slate-300">{post.readTime || '6 min read'}</p>
                    </div>
                 </div>
               </div>
@@ -340,43 +341,45 @@ export function BlogDetailView({ initialPost, initialRelatedPosts = [], slug }: 
 
         {/* Global Related Network */}
         {relatedPosts.length > 0 && (
-          <section className="py-32 lg:py-56 bg-secondary/20 border-t border-border">
+          <section className="py-20 lg:py-28 bg-slate-50/70 dark:bg-secondary/15 border-t border-border">
             <div className="container mx-auto px-6 lg:px-8">
-              <div className="flex items-center justify-between mb-24">
-                 <div className="space-y-4">
-                    <span className="text-primary font-mono text-[10px] uppercase tracking-[0.4em] font-black">Nodal Recommendations</span>
-                    <h2 className="text-4xl lg:text-6xl font-black uppercase tracking-tighter leading-none">Related <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 to-purple-500">Intelligence</span>.</h2>
+              <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-12">
+                 <div className="space-y-2">
+                    <span className="text-indigo-600 dark:text-indigo-400 font-mono text-xs uppercase tracking-widest font-bold">Recommended Reading</span>
+                    <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black tracking-tight text-slate-900 dark:text-foreground">
+                      Related <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-purple-600">Intelligence</span>
+                    </h2>
                  </div>
-                 <Link href="/blog" className="hidden md:flex items-center gap-3 text-[10px] font-mono text-muted-foreground uppercase tracking-[0.4em] hover:text-primary transition-all font-black">
-                    View Full Feed <ChevronRight className="w-4 h-4" />
+                 <Link href="/blog" className="inline-flex items-center gap-2 text-xs font-mono text-slate-500 hover:text-indigo-600 transition-colors font-bold uppercase tracking-wider">
+                    View All Articles <ChevronRight className="w-4 h-4" />
                  </Link>
               </div>
 
-              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-12">
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
                 {relatedPosts.map((article, index) => (
                   <motion.article
                     key={index}
-                    initial={{ opacity: 0, y: 20 }}
+                    initial={{ opacity: 0, y: 15 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ delay: index * 0.1 }}
                     className="group"
                   >
                     <Link href={`/blog/${article.slug || article.id}`}>
-                      <div className="bg-card border border-border rounded-[3.5rem] p-8 h-full flex flex-col hover:border-primary/30 transition-all duration-700 shadow-2xl">
-                        <div className="relative aspect-video overflow-hidden rounded-[2.5rem] mb-8 border border-border bg-secondary">
+                      <div className="bg-white dark:bg-card border border-slate-200 dark:border-border rounded-3xl p-6 h-full flex flex-col hover:border-indigo-400 hover:shadow-xl transition-all duration-300">
+                        <div className="relative aspect-video overflow-hidden rounded-2xl mb-6 border border-slate-100 dark:border-border bg-slate-100 dark:bg-secondary">
                           <img
                             src={article.imageUrl}
                             alt={article.title}
-                            className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
+                            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                           />
                         </div>
-                        <h3 className="text-2xl font-black text-foreground group-hover:text-primary transition-colors leading-tight tracking-tighter uppercase mb-6">
+                        <h3 className="text-base sm:text-lg font-bold text-slate-900 dark:text-slate-100 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors leading-snug tracking-tight mb-4">
                           {article.title}
                         </h3>
-                        <div className="mt-auto pt-6 border-t border-border flex items-center justify-between">
-                           <p className="text-[9px] font-mono text-muted-foreground uppercase tracking-[0.3em] font-black">{article.date}</p>
-                           <ArrowRight className="w-5 h-5 text-primary/50 group-hover:text-primary transition-colors" />
+                        <div className="mt-auto pt-4 border-t border-slate-100 dark:border-border flex items-center justify-between">
+                           <p className="text-xs font-mono text-slate-500 font-semibold">{article.date}</p>
+                           <ArrowRight className="w-4 h-4 text-indigo-500 group-hover:translate-x-1 transition-transform" />
                         </div>
                       </div>
                     </Link>
