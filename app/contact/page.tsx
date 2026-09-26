@@ -21,7 +21,6 @@ import { Navigation } from "@/components/layout/navigation"
 import { Footer } from "@/components/layout/footer"
 import { SmoothScrollProvider } from "@/components/providers/smooth-scroll-provider"
 import { Button } from "@/components/ui/button"
-import { ProjectEstimator } from "@/components/sections/project-estimator"
 import { db } from "@/lib/firebase";
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 import { toast } from "sonner";
@@ -81,14 +80,8 @@ export default function ContactPage() {
         </div>
 
         {/* Global Layout Container */}
-        <div className="relative z-10 pt-28 lg:pt-36 pb-24 lg:pb-36 container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
-          
-          {/* Project Estimator Section */}
-          <div className="mb-20 lg:mb-28">
-            <ProjectEstimator />
-          </div>
-
-          <div className="grid lg:grid-cols-12 gap-12 lg:gap-16 items-stretch pt-6 border-t border-slate-200 dark:border-border/60">
+        <div className="relative z-10 pt-32 lg:pt-44 pb-24 lg:pb-36 container mx-auto px-6 lg:px-8">
+          <div className="grid lg:grid-cols-12 gap-12 lg:gap-16 items-stretch">
             
             {/* Left Column: Contact Information & Services */}
             <motion.div

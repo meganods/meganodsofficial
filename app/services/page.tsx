@@ -197,12 +197,12 @@ export default function ServicesPage() {
                   transition={{ duration: 0.6, delay: 0.26 }}
                   className="flex flex-wrap items-center justify-center lg:justify-start gap-4 pt-2"
                 >
-                  <Link href="/contact#estimator">
+                  <Link href="/contact">
                     <Button
                       size="lg"
                       className="h-12 px-8 bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 hover:from-blue-700 hover:to-indigo-700 text-white font-bold rounded-xl shadow-xl shadow-blue-500/20 text-sm border-0 flex items-center gap-2 hover:scale-105 active:scale-95 transition-all"
                     >
-                      Estimate Project Scope <ArrowRight className="h-4 w-4" />
+                      Start a Project <ArrowRight className="h-4 w-4" />
                     </Button>
                   </Link>
                   <Link href="/projects">
