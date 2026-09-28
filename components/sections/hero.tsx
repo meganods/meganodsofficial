@@ -5,7 +5,6 @@ import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { 
   ArrowRight, 
-  Play, 
   Sparkles, 
   Zap, 
   ShieldCheck, 
@@ -220,17 +219,6 @@ export function HeroSection() {
                   >
                     <span>Get Started</span>
                     <ArrowRight className="h-4 w-4" />
-                  </Button>
-                </Link>
-
-                <Link href="/about">
-                  <Button
-                    variant="outline"
-                    size="lg"
-                    className="h-12 px-6 rounded-xl border-slate-200 bg-white/90 hover:bg-slate-50 text-slate-700 text-sm font-semibold shadow-sm cursor-pointer flex items-center gap-2 hover:scale-105 active:scale-95 transition-all"
-                  >
-                    <Play className="h-3.5 w-3.5 text-indigo-600 fill-indigo-600" />
-                    <span>Watch Demo</span>
                   </Button>
                 </Link>
               </motion.div>
