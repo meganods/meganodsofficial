@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useMemo } from "react"
 import { motion } from "framer-motion"
 import {
   Users,
@@ -13,11 +13,15 @@ import {
   Calendar,
   Clock,
   Network,
-  RefreshCw,
   Inbox,
   Sparkles,
   CheckCircle2,
-  AlertCircle
+  AlertCircle,
+  Zap,
+  ShieldCheck,
+  Radio,
+  Eye,
+  ChevronRight
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { 
@@ -51,7 +55,13 @@ interface ActivityItem {
   timestamp: number
 }
 
-const PALETTE = ["#6366f1", "#3b82f6", "#10b981", "#f59e0b", "#ec4899", "#8b5cf6", "#06b6d4"]
+const PALETTE = [
+  { main: "#6366f1", bg: "bg-indigo-500", text: "text-indigo-600 dark:text-indigo-400", light: "rgba(99, 102, 241, 0.15)" },
+  { main: "#06b6d4", bg: "bg-cyan-500", text: "text-cyan-600 dark:text-cyan-400", light: "rgba(6, 182, 212, 0.15)" },
+  { main: "#10b981", bg: "bg-emerald-500", text: "text-emerald-600 dark:text-emerald-400", light: "rgba(16, 185, 129, 0.15)" },
+  { main: "#f59e0b", bg: "bg-amber-500", text: "text-amber-600 dark:text-amber-400", light: "rgba(245, 158, 11, 0.15)" },
+  { main: "#ec4899", bg: "bg-pink-500", text: "text-pink-600 dark:text-pink-400", light: "rgba(236, 72, 153, 0.15)" },
+]
 
 function formatRelativeTime(date: Date | null): string {
   if (!date) return "Recently"
@@ -69,10 +79,37 @@ function formatRelativeTime(date: Date | null): string {
   return date.toLocaleDateString("en-US", { month: "short", day: "numeric" })
 }
 
+// Timeframe Datasets
+const TIMEFRAME_DATA: Record<string, { time: string; visitors: number; requests: number }[]> = {
+  "24H": [
+    { time: "00:00", visitors: 1420, requests: 3100 },
+    { time: "04:00", visitors: 980, requests: 2200 },
+    { time: "08:00", visitors: 5840, requests: 8400 },
+    { time: "12:00", visitors: 8920, requests: 14800 },
+    { time: "16:00", visitors: 11400, requests: 18200 },
+    { time: "20:00", visitors: 7100, requests: 10300 },
+    { time: "23:59", visitors: 4200, requests: 6100 },
+  ],
+  "7D": [
+    { time: "Mon", visitors: 18400, requests: 34200 },
+    { time: "Tue", visitors: 22100, requests: 41800 },
+    { time: "Wed", visitors: 28900, requests: 52400 },
+    { time: "Thu", visitors: 31200, requests: 58900 },
+    { time: "Fri", visitors: 34800, requests: 64100 },
+    { time: "Sat", visitors: 21900, requests: 38200 },
+    { time: "Sun", visitors: 19400, requests: 32900 },
+  ],
+  "30D": [
+    { time: "W1", visitors: 78000, requests: 142000 },
+    { time: "W2", visitors: 92000, requests: 168000 },
+    { time: "W3", visitors: 114000, requests: 204000 },
+    { time: "W4", visitors: 138000, requests: 248000 },
+  ],
+}
+
 export default function AdminDashboard() {
   const [isLoading, setIsLoading] = useState(true)
-  const [isRefreshing, setIsRefreshing] = useState(false)
-  const [lastSync, setLastSync] = useState<Date>(new Date())
+  const [activeTimeframe, setActiveTimeframe] = useState<"24H" | "7D" | "30D">("24H")
 
   // Live Counts
   const [projectCount, setProjectCount] = useState(defaultProjects.length)
@@ -80,20 +117,20 @@ export default function AdminDashboard() {
   const [teamCount, setTeamCount] = useState(12)
   const [leadCount, setLeadCount] = useState(0)
 
-  // Dynamic Charts & Logs
-  const [protocolData, setProtocolData] = useState<{ name: string; value: number; color: string }[]>([
-    { name: "AI Dev", value: 45, color: "#6366f1" },
-    { name: "Cloud", value: 25, color: "#3b82f6" },
-    { name: "Cyber", value: 20, color: "#10b981" },
-    { name: "Other", value: 10, color: "#f59e0b" },
+  // Dynamic Protocol Distribution
+  const [protocolData, setProtocolData] = useState<{ name: string; value: number; color: string; percent: number }[]>([
+    { name: "AI Dev", value: 8, color: "#6366f1", percent: 38 },
+    { name: "Cloud Core", value: 5, color: "#06b6d4", percent: 24 },
+    { name: "Cybersecurity", value: 4, color: "#10b981", percent: 19 },
+    { name: "Commerce", value: 3, color: "#f59e0b", percent: 14 },
+    { name: "Mobile Mesh", value: 1, color: "#ec4899", percent: 5 },
   ])
+
   const [monthlyDistribution, setMonthlyDistribution] = useState<{ month: string; projects: number; articles: number }[]>([])
   const [recentActivities, setRecentActivities] = useState<ActivityItem[]>([])
 
   useEffect(() => {
     setIsLoading(true)
-
-    // Unsubscribers
     const unsubs: (() => void)[] = []
 
     try {
@@ -104,23 +141,26 @@ export default function AdminDashboard() {
         const total = Math.max(firestoreProjects.length, defaultProjects.length)
         setProjectCount(total)
 
-        // Calculate dynamic category distribution
+        // Compute categories
         const catMap: Record<string, number> = {}
         const allProjects = firestoreProjects.length > 0 ? firestoreProjects : defaultProjects
         allProjects.forEach((p: any) => {
-          const cat = p.category || "General Tech"
+          const cat = p.category || "General Engineering"
           catMap[cat] = (catMap[cat] || 0) + 1
         })
 
+        const totalItems = Object.values(catMap).reduce((a, b) => a + b, 0) || 1
         const mappedProtocols = Object.entries(catMap).slice(0, 5).map(([name, count], index) => ({
           name,
           value: count,
-          color: PALETTE[index % PALETTE.length],
+          color: PALETTE[index % PALETTE.length].main,
+          percent: Math.round((count / totalItems) * 100)
         }))
+
         if (mappedProtocols.length > 0) {
           setProtocolData(mappedProtocols)
         }
-      }, (err) => console.warn("Firestore projects snapshot fallback:", err))
+      }, (err) => console.warn("Projects fallback:", err))
       unsubs.push(unsubProjects)
 
       // 2. Blogs Snapshot
@@ -129,7 +169,7 @@ export default function AdminDashboard() {
         const firestoreBlogs = snapshot.docs.map(d => ({ id: d.id, ...d.data() }))
         const total = Math.max(firestoreBlogs.length, defaultBlogs.length)
         setBlogCount(total)
-      }, (err) => console.warn("Firestore blogs snapshot fallback:", err))
+      }, (err) => console.warn("Blogs fallback:", err))
       unsubs.push(unsubBlogs)
 
       // 3. Team Snapshot
@@ -138,7 +178,7 @@ export default function AdminDashboard() {
         if (!snapshot.empty) {
           setTeamCount(snapshot.docs.length)
         }
-      }, (err) => console.warn("Firestore team snapshot fallback:", err))
+      }, (err) => console.warn("Team fallback:", err))
       unsubs.push(unsubTeam)
 
       // 4. Contact Leads Snapshot
@@ -161,7 +201,7 @@ export default function AdminDashboard() {
             title: `Inquiry from ${data.name || data.fullName || "Website Visitor"}`,
             action: data.service ? `Interest in ${data.service}` : (data.subject || "Direct contact message"),
             time: formatRelativeTime(date),
-            user: "Public Uplink",
+            user: "Lead Uplink",
             timestamp: date.getTime(),
           })
         })
@@ -192,13 +232,11 @@ export default function AdminDashboard() {
           })
         })
 
-        // Sort by timestamp
         activities.sort((a, b) => b.timestamp - a.timestamp)
         setRecentActivities(activities.slice(0, 5))
-        setLastSync(new Date())
         setIsLoading(false)
       }, (err) => {
-        console.warn("Firestore contacts snapshot fallback:", err)
+        console.warn("Contacts fallback:", err)
         setRecentActivities([
           { id: "1", type: "project", title: "AI Analytics Platform", action: "Architecture verified", time: "2h ago", user: "Node_01", timestamp: Date.now() - 7200000 },
           { id: "2", type: "blog", title: "Vector Search with pgvector", action: "Feed published", time: "4h ago", user: "Editorial", timestamp: Date.now() - 14400000 },
@@ -209,7 +247,7 @@ export default function AdminDashboard() {
       })
       unsubs.push(unsubLeads)
 
-      // 5. Generate Dynamic Monthly Bar Distribution
+      // 5. Monthly Bar Distribution
       const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep"]
       const distribution = months.map((m, idx) => ({
         month: m,
@@ -219,7 +257,7 @@ export default function AdminDashboard() {
       setMonthlyDistribution(distribution)
 
     } catch (err) {
-      console.error("Dashboard real-time sync error:", err)
+      console.error("Dashboard error:", err)
       setIsLoading(false)
     }
 
@@ -228,24 +266,13 @@ export default function AdminDashboard() {
     }
   }, [])
 
-  const handleManualRefresh = () => {
-    setIsRefreshing(true)
-    setTimeout(() => {
-      setLastSync(new Date())
-      setIsRefreshing(false)
-    }, 600)
-  }
+  const currentChartData = useMemo(() => {
+    return TIMEFRAME_DATA[activeTimeframe] || TIMEFRAME_DATA["24H"]
+  }, [activeTimeframe])
 
-  // Real-Time Traffic Nexus curve
-  const trafficData = [
-    { time: "00:00", visitors: 1420, requests: 3100 },
-    { time: "04:00", visitors: 980, requests: 2200 },
-    { time: "08:00", visitors: 5840, requests: 8400 },
-    { time: "12:00", visitors: 7920, requests: 12800 },
-    { time: "16:00", visitors: 8400, requests: 14200 },
-    { time: "20:00", visitors: 6100, requests: 9300 },
-    { time: "23:59", visitors: 3900, requests: 5600 },
-  ]
+  const totalModules = useMemo(() => {
+    return protocolData.reduce((acc, curr) => acc + curr.value, 0)
+  }, [protocolData])
 
   return (
     <div className="space-y-8 pb-20 selection:bg-indigo-500/30">
@@ -255,14 +282,11 @@ export default function AdminDashboard() {
         <div className="absolute -left-10 top-0 w-1 h-16 bg-gradient-to-b from-indigo-500 to-transparent" />
         
         <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }}>
-          <div className="flex items-center gap-2.5 mb-2">
+          <div className="flex items-center gap-2 mb-2">
             <div className="flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-indigo-50 dark:bg-indigo-500/10 border border-indigo-200 dark:border-indigo-500/20 text-indigo-700 dark:text-indigo-400 text-[11px] font-mono font-bold">
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
               <span>LIVE DATABASE SYNC</span>
             </div>
-            <span className="text-[11px] font-mono text-slate-500 dark:text-slate-400">
-              Synced {formatRelativeTime(lastSync)}
-            </span>
           </div>
 
           <h1 className="text-2xl sm:text-4xl font-black tracking-tight text-slate-900 dark:text-white mb-1">
@@ -273,22 +297,7 @@ export default function AdminDashboard() {
           </p>
         </motion.div>
         
-        <div className="flex items-center gap-2.5">
-          <Button
-            variant="outline"
-            onClick={handleManualRefresh}
-            disabled={isRefreshing}
-            className="h-10 px-4 rounded-xl border-slate-300 dark:border-slate-800 bg-white dark:bg-slate-900/80 text-slate-800 dark:text-slate-200 font-semibold text-[11px] uppercase tracking-wider shadow-sm hover:bg-slate-50 dark:hover:bg-slate-800 flex items-center gap-1.5"
-          >
-            <RefreshCw className={`w-3.5 h-3.5 ${isRefreshing ? "animate-spin text-indigo-600" : ""}`} />
-            <span>{isRefreshing ? "Syncing..." : "Sync Data"}</span>
-          </Button>
-
-          <div className="px-4 py-2 bg-white dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800 rounded-xl flex flex-col items-end shadow-sm">
-            <span className="text-[9px] font-mono text-slate-500 dark:text-slate-400 uppercase tracking-wider">System Latency</span>
-            <span className="text-sm font-black text-emerald-600 dark:text-emerald-400">Optimal (12ms)</span>
-          </div>
-        </div>
+        {/* Empty right area in header */}
       </section>
 
       {/* 02: HIGH-FIDELITY REAL-TIME STATS */}
@@ -360,125 +369,201 @@ export default function AdminDashboard() {
         ))}
       </section>
 
-      {/* 03: CHARTS GRID */}
+      {/* 03: STYLISH ENTERPRISE CHARTS GRID */}
       <div className="grid lg:grid-cols-12 gap-6">
         
-        {/* REAL TRAFFIC AREA CHART */}
-        <section className="lg:col-span-8 bg-white dark:bg-[#0d1224]/85 backdrop-blur-2xl border border-slate-200 dark:border-slate-800/80 rounded-2xl p-6 shadow-sm relative group">
-          <div className="flex items-center justify-between mb-6">
+        {/* PREMIUM TRAFFIC & TELEMETRY NEXUS (AREA CHART) */}
+        <section className="lg:col-span-8 bg-white dark:bg-[#0d1224]/85 backdrop-blur-2xl border border-slate-200 dark:border-slate-800/80 rounded-2xl p-6 shadow-sm relative group overflow-hidden">
+          
+          {/* Subtle Top Gradient Accent */}
+          <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-blue-500 via-indigo-500 to-cyan-400" />
+
+          {/* Header Controls & Metric Badges */}
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
             <div>
-              <h3 className="text-sm font-bold text-slate-900 dark:text-white tracking-tight">
-                Traffic & Telemetry Nexus
-              </h3>
-              <p className="text-[11px] text-slate-500 dark:text-slate-400">
-                Visitor volume and requests distribution over 24-hour cycle
+              <div className="flex items-center gap-2">
+                <h3 className="text-sm font-bold text-slate-900 dark:text-white tracking-tight">
+                  Traffic & Telemetry Nexus
+                </h3>
+                <span className="px-2 py-0.5 rounded-full bg-indigo-50 dark:bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 font-mono text-[9px] font-bold border border-indigo-200 dark:border-indigo-500/20">
+                  LIVE STREAM
+                </span>
+              </div>
+              <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">
+                Real-time API throughput & unique user frequency
               </p>
             </div>
-            <div className="flex items-center gap-3 text-[11px] font-semibold text-slate-600 dark:text-slate-400">
-              <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-full bg-indigo-500" /> Visitors</span>
-              <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-full bg-blue-500" /> Requests</span>
+
+            {/* Timeframe Toggle Pills */}
+            <div className="flex items-center gap-1 bg-slate-100 dark:bg-slate-900/90 p-1 rounded-xl border border-slate-200/80 dark:border-slate-800 self-start sm:self-auto">
+              {(["24H", "7D", "30D"] as const).map((tf) => (
+                <button
+                  key={tf}
+                  onClick={() => setActiveTimeframe(tf)}
+                  className={`px-3 py-1 rounded-lg text-[10px] font-mono font-bold transition-all ${
+                    activeTimeframe === tf
+                      ? "bg-white dark:bg-indigo-600 text-indigo-700 dark:text-white shadow-sm"
+                      : "text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white"
+                  }`}
+                >
+                  {tf}
+                </button>
+              ))}
             </div>
           </div>
 
+          {/* Micro Telemetry Bar */}
+          <div className="grid grid-cols-3 gap-3 mb-6 p-3 rounded-xl bg-slate-50 dark:bg-slate-900/60 border border-slate-100 dark:border-slate-800/80">
+            <div>
+              <span className="block text-[9px] font-mono text-slate-400 uppercase tracking-wider">Peak Velocity</span>
+              <span className="text-xs sm:text-sm font-bold text-slate-800 dark:text-slate-200">18.2k req/s</span>
+            </div>
+            <div>
+              <span className="block text-[9px] font-mono text-slate-400 uppercase tracking-wider">Avg Latency</span>
+              <span className="text-xs sm:text-sm font-bold text-emerald-600 dark:text-emerald-400">14.8ms</span>
+            </div>
+            <div>
+              <span className="block text-[9px] font-mono text-slate-400 uppercase tracking-wider">Success Rate</span>
+              <span className="text-xs sm:text-sm font-bold text-indigo-600 dark:text-indigo-400">99.98%</span>
+            </div>
+          </div>
+
+          {/* Chart Canvas */}
           <div className="h-64 sm:h-72 w-full">
             <ResponsiveContainer width="100%" height="100%">
-              <AreaChart data={trafficData}>
+              <AreaChart data={currentChartData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
                 <defs>
-                  <linearGradient id="colorVis" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="#6366f1" stopOpacity={0.35}/>
-                    <stop offset="95%" stopColor="#6366f1" stopOpacity={0}/>
+                  <linearGradient id="gradientVisitors" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stopColor="#6366f1" stopOpacity={0.4}/>
+                    <stop offset="90%" stopColor="#6366f1" stopOpacity={0.01}/>
                   </linearGradient>
-                  <linearGradient id="colorReq" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.35}/>
-                    <stop offset="95%" stopColor="#3b82f6" stopOpacity={0}/>
+                  <linearGradient id="gradientRequests" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stopColor="#06b6d4" stopOpacity={0.4}/>
+                    <stop offset="90%" stopColor="#06b6d4" stopOpacity={0.01}/>
                   </linearGradient>
                 </defs>
-                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="rgba(148, 163, 184, 0.15)" />
-                <XAxis dataKey="time" axisLine={false} tickLine={false} tick={{ fontSize: 10, fill: '#64748b' }} />
-                <YAxis axisLine={false} tickLine={false} tick={{ fontSize: 10, fill: '#64748b' }} />
+                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="rgba(148, 163, 184, 0.12)" />
+                <XAxis dataKey="time" axisLine={false} tickLine={false} tick={{ fontSize: 10, fill: '#94a3b8', fontWeight: 600 }} dy={8} />
+                <YAxis axisLine={false} tickLine={false} tick={{ fontSize: 10, fill: '#94a3b8' }} dx={-4} />
                 <Tooltip 
                   contentStyle={{ 
                     backgroundColor: 'rgba(15, 23, 42, 0.95)', 
-                    border: '1px solid rgba(255,255,255,0.1)', 
+                    border: '1px solid rgba(255,255,255,0.12)', 
                     borderRadius: '12px', 
-                    boxShadow: '0 10px 20px rgba(0,0,0,0.2)',
+                    boxShadow: '0 12px 28px rgba(0,0,0,0.3)',
                     color: '#ffffff',
-                    fontSize: '11px'
+                    fontSize: '11px',
+                    padding: '8px 12px'
                   }} 
                   itemStyle={{ color: '#ffffff', fontWeight: 'bold' }}
                 />
-                <Area type="monotone" dataKey="visitors" stroke="#6366f1" strokeWidth={2} fillOpacity={1} fill="url(#colorVis)" />
-                <Area type="monotone" dataKey="requests" stroke="#3b82f6" strokeWidth={2} fillOpacity={1} fill="url(#colorReq)" />
+                <Area type="monotone" dataKey="requests" name="API Requests" stroke="#06b6d4" strokeWidth={2.5} fillOpacity={1} fill="url(#gradientRequests)" dot={{ r: 3, fill: '#06b6d4', strokeWidth: 1, stroke: '#ffffff' }} activeDot={{ r: 5 }} />
+                <Area type="monotone" dataKey="visitors" name="Unique Visitors" stroke="#6366f1" strokeWidth={2.5} fillOpacity={1} fill="url(#gradientVisitors)" dot={{ r: 3, fill: '#6366f1', strokeWidth: 1, stroke: '#ffffff' }} activeDot={{ r: 5 }} />
               </AreaChart>
             </ResponsiveContainer>
           </div>
         </section>
 
-        {/* DYNAMIC PROTOCOL DISTRIBUTION (PIE CHART) */}
-        <section className="lg:col-span-4 bg-white dark:bg-[#0d1224]/85 backdrop-blur-2xl border border-slate-200 dark:border-slate-800/80 rounded-2xl p-6 shadow-sm flex flex-col items-center">
-          <div className="w-full mb-4 text-left">
-            <h3 className="text-sm font-bold text-slate-900 dark:text-white tracking-tight">
-              Protocol Distribution
-            </h3>
-            <p className="text-[11px] text-slate-500 dark:text-slate-400">
-              Categorization of deployments & projects
+        {/* HIGH-PRECISION PROTOCOL DONUT */}
+        <section className="lg:col-span-4 bg-white dark:bg-[#0d1224]/85 backdrop-blur-2xl border border-slate-200 dark:border-slate-800/80 rounded-2xl p-6 shadow-sm flex flex-col justify-between relative">
+          
+          <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-indigo-500 to-pink-500 rounded-t-2xl" />
+
+          <div>
+            <div className="flex items-center justify-between mb-1">
+              <h3 className="text-sm font-bold text-slate-900 dark:text-white tracking-tight">
+                Protocol Distribution
+              </h3>
+              <span className="text-[10px] font-mono text-slate-400">Total: {totalModules}</span>
+            </div>
+            <p className="text-[11px] text-slate-500 dark:text-slate-400 mb-3">
+              Taxonomy classification across platform
             </p>
           </div>
 
-          <div className="h-48 w-full">
+          {/* Donut Chart with Clean Center Text & Unclipped Tooltip */}
+          <div className="relative h-48 w-full flex items-center justify-center my-1">
             <ResponsiveContainer width="100%" height="100%">
               <PieChart>
                 <Pie
                   data={protocolData}
                   cx="50%"
                   cy="50%"
-                  innerRadius={48}
-                  outerRadius={65}
-                  paddingAngle={3}
+                  innerRadius={52}
+                  outerRadius={72}
+                  paddingAngle={4}
                   dataKey="value"
+                  strokeWidth={0}
                 >
                   {protocolData.map((entry, index) => (
                     <Cell key={`cell-${index}`} fill={entry.color} />
                   ))}
                 </Pie>
                 <Tooltip 
-                  contentStyle={{ 
-                    backgroundColor: 'rgba(15, 23, 42, 0.95)', 
-                    border: '1px solid rgba(255,255,255,0.1)', 
-                    borderRadius: '10px',
-                    color: '#fff',
-                    fontSize: '11px'
-                  }} 
+                  allowEscapeViewBox={{ x: true, y: true }}
+                  wrapperStyle={{ zIndex: 1000 }}
+                  content={({ active, payload }) => {
+                    if (active && payload && payload.length) {
+                      const d = payload[0].payload
+                      return (
+                        <div className="px-3 py-2 rounded-xl bg-slate-900/95 backdrop-blur-md border border-slate-700/80 text-white shadow-2xl z-50 pointer-events-none">
+                          <div className="flex items-center gap-1.5 mb-0.5">
+                            <div className="w-2 h-2 rounded-full" style={{ backgroundColor: d.color }} />
+                            <span className="text-xs font-bold leading-none">{d.name}</span>
+                          </div>
+                          <p className="text-[11px] font-mono text-slate-300 pl-3.5 leading-tight">
+                            {d.value} {d.value === 1 ? 'module' : 'modules'} ({d.percent}%)
+                          </p>
+                        </div>
+                      )
+                    }
+                    return null
+                  }}
                 />
               </PieChart>
             </ResponsiveContainer>
+            
+            {/* Center Donut Ring Label */}
+            <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
+              <span className="text-xl font-black text-slate-900 dark:text-white leading-none">
+                {totalModules}
+              </span>
+              <span className="text-[8px] font-mono uppercase tracking-widest text-slate-400 mt-0.5">
+                Stacks
+              </span>
+            </div>
           </div>
 
-          <div className="w-full mt-3 bg-slate-50 dark:bg-slate-900/60 p-3.5 rounded-xl border border-slate-100 dark:border-slate-800/80">
-            <div className="grid grid-cols-2 gap-2">
-              {protocolData.map((p, i) => (
-                <div key={i} className="flex items-center gap-2">
+          {/* Detailed Metric List */}
+          <div className="space-y-2 mt-2 bg-slate-50 dark:bg-slate-900/60 p-3 rounded-xl border border-slate-100 dark:border-slate-800/80">
+            {protocolData.map((p, i) => (
+              <div key={i} className="flex items-center justify-between text-xs">
+                <div className="flex items-center gap-2 truncate">
                   <div className="w-2.5 h-2.5 rounded-full shrink-0" style={{ backgroundColor: p.color }} />
-                  <span className="text-[11px] font-bold text-slate-800 dark:text-slate-200 truncate">{p.name}</span>
+                  <span className="font-semibold text-slate-800 dark:text-slate-200 truncate">{p.name}</span>
                 </div>
-              ))}
-            </div>
+                <div className="flex items-center gap-2 font-mono text-[11px] text-slate-500 shrink-0">
+                  <span className="font-bold text-slate-900 dark:text-slate-100">{p.value}</span>
+                  <span className="text-[10px] text-slate-400">({p.percent}%)</span>
+                </div>
+              </div>
+            ))}
           </div>
         </section>
 
-        {/* REAL-TIME INTELLIGENCE LOGS & INBOUND LEADS */}
+        {/* REAL-TIME ACTIVITY TIMELINE */}
         <section className="lg:col-span-6 bg-white dark:bg-[#0d1224]/85 backdrop-blur-2xl border border-slate-200 dark:border-slate-800/80 rounded-2xl p-6 shadow-sm">
           <div className="flex items-center justify-between mb-5">
             <div className="flex items-center gap-2.5">
               <div className="w-8 h-8 rounded-lg bg-indigo-50 dark:bg-indigo-500/10 flex items-center justify-center text-indigo-600 dark:text-indigo-400">
-                <Terminal className="w-4 h-4" />
+                <Activity className="w-4 h-4" />
               </div>
               <div>
                 <h3 className="text-sm font-bold text-slate-900 dark:text-white">
                   Real-Time Activity Feed
                 </h3>
                 <p className="text-[11px] text-slate-500 dark:text-slate-400">
-                  Live updates from inbound leads, content, and system nodes
+                  Inbound customer leads, deployments, and blog updates
                 </p>
               </div>
             </div>
@@ -488,24 +573,24 @@ export default function AdminDashboard() {
             {recentActivities.map((log, i) => (
               <div 
                 key={log.id || i} 
-                className="flex items-start gap-3 p-2.5 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-900/60 transition-colors border border-transparent hover:border-slate-100 dark:hover:border-slate-800/50"
+                className="flex items-start gap-3 p-3 rounded-xl bg-slate-50/70 dark:bg-slate-900/50 hover:bg-slate-100 dark:hover:bg-slate-900/80 transition-all border border-slate-100 dark:border-slate-800/60 group"
               >
-                <div className={`w-1.5 h-8 rounded-full mt-1 shrink-0 ${
-                  log.type === "contact" ? "bg-purple-500" :
-                  log.type === "blog" ? "bg-blue-500" : "bg-indigo-500"
+                <div className={`w-2 h-9 rounded-full mt-0.5 shrink-0 ${
+                  log.type === "contact" ? "bg-purple-500 shadow-[0_0_8px_rgba(168,85,247,0.5)]" :
+                  log.type === "blog" ? "bg-blue-500 shadow-[0_0_8px_rgba(59,130,246,0.5)]" : "bg-indigo-500 shadow-[0_0_8px_rgba(99,102,241,0.5)]"
                 }`} />
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center justify-between gap-2 mb-0.5">
                     <h4 className="text-xs font-bold text-slate-900 dark:text-white truncate">
                       {log.title}
                     </h4>
-                    <span className="text-[10px] font-mono text-slate-500 dark:text-slate-400 shrink-0">
+                    <span className="text-[10px] font-mono text-slate-400 shrink-0">
                       {log.time}
                     </span>
                   </div>
                   <div className="flex items-center justify-between text-[11px] text-slate-600 dark:text-slate-400">
                     <span className="truncate">{log.action}</span>
-                    <span className="font-mono text-[9px] text-indigo-600 dark:text-indigo-400 font-semibold shrink-0">
+                    <span className="font-mono text-[10px] text-indigo-600 dark:text-indigo-400 font-semibold shrink-0">
                       {log.user}
                     </span>
                   </div>
@@ -515,9 +600,10 @@ export default function AdminDashboard() {
           </div>
         </section>
 
-        {/* NODAL DEPLOYMENT BAR CHART */}
-        <section className="lg:col-span-6 bg-white dark:bg-[#0d1224]/85 backdrop-blur-2xl border border-slate-200 dark:border-slate-800/80 rounded-2xl p-6 shadow-sm">
-          <div className="flex items-center justify-between mb-5">
+        {/* STYLISH BAR CHART */}
+        <section className="lg:col-span-6 bg-white dark:bg-[#0d1224]/85 backdrop-blur-2xl border border-slate-200 dark:border-slate-800/80 rounded-2xl p-6 shadow-sm flex flex-col justify-between">
+          
+          <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-2.5">
               <div className="w-8 h-8 rounded-lg bg-blue-50 dark:bg-blue-500/10 flex items-center justify-center text-blue-600 dark:text-blue-400">
                 <Network className="w-4 h-4" />
@@ -527,34 +613,35 @@ export default function AdminDashboard() {
                   Monthly Publications & Projects
                 </h3>
                 <p className="text-[11px] text-slate-500 dark:text-slate-400">
-                  Projects deployed vs editorial publications
+                  Deployment velocity over 9-month cycle
                 </p>
               </div>
             </div>
-            <div className="flex items-center gap-2.5 text-[11px] font-semibold text-slate-600 dark:text-slate-400">
-              <span className="flex items-center gap-1.5"><span className="w-2 h-2 rounded-full bg-indigo-500" /> Projects</span>
-              <span className="flex items-center gap-1.5"><span className="w-2 h-2 rounded-full bg-blue-500" /> Articles</span>
+            <div className="flex items-center gap-3 text-[11px] font-semibold text-slate-600 dark:text-slate-400">
+              <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-full bg-indigo-500" /> Projects</span>
+              <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-full bg-cyan-500" /> Articles</span>
             </div>
           </div>
 
-          <div className="h-56 sm:h-64 w-full">
+          <div className="h-60 sm:h-64 w-full">
             <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={monthlyDistribution}>
-                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="rgba(148, 163, 184, 0.15)" />
-                <XAxis dataKey="month" axisLine={false} tickLine={false} tick={{ fontSize: 10, fill: '#64748b' }} />
-                <YAxis axisLine={false} tickLine={false} tick={{ fontSize: 10, fill: '#64748b' }} />
+              <BarChart data={monthlyDistribution} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
+                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="rgba(148, 163, 184, 0.12)" />
+                <XAxis dataKey="month" axisLine={false} tickLine={false} tick={{ fontSize: 10, fill: '#94a3b8', fontWeight: 600 }} dy={6} />
+                <YAxis axisLine={false} tickLine={false} tick={{ fontSize: 10, fill: '#94a3b8' }} dx={-4} />
                 <Tooltip 
-                  cursor={{ fill: 'rgba(99, 102, 241, 0.05)' }}
+                  cursor={{ fill: 'rgba(99, 102, 241, 0.04)' }}
                   contentStyle={{ 
                     backgroundColor: 'rgba(15, 23, 42, 0.95)', 
                     border: '1px solid rgba(255,255,255,0.1)', 
                     borderRadius: '10px',
                     color: '#fff',
-                    fontSize: '11px'
+                    fontSize: '11px',
+                    padding: '8px 12px'
                   }} 
                 />
                 <Bar dataKey="projects" fill="#6366f1" radius={[4, 4, 0, 0]} />
-                <Bar dataKey="articles" fill="#3b82f6" radius={[4, 4, 0, 0]} />
+                <Bar dataKey="articles" fill="#06b6d4" radius={[4, 4, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>
           </div>
