@@ -229,7 +229,7 @@ export function TechShowcaseSlider() {
                       )}
 
                       {/* Card Inner Content */}
-                      <div className="relative overflow-hidden rounded-[22px] bg-slate-900 aspect-[16/10] sm:aspect-[16/10] flex flex-col justify-end group">
+                      <div className="relative overflow-hidden rounded-[22px] bg-slate-900 min-h-[370px] sm:min-h-0 sm:aspect-[16/10] flex flex-col justify-between group">
                         {/* Tech Background Image */}
                         <div className="absolute inset-0 overflow-hidden">
                           <Image
@@ -242,46 +242,46 @@ export function TechShowcaseSlider() {
                             priority={isCenter}
                           />
                           {/* Gradient Overlays for High Legibility */}
-                          <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/60 to-transparent" />
+                          <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/70 to-slate-950/30" />
                           <div className="absolute inset-0 bg-gradient-to-r from-slate-950/80 via-transparent to-transparent" />
                         </div>
 
                         {/* Top Header Overlay Badges */}
-                        <div className="absolute top-4 left-4 right-4 flex items-center justify-between z-10">
-                          <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-slate-900/80 backdrop-blur-md border border-white/15 text-white shadow-lg">
-                            <IconComponent className="w-4 h-4 text-blue-400" />
-                            <span className="text-xs font-semibold tracking-wide">{slide.category}</span>
+                        <div className="relative p-4 sm:p-5 flex items-center justify-between z-10 shrink-0">
+                          <div className="flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full bg-slate-900/80 backdrop-blur-md border border-white/15 text-white shadow-lg">
+                            <IconComponent className="w-3.5 sm:w-4 h-3.5 sm:h-4 text-blue-400" />
+                            <span className="text-[11px] sm:text-xs font-semibold tracking-wide">{slide.category}</span>
                           </div>
 
                           {isCenter ? (
                             <motion.div
                               initial={{ scale: 0.8, opacity: 0 }}
                               animate={{ scale: 1, opacity: 1 }}
-                              className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-600 backdrop-blur-md text-white border border-blue-400/40 text-[11px] font-bold shadow-lg"
+                              className="flex items-center gap-1 sm:gap-1.5 px-2.5 sm:px-3 py-1 rounded-full bg-blue-600 backdrop-blur-md text-white border border-blue-400/40 text-[10px] sm:text-[11px] font-bold shadow-lg"
                             >
-                              <span>CLICK FOR FULL INFO</span>
+                              <span>EXPLORE</span>
                               <ExternalLink className="w-3 h-3" />
                             </motion.div>
                           ) : (
                             <span className="text-[10px] text-slate-300/80 bg-black/40 px-2 py-0.5 rounded-md backdrop-blur-sm">
-                              Click to focus
+                              Tap to view
                             </span>
                           )}
                         </div>
 
                         {/* Bottom Info Overlay */}
-                        <div className="relative z-10 p-5 sm:p-7 text-white">
+                        <div className="relative z-10 p-4 sm:p-7 text-white mt-auto">
                           {/* Title */}
-                          <h3 className="text-lg sm:text-2xl font-bold tracking-tight text-white mb-2 leading-snug drop-shadow-md flex items-center justify-between group-hover:text-blue-200 transition-colors">
+                          <h3 className="text-base sm:text-2xl font-bold tracking-tight text-white mb-1.5 sm:mb-2 leading-snug drop-shadow-md flex items-center justify-between group-hover:text-blue-200 transition-colors">
                             <span>{slide.title}</span>
                             {isCenter && (
-                              <ArrowRight className="w-5 h-5 text-blue-400 transform group-hover:translate-x-1 transition-transform shrink-0 ml-2" />
+                              <ArrowRight className="w-4 sm:w-5 h-4 sm:h-5 text-blue-400 transform group-hover:translate-x-1 transition-transform shrink-0 ml-2" />
                             )}
                           </h3>
 
                           {/* Description */}
                           <p
-                            className={`text-xs sm:text-sm text-slate-200 line-clamp-2 mb-4 leading-relaxed drop-shadow ${
+                            className={`text-xs sm:text-sm text-slate-200 line-clamp-2 sm:line-clamp-3 mb-3 sm:mb-4 leading-relaxed drop-shadow ${
                               !isCenter && 'opacity-80'
                             }`}
                           >
@@ -294,7 +294,7 @@ export function TechShowcaseSlider() {
                               {slide.coreCapabilities.slice(0, 2).map((cap, capIdx) => (
                                 <span
                                   key={capIdx}
-                                  className={`text-[10px] sm:text-xs px-2.5 py-0.5 sm:py-1 rounded-md font-medium backdrop-blur-md border transition-colors ${
+                                  className={`text-[9px] sm:text-xs px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-md font-medium backdrop-blur-md border transition-colors ${
                                     isCenter
                                       ? 'bg-white/15 border-white/25 text-white'
                                       : 'bg-black/30 border-white/10 text-slate-300'
@@ -320,14 +320,14 @@ export function TechShowcaseSlider() {
             </AnimatePresence>
           </div>
 
-          {/* Navigation Arrows */}
+          {/* Desktop Navigation Arrows */}
           <button
             onClick={(e) => {
               e.stopPropagation()
               prevSlide()
             }}
             aria-label="Previous Slide"
-            className="absolute left-2 sm:left-4 z-40 p-3 rounded-full bg-white/90 hover:bg-white text-slate-800 shadow-xl border border-slate-200/80 backdrop-blur-md transition-all hover:scale-110 active:scale-95 focus:outline-none"
+            className="hidden sm:flex absolute left-4 z-40 p-3 rounded-full bg-white/90 hover:bg-white text-slate-800 shadow-xl border border-slate-200/80 backdrop-blur-md transition-all hover:scale-110 active:scale-95 focus:outline-none"
           >
             <ChevronLeft className="w-5 h-5 text-slate-700" />
           </button>
@@ -338,14 +338,25 @@ export function TechShowcaseSlider() {
               nextSlide()
             }}
             aria-label="Next Slide"
-            className="absolute right-2 sm:right-4 z-40 p-3 rounded-full bg-white/90 hover:bg-white text-slate-800 shadow-xl border border-slate-200/80 backdrop-blur-md transition-all hover:scale-110 active:scale-95 focus:outline-none"
+            className="hidden sm:flex absolute right-4 z-40 p-3 rounded-full bg-white/90 hover:bg-white text-slate-800 shadow-xl border border-slate-200/80 backdrop-blur-md transition-all hover:scale-110 active:scale-95 focus:outline-none"
           >
             <ChevronRight className="w-5 h-5 text-slate-700" />
           </button>
         </div>
 
-        {/* Carousel Pagination Dots */}
-        <div className="mt-8 flex flex-col items-center justify-center gap-3">
+        {/* Carousel Pagination Dots & Mobile Navigation Controls */}
+        <div className="mt-8 flex items-center justify-center gap-4">
+          <button
+            onClick={(e) => {
+              e.stopPropagation()
+              prevSlide()
+            }}
+            aria-label="Previous Slide"
+            className="sm:hidden p-2.5 rounded-full bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-200 shadow-md border border-slate-200 dark:border-slate-700 active:scale-95"
+          >
+            <ChevronLeft className="w-4 h-4" />
+          </button>
+
           <div className="flex items-center gap-2">
             {TECHNOLOGIES_DATA.map((_, dotIdx) => {
               const isActive = dotIdx === currentRealIndex
@@ -356,13 +367,24 @@ export function TechShowcaseSlider() {
                   aria-label={`Go to slide ${dotIdx + 1}`}
                   className={`transition-all duration-300 rounded-full ${
                     isActive
-                      ? 'w-9 h-2.5 bg-gradient-to-r from-blue-600 to-indigo-600 ring-2 ring-blue-500/30'
-                      : 'w-2.5 h-2.5 bg-slate-300 hover:bg-slate-400'
+                      ? 'w-8 sm:w-9 h-2 sm:h-2.5 bg-gradient-to-r from-blue-600 to-indigo-600 ring-2 ring-blue-500/30'
+                      : 'w-2 sm:w-2.5 h-2 sm:h-2.5 bg-slate-300 hover:bg-slate-400'
                   }`}
                 />
               )
             })}
           </div>
+
+          <button
+            onClick={(e) => {
+              e.stopPropagation()
+              nextSlide()
+            }}
+            aria-label="Next Slide"
+            className="sm:hidden p-2.5 rounded-full bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-200 shadow-md border border-slate-200 dark:border-slate-700 active:scale-95"
+          >
+            <ChevronRight className="w-4 h-4" />
+          </button>
         </div>
       </div>
     </section>
