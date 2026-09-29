@@ -6,10 +6,10 @@ import { Cpu, Zap, ShieldCheck, Database, Layers, Activity, Sparkles, Server } f
 
 export function IsometricHeroAnimation() {
   return (
-    <div className="relative w-full h-[320px] sm:h-[400px] lg:h-[460px] flex items-center justify-center overflow-hidden my-4">
+    <div className="relative w-full h-[240px] min-[360px]:h-[270px] min-[400px]:h-[300px] sm:h-[380px] lg:h-[460px] flex items-center justify-center overflow-visible my-2 sm:my-4">
       {/* 3D Isometric Projection Stage */}
       <div 
-        className="relative w-[540px] h-[360px] flex items-center justify-center scale-[0.68] sm:scale-[0.85] md:scale-95 lg:scale-100 origin-center shrink-0"
+        className="relative w-[540px] h-[360px] flex items-center justify-center scale-[0.52] min-[360px]:scale-[0.6] min-[400px]:scale-[0.68] sm:scale-[0.85] md:scale-95 lg:scale-100 origin-center shrink-0"
         style={{
           perspective: '1200px',
           transformStyle: 'preserve-3d',
