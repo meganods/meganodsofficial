@@ -244,28 +244,36 @@ export function Preloader() {
             ))}
           </svg>
 
-          {/* Futuristic Corner HUD Indicators */}
-          <div className="absolute top-6 left-6 sm:top-8 sm:left-10 flex items-center gap-3 text-[10px] font-mono tracking-widest text-slate-400 uppercase">
-            <div className="w-2.5 h-2.5 rounded-full bg-emerald-400 shadow-[0_0_10px_#34d399] animate-ping" />
-            <span className="text-slate-300 font-bold">MEGANODS ARCHITECTURE // V4.0</span>
+          {/* Futuristic Top HUD Header */}
+          <div className="absolute top-5 sm:top-8 left-5 right-5 sm:left-10 sm:right-10 flex items-center justify-between gap-3 text-[9px] sm:text-[10px] font-mono tracking-wider sm:tracking-widest text-slate-400 uppercase z-20 pointer-events-none">
+            <div className="flex items-center gap-2 sm:gap-3 min-w-0">
+              <div className="w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full bg-emerald-400 shadow-[0_0_10px_#34d399] animate-ping shrink-0" />
+              <span className="text-slate-300 font-bold truncate">
+                <span className="sm:hidden">MEGANODS // V4.0</span>
+                <span className="hidden sm:inline">MEGANODS ARCHITECTURE // V4.0</span>
+              </span>
+            </div>
+
+            <div className="flex items-center gap-1.5 sm:gap-2 shrink-0 text-right">
+              <Radio className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-indigo-400 animate-pulse shrink-0" />
+              <span className="text-indigo-400 font-bold">{phases[phaseIndex].node}</span>
+            </div>
           </div>
 
-          <div className="absolute top-6 right-6 sm:top-8 sm:right-10 flex items-center gap-2 text-[10px] font-mono tracking-widest text-slate-400 uppercase">
-            <Radio className="w-3.5 h-3.5 text-indigo-400 animate-pulse" />
-            <span className="text-indigo-400 font-bold">{phases[phaseIndex].node}</span>
-          </div>
+          {/* Futuristic Bottom HUD Footer */}
+          <div className="absolute bottom-5 sm:bottom-8 left-5 right-5 sm:left-10 sm:right-10 flex items-center justify-between gap-3 text-[9px] sm:text-[9.5px] font-mono tracking-wider sm:tracking-widest text-slate-500 uppercase z-20 pointer-events-none">
+            <div className="hidden sm:flex items-center gap-3">
+              <span>LATENCY: 0.2ms</span>
+              <span className="text-slate-800">|</span>
+              <span>NODES: 128 CLUSTERED</span>
+              <span className="text-slate-800">|</span>
+              <span className="text-teal-400">EDGE READY</span>
+            </div>
 
-          <div className="absolute bottom-6 left-6 sm:bottom-8 sm:left-10 hidden sm:flex items-center gap-3 text-[9.5px] font-mono tracking-widest text-slate-500 uppercase">
-            <span>LATENCY: 0.2ms</span>
-            <span className="text-slate-800">|</span>
-            <span>NODES: 128 CLUSTERED</span>
-            <span className="text-slate-800">|</span>
-            <span className="text-teal-400">EDGE READY</span>
-          </div>
-
-          <div className="absolute bottom-6 right-6 sm:bottom-8 sm:right-10 flex items-center gap-1.5 text-[9.5px] font-mono text-slate-400 uppercase">
-            <span className="text-purple-400 font-bold">ZERO-TRUST ENCLAVE</span>
-            <Shield className="w-3.5 h-3.5 text-purple-400" />
+            <div className="flex items-center gap-1.5 text-slate-400 ml-auto">
+              <span className="text-purple-400 font-bold">ZERO-TRUST ENCLAVE</span>
+              <Shield className="w-3.5 h-3.5 text-purple-400 shrink-0" />
+            </div>
           </div>
 
           {/* Floating Interactive Micro Tech Cards (Surrounding Central Hub) */}
