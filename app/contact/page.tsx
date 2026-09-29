@@ -180,22 +180,30 @@ export default function ContactPage() {
             >
               <div className="relative rounded-[2rem] sm:rounded-[3rem] border border-slate-200 dark:border-white/10 bg-white dark:bg-[#010103]/60 p-1 shadow-xl overflow-hidden h-full flex flex-col justify-center">
                 <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/5 via-transparent to-emerald-500/5 pointer-events-none" />
-                <div className="p-5 sm:p-8 md:p-10 lg:p-12 relative z-10">
-                  <div className="flex items-center gap-3 text-indigo-500 dark:text-indigo-400 font-mono text-[10px] sm:text-xs uppercase tracking-[0.35em] mb-6 sm:mb-8 font-black leading-none">
-                    <Terminal className="w-4 h-4 animate-pulse shrink-0" /> Message Inbound Protocol
-                  </div>
+                <div className="p-5 sm:p-8 md:p-10 lg:p-12 relative z-10 h-full flex flex-col justify-center">
+                  {!isSubmitted && (
+                    <div className="flex items-center gap-3 text-indigo-500 dark:text-indigo-400 font-mono text-[10px] sm:text-xs uppercase tracking-[0.35em] mb-6 sm:mb-8 font-black leading-none">
+                      <Terminal className="w-4 h-4 animate-pulse shrink-0" /> Message Inbound Protocol
+                    </div>
+                  )}
 
                   {isSubmitted ? (
                     <motion.div
                       initial={{ opacity: 0, scale: 0.95 }}
                       animate={{ opacity: 1, scale: 1 }}
-                      className="text-center py-12 sm:py-16"
+                      className="text-center my-auto py-8 sm:py-12 flex flex-col items-center justify-center min-h-[360px] sm:min-h-[420px]"
                     >
-                      <div className="w-16 h-16 sm:w-20 sm:h-20 bg-emerald-500/10 rounded-full flex items-center justify-center mx-auto mb-6 border border-emerald-500/20 shadow-xl">
-                        <CheckCircle className="w-8 h-8 sm:w-10 sm:h-10 text-emerald-400" />
+                      <div className="w-16 h-16 sm:w-20 sm:h-20 bg-emerald-500/10 rounded-full flex items-center justify-center mx-auto mb-5 border border-emerald-500/20 shadow-xl">
+                        <CheckCircle className="w-8 h-8 sm:w-10 sm:h-10 text-emerald-500 dark:text-emerald-400" />
                       </div>
-                      <h3 className="text-2xl sm:text-3xl font-black mb-4 tracking-tight uppercase leading-tight text-slate-900 dark:text-white">Transmission <span className="text-emerald-400">Received</span></h3>
-                      <p className="text-slate-500 dark:text-white/35 text-sm sm:text-base font-medium mb-8 leading-relaxed max-w-md mx-auto">
+                      <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 font-mono text-[9px] uppercase tracking-widest font-bold mb-3">
+                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-ping" />
+                        Status: Confirmed
+                      </div>
+                      <h3 className="text-2xl sm:text-3xl font-black mb-3 tracking-tight uppercase leading-tight text-slate-900 dark:text-white">
+                        Transmission <span className="text-emerald-500 dark:text-emerald-400">Received</span>
+                      </h3>
+                      <p className="text-slate-500 dark:text-white/45 text-xs sm:text-sm font-medium mb-8 leading-relaxed max-w-sm mx-auto">
                         Your message has been securely sent. A member of our engineering team will reach out to you shortly.
                       </p>
                       <Button
@@ -204,7 +212,7 @@ export default function ContactPage() {
                           setIsSubmitted(false)
                           setFormData({ name: "", email: "", phone: "", company: "", subject: "", message: "", service: "" })
                         }}
-                        className="h-12 px-8 border-slate-200 dark:border-white/10 text-slate-900 dark:text-white rounded-xl font-bold uppercase text-xs tracking-wider hover:bg-slate-50 dark:hover:bg-white/5 transition-all shadow-md cursor-pointer"
+                        className="h-12 px-8 border-slate-200 dark:border-white/10 text-slate-900 dark:text-white rounded-xl font-bold uppercase text-xs tracking-wider hover:bg-slate-50 dark:hover:bg-white/5 transition-all shadow-sm cursor-pointer mx-auto"
                       >
                         Send Another Message
                       </Button>
