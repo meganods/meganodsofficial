@@ -5,7 +5,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Menu, X, ChevronDown, Satellite, ArrowRight, Search } from 'lucide-react'
+import { Menu, X, ChevronDown, Satellite, ArrowRight, Search, Sparkles } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 
 interface SubmenuItem {
@@ -39,27 +39,39 @@ export function Navigation() {
     setIsMobileMenuOpen(false)
   }, [pathname])
 
+  // Prevent background scroll when mobile menu is open
+  useEffect(() => {
+    if (isMobileMenuOpen) {
+      document.body.style.overflow = 'hidden'
+    } else {
+      document.body.style.overflow = 'unset'
+    }
+    return () => {
+      document.body.style.overflow = 'unset'
+    }
+  }, [isMobileMenuOpen])
+
   return (
     <>
       <header className="relative w-full z-50 bg-white/95 dark:bg-background/95 backdrop-blur-md border-b border-slate-200/80 dark:border-border/60">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="relative flex items-center justify-between h-20">
             {/* Logo Hub */}
-            <Link href="/" className="flex items-center gap-3.5 group relative z-10">
-              <div className="relative w-12 h-12 sm:w-14 sm:h-14 flex items-center justify-center shrink-0">
-                  <Image src="/logo.png" alt="MegaNods Logo" width={56} height={56} priority className="w-full h-full object-contain" />
+            <Link href="/" className="flex items-center gap-3 group relative z-10">
+              <div className="relative w-11 h-11 sm:w-13 sm:h-13 flex items-center justify-center shrink-0">
+                  <Image src="/logo.png" alt="MegaNods Logo" width={52} height={52} priority className="w-full h-full object-contain" />
               </div>
               <div className="flex flex-col">
                 <span className="text-xl font-bold tracking-tighter leading-none text-[#154954] dark:text-[#42b4c7]">
                   MegaNods
                 </span>
-                <span className="text-[8.5px] font-mono text-slate-700 dark:text-slate-300 font-bold tracking-[0.25em] uppercase mt-1 hidden sm:block">
+                <span className="text-[8px] sm:text-[8.5px] font-mono text-slate-700 dark:text-slate-300 font-bold tracking-[0.25em] uppercase mt-1 hidden xs:block">
                   Innovating The Future Of Technology
                 </span>
               </div>
             </Link>
 
-            {/* Tactical Navigation Links */}
+            {/* Tactical Navigation Links (Desktop) */}
             <div className="hidden lg:flex items-center gap-1.5 xl:gap-3">
               {navLinks.map((link) => (
                 <div
@@ -148,24 +160,24 @@ export function Navigation() {
                 type="button"
                 onClick={() => window.dispatchEvent(new CustomEvent('open-search'))}
                 aria-label="Open Search"
-                className="w-11 h-11 flex items-center justify-center rounded-2xl bg-secondary/80 border border-border/80 text-foreground cursor-pointer active:scale-95 transition-all"
+                className="w-10 h-10 sm:w-11 sm:h-11 flex items-center justify-center rounded-xl sm:rounded-2xl bg-secondary/80 border border-border/80 text-foreground cursor-pointer active:scale-95 transition-all"
               >
-                <Search className="w-5 h-5 text-indigo-600 dark:text-indigo-400" />
+                <Search className="w-4 h-4 sm:w-5 sm:h-5 text-indigo-600 dark:text-indigo-400" />
               </button>
 
               <button
                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
                 aria-label="Toggle Menu"
-                className={`w-11 h-11 flex items-center justify-center rounded-2xl transition-all duration-300 cursor-pointer ${
+                className={`w-10 h-10 sm:w-11 sm:h-11 flex items-center justify-center rounded-xl sm:rounded-2xl transition-all duration-300 cursor-pointer ${
                   isMobileMenuOpen 
                     ? 'bg-secondary border-border text-foreground rotate-90 scale-90' 
                     : 'bg-secondary/80 border-border/80 text-foreground'
                 }`}
               >
                 {isMobileMenuOpen ? (
-                  <X className="w-6 h-6" />
+                  <X className="w-5 h-5 sm:w-6 sm:h-6" />
                 ) : (
-                  <Menu className="w-6 h-6" />
+                  <Menu className="w-5 h-5 sm:w-6 sm:h-6" />
                 )}
               </button>
             </div>
@@ -173,105 +185,123 @@ export function Navigation() {
         </div>
       </header>
 
-      {/* Cinematic Mobile HUD */}
+      {/* Cinematic Mobile HUD Overlay */}
       <AnimatePresence>
         {isMobileMenuOpen && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[90] lg:hidden overflow-hidden"
+            transition={{ duration: 0.25 }}
+            className="fixed inset-0 z-[99] lg:hidden bg-background/98 backdrop-blur-2xl flex flex-col"
           >
-            <div className="absolute inset-0 bg-background flex flex-col">
-              {/* Top Header Row */}
-              <div className="flex items-center justify-between px-10 pt-10 pb-6">
-                <Link href="/" className="flex items-center gap-4" onClick={() => setIsMobileMenuOpen(false)}>
-                  <div className="relative w-12 h-12 flex items-center justify-center shrink-0">
-                      <Image src="/logo.png" alt="Meganods Logo" width={48} height={48} className="w-full h-full object-contain" />
-                  </div>
-                  <span className="text-lg font-bold tracking-tighter text-[#154954] dark:text-[#42b4c7]">
+            {/* Top Header Row */}
+            <div className="flex items-center justify-between px-5 sm:px-8 py-4 sm:py-5 border-b border-border/70 shrink-0">
+              <Link href="/" className="flex items-center gap-3" onClick={() => setIsMobileMenuOpen(false)}>
+                <div className="relative w-10 h-10 flex items-center justify-center shrink-0">
+                    <Image src="/logo.png" alt="Meganods Logo" width={40} height={40} className="w-full h-full object-contain" />
+                </div>
+                <div className="flex flex-col">
+                  <span className="text-base font-bold tracking-tight text-[#154954] dark:text-[#42b4c7]">
                     MegaNods
                   </span>
-                </Link>
-                
-                <button
-                  onClick={() => setIsMobileMenuOpen(false)}
-                  className="w-12 h-12 flex items-center justify-center rounded-2xl bg-secondary border border-border text-foreground"
-                >
-                  <X className="w-6 h-6" />
-                </button>
-              </div>
-
-              <motion.nav
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: 20 }}
-                className="flex-1 flex flex-col justify-center px-10 overflow-y-auto no-scrollbar py-8"
+                  <span className="text-[7.5px] font-mono text-muted-foreground uppercase tracking-widest font-semibold">
+                    Global Architecture
+                  </span>
+                </div>
+              </Link>
+              
+              <button
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="w-10 h-10 flex items-center justify-center rounded-xl bg-secondary border border-border text-foreground hover:bg-secondary/80 cursor-pointer active:scale-95 transition-all"
+                aria-label="Close menu"
               >
-                {/* Mobile Search Button */}
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            {/* Scrollable Navigation Body */}
+            <div className="flex-1 overflow-y-auto px-5 sm:px-8 py-6 flex flex-col justify-between gap-6">
+              <div>
+                {/* Mobile Search Bar */}
                 <button
                   type="button"
                   onClick={() => {
                     setIsMobileMenuOpen(false)
                     window.dispatchEvent(new CustomEvent('open-search'))
                   }}
-                  className="mb-8 w-full p-4 rounded-2xl bg-slate-100 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 flex items-center justify-between text-slate-500 font-medium text-sm cursor-pointer"
+                  className="mb-6 w-full p-3 sm:p-3.5 rounded-xl bg-card border border-border flex items-center justify-between text-muted-foreground font-medium text-xs sm:text-sm cursor-pointer hover:border-indigo-500/50 shadow-xs transition-all"
                 >
-                  <div className="flex items-center gap-3">
-                    <Search className="w-5 h-5 text-indigo-600" />
-                    <span>Search all services & articles...</span>
+                  <div className="flex items-center gap-2.5">
+                    <Search className="w-4 h-4 text-indigo-600 dark:text-indigo-400" />
+                    <span>Search services, insights...</span>
                   </div>
-                  <span className="text-xs font-mono font-bold px-2 py-0.5 rounded bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700">
+                  <span className="text-[10px] font-mono font-bold px-1.5 py-0.5 rounded bg-secondary border border-border text-foreground">
                     ⌘K
                   </span>
                 </button>
 
-                <div className="flex flex-col gap-4 py-4">
-                  {navLinks.map((link, index) => (
-                    <motion.div
-                      key={link.href}
-                      initial={{ opacity: 0, x: -20 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: index * 0.05 }}
-                    >
-                      <Link
-                        href={link.href}
-                        onClick={() => setIsMobileMenuOpen(false)}
-                        className={`group flex items-center gap-6 text-5xl font-black tracking-tighter uppercase transition-all ${
-                          pathname === link.href ? 'text-foreground' : 'text-foreground/30'
-                        }`}
+                {/* Nav Links Stack */}
+                <nav className="flex flex-col gap-1.5 sm:gap-2">
+                  {navLinks.map((link, index) => {
+                    const isActive = pathname === link.href
+                    return (
+                      <motion.div
+                        key={link.href}
+                        initial={{ opacity: 0, x: -16 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: index * 0.04 }}
                       >
-                        <span className="text-sm font-mono text-indigo-600 w-8">{link.index}</span>
-                        {link.label}
-                      </Link>
-                    </motion.div>
-                  ))}
-                </div>
-              </motion.nav>
+                        <Link
+                          href={link.href}
+                          onClick={() => setIsMobileMenuOpen(false)}
+                          className={`group flex items-center justify-between px-4 py-3 rounded-xl transition-all ${
+                            isActive
+                              ? 'bg-indigo-600/10 dark:bg-indigo-500/15 text-indigo-600 dark:text-indigo-400 font-extrabold border border-indigo-500/20'
+                              : 'text-foreground hover:bg-secondary/70 font-bold border border-transparent'
+                          }`}
+                        >
+                          <div className="flex items-center gap-3.5">
+                            <span className="text-xs font-mono font-bold text-indigo-600 dark:text-indigo-400">
+                              {link.index}
+                            </span>
+                            <span className="text-xl sm:text-2xl tracking-tight uppercase">
+                              {link.label}
+                            </span>
+                          </div>
 
-              {/* Bottom Section */}
-              <div className="px-10 pb-12 flex flex-col gap-8">
-                <div className="h-px bg-border w-full" />
-                
-                <div className="flex items-center gap-4">
-                  <Satellite className="w-5 h-5 text-indigo-500" />
-                  <span className="text-[10px] font-mono text-foreground/40 uppercase tracking-[0.3em]">
-                    Active Uplink: Established
+                          {isActive ? (
+                            <span className="w-2 h-2 rounded-full bg-indigo-600 dark:bg-indigo-400 animate-pulse" />
+                          ) : (
+                            <ArrowRight className="w-4 h-4 text-muted-foreground/40 group-hover:text-foreground group-hover:translate-x-1 transition-all" />
+                          )}
+                        </Link>
+                      </motion.div>
+                    )
+                  })}
+                </nav>
+              </div>
+
+              {/* Bottom Actions & Uplink */}
+              <div className="pt-4 border-t border-border/80 flex flex-col gap-4">
+                <div className="flex items-center justify-between px-1">
+                  <div className="flex items-center gap-2">
+                    <Satellite className="w-4 h-4 text-indigo-600 dark:text-indigo-400 animate-pulse" />
+                    <span className="text-[9px] font-mono text-muted-foreground uppercase tracking-widest font-semibold">
+                      Uplink Active
+                    </span>
+                  </div>
+                  <span className="text-[9px] font-mono text-emerald-600 dark:text-emerald-400 font-bold">
+                    99.9% Uptime
                   </span>
                 </div>
 
                 <Link href="/contact" onClick={() => setIsMobileMenuOpen(false)}>
-                  <Button className="w-full h-14 bg-primary text-primary-foreground hover:bg-primary/90 text-base font-bold rounded-2xl shadow-xl transition-all uppercase hover:scale-[0.98] active:scale-95 border-0 flex items-center justify-center gap-2">
-                    Contact Us
+                  <Button className="w-full h-12 bg-primary text-primary-foreground hover:bg-primary/90 text-xs sm:text-sm font-bold uppercase tracking-wider rounded-xl shadow-lg transition-all active:scale-95 border-0 flex items-center justify-center gap-2 cursor-pointer">
+                    <span>Contact MegaNods</span>
                     <ArrowRight className="w-4 h-4" />
                   </Button>
                 </Link>
-
-                <div className="mt-2">
-                  <div className="w-12 h-12 flex items-center justify-center shrink-0">
-                    <Image src="/logo.png" alt="Meganods Logo" width={48} height={48} className="w-full h-full object-contain" />
-                  </div>
-                </div>
               </div>
             </div>
           </motion.div>
