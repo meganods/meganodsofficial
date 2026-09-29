@@ -62,6 +62,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.5,
     },
     {
+      url: `${baseUrl}/testimonials`,
+      lastModified,
+      changeFrequency: 'monthly',
+      priority: 0.7,
+    },
+    {
       url: `${baseUrl}/technologies/neural-ai-cognitive-systems`,
       lastModified,
       changeFrequency: 'monthly',
@@ -132,44 +138,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     }
   }
 
-  let projectRoutes: MetadataRoute.Sitemap = [
-    {
-      url: `${baseUrl}/projects/meganods-team-platform`,
-      lastModified,
-      changeFrequency: 'monthly' as const,
-      priority: 0.8,
-    },
-    {
-      url: `${baseUrl}/projects/deep-threat-sentinel`,
-      lastModified,
-      changeFrequency: 'monthly' as const,
-      priority: 0.8,
-    },
-    {
-      url: `${baseUrl}/projects/omni-neural-mesh`,
-      lastModified,
-      changeFrequency: 'monthly' as const,
-      priority: 0.8,
-    },
-    {
-      url: `${baseUrl}/projects/quantum-ledger-core`,
-      lastModified,
-      changeFrequency: 'monthly' as const,
-      priority: 0.8,
-    },
-    {
-      url: `${baseUrl}/projects/spatial-vision-copilot`,
-      lastModified,
-      changeFrequency: 'monthly' as const,
-      priority: 0.8,
-    },
-    {
-      url: `${baseUrl}/projects/synapse-biometric-id`,
-      lastModified,
-      changeFrequency: 'monthly' as const,
-      priority: 0.8,
-    },
-  ]
+  // Load all default project case studies
+  const { defaultProjects } = await import('@/lib/data/projects')
+  let projectRoutes: MetadataRoute.Sitemap = defaultProjects.map((p) => ({
+    url: `${baseUrl}/projects/${encodeURIComponent(p.slug)}`,
+    lastModified,
+    changeFrequency: 'monthly' as const,
+    priority: 0.8,
+  }))
 
   try {
     const projectSnapshot = await getDocs(collection(db, 'projects'))
