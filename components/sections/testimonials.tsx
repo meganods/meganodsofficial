@@ -295,20 +295,20 @@ export function TestimonialsSection() {
                   <motion.div
                     animate={{ y: [-6, 6, -6] }}
                     transition={{ duration: 3.5, repeat: Infinity }}
-                    className="absolute -top-5 -right-5 w-18 h-18 w-[72px] h-[72px] rounded-2xl bg-card border border-border flex flex-col items-center justify-center shadow-xl"
+                    className="absolute -top-3 -right-3 sm:-top-5 sm:-right-5 w-16 h-16 sm:w-[72px] sm:h-[72px] rounded-2xl bg-card border border-border flex flex-col items-center justify-center shadow-xl z-20"
                   >
-                    <Star className="w-5 h-5 text-amber-400 fill-amber-400 mb-0.5" />
-                    <div className="text-foreground font-black text-sm font-mono">{active?.rating || 5}.0</div>
+                    <Star className="w-4 h-4 sm:w-5 sm:h-5 text-amber-400 fill-amber-400 mb-0.5" />
+                    <div className="text-foreground font-black text-xs sm:text-sm font-mono">{active?.rating || 5}.0</div>
                   </motion.div>
 
                   {/* Verified badge */}
                   <motion.div
                     animate={{ y: [6, -6, 6] }}
                     transition={{ duration: 4.5, repeat: Infinity, delay: 0.8 }}
-                    className="absolute -bottom-3 -left-5 px-3 py-1.5 rounded-xl bg-emerald-500/10 border border-emerald-500/30 flex items-center gap-2"
+                    className="absolute -bottom-2 -left-3 sm:-bottom-3 sm:-left-5 px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-xl bg-emerald-500/10 border border-emerald-500/30 flex items-center gap-1.5 sm:gap-2 z-20 backdrop-blur-md"
                   >
-                    <BadgeCheck className="w-3.5 h-3.5 text-emerald-500" />
-                    <span className="text-emerald-600 dark:text-emerald-400 font-mono text-[8px] uppercase tracking-widest font-black">Verified</span>
+                    <BadgeCheck className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-emerald-500" />
+                    <span className="text-emerald-600 dark:text-emerald-400 font-mono text-[7.5px] sm:text-[8px] uppercase tracking-widest font-black">Verified</span>
                   </motion.div>
                 </div>
               </div>

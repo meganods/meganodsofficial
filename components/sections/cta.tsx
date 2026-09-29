@@ -28,12 +28,12 @@ export function CTASection() {
           <div className="absolute bottom-0 left-0 w-1/2 h-1/2 bg-emerald-500/10 blur-[120px] rounded-full pointer-events-none" />
 
           {/* Content Wrapper */}
-          <div className="relative px-8 py-20 lg:px-24 lg:py-32">
+          <div className="relative px-5 sm:px-8 py-14 sm:py-20 lg:px-24 lg:py-32">
             <div className="max-w-4xl mx-auto text-center">
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={isInView ? { opacity: 1, y: 0 } : {}}
-                className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-secondary border border-border text-indigo-600 dark:text-indigo-400 font-mono text-[10px] uppercase tracking-[0.3em] mb-10"
+                className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-secondary border border-border text-indigo-600 dark:text-indigo-400 font-mono text-[10px] uppercase tracking-[0.3em] mb-8 sm:mb-10"
               >
                  <Zap className="w-3 h-3 fill-current" />
                  Ready for Deployment
@@ -52,7 +52,7 @@ export function CTASection() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={isInView ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.5, delay: 0.2 }}
-                className="text-muted-foreground text-sm sm:text-base mb-12 max-w-xl mx-auto leading-relaxed font-normal"
+                className="text-muted-foreground text-sm sm:text-base mb-10 sm:mb-12 max-w-xl mx-auto leading-relaxed font-normal"
               >
                 Join the enterprise network of high-performance innovators. From autonomous AI to global cloud architectures, we build what’s next.
               </motion.p>
@@ -62,27 +62,27 @@ export function CTASection() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={isInView ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.5, delay: 0.3 }}
-                className="flex flex-col sm:flex-row items-center justify-center gap-6 mb-20"
+                className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6 mb-16 sm:mb-20 w-full max-w-lg sm:max-w-none mx-auto"
               >
                 <Button 
                   asChild
                   size="lg"
-                  className="h-16 lg:h-20 px-12 bg-foreground text-background hover:bg-foreground/90 font-bold rounded-2xl lg:rounded-3xl shadow-2xl transition-all text-lg group border-0"
+                  className="w-full sm:w-auto h-14 sm:h-16 lg:h-20 px-8 sm:px-12 bg-foreground text-background hover:bg-foreground/90 font-bold rounded-2xl lg:rounded-3xl shadow-2xl transition-all text-base sm:text-lg group border-0"
                 >
                   <Link href="/contact">
                     Initiate Project
-                    <ArrowRight className="ml-2 w-6 h-6 group-hover:translate-x-1 transition-transform" />
+                    <ArrowRight className="ml-2 w-5 sm:w-6 h-5 sm:h-6 group-hover:translate-x-1 transition-transform" />
                   </Link>
                 </Button>
                 <Button 
                   asChild
                   size="lg"
                   variant="outline"
-                  className="h-16 lg:h-20 px-12 border-border text-foreground bg-card/60 hover:bg-secondary rounded-2xl lg:rounded-3xl text-lg backdrop-blur-md"
+                  className="w-full sm:w-auto h-14 sm:h-16 lg:h-20 px-8 sm:px-12 border-border text-foreground bg-card/60 hover:bg-secondary rounded-2xl lg:rounded-3xl text-base sm:text-lg backdrop-blur-md"
                 >
                   <Link href="/contact#schedule">
                     Schedule Technical Audit
-                    <Phone className="ml-2 w-5 h-5" />
+                    <Phone className="ml-2 w-4 sm:w-5 h-4 sm:h-5" />
                   </Link>
                 </Button>
               </motion.div>
