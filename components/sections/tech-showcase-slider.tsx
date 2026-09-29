@@ -203,7 +203,7 @@ export function TechShowcaseSlider() {
                       mass: 0.8,
                     }}
                     onClick={() => handleCardClick(virtualKey, slide.slug, isCenter)}
-                    className={`absolute w-[320px] sm:w-[460px] lg:w-[580px] cursor-pointer select-none transition-shadow duration-500 rounded-3xl ${
+                    className={`absolute w-[88vw] max-w-[340px] sm:max-w-none sm:w-[460px] lg:w-[580px] cursor-pointer select-none transition-shadow duration-500 rounded-3xl ${
                       isCenter ? 'pointer-events-auto' : 'pointer-events-auto hover:opacity-90'
                     }`}
                     style={{

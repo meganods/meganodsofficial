@@ -184,7 +184,7 @@ export function TeamPreviewSection() {
                          initial={{ opacity: 0, x: 50 }}
                          animate={isInView ? { opacity: 1, x: 0 } : {}}
                          transition={{ duration: 0.5, delay: 0.1 * index }}
-                         className="min-w-[320px] md:min-w-[400px] snap-center first:ml-0 last:mr-10"
+                         className="min-w-[280px] sm:min-w-[340px] md:min-w-[400px] max-w-[85vw] snap-center first:ml-0 last:mr-10"
                        >
                          <Link href={`/team/${member.id}`} className="block h-full">
                            <div className="bg-card/80 backdrop-blur-3xl border border-border rounded-[3.5rem] p-10 h-full flex flex-col hover:border-indigo-600/30 dark:hover:border-indigo-500/30 transition-all duration-700 overflow-hidden relative shadow-2xl group/card cursor-pointer">
