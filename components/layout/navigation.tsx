@@ -196,16 +196,16 @@ export function Navigation() {
             className="fixed inset-0 z-[99] lg:hidden bg-background/98 backdrop-blur-2xl flex flex-col"
           >
             {/* Top Header Row */}
-            <div className="flex items-center justify-between px-5 sm:px-8 py-4 sm:py-5 border-b border-border/70 shrink-0">
-              <Link href="/" className="flex items-center gap-3" onClick={() => setIsMobileMenuOpen(false)}>
-                <div className="relative w-10 h-10 flex items-center justify-center shrink-0">
-                    <Image src="/logo.png" alt="Meganods Logo" width={40} height={40} className="w-full h-full object-contain" />
+            <div className="flex items-center justify-between px-4 sm:px-6 py-3 sm:py-4 border-b border-border/70 shrink-0">
+              <Link href="/" className="flex items-center gap-2.5" onClick={() => setIsMobileMenuOpen(false)}>
+                <div className="relative w-8 h-8 sm:w-9 sm:h-9 flex items-center justify-center shrink-0">
+                    <Image src="/logo.png" alt="Meganods Logo" width={36} height={36} className="w-full h-full object-contain" />
                 </div>
                 <div className="flex flex-col">
-                  <span className="text-base font-bold tracking-tight text-[#154954] dark:text-[#42b4c7]">
+                  <span className="text-sm sm:text-base font-bold tracking-tight text-[#154954] dark:text-[#42b4c7]">
                     MegaNods
                   </span>
-                  <span className="text-[7.5px] font-mono text-muted-foreground uppercase tracking-widest font-semibold">
+                  <span className="text-[7px] font-mono text-muted-foreground uppercase tracking-widest font-semibold">
                     Global Architecture
                   </span>
                 </div>
@@ -213,15 +213,15 @@ export function Navigation() {
               
               <button
                 onClick={() => setIsMobileMenuOpen(false)}
-                className="w-10 h-10 flex items-center justify-center rounded-xl bg-secondary border border-border text-foreground hover:bg-secondary/80 cursor-pointer active:scale-95 transition-all"
+                className="w-9 h-9 flex items-center justify-center rounded-xl bg-secondary border border-border text-foreground hover:bg-secondary/80 cursor-pointer active:scale-95 transition-all"
                 aria-label="Close menu"
               >
-                <X className="w-5 h-5" />
+                <X className="w-4 h-4" />
               </button>
             </div>
 
             {/* Scrollable Navigation Body */}
-            <div className="flex-1 overflow-y-auto px-5 sm:px-8 py-6 flex flex-col justify-between gap-6">
+            <div className="flex-1 overflow-y-auto px-4 sm:px-6 py-4 flex flex-col justify-between gap-4">
               <div>
                 {/* Mobile Search Bar */}
                 <button
@@ -230,50 +230,50 @@ export function Navigation() {
                     setIsMobileMenuOpen(false)
                     window.dispatchEvent(new CustomEvent('open-search'))
                   }}
-                  className="mb-6 w-full p-3 sm:p-3.5 rounded-xl bg-card border border-border flex items-center justify-between text-muted-foreground font-medium text-xs sm:text-sm cursor-pointer hover:border-indigo-500/50 shadow-xs transition-all"
+                  className="mb-4 w-full p-2.5 sm:p-3 rounded-xl bg-card border border-border flex items-center justify-between text-muted-foreground font-medium text-xs cursor-pointer hover:border-indigo-500/50 shadow-xs transition-all"
                 >
-                  <div className="flex items-center gap-2.5">
-                    <Search className="w-4 h-4 text-indigo-600 dark:text-indigo-400" />
+                  <div className="flex items-center gap-2">
+                    <Search className="w-3.5 h-3.5 text-indigo-600 dark:text-indigo-400" />
                     <span>Search services, insights...</span>
                   </div>
-                  <span className="text-[10px] font-mono font-bold px-1.5 py-0.5 rounded bg-secondary border border-border text-foreground">
+                  <span className="text-[9px] font-mono font-bold px-1.5 py-0.5 rounded bg-secondary border border-border text-foreground">
                     ⌘K
                   </span>
                 </button>
 
                 {/* Nav Links Stack */}
-                <nav className="flex flex-col gap-1.5 sm:gap-2">
+                <nav className="flex flex-col gap-1">
                   {navLinks.map((link, index) => {
                     const isActive = pathname === link.href
                     return (
                       <motion.div
                         key={link.href}
-                        initial={{ opacity: 0, x: -16 }}
+                        initial={{ opacity: 0, x: -12 }}
                         animate={{ opacity: 1, x: 0 }}
-                        transition={{ delay: index * 0.04 }}
+                        transition={{ delay: index * 0.03 }}
                       >
                         <Link
                           href={link.href}
                           onClick={() => setIsMobileMenuOpen(false)}
-                          className={`group flex items-center justify-between px-4 py-3 rounded-xl transition-all ${
+                          className={`group flex items-center justify-between px-3.5 py-2.5 rounded-xl transition-all ${
                             isActive
                               ? 'bg-indigo-600/10 dark:bg-indigo-500/15 text-indigo-600 dark:text-indigo-400 font-extrabold border border-indigo-500/20'
-                              : 'text-foreground hover:bg-secondary/70 font-bold border border-transparent'
+                              : 'text-foreground hover:bg-secondary/70 font-semibold border border-transparent'
                           }`}
                         >
-                          <div className="flex items-center gap-3.5">
-                            <span className="text-xs font-mono font-bold text-indigo-600 dark:text-indigo-400">
+                          <div className="flex items-center gap-3">
+                            <span className="text-[11px] font-mono font-bold text-indigo-600 dark:text-indigo-400">
                               {link.index}
                             </span>
-                            <span className="text-xl sm:text-2xl tracking-tight uppercase">
+                            <span className="text-sm sm:text-base tracking-wide uppercase">
                               {link.label}
                             </span>
                           </div>
 
                           {isActive ? (
-                            <span className="w-2 h-2 rounded-full bg-indigo-600 dark:bg-indigo-400 animate-pulse" />
+                            <span className="w-1.5 h-1.5 rounded-full bg-indigo-600 dark:bg-indigo-400 animate-pulse" />
                           ) : (
-                            <ArrowRight className="w-4 h-4 text-muted-foreground/40 group-hover:text-foreground group-hover:translate-x-1 transition-all" />
+                            <ArrowRight className="w-3.5 h-3.5 text-muted-foreground/30 group-hover:text-foreground group-hover:translate-x-0.5 transition-all" />
                           )}
                         </Link>
                       </motion.div>
@@ -283,23 +283,23 @@ export function Navigation() {
               </div>
 
               {/* Bottom Actions & Uplink */}
-              <div className="pt-4 border-t border-border/80 flex flex-col gap-4">
+              <div className="pt-3 border-t border-border/80 flex flex-col gap-3">
                 <div className="flex items-center justify-between px-1">
-                  <div className="flex items-center gap-2">
-                    <Satellite className="w-4 h-4 text-indigo-600 dark:text-indigo-400 animate-pulse" />
-                    <span className="text-[9px] font-mono text-muted-foreground uppercase tracking-widest font-semibold">
+                  <div className="flex items-center gap-1.5">
+                    <Satellite className="w-3.5 h-3.5 text-indigo-600 dark:text-indigo-400 animate-pulse" />
+                    <span className="text-[8px] font-mono text-muted-foreground uppercase tracking-widest font-semibold">
                       Uplink Active
                     </span>
                   </div>
-                  <span className="text-[9px] font-mono text-emerald-600 dark:text-emerald-400 font-bold">
+                  <span className="text-[8px] font-mono text-emerald-600 dark:text-emerald-400 font-bold">
                     99.9% Uptime
                   </span>
                 </div>
 
                 <Link href="/contact" onClick={() => setIsMobileMenuOpen(false)}>
-                  <Button className="w-full h-12 bg-primary text-primary-foreground hover:bg-primary/90 text-xs sm:text-sm font-bold uppercase tracking-wider rounded-xl shadow-lg transition-all active:scale-95 border-0 flex items-center justify-center gap-2 cursor-pointer">
+                  <Button className="w-full h-11 bg-primary text-primary-foreground hover:bg-primary/90 text-xs font-bold uppercase tracking-wider rounded-xl shadow-md transition-all active:scale-95 border-0 flex items-center justify-center gap-2 cursor-pointer">
                     <span>Contact MegaNods</span>
-                    <ArrowRight className="w-4 h-4" />
+                    <ArrowRight className="w-3.5 h-3.5" />
                   </Button>
                 </Link>
               </div>
