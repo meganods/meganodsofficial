@@ -204,7 +204,6 @@ export function CommandPalette() {
         <div 
           className="fixed inset-0 z-[100] flex items-start justify-center pt-16 sm:pt-24 px-4 sm:px-6"
           data-lenis-prevent="true"
-          data-lenis-prevent
         >
           {/* Backdrop */}
           <motion.div
@@ -223,7 +222,6 @@ export function CommandPalette() {
             exit={{ opacity: 0, scale: 0.96, y: -15 }}
             transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
             data-lenis-prevent="true"
-            data-lenis-prevent
             className="relative w-full max-w-2xl bg-white dark:bg-slate-900 rounded-3xl shadow-2xl border border-slate-200 dark:border-slate-800 overflow-hidden flex flex-col max-h-[80vh] z-10 overscroll-contain"
           >
             {/* Top Search Input Bar */}
@@ -276,7 +274,6 @@ export function CommandPalette() {
             <div 
               ref={listRef} 
               data-lenis-prevent="true"
-              data-lenis-prevent
               onWheel={(e) => e.stopPropagation()}
               onTouchMove={(e) => e.stopPropagation()}
               className="flex-1 overflow-y-auto p-3 space-y-1 overscroll-contain touch-pan-y"

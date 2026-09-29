@@ -8,7 +8,20 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { Menu, X, ChevronDown, Satellite, ArrowRight, Search } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 
-const navLinks = [
+interface SubmenuItem {
+  href: string
+  label: string
+  icon: React.ComponentType<{ className?: string }>
+}
+
+interface NavLink {
+  href: string
+  label: string
+  index: string
+  submenu?: SubmenuItem[]
+}
+
+const navLinks: NavLink[] = [
   { href: '/', label: 'Home', index: '01' },
   { href: '/about', label: 'About', index: '02' },
   { href: '/services', label: 'Services', index: '03' },
