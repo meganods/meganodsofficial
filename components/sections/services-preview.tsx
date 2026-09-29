@@ -43,11 +43,11 @@ const ServiceVisual = ({ service, gradient }: { service: any, gradient: string }
   // 1. WORDPRESS & DECOUPLED CMS
   if (typeKey.includes('wordpress') || typeKey.includes('cms') || typeKey.includes('gutenberg')) {
     return (
-      <div className="relative w-full h-full flex items-center justify-center p-6 sm:p-8">
+      <div className="relative w-full h-full flex items-center justify-center p-3.5 sm:p-8">
         <motion.div 
           initial={{ scale: 0.95, opacity: 0 }} 
           animate={{ scale: 1, opacity: 1 }} 
-          className="relative w-full max-w-md bg-slate-900/95 text-white rounded-3xl border border-indigo-500/30 p-5 shadow-2xl overflow-hidden backdrop-blur-xl"
+          className="relative w-full max-w-md bg-slate-900/95 text-white rounded-3xl border border-indigo-500/30 p-4 sm:p-5 shadow-2xl overflow-hidden backdrop-blur-xl"
         >
           {/* Header Bar */}
           <div className="flex items-center justify-between pb-3.5 border-b border-white/10 mb-4 text-xs font-mono">
@@ -113,34 +113,34 @@ const ServiceVisual = ({ service, gradient }: { service: any, gradient: string }
   // 2. MOBILE APP DEVELOPMENT
   if (typeKey.includes('app') || typeKey.includes('mobile') || typeKey.includes('ios') || typeKey.includes('android')) {
     return (
-      <div className="relative w-full h-full flex items-center justify-center p-6 sm:p-8">
-        <motion.div initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} className="relative w-52 h-84 bg-slate-950 rounded-[2.5rem] border-2 border-slate-700 p-3 shadow-2xl">
-          <div className="absolute top-3 left-1/2 -translate-x-1/2 w-20 h-4 bg-black rounded-full border border-white/10" />
-          <div className="w-full h-full bg-gradient-to-b from-slate-900 to-slate-950 rounded-[2.2rem] overflow-hidden flex flex-col p-4 pt-7 text-white">
-            <div className="space-y-3">
+      <div className="relative w-full h-full flex items-center justify-center p-3.5 sm:p-8">
+        <motion.div initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} className="relative w-44 h-72 sm:w-52 sm:h-84 bg-slate-950 rounded-[2.2rem] sm:rounded-[2.5rem] border-2 border-slate-700 p-2.5 sm:p-3 shadow-2xl">
+          <div className="absolute top-3 left-1/2 -translate-x-1/2 w-16 sm:w-20 h-3 sm:h-4 bg-black rounded-full border border-white/10" />
+          <div className="w-full h-full bg-gradient-to-b from-slate-900 to-slate-950 rounded-[1.9rem] sm:rounded-[2.2rem] overflow-hidden flex flex-col p-3 sm:p-4 pt-6 sm:pt-7 text-white">
+            <div className="space-y-2.5 sm:space-y-3">
               <div className="flex justify-between items-center">
-                <span className="text-[10px] font-bold text-indigo-400 font-mono">NATIVE SUITE</span>
+                <span className="text-[9px] sm:text-[10px] font-bold text-indigo-400 font-mono">NATIVE SUITE</span>
                 <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
               </div>
-              <motion.div initial={{ width: 0 }} animate={{ width: '85%' }} className="h-3.5 bg-white/20 rounded-full" />
-              <div className="p-3 bg-indigo-600/30 border border-indigo-500/30 rounded-xl space-y-1.5">
-                <div className="h-2.5 w-full bg-indigo-400/40 rounded-full" />
-                <div className="h-2 w-2/3 bg-indigo-400/20 rounded-full" />
+              <motion.div initial={{ width: 0 }} animate={{ width: '85%' }} className="h-3 sm:h-3.5 bg-white/20 rounded-full" />
+              <div className="p-2.5 sm:p-3 bg-indigo-600/30 border border-indigo-500/30 rounded-xl space-y-1.5">
+                <div className="h-2 w-full bg-indigo-400/40 rounded-full" />
+                <div className="h-1.5 w-2/3 bg-indigo-400/20 rounded-full" />
               </div>
-              <div className="grid grid-cols-2 gap-2 pt-1">
-                 <div className="h-14 bg-white/5 border border-white/10 rounded-xl flex flex-col items-center justify-center text-[10px] font-bold text-slate-300">
-                    <Smartphone className="w-4 h-4 text-cyan-400 mb-1" />
+              <div className="grid grid-cols-2 gap-1.5 sm:gap-2 pt-1">
+                 <div className="h-12 sm:h-14 bg-white/5 border border-white/10 rounded-xl flex flex-col items-center justify-center text-[9px] sm:text-[10px] font-bold text-slate-300">
+                    <Smartphone className="w-3.5 sm:w-4 h-3.5 sm:h-4 text-cyan-400 mb-1" />
                     iOS Swift
                  </div>
-                 <div className="h-14 bg-white/5 border border-white/10 rounded-xl flex flex-col items-center justify-center text-[10px] font-bold text-slate-300">
-                    <Layers className="w-4 h-4 text-emerald-400 mb-1" />
+                 <div className="h-12 sm:h-14 bg-white/5 border border-white/10 rounded-xl flex flex-col items-center justify-center text-[9px] sm:text-[10px] font-bold text-slate-300">
+                    <Layers className="w-3.5 sm:w-4 h-3.5 sm:h-4 text-emerald-400 mb-1" />
                     Kotlin Native
                  </div>
               </div>
             </div>
           </div>
-          <motion.div animate={{ y: [-6, 6, -6] }} transition={{ duration: 4, repeat: Infinity }} className="absolute -right-6 top-1/3 w-14 h-14 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-2xl flex items-center justify-center shadow-xl border border-white/20">
-             <Smartphone className="w-7 h-7 text-white" />
+          <motion.div animate={{ y: [-6, 6, -6] }} transition={{ duration: 4, repeat: Infinity }} className="absolute -right-3 sm:-right-6 top-1/3 w-11 h-11 sm:w-14 sm:h-14 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-2xl flex items-center justify-center shadow-xl border border-white/20">
+             <Smartphone className="w-5 h-5 sm:w-7 sm:h-7 text-white" />
           </motion.div>
         </motion.div>
       </div>
@@ -150,35 +150,35 @@ const ServiceVisual = ({ service, gradient }: { service: any, gradient: string }
   // 3. WEB DEVELOPMENT & HEADLESS FRONTENDS
   if (typeKey.includes('web') || typeKey.includes('frontend') || typeKey.includes('next')) {
     return (
-      <div className="relative w-full h-full flex items-center justify-center p-6 sm:p-8">
+      <div className="relative w-full h-full flex items-center justify-center p-3.5 sm:p-8">
          <motion.div initial={{ scale: 0.95, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} className="relative w-full max-w-md bg-slate-950 rounded-2xl border border-slate-800 overflow-hidden shadow-2xl">
-            <div className="h-7 bg-slate-900 w-full flex items-center justify-between px-4 border-b border-white/10 text-[10px] text-slate-400 font-mono">
+            <div className="h-7 bg-slate-900 w-full flex items-center justify-between px-3 sm:px-4 border-b border-white/10 text-[9px] sm:text-[10px] text-slate-400 font-mono">
                <div className="flex gap-1.5">
-                  <div className="w-2.5 h-2.5 rounded-full bg-rose-500" />
-                  <div className="w-2.5 h-2.5 rounded-full bg-amber-500" />
-                  <div className="w-2.5 h-2.5 rounded-full bg-emerald-500" />
+                  <div className="w-2 sm:w-2.5 h-2 sm:h-2.5 rounded-full bg-rose-500" />
+                  <div className="w-2 sm:w-2.5 h-2 sm:h-2.5 rounded-full bg-amber-500" />
+                  <div className="w-2 sm:w-2.5 h-2 sm:h-2.5 rounded-full bg-emerald-500" />
                </div>
                <span>Next.js 14 App Router</span>
                <span className="text-emerald-400 font-bold">100 FPS</span>
             </div>
-            <div className="p-5 space-y-3.5 font-mono text-xs">
-               <div className="p-3 bg-indigo-950/40 border border-indigo-500/20 rounded-xl text-indigo-300">
+            <div className="p-3.5 sm:p-5 space-y-3 font-mono text-xs">
+               <div className="p-2.5 sm:p-3 bg-indigo-950/40 border border-indigo-500/20 rounded-xl text-indigo-300 text-[11px] sm:text-xs">
                   <span className="text-purple-400">const</span> <span className="text-cyan-400">architecture</span> = <span className="text-yellow-300">createEdgeNode</span>(&#123;
-                  <div className="pl-4 text-emerald-400">ssr: true, latency: '&lt;50ms'</div>
+                  <div className="pl-3 sm:pl-4 text-emerald-400">ssr: true, latency: '&lt;50ms'</div>
                   &#125;);
                </div>
-               <div className="grid grid-cols-2 gap-3 pt-1">
-                  <div className="p-3 bg-white/5 border border-white/10 rounded-xl text-slate-300 text-[11px]">
-                     <div className="text-slate-400 text-[9px] uppercase font-bold">Lighthouse</div>
-                     <div className="text-emerald-400 font-black text-sm mt-0.5">100 Performance</div>
+               <div className="grid grid-cols-2 gap-2 sm:gap-3 pt-1">
+                  <div className="p-2.5 sm:p-3 bg-white/5 border border-white/10 rounded-xl text-slate-300 text-[10px] sm:text-[11px]">
+                     <div className="text-slate-400 text-[8.5px] sm:text-[9px] uppercase font-bold">Lighthouse</div>
+                     <div className="text-emerald-400 font-black text-xs sm:text-sm mt-0.5">100 Performance</div>
                   </div>
-                  <div className="p-3 bg-white/5 border border-white/10 rounded-xl text-slate-300 text-[11px]">
-                     <div className="text-slate-400 text-[9px] uppercase font-bold">SEO Score</div>
-                     <div className="text-cyan-400 font-black text-sm mt-0.5">Grade A+ Fortified</div>
+                  <div className="p-2.5 sm:p-3 bg-white/5 border border-white/10 rounded-xl text-slate-300 text-[10px] sm:text-[11px]">
+                     <div className="text-slate-400 text-[8.5px] sm:text-[9px] uppercase font-bold">SEO Score</div>
+                     <div className="text-cyan-400 font-black text-xs sm:text-sm mt-0.5">Grade A+ Fortified</div>
                   </div>
                </div>
             </div>
-            <motion.div animate={{ opacity: [0.6, 1, 0.6] }} transition={{ duration: 2, repeat: Infinity }} className="absolute bottom-3 right-4 bg-emerald-500/20 px-3 py-1 rounded-md text-[10px] text-emerald-400 border border-emerald-500/40 font-mono">
+            <motion.div animate={{ opacity: [0.6, 1, 0.6] }} transition={{ duration: 2, repeat: Infinity }} className="absolute bottom-2.5 right-3 sm:bottom-3 sm:right-4 bg-emerald-500/20 px-2 sm:px-3 py-0.5 sm:py-1 rounded-md text-[9px] sm:text-[10px] text-emerald-400 border border-emerald-500/40 font-mono">
                {"Edge Render Active"}
             </motion.div>
          </motion.div>
@@ -189,8 +189,8 @@ const ServiceVisual = ({ service, gradient }: { service: any, gradient: string }
   // 4. AI & MACHINE LEARNING
   if (typeKey.includes('ai') || typeKey.includes('neural') || typeKey.includes('machine') || typeKey.includes('intelligence')) {
     return (
-      <div className="relative w-full h-full flex items-center justify-center p-6">
-         <div className="relative w-64 h-64">
+      <div className="relative w-full h-full flex items-center justify-center p-3 sm:p-6">
+         <div className="relative w-48 h-48 sm:w-64 sm:h-64">
             <motion.div 
               animate={{ rotate: 360 }}
               transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}
@@ -200,17 +200,17 @@ const ServiceVisual = ({ service, gradient }: { service: any, gradient: string }
                <motion.div 
                  animate={{ scale: [1, 1.2, 1] }} 
                  transition={{ duration: 4, repeat: Infinity }}
-                 className="w-36 h-36 bg-gradient-to-tr from-indigo-500/30 to-purple-500/30 rounded-full blur-2xl" 
+                 className="w-28 h-28 sm:w-36 sm:h-36 bg-gradient-to-tr from-indigo-500/30 to-purple-500/30 rounded-full blur-2xl" 
                />
                <motion.div 
                  animate={{ 
                    boxShadow: ['0 0 20px rgba(99,102,241,0.3)', '0 0 45px rgba(99,102,241,0.6)', '0 0 20px rgba(99,102,241,0.3)'] 
                  }}
                  transition={{ duration: 2.5, repeat: Infinity }}
-                 className="relative w-28 h-28 rounded-3xl bg-gradient-to-br from-indigo-600 via-purple-600 to-blue-600 flex flex-col items-center justify-center text-white shadow-2xl border border-white/20"
+                 className="relative w-24 h-24 sm:w-28 sm:h-28 rounded-3xl bg-gradient-to-br from-indigo-600 via-purple-600 to-blue-600 flex flex-col items-center justify-center text-white shadow-2xl border border-white/20"
                >
-                  <Brain className="w-12 h-12 text-white mb-1" />
-                  <span className="text-[9px] font-mono uppercase tracking-widest font-black">Neural LLM</span>
+                  <Brain className="w-10 h-10 sm:w-12 sm:h-12 text-white mb-1" />
+                  <span className="text-[8px] sm:text-[9px] font-mono uppercase tracking-widest font-black">Neural LLM</span>
                </motion.div>
             </div>
             {[...Array(6)].map((_, i) => (
@@ -218,12 +218,12 @@ const ServiceVisual = ({ service, gradient }: { service: any, gradient: string }
                  key={i}
                  animate={{ scale: [0.8, 1.3, 0.8], opacity: [0.4, 1, 0.4] }}
                  transition={{ duration: 3, delay: i * 0.4, repeat: Infinity }}
-                 className="absolute w-2.5 h-2.5 rounded-full bg-cyan-400 shadow-[0_0_8px_#22d3ee]"
+                 className="absolute w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full bg-cyan-400 shadow-[0_0_8px_#22d3ee]"
                  style={{
                    left: '50%',
                    top: '50%',
                    transformOrigin: '0 0',
-                   transform: `rotate(${i * 60}deg) translateX(115px)`
+                   transform: `rotate(${i * 60}deg) translateX(85px)`
                  }}
                />
             ))}
@@ -235,28 +235,28 @@ const ServiceVisual = ({ service, gradient }: { service: any, gradient: string }
   // 5. CLOUD, DEVOPS & INFRASTRUCTURE
   if (typeKey.includes('cloud') || typeKey.includes('devops') || typeKey.includes('server') || typeKey.includes('infrastructure')) {
     return (
-      <div className="relative w-full h-full flex items-center justify-center p-6">
-        <div className="relative w-full max-w-md bg-slate-900/90 text-white rounded-3xl border border-cyan-500/30 p-6 shadow-2xl backdrop-blur-xl">
-          <div className="flex items-center justify-between pb-3 border-b border-white/10 mb-4">
+      <div className="relative w-full h-full flex items-center justify-center p-3.5 sm:p-6">
+        <div className="relative w-full max-w-md bg-slate-900/90 text-white rounded-3xl border border-cyan-500/30 p-4 sm:p-6 shadow-2xl backdrop-blur-xl">
+          <div className="flex items-center justify-between pb-3 border-b border-white/10 mb-3 sm:mb-4">
             <div className="flex items-center gap-2">
-              <Cloud className="w-5 h-5 text-cyan-400" />
-              <span className="font-bold text-sm">Distributed Edge Mesh</span>
+              <Cloud className="w-4 sm:w-5 h-4 sm:h-5 text-cyan-400" />
+              <span className="font-bold text-xs sm:text-sm">Distributed Edge Mesh</span>
             </div>
-            <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-cyan-500/20 text-cyan-300">Multi-Region Active</span>
+            <span className="text-[9px] sm:text-[10px] font-mono px-2 py-0.5 rounded bg-cyan-500/20 text-cyan-300">Multi-Region Active</span>
           </div>
-          <div className="space-y-3 font-mono text-xs">
-            <div className="p-3 rounded-xl bg-white/5 border border-white/10 flex justify-between items-center">
-              <span>US-East / EU-Central / AP-South</span>
-              <span className="text-emerald-400 font-bold">99.9% Enterprise SLA</span>
+          <div className="space-y-2.5 sm:space-y-3 font-mono text-xs">
+            <div className="p-2.5 sm:p-3 rounded-xl bg-white/5 border border-white/10 flex justify-between items-center text-[10px] sm:text-xs">
+              <span>US-East / EU-Central</span>
+              <span className="text-emerald-400 font-bold">99.9% SLA</span>
             </div>
-            <div className="grid grid-cols-2 gap-2 text-[11px]">
-              <div className="p-3 rounded-xl bg-white/5 border border-white/10">
-                <div className="text-slate-400 text-[9px]">KUBERNETES PODS</div>
-                <div className="text-cyan-400 font-bold mt-1">Auto-Scaling Live</div>
+            <div className="grid grid-cols-2 gap-2 text-[10px] sm:text-[11px]">
+              <div className="p-2.5 sm:p-3 rounded-xl bg-white/5 border border-white/10">
+                <div className="text-slate-400 text-[8.5px] sm:text-[9px]">KUBERNETES PODS</div>
+                <div className="text-cyan-400 font-bold mt-0.5 sm:mt-1">Auto-Scaling Live</div>
               </div>
-              <div className="p-3 rounded-xl bg-white/5 border border-white/10">
-                <div className="text-slate-400 text-[9px]">LATENCY MESH</div>
-                <div className="text-emerald-400 font-bold mt-1">&lt; 45ms Global</div>
+              <div className="p-2.5 sm:p-3 rounded-xl bg-white/5 border border-white/10">
+                <div className="text-slate-400 text-[8.5px] sm:text-[9px]">LATENCY MESH</div>
+                <div className="text-emerald-400 font-bold mt-0.5 sm:mt-1">&lt; 45ms Global</div>
               </div>
             </div>
           </div>
@@ -268,31 +268,31 @@ const ServiceVisual = ({ service, gradient }: { service: any, gradient: string }
   // 6. E-COMMERCE & MARKETPLACE
   if (typeKey.includes('commerce') || typeKey.includes('shop') || typeKey.includes('marketplace') || typeKey.includes('store')) {
     return (
-      <div className="relative w-full h-full flex items-center justify-center p-6">
-        <div className="relative w-full max-w-md bg-slate-900/90 text-white rounded-3xl border border-emerald-500/30 p-6 shadow-2xl backdrop-blur-xl">
-          <div className="flex items-center justify-between pb-3 border-b border-white/10 mb-4">
+      <div className="relative w-full h-full flex items-center justify-center p-3.5 sm:p-6">
+        <div className="relative w-full max-w-md bg-slate-900/90 text-white rounded-3xl border border-emerald-500/30 p-4 sm:p-6 shadow-2xl backdrop-blur-xl">
+          <div className="flex items-center justify-between pb-3 border-b border-white/10 mb-3 sm:mb-4">
             <div className="flex items-center gap-2">
-              <ShoppingBag className="w-5 h-5 text-emerald-400" />
-              <span className="font-bold text-sm">High-Volume Commerce Engine</span>
+              <ShoppingBag className="w-4 sm:w-5 h-4 sm:h-5 text-emerald-400" />
+              <span className="font-bold text-xs sm:text-sm">High-Volume Commerce</span>
             </div>
-            <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300">Live Checkout</span>
+            <span className="text-[9px] sm:text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300">Live Checkout</span>
           </div>
-          <div className="space-y-3 font-mono text-xs">
-            <div className="p-3.5 rounded-xl bg-gradient-to-r from-emerald-600/30 to-teal-600/30 border border-emerald-500/30 flex justify-between items-center">
+          <div className="space-y-2.5 sm:space-y-3 font-mono text-xs">
+            <div className="p-2.5 sm:p-3.5 rounded-xl bg-gradient-to-r from-emerald-600/30 to-teal-600/30 border border-emerald-500/30 flex justify-between items-center">
               <div>
-                <div className="text-[10px] text-emerald-200">TRANSACTION VELOCITY</div>
-                <div className="text-lg font-bold text-white">$148,920 ARR / min</div>
+                <div className="text-[9px] sm:text-[10px] text-emerald-200">TRANSACTION VELOCITY</div>
+                <div className="text-sm sm:text-lg font-bold text-white">$148,920 ARR / min</div>
               </div>
-              <Zap className="w-6 h-6 text-emerald-400 animate-pulse" />
+              <Zap className="w-5 sm:w-6 h-5 sm:h-6 text-emerald-400 animate-pulse" />
             </div>
-            <div className="grid grid-cols-2 gap-2 text-[11px]">
-              <div className="p-3 rounded-xl bg-white/5 border border-white/10">
-                <div className="text-slate-400 text-[9px]">MULTI-VENDOR</div>
-                <div className="text-emerald-400 font-bold mt-1">Split Payments</div>
+            <div className="grid grid-cols-2 gap-2 text-[10px] sm:text-[11px]">
+              <div className="p-2.5 sm:p-3 rounded-xl bg-white/5 border border-white/10">
+                <div className="text-slate-400 text-[8.5px] sm:text-[9px]">MULTI-VENDOR</div>
+                <div className="text-emerald-400 font-bold mt-0.5 sm:mt-1">Split Payments</div>
               </div>
-              <div className="p-3 rounded-xl bg-white/5 border border-white/10">
-                <div className="text-slate-400 text-[9px]">CHECKOUT CONVERSION</div>
-                <div className="text-cyan-400 font-bold mt-1">3.8x Industry Avg</div>
+              <div className="p-2.5 sm:p-3 rounded-xl bg-white/5 border border-white/10">
+                <div className="text-slate-400 text-[8.5px] sm:text-[9px]">CHECKOUT RATE</div>
+                <div className="text-cyan-400 font-bold mt-0.5 sm:mt-1">3.8x Avg</div>
               </div>
             </div>
           </div>
@@ -304,23 +304,23 @@ const ServiceVisual = ({ service, gradient }: { service: any, gradient: string }
   // 7. CYBERSECURITY & ZERO TRUST
   if (typeKey.includes('security') || typeKey.includes('cyber') || typeKey.includes('shield') || typeKey.includes('zero-trust')) {
     return (
-      <div className="relative w-full h-full flex items-center justify-center p-6">
-        <div className="relative w-full max-w-md bg-slate-900/90 text-white rounded-3xl border border-rose-500/30 p-6 shadow-2xl backdrop-blur-xl">
-          <div className="flex items-center justify-between pb-3 border-b border-white/10 mb-4">
+      <div className="relative w-full h-full flex items-center justify-center p-3.5 sm:p-6">
+        <div className="relative w-full max-w-md bg-slate-900/90 text-white rounded-3xl border border-rose-500/30 p-4 sm:p-6 shadow-2xl backdrop-blur-xl">
+          <div className="flex items-center justify-between pb-3 border-b border-white/10 mb-3 sm:mb-4">
             <div className="flex items-center gap-2">
-              <ShieldCheck className="w-5 h-5 text-rose-400" />
-              <span className="font-bold text-sm">Zero-Trust Shield Radar</span>
+              <ShieldCheck className="w-4 sm:w-5 h-4 sm:h-5 text-rose-400" />
+              <span className="font-bold text-xs sm:text-sm">Zero-Trust Shield Radar</span>
             </div>
-            <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-rose-500/20 text-rose-300">256-bit TLS</span>
+            <span className="text-[9px] sm:text-[10px] font-mono px-2 py-0.5 rounded bg-rose-500/20 text-rose-300">256-bit TLS</span>
           </div>
-          <div className="space-y-3 font-mono text-xs">
-            <div className="p-3 rounded-xl bg-rose-950/40 border border-rose-500/30 flex justify-between items-center text-rose-300">
-              <span className="flex items-center gap-2"><Lock className="w-4 h-4 text-rose-400" /> Threat Neutralization</span>
-              <span className="text-emerald-400 font-bold">100% Protected</span>
+          <div className="space-y-2.5 sm:space-y-3 font-mono text-xs">
+            <div className="p-2.5 sm:p-3 rounded-xl bg-rose-950/40 border border-rose-500/30 flex justify-between items-center text-rose-300 text-[10px] sm:text-xs">
+              <span className="flex items-center gap-2"><Lock className="w-3.5 sm:w-4 h-3.5 sm:h-4 text-rose-400" /> Threat Neutralization</span>
+              <span className="text-emerald-400 font-bold">Protected</span>
             </div>
-            <div className="p-3 rounded-xl bg-white/5 border border-white/10 text-slate-300">
-              <div className="text-slate-400 text-[9px]">OWASP & SOC2 TYPE II</div>
-              <div className="text-emerald-400 font-bold mt-1">Automated Compliance Guard</div>
+            <div className="p-2.5 sm:p-3 rounded-xl bg-white/5 border border-white/10 text-slate-300">
+              <div className="text-slate-400 text-[8.5px] sm:text-[9px]">OWASP & SOC2 TYPE II</div>
+              <div className="text-emerald-400 font-bold mt-0.5 sm:mt-1">Automated Compliance Guard</div>
             </div>
           </div>
         </div>
@@ -330,18 +330,18 @@ const ServiceVisual = ({ service, gradient }: { service: any, gradient: string }
 
   // DEFAULT DYNAMIC ROTATING NODE WITH HIGH-TECH PARTICLES
   return (
-    <div className="relative w-full h-full flex items-center justify-center p-6">
+    <div className="relative w-full h-full flex items-center justify-center p-3 sm:p-6">
        <motion.div 
          animate={{ rotate: 360 }}
          transition={{ duration: 25, repeat: Infinity, ease: 'linear' }}
-         className="relative w-64 h-64"
+         className="relative w-48 h-48 sm:w-64 sm:h-64"
        >
           <div className="absolute inset-0 border border-border/40 dark:border-white/10 rounded-full" />
-          <div className="absolute inset-8 border border-dashed border-indigo-500/30 rounded-full" />
+          <div className="absolute inset-6 sm:inset-8 border border-dashed border-indigo-500/30 rounded-full" />
           <div className="absolute inset-0 flex items-center justify-center rotate-[-360deg]">
-             <div className={`w-28 h-28 rounded-3xl bg-gradient-to-br ${gradient} flex flex-col items-center justify-center shadow-2xl text-white border border-white/20`}>
-                <Cpu className="w-12 h-12 mb-1" />
-                <span className="text-[9px] font-mono uppercase tracking-widest font-black">Core Engine</span>
+             <div className={`w-24 h-24 sm:w-28 sm:h-28 rounded-3xl bg-gradient-to-br ${gradient} flex flex-col items-center justify-center shadow-2xl text-white border border-white/20`}>
+                <Cpu className="w-10 h-10 sm:w-12 sm:h-12 mb-1" />
+                <span className="text-[8px] sm:text-[9px] font-mono uppercase tracking-widest font-black">Core Engine</span>
              </div>
           </div>
        </motion.div>
@@ -464,14 +464,14 @@ export function ServicesPreviewSection() {
     <section className="relative py-24 lg:py-36 bg-background overflow-hidden" id="services">
       <DeepTechBackground />
 
-      <div className="relative container mx-auto px-6 lg:px-8 max-w-7xl">
+      <div className="relative container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
         {/* Section Header HUD */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-14 lg:mb-20">
-          <div className="max-w-2xl">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 sm:gap-8 mb-10 sm:mb-14 lg:mb-20">
+          <div className="max-w-2xl text-center md:text-left">
             <motion.div
               initial={{ opacity: 0, x: -20 }}
               whileInView={{ opacity: 1, x: 0 }}
-              className="text-indigo-600 dark:text-indigo-400 font-mono text-[11px] mb-3 uppercase tracking-[0.35em] font-bold flex items-center gap-3"
+              className="text-indigo-600 dark:text-indigo-400 font-mono text-[11px] mb-3 uppercase tracking-[0.35em] font-bold flex items-center justify-center md:justify-start gap-3"
             >
               <div className="w-8 h-px bg-indigo-600/50" />
               MASTERED CAPABILITIES
@@ -488,17 +488,17 @@ export function ServicesPreviewSection() {
             </p>
           </div>
           
-          <div className="flex items-center gap-3 self-end">
+          <div className="flex items-center justify-center gap-3 self-center md:self-end">
             <button
               onClick={() => handleManualNav(prev)}
-              className="group w-12 h-12 rounded-2xl border border-border bg-card/80 flex items-center justify-center hover:bg-secondary hover:border-indigo-400 transition-all text-foreground shadow-sm active:scale-95 cursor-pointer"
+              className="group w-11 h-11 sm:w-12 sm:h-12 rounded-2xl border border-border bg-card/80 flex items-center justify-center hover:bg-secondary hover:border-indigo-400 transition-all text-foreground shadow-sm active:scale-95 cursor-pointer"
               aria-label="Previous episode"
             >
               <ChevronLeft className="w-5 h-5 group-hover:-translate-x-0.5 transition-transform" />
             </button>
             <button
               onClick={() => handleManualNav(next)}
-              className="group w-12 h-12 rounded-2xl border border-border bg-card/80 flex items-center justify-center hover:bg-secondary hover:border-indigo-400 transition-all text-foreground shadow-sm active:scale-95 cursor-pointer"
+              className="group w-11 h-11 sm:w-12 sm:h-12 rounded-2xl border border-border bg-card/80 flex items-center justify-center hover:bg-secondary hover:border-indigo-400 transition-all text-foreground shadow-sm active:scale-95 cursor-pointer"
               aria-label="Next episode"
             >
               <ChevronRight className="w-5 h-5 group-hover:translate-x-0.5 transition-transform" />
@@ -519,9 +519,9 @@ export function ServicesPreviewSection() {
               className="grid lg:grid-cols-12 gap-10 lg:gap-16 items-center"
             >
               {/* Story Visual Side (Left 5 Cols) */}
-              <div className="lg:col-span-5 relative group">
+              <div className="lg:col-span-5 relative group w-full max-w-md mx-auto lg:max-w-none">
                 <div className={`absolute -inset-6 bg-gradient-to-br ${currentService.gradient || 'from-indigo-500 to-blue-500'} rounded-[2.5rem] opacity-20 blur-[80px] pointer-events-none`} />
-                <div className="relative aspect-[4/3] sm:aspect-square rounded-[2.5rem] overflow-hidden border border-border/80 bg-card/80 backdrop-blur-2xl group-hover:border-indigo-500/40 transition-all duration-500 shadow-xl flex items-center justify-center">
+                <div className="relative aspect-[4/3] sm:aspect-square rounded-[2rem] sm:rounded-[2.5rem] overflow-hidden border border-border/80 bg-card/80 backdrop-blur-2xl group-hover:border-indigo-500/40 transition-all duration-500 shadow-xl flex items-center justify-center">
                   <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-[0.02] pointer-events-none" />
                   <ServiceVisual service={currentService} gradient={currentService.gradient || 'from-indigo-500 to-blue-500'} />
                 </div>
