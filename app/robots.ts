@@ -9,6 +9,22 @@ export default function robots(): MetadataRoute.Robots {
         disallow: ['/admin/', '/api/'],
       },
       {
+        userAgent: 'Google-AdSense-AdsTxtCrawler',
+        allow: '/',
+      },
+      {
+        userAgent: 'Mediapartners-Google',
+        allow: '/',
+      },
+      {
+        userAgent: 'AdsBot-Google',
+        allow: '/',
+      },
+      {
+        userAgent: 'AdsBot-Google-Mobile',
+        allow: '/',
+      },
+      {
         userAgent: 'Googlebot',
         allow: '/',
         disallow: ['/admin/', '/api/'],
@@ -48,18 +64,6 @@ export default function robots(): MetadataRoute.Robots {
       },
       {
         userAgent: 'LinkedInBot',
-        allow: '/',
-      },
-      {
-        userAgent: 'Mediapartners-Google',
-        allow: '/',
-      },
-      {
-        userAgent: 'AdsBot-Google',
-        allow: '/',
-      },
-      {
-        userAgent: 'AdsBot-Google-Mobile',
         allow: '/',
       },
     ],
