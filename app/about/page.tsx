@@ -412,7 +412,7 @@ export default function AboutPage() {
                   <div className="relative rounded-3xl bg-white border border-slate-200 shadow-xl p-8 overflow-hidden">
                     {/* Gradient top bar */}
                     <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-indigo-500 via-blue-500 to-purple-500" />
-                    
+
                     <div className="flex items-center gap-3 mb-8">
                       <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500 to-blue-600 flex items-center justify-center shadow-md">
                         <Target className="w-5 h-5 text-white" />
@@ -666,7 +666,7 @@ export default function AboutPage() {
                 Company Overview
               </div>
               <h2 className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight text-slate-900 dark:text-foreground">
-                Inside MegaNods: <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-blue-600 dark:from-indigo-400 dark:to-blue-400">Who We Are & What We Do</span>
+                MegaNods: <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-blue-600 dark:from-indigo-400 dark:to-blue-400">Who We Are & What We Do</span>
               </h2>
               <p className="text-slate-500 dark:text-slate-400 text-sm sm:text-base mt-3 leading-relaxed">
                 A clear look into our founding story, engineering capabilities, global team, and corporate operations.
@@ -674,7 +674,7 @@ export default function AboutPage() {
             </AnimatedSection>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-10">
-              
+
               {/* BOX 1: Who MegaNods is: */}
               <motion.div
                 initial={{ opacity: 0, y: 25 }}
@@ -695,7 +695,7 @@ export default function AboutPage() {
                   <h3 className="text-2xl font-black text-slate-900 dark:text-foreground mb-4 tracking-tight flex items-center gap-2">
                     Who MegaNods is:
                   </h3>
-                  
+
                   <p className="text-slate-600 dark:text-slate-300 text-sm sm:text-base leading-relaxed mb-6 font-medium">
                     MegaNods is an engineering-first technology company and digital innovation partner established in October 2025. We were founded with a singular purpose: to engineer high-resilience, production-grade digital software for modern enterprises.
                   </p>
@@ -738,7 +738,7 @@ export default function AboutPage() {
                   <h3 className="text-2xl font-black text-slate-900 dark:text-foreground mb-4 tracking-tight flex items-center gap-2">
                     What you actually do:
                   </h3>
-                  
+
                   <p className="text-slate-600 dark:text-slate-300 text-sm sm:text-base leading-relaxed mb-6 font-medium">
                     We deliver end-to-end full-lifecycle software engineering, cloud architecture, and artificial intelligence implementations across four primary service pillars:
                   </p>
@@ -784,7 +784,7 @@ export default function AboutPage() {
                   <h3 className="text-2xl font-black text-slate-900 dark:text-foreground mb-4 tracking-tight flex items-center gap-2">
                     Team & company info:
                   </h3>
-                  
+
                   <p className="text-slate-600 dark:text-slate-300 text-sm sm:text-base leading-relaxed mb-6 font-medium">
                     MegaNods operates as an elite team of principal engineers, distributed systems architects, security specialists, and UI/UX designers with deep technical pedigree across leading global hubs.
                   </p>
@@ -831,7 +831,7 @@ export default function AboutPage() {
                   <h3 className="text-2xl font-black text-slate-900 dark:text-foreground mb-4 tracking-tight flex items-center gap-2">
                     Business & contact info:
                   </h3>
-                  
+
                   <p className="text-slate-600 dark:text-slate-300 text-sm sm:text-base leading-relaxed mb-6 font-medium">
                     Connect directly with our corporate headquarters or dispatch an encrypted communication to our client operations desk:
                   </p>
