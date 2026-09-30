@@ -5,12 +5,12 @@ export default function robots(): MetadataRoute.Robots {
     rules: [
       {
         userAgent: '*',
-        allow: '/',
+        allow: ['/', '/ads.txt', '/sitemap.xml'],
         disallow: ['/admin/', '/api/'],
       },
       {
         userAgent: 'Google-AdSense-AdsTxtCrawler',
-        allow: '/',
+        allow: ['/', '/ads.txt'],
       },
       {
         userAgent: 'Mediapartners-Google',
@@ -26,7 +26,7 @@ export default function robots(): MetadataRoute.Robots {
       },
       {
         userAgent: 'Googlebot',
-        allow: '/',
+        allow: ['/', '/ads.txt', '/sitemap.xml'],
         disallow: ['/admin/', '/api/'],
       },
       {
@@ -68,5 +68,6 @@ export default function robots(): MetadataRoute.Robots {
       },
     ],
     sitemap: 'https://www.meganods.com/sitemap.xml',
+    host: 'https://www.meganods.com',
   }
 }
