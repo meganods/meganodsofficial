@@ -37,7 +37,15 @@ import { collection, getDocs, query, orderBy } from "firebase/firestore";
 
 import { defaultBlogs } from "@/lib/data/blogs";
 
-const categories = ["All", "Artificial Intelligence", "Cloud Computing", "Security Ops", "Machine Learning", "IoT", "Blockchain"]
+const categories = [
+  "All",
+  "Artificial Intelligence",
+  "Cloud Infrastructure",
+  "Cybersecurity",
+  "Web & Mobile Development",
+  "DevOps & Infrastructure",
+  "Data Engineering"
+]
 
 export default function BlogPage() {
   const [selectedCategory, setSelectedCategory] = useState("All")
@@ -55,7 +63,10 @@ export default function BlogPage() {
             id: doc.id,
             ...doc.data()
           }));
-          setBlogs(docs);
+          // Merge dynamic Firestore blogs with default high-quality static articles
+          const existingSlugs = new Set(docs.map((d: any) => d.slug || d.id));
+          const merged = [...docs, ...defaultBlogs.filter(b => !existingSlugs.has(b.slug) && !existingSlugs.has(b.id))];
+          setBlogs(merged);
         }
       } catch (error) {
         console.error("BLOG_FETCH_ERROR:", error);
