@@ -662,14 +662,14 @@ export default function AboutPage() {
           <div className="relative container mx-auto px-6 lg:px-8 max-w-7xl">
             <AnimatedSection className="text-center max-w-3xl mx-auto mb-16 lg:mb-20">
               <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-indigo-50 dark:bg-indigo-950/60 border border-indigo-200 dark:border-indigo-800 text-indigo-600 dark:text-indigo-400 font-mono text-[10px] uppercase tracking-[0.3em] font-bold mb-4">
-                <ShieldCheck className="w-3.5 h-3.5" />
-                Operational Transparency
+                <Sparkles className="w-3.5 h-3.5" />
+                Company Overview
               </div>
               <h2 className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight text-slate-900 dark:text-foreground">
-                Corporate <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-blue-600 dark:from-indigo-400 dark:to-blue-400">Identity & Disclosure</span>
+                Inside MegaNods: <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-blue-600 dark:from-indigo-400 dark:to-blue-400">Who We Are & What We Do</span>
               </h2>
               <p className="text-slate-500 dark:text-slate-400 text-sm sm:text-base mt-3 leading-relaxed">
-                Comprehensive overview of MegaNods operations, technical capabilities, team pedigree, and corporate governance.
+                A clear look into our founding story, engineering capabilities, global team, and corporate operations.
               </p>
             </AnimatedSection>
 
