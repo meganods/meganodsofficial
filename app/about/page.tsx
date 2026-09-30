@@ -25,7 +25,14 @@ import {
   Layers,
   Sparkles,
   Search,
-  MessageSquare
+  MessageSquare,
+  Building2,
+  PhoneCall,
+  Mail,
+  MapPin,
+  ShieldCheck,
+  Briefcase,
+  FileCode
 } from 'lucide-react'
 
 const values = [
@@ -640,6 +647,226 @@ export default function AboutPage() {
                   </div>
                 </motion.div>
               ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ═══ CORPORATE TRANSPARENCY & E-E-A-T IDENTITY BOXES ═══ */}
+        <section className="py-24 lg:py-36 relative z-10 bg-slate-50/70 dark:bg-[#020206] border-y border-slate-200 dark:border-border overflow-hidden">
+          {/* Grid Background Accents */}
+          <div className="absolute inset-0 pointer-events-none">
+            <div className="absolute top-1/4 left-10 w-96 h-96 bg-indigo-500/5 rounded-full blur-[140px]" />
+            <div className="absolute bottom-10 right-10 w-96 h-96 bg-blue-500/5 rounded-full blur-[140px]" />
+          </div>
+
+          <div className="relative container mx-auto px-6 lg:px-8 max-w-7xl">
+            <AnimatedSection className="text-center max-w-3xl mx-auto mb-16 lg:mb-20">
+              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-indigo-50 dark:bg-indigo-950/60 border border-indigo-200 dark:border-indigo-800 text-indigo-600 dark:text-indigo-400 font-mono text-[10px] uppercase tracking-[0.3em] font-bold mb-4">
+                <ShieldCheck className="w-3.5 h-3.5" />
+                Operational Transparency
+              </div>
+              <h2 className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight text-slate-900 dark:text-foreground">
+                Corporate <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-blue-600 dark:from-indigo-400 dark:to-blue-400">Identity & Disclosure</span>
+              </h2>
+              <p className="text-slate-500 dark:text-slate-400 text-sm sm:text-base mt-3 leading-relaxed">
+                Comprehensive overview of MegaNods operations, technical capabilities, team pedigree, and corporate governance.
+              </p>
+            </AnimatedSection>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-10">
+              
+              {/* BOX 1: Who MegaNods is: */}
+              <motion.div
+                initial={{ opacity: 0, y: 25 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6 }}
+                className="relative bg-white dark:bg-card border border-slate-200 dark:border-border rounded-3xl p-8 lg:p-10 shadow-lg hover:shadow-xl hover:border-indigo-500/40 transition-all duration-300 flex flex-col justify-between group overflow-hidden"
+              >
+                <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-indigo-500 to-blue-500" />
+                <div>
+                  <div className="flex items-center justify-between gap-4 mb-6">
+                    <div className="w-12 h-12 rounded-2xl bg-indigo-50 dark:bg-indigo-950/60 border border-indigo-200 dark:border-indigo-800 text-indigo-600 dark:text-indigo-400 flex items-center justify-center shadow-xs">
+                      <Building2 className="w-6 h-6" />
+                    </div>
+                    <span className="text-[10px] font-mono uppercase tracking-widest text-slate-400 font-bold">Founded Oct 2025</span>
+                  </div>
+
+                  <h3 className="text-2xl font-black text-slate-900 dark:text-foreground mb-4 tracking-tight flex items-center gap-2">
+                    Who MegaNods is:
+                  </h3>
+                  
+                  <p className="text-slate-600 dark:text-slate-300 text-sm sm:text-base leading-relaxed mb-6 font-medium">
+                    MegaNods is an engineering-first technology company and digital innovation partner established in October 2025. We were founded with a singular purpose: to engineer high-resilience, production-grade digital software for modern enterprises.
+                  </p>
+
+                  <div className="space-y-3 bg-slate-50 dark:bg-slate-900/40 border border-slate-100 dark:border-slate-800/80 rounded-2xl p-5 text-xs text-slate-600 dark:text-slate-400 font-medium">
+                    <div className="flex items-start gap-2.5">
+                      <CheckCircle2 className="w-4 h-4 text-indigo-600 dark:text-indigo-400 shrink-0 mt-0.5" />
+                      <span><strong>Engineering Philosophy:</strong> Clean architectural separation, deterministic state validation, and sub-second operational performance.</span>
+                    </div>
+                    <div className="flex items-start gap-2.5">
+                      <CheckCircle2 className="w-4 h-4 text-indigo-600 dark:text-indigo-400 shrink-0 mt-0.5" />
+                      <span><strong>Core Values:</strong> Total transparency, fixed-price milestone delivery, zero technical debt, and 100% IP ownership for clients.</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="mt-8 pt-4 border-t border-slate-100 dark:border-border flex items-center justify-between text-xs font-mono text-indigo-600 dark:text-indigo-400 font-bold">
+                  <span>Entity Status: Active & Operational</span>
+                  <span className="text-emerald-500">● 99.9% Uptime</span>
+                </div>
+              </motion.div>
+
+              {/* BOX 2: What you actually do: */}
+              <motion.div
+                initial={{ opacity: 0, y: 25 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: 0.1 }}
+                className="relative bg-white dark:bg-card border border-slate-200 dark:border-border rounded-3xl p-8 lg:p-10 shadow-lg hover:shadow-xl hover:border-blue-500/40 transition-all duration-300 flex flex-col justify-between group overflow-hidden"
+              >
+                <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-500 to-cyan-500" />
+                <div>
+                  <div className="flex items-center justify-between gap-4 mb-6">
+                    <div className="w-12 h-12 rounded-2xl bg-blue-50 dark:bg-blue-950/60 border border-blue-200 dark:border-blue-800 text-blue-600 dark:text-blue-400 flex items-center justify-center shadow-xs">
+                      <Cpu className="w-6 h-6" />
+                    </div>
+                    <span className="text-[10px] font-mono uppercase tracking-widest text-slate-400 font-bold">Core Capabilities</span>
+                  </div>
+
+                  <h3 className="text-2xl font-black text-slate-900 dark:text-foreground mb-4 tracking-tight flex items-center gap-2">
+                    What you actually do:
+                  </h3>
+                  
+                  <p className="text-slate-600 dark:text-slate-300 text-sm sm:text-base leading-relaxed mb-6 font-medium">
+                    We deliver end-to-end full-lifecycle software engineering, cloud architecture, and artificial intelligence implementations across four primary service pillars:
+                  </p>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+                    {[
+                      { title: 'AI & Cognitive Agents', desc: 'Custom LLM fine-tuning, LangGraph state workflows, and vector retrieval (RAG).' },
+                      { title: 'Cloud Infrastructure', desc: 'Multi-region Active-Active cloud deployment, Kubernetes meshes, and BGP Anycast.' },
+                      { title: 'Cybersecurity Shield', desc: 'Zero-trust architecture, FIDO2/WebAuthn passkeys, and eBPF kernel threat monitoring.' },
+                      { title: 'Web & Mobile Systems', desc: 'Next.js 15 Server Components, high-concurrency SaaS apps, and React Native mobile.' },
+                    ].map((item, i) => (
+                      <div key={i} className="bg-slate-50 dark:bg-slate-900/40 border border-slate-100 dark:border-slate-800/80 rounded-2xl p-3.5">
+                        <p className="font-bold text-slate-900 dark:text-slate-100 mb-1">{item.title}</p>
+                        <p className="text-slate-500 dark:text-slate-400 text-[11px] leading-relaxed">{item.desc}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="mt-8 pt-4 border-t border-slate-100 dark:border-border flex items-center justify-between text-xs font-mono text-blue-600 dark:text-blue-400 font-bold">
+                  <span>Stack: Next.js, Go, Python, K8s, PostgreSQL</span>
+                  <Link href="/services" className="hover:underline flex items-center gap-1">View Services →</Link>
+                </div>
+              </motion.div>
+
+              {/* BOX 3: Team & company info: */}
+              <motion.div
+                initial={{ opacity: 0, y: 25 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: 0.2 }}
+                className="relative bg-white dark:bg-card border border-slate-200 dark:border-border rounded-3xl p-8 lg:p-10 shadow-lg hover:shadow-xl hover:border-purple-500/40 transition-all duration-300 flex flex-col justify-between group overflow-hidden"
+              >
+                <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-purple-500 to-indigo-500" />
+                <div>
+                  <div className="flex items-center justify-between gap-4 mb-6">
+                    <div className="w-12 h-12 rounded-2xl bg-purple-50 dark:bg-purple-950/60 border border-purple-200 dark:border-purple-800 text-purple-600 dark:text-purple-400 flex items-center justify-center shadow-xs">
+                      <Users className="w-6 h-6" />
+                    </div>
+                    <span className="text-[10px] font-mono uppercase tracking-widest text-slate-400 font-bold">Global Footprint</span>
+                  </div>
+
+                  <h3 className="text-2xl font-black text-slate-900 dark:text-foreground mb-4 tracking-tight flex items-center gap-2">
+                    Team & company info:
+                  </h3>
+                  
+                  <p className="text-slate-600 dark:text-slate-300 text-sm sm:text-base leading-relaxed mb-6 font-medium">
+                    MegaNods operates as an elite team of principal engineers, distributed systems architects, security specialists, and UI/UX designers with deep technical pedigree across leading global hubs.
+                  </p>
+
+                  <div className="space-y-3 bg-slate-50 dark:bg-slate-900/40 border border-slate-100 dark:border-slate-800/80 rounded-2xl p-5 text-xs text-slate-600 dark:text-slate-400 font-medium">
+                    <div className="flex items-center justify-between border-b border-slate-200/60 dark:border-slate-800 pb-2">
+                      <span className="text-slate-900 dark:text-slate-100 font-bold">Core Leadership:</span>
+                      <span>Principal AI Architects & Lead Systems Engineers</span>
+                    </div>
+                    <div className="flex items-center justify-between border-b border-slate-200/60 dark:border-slate-800 pb-2">
+                      <span className="text-slate-900 dark:text-slate-100 font-bold">Cross-Border Delivery:</span>
+                      <span>Client operations in UAE, UK, Canada, and Singapore</span>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <span className="text-slate-900 dark:text-slate-100 font-bold">Engagement Model:</span>
+                      <span>Agile milestone sprints with dedicated technical leads</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="mt-8 pt-4 border-t border-slate-100 dark:border-border flex items-center justify-between text-xs font-mono text-purple-600 dark:text-purple-400 font-bold">
+                  <span>50+ Projects Successfully Delivered</span>
+                  <Link href="/team" className="hover:underline flex items-center gap-1">Meet The Team →</Link>
+                </div>
+              </motion.div>
+
+              {/* BOX 4: Business & contact info: */}
+              <motion.div
+                initial={{ opacity: 0, y: 25 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: 0.3 }}
+                className="relative bg-white dark:bg-card border border-slate-200 dark:border-border rounded-3xl p-8 lg:p-10 shadow-lg hover:shadow-xl hover:border-emerald-500/40 transition-all duration-300 flex flex-col justify-between group overflow-hidden"
+              >
+                <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-emerald-500 to-teal-500" />
+                <div>
+                  <div className="flex items-center justify-between gap-4 mb-6">
+                    <div className="w-12 h-12 rounded-2xl bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-200 dark:border-emerald-800 text-emerald-600 dark:text-emerald-400 flex items-center justify-center shadow-xs">
+                      <MapPin className="w-6 h-6" />
+                    </div>
+                    <span className="text-[10px] font-mono uppercase tracking-widest text-slate-400 font-bold">Corporate Headquarters</span>
+                  </div>
+
+                  <h3 className="text-2xl font-black text-slate-900 dark:text-foreground mb-4 tracking-tight flex items-center gap-2">
+                    Business & contact info:
+                  </h3>
+                  
+                  <p className="text-slate-600 dark:text-slate-300 text-sm sm:text-base leading-relaxed mb-6 font-medium">
+                    Connect directly with our corporate headquarters or dispatch an encrypted communication to our client operations desk:
+                  </p>
+
+                  <div className="space-y-3 bg-slate-50 dark:bg-slate-900/40 border border-slate-100 dark:border-slate-800/80 rounded-2xl p-5 text-xs text-slate-700 dark:text-slate-300">
+                    <div className="flex items-start gap-3">
+                      <MapPin className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" />
+                      <div>
+                        <p className="font-bold text-slate-900 dark:text-slate-100">HQ Address:</p>
+                        <p className="text-slate-600 dark:text-slate-400 text-xs">OC-821 8th Floor, Gaur City Centre, Greater Noida West, Uttar Pradesh, India.</p>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-3 pt-2 border-t border-slate-200/60 dark:border-slate-800">
+                      <Mail className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0" />
+                      <div>
+                        <span className="font-bold text-slate-900 dark:text-slate-100">Official Email: </span>
+                        <a href="mailto:admin@meganods.com" className="text-emerald-600 dark:text-emerald-400 font-mono hover:underline font-bold">admin@meganods.com</a>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-3 pt-2 border-t border-slate-200/60 dark:border-slate-800">
+                      <PhoneCall className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0" />
+                      <div>
+                        <span className="font-bold text-slate-900 dark:text-slate-100">Direct Phone: </span>
+                        <a href="tel:+918796140682" className="text-emerald-600 dark:text-emerald-400 font-mono hover:underline font-bold">+91 8796140682</a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="mt-8 pt-4 border-t border-slate-100 dark:border-border flex items-center justify-between text-xs font-mono text-emerald-600 dark:text-emerald-400 font-bold">
+                  <span>Operating Hours: Mon – Sat (9AM – 7PM IST)</span>
+                  <Link href="/contact" className="hover:underline flex items-center gap-1">Contact Desk →</Link>
+                </div>
+              </motion.div>
+
             </div>
           </div>
         </section>
