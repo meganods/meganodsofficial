@@ -31,11 +31,12 @@ const footerLinks = {
     { label: 'Insights', href: '/blog', id: '06' },
     { label: 'Contact Us', href: '/contact', id: '07' },
   ],
-  protocols: [
-    { label: 'AI & Machine Learning', href: '/services', id: '01' },
-    { label: 'Cloud Infrastructure', href: '/services', id: '02' },
-    { label: 'Cybersecurity', href: '/services', id: '03' },
-    { label: 'Data Engineering', href: '/services', id: '04' },
+  trustAndLegal: [
+    { label: 'Privacy Policy', href: '/privacy', id: '01' },
+    { label: 'Terms & Conditions', href: '/terms', id: '02' },
+    { label: 'Cookie Policy', href: '/cookie-policy', id: '03' },
+    { label: 'Contact Us', href: '/contact', id: '04' },
+    { label: 'About Us', href: '/about', id: '05' },
   ],
   operations: [
     { label: 'Engineering Insights', href: '/blog', id: '01' },
@@ -162,13 +163,13 @@ export function Footer() {
             </ul>
           </div>
 
-          {/* Column 2: PROTOCOLS */}
+          {/* Column 2: TRUST & LEGAL */}
           <div className="w-full">
             <h4 className="text-xs sm:text-sm font-mono text-indigo-600 dark:text-indigo-400 uppercase tracking-[0.25em] font-black mb-6">
-              Protocols
+              Legal & Trust
             </h4>
             <ul className="space-y-3.5">
-              {footerLinks.protocols.map((link) => (
+              {footerLinks.trustAndLegal.map((link) => (
                 <li key={link.label}>
                   <Link
                     href={link.href}
