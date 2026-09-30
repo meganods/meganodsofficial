@@ -248,10 +248,12 @@ export function Footer() {
              </div>
           </div>
           
-          <div className="flex gap-6">
+          <div className="flex flex-wrap gap-4 sm:gap-6">
             {[
               { label: 'Privacy', href: '/privacy' },
               { label: 'Terms', href: '/terms' },
+              { label: 'Cookie Policy', href: '/cookie-policy' },
+              { label: 'About', href: '/about' },
               { label: 'Contact', href: '/contact' },
             ].map((item) => (
               <Link
