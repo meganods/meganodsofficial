@@ -36,7 +36,6 @@ const footerLinks = {
     { label: 'Terms & Conditions', href: '/terms', id: '02' },
     { label: 'Cookie Policy', href: '/cookie-policy', id: '03' },
     { label: 'Contact Us', href: '/contact', id: '04' },
-    { label: 'About Us', href: '/about', id: '05' },
   ],
   operations: [
     { label: 'Engineering Insights', href: '/blog', id: '01' },
@@ -163,10 +162,10 @@ export function Footer() {
             </ul>
           </div>
 
-          {/* Column 2: TRUST & LEGAL */}
+          {/* Column 2: TRUST */}
           <div className="w-full">
             <h4 className="text-xs sm:text-sm font-mono text-indigo-600 dark:text-indigo-400 uppercase tracking-[0.25em] font-black mb-6">
-              Legal & Trust
+              Trust
             </h4>
             <ul className="space-y-3.5">
               {footerLinks.trustAndLegal.map((link) => (
