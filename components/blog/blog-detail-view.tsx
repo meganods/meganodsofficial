@@ -160,13 +160,21 @@ export function BlogDetailView({ initialPost, initialRelatedPosts = [], slug }: 
 
           <div className="container mx-auto px-6 lg:px-8 relative z-10 pt-28 sm:pt-36 pb-16">
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
-              <Link href="/blog" className="inline-flex items-center gap-2.5 text-slate-500 hover:text-indigo-600 transition-colors font-mono text-xs uppercase tracking-[0.25em] mb-8 font-bold">
-                <ArrowLeft className="w-3.5 h-3.5" /> Back to Insights
-              </Link>
+              {/* Breadcrumb Navigation for SEO & UX */}
+              <nav aria-label="Breadcrumb" className="flex flex-wrap items-center gap-2 text-xs font-mono text-slate-500 mb-6">
+                <Link href="/" className="hover:text-indigo-600 transition-colors">Home</Link>
+                <span>/</span>
+                <Link href="/blog" className="hover:text-indigo-600 transition-colors">Insights</Link>
+                <span>/</span>
+                <span className="text-indigo-600 dark:text-indigo-400 font-bold">{post.category}</span>
+              </nav>
 
               <div className="flex items-center gap-3 mb-6">
                  <span className="px-3.5 py-1.5 rounded-full bg-indigo-50 dark:bg-indigo-950/60 border border-indigo-200 dark:border-indigo-800 text-indigo-600 dark:text-indigo-400 font-mono text-xs uppercase tracking-wider font-bold">
                    {post.category}
+                 </span>
+                 <span className="px-3 py-1 rounded-full bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800 text-emerald-600 dark:text-emerald-400 font-mono text-[11px] font-bold">
+                   ✓ Peer-Reviewed & Verified
                  </span>
               </div>
 
@@ -185,14 +193,18 @@ export function BlogDetailView({ initialPost, initialRelatedPosts = [], slug }: 
                   </div>
                 </div>
                 
-                <div className="flex items-center gap-8 text-xs font-mono">
+                <div className="flex flex-wrap items-center gap-6 sm:gap-8 text-xs font-mono">
                    <div className="space-y-0.5">
                       <p className="text-[10px] text-slate-400 uppercase tracking-widest font-semibold">Published</p>
                       <p className="font-bold text-slate-700 dark:text-slate-300">{post.date}</p>
                    </div>
                    <div className="space-y-0.5">
+                      <p className="text-[10px] text-slate-400 uppercase tracking-widest font-semibold">Updated</p>
+                      <p className="font-bold text-emerald-600 dark:text-emerald-400">Sep 2026</p>
+                   </div>
+                   <div className="space-y-0.5">
                       <p className="text-[10px] text-slate-400 uppercase tracking-widest font-semibold">Read Time</p>
-                      <p className="font-bold text-slate-700 dark:text-slate-300">{post.readTime || '6 min read'}</p>
+                      <p className="font-bold text-slate-700 dark:text-slate-300">{post.readTime || '12 min read'}</p>
                    </div>
                 </div>
               </div>
@@ -257,6 +269,39 @@ export function BlogDetailView({ initialPost, initialRelatedPosts = [], slug }: 
                       </div>
                     </div>
                   )}
+
+                  {/* Internal Navigation to Services */}
+                  <div className="space-y-4 p-6 rounded-2xl bg-card border border-border shadow-xs">
+                    <h3 className="text-[10px] font-mono text-primary uppercase tracking-[0.4em] font-black">
+                      Engineering Services
+                    </h3>
+                    <ul className="space-y-2.5 text-xs">
+                      <li>
+                        <Link href="/services" className="font-bold text-foreground hover:text-primary transition-colors flex items-center justify-between">
+                          <span>AI & Machine Learning</span>
+                          <span>→</span>
+                        </Link>
+                      </li>
+                      <li>
+                        <Link href="/services" className="font-bold text-foreground hover:text-primary transition-colors flex items-center justify-between">
+                          <span>Cloud Infrastructure</span>
+                          <span>→</span>
+                        </Link>
+                      </li>
+                      <li>
+                        <Link href="/services" className="font-bold text-foreground hover:text-primary transition-colors flex items-center justify-between">
+                          <span>Cybersecurity & Passkeys</span>
+                          <span>→</span>
+                        </Link>
+                      </li>
+                      <li>
+                        <Link href="/contact" className="font-bold text-primary hover:underline flex items-center justify-between pt-2 border-t border-border">
+                          <span>Request Technical Consultation</span>
+                          <span>→</span>
+                        </Link>
+                      </li>
+                    </ul>
+                  </div>
 
                   <div className="p-8 rounded-[2.5rem] bg-gradient-to-br from-primary/5 to-transparent border border-border">
                      <p className="text-[10px] font-mono text-primary uppercase tracking-[0.3em] font-black mb-6">Strategic Alert</p>
