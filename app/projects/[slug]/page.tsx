@@ -14,6 +14,8 @@ export function generateStaticParams() {
   }))
 }
 
+export const revalidate = 60 // Revalidate the page every 60 seconds
+
 async function getProject(slug: string) {
   try {
     const fallback = defaultProjects.find((p) => p.slug === slug)

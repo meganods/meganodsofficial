@@ -1,40 +1,48 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
+    
+    // Helper function to check if a user is authenticated
+    function isAdmin() {
+      return request.auth != null;
+    }
+
     // Project Registry Rules
     match /projects/{projectId} {
       allow read: if true;
-      allow write: if true;
+      allow write: if isAdmin();
     }
     
     // Service Ecosystem Rules
     match /services/{serviceId} {
       allow read: if true;
-      allow write: if true;
+      allow write: if isAdmin();
     }
 
     // Collective Strategic Intelligence (Team) Rules
     match /team/{memberId} {
       allow read: if true;
-      allow write: if true;
+      allow write: if isAdmin();
     }
 
     // Editorial Intelligence (Blog) Rules
     match /blogs/{blogId} {
       allow read: if true;
-      allow write: if true;
+      allow write: if isAdmin();
     }
 
     // Site Settings (Contact Details, Header, Footer, etc)
     match /settings/{settingId} {
       allow read: if true;
-      allow write: if true;
+      allow write: if isAdmin();
     }
 
     // Intelligence Leads (Contact Form Submissions)
     match /leads/{leadId} {
-      allow read: if true;
-      allow write: if true;
+      // Anyone can submit a contact form
+      allow create: if true;
+      // Only admin can view, edit, or delete leads
+      allow read, update, delete: if isAdmin();
     }
 
     // Default: Deny all other access

@@ -14,6 +14,8 @@ export async function generateStaticParams() {
   }))
 }
 
+export const revalidate = 60 // Revalidate the page every 60 seconds
+
 function stripHtml(html: string = ''): string {
   return html.replace(/<[^>]*>?/gm, '').replace(/\s+/g, ' ').trim()
 }
