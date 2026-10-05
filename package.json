@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "echo 'No lint required'"
+    "lint": "echo 'No lint required'",
+    "deploy": "npx vercel --prod --yes"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.1",

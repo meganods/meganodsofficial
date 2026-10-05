@@ -1,4 +1,6 @@
 "use client"
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "@/lib/firebase";
 
 import { useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
@@ -35,16 +37,15 @@ export default function AdminLoginPage() {
     setIsLoading(true)
     setError("")
 
-    // Security verification sequence
-    await new Promise(resolve => setTimeout(resolve, 800))
-
-    if (formData.email === "admin@meganods.com" && formData.password === "Admin@821") {
+    try {
+      await signInWithEmailAndPassword(auth, formData.email, formData.password)
       localStorage.setItem("adminAuth", "true")
       if (rememberMe) {
         localStorage.setItem("adminRemember", "true")
       }
       router.push("/admin")
-    } else {
+    } catch (err: any) {
+      console.error(err)
       setError("Invalid administrative credentials. Please verify and try again.")
       setIsLoading(false)
     }
