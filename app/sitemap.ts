@@ -2,6 +2,8 @@ import type { MetadataRoute } from 'next'
 import { db } from '@/lib/firebase'
 import { collection, getDocs, Timestamp } from 'firebase/firestore'
 
+export const revalidate = 86400 // Revalidate every 24 hours
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = 'https://www.meganods.com'
   const lastModified = new Date()

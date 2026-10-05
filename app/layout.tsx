@@ -73,9 +73,6 @@ export const metadata: Metadata = {
     apple: '/logo.png',
   },
   manifest: '/manifest.json',
-  alternates: {
-    canonical: 'https://www.meganods.com',
-  },
   verification: {
     google: 'google02c5a4427971ec21',
   },
