@@ -36,7 +36,7 @@ export function TeamPreviewSection() {
   useEffect(() => {
     const fetchTeam = async () => {
       try {
-        const q = query(collection(db, "team"), orderBy("order", "asc"), orderBy("createdAt", "desc"));
+        const q = query(collection(db, "team"), orderBy("order", "asc"));
         const querySnapshot = await getDocs(q);
         const docs = querySnapshot.docs.map(doc => ({
           id: doc.id,
