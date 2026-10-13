@@ -196,6 +196,7 @@
   border-radius: inherit;
   background: linear-gradient(135deg, oklch(0.75 0.18 195), oklch(0.65 0.2 300));
   -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;
   mask-composite: exclude;
   pointer-events: none;
