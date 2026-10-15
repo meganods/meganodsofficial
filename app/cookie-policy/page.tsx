@@ -4,9 +4,20 @@ import { Footer } from '@/components/layout/footer'
 import { SmoothScrollProvider } from '@/components/providers/smooth-scroll-provider'
 import { Cookie, Shield, Eye, Settings, ArrowLeft } from 'lucide-react'
 
-export const metadata = {
+import type { Metadata } from 'next'
+
+export const metadata: Metadata = {
   title: 'Cookie Policy | MegaNods',
   description: 'Understand how MegaNods uses cookies, third-party advertising cookies, and tracking technologies to improve your experience.',
+  alternates: {
+    canonical: 'https://www.meganods.com/cookie-policy',
+  },
+  openGraph: {
+    title: 'Cookie Policy | MegaNods',
+    description: 'Understand how MegaNods uses cookies, third-party advertising cookies, and tracking technologies.',
+    url: 'https://www.meganods.com/cookie-policy',
+    type: 'website',
+  },
 }
 
 export default function CookiePolicyPage() {

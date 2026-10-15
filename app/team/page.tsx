@@ -44,25 +44,30 @@ const departments = [
   { name: 'Network Support', count: 15, icon: Globe },
 ]
 
+import { defaultTeam } from '@/lib/data/team'
+
 export default function TeamPage() {
-  const [leadership, setLeadership] = useState<any[]>([])
-  const [teamMembers, setTeamMembers] = useState<any[]>([])
-  const [isLoading, setIsLoading] = useState(true)
+  const [leadership, setLeadership] = useState<any[]>(() => defaultTeam.filter(t => t.isLeader))
+  const [teamMembers, setTeamMembers] = useState<any[]>(() => defaultTeam.filter(t => !t.isLeader))
+  const [isLoading, setIsLoading] = useState(false)
 
   useEffect(() => {
     const fetchTeam = async () => {
       try {
         const q = query(collection(db, "team"), orderBy("order", "asc"));
         const querySnapshot = await getDocs(q);
-        const docs = querySnapshot.docs.map(doc => ({
-          id: doc.id,
-          ...doc.data()
-        })) as any[];
-        
-        setLeadership(docs.filter(t => t.isLeader));
-        setTeamMembers(docs.filter(t => !t.isLeader));
+        if (!querySnapshot.empty) {
+          const docs = querySnapshot.docs.map(doc => ({
+            id: doc.id,
+            ...doc.data()
+          })) as any[];
+          if (docs.length > 0) {
+            setLeadership(docs.filter(t => t.isLeader));
+            setTeamMembers(docs.filter(t => !t.isLeader));
+          }
+        }
       } catch (error) {
-        console.error("TEAM_FETCH_ERROR:", error);
+        console.warn("TEAM_FETCH_FALLBACK_DEFAULT:", error);
       } finally {
         setIsLoading(false);
       }

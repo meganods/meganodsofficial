@@ -20,9 +20,11 @@ import { db } from '@/lib/firebase'
 import { Button } from '@/components/ui/button'
 import { DeepTechBackground } from '@/components/ui/deep-tech-background'
 
+import { defaultTeam } from '@/lib/data/team'
+
 export function TeamPreviewSection() {
-  const [members, setMembers] = useState<any[]>([])
-  const [isLoading, setIsLoading] = useState(true)
+  const [members, setMembers] = useState<any[]>(defaultTeam)
+  const [isLoading, setIsLoading] = useState(false)
   const [scrollProgress, setScrollProgress] = useState(0)
   const [canScrollLeft, setCanScrollLeft] = useState(false)
   const [canScrollRight, setCanScrollRight] = useState(true)
@@ -38,13 +40,17 @@ export function TeamPreviewSection() {
       try {
         const q = query(collection(db, "team"), orderBy("order", "asc"));
         const querySnapshot = await getDocs(q);
-        const docs = querySnapshot.docs.map(doc => ({
-          id: doc.id,
-          ...doc.data()
-        }));
-        setMembers(docs);
+        if (!querySnapshot.empty) {
+          const docs = querySnapshot.docs.map(doc => ({
+            id: doc.id,
+            ...doc.data()
+          }));
+          if (docs.length > 0) {
+            setMembers(docs);
+          }
+        }
       } catch (error) {
-        console.error("TEAM_FETCH_ERROR:", error);
+        console.warn("TEAM_PREVIEW_FALLBACK_DEFAULT:", error);
       } finally {
         setIsLoading(false);
       }

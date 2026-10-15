@@ -23,6 +23,7 @@ import {
 import { db } from "@/lib/firebase";
 import { doc, getDoc } from "firebase/firestore";
 import { Button } from '@/components/ui/button'
+import { defaultTeam } from '@/lib/data/team'
 
 export default function TeamMemberPage() {
   const params = useParams()
@@ -32,18 +33,31 @@ export default function TeamMemberPage() {
 
   useEffect(() => {
     const fetchMember = async () => {
-      if (!params.id) return;
+      const id = params?.id as string
+      if (!id) return;
       try {
-        const docRef = doc(db, "team", params.id as string);
+        const docRef = doc(db, "team", id);
         const docSnap = await getDoc(docRef);
         
         if (docSnap.exists()) {
           setMember({ id: docSnap.id, ...docSnap.data() });
         } else {
-          router.push('/team');
+          // Check static defaultTeam fallback
+          const staticMatch = defaultTeam.find(m => m.id === id || m.slug === id);
+          if (staticMatch) {
+            setMember(staticMatch);
+          } else {
+            router.push('/team');
+          }
         }
       } catch (error) {
-        console.error("MEMBER_FETCH_ERROR:", error);
+        console.warn("MEMBER_FETCH_FALLBACK_DEFAULT:", error);
+        const staticMatch = defaultTeam.find(m => m.id === id || m.slug === id);
+        if (staticMatch) {
+          setMember(staticMatch);
+        } else {
+          router.push('/team');
+        }
       } finally {
         setIsLoading(false);
       }

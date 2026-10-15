@@ -1,3 +1,4 @@
+import type { Metadata } from 'next'
 import { Navigation } from '@/components/layout/navigation'
 import { Footer } from '@/components/layout/footer'
 import { HeroSection } from '@/components/sections/hero'
@@ -13,6 +14,14 @@ import { BlogPreviewSection } from '@/components/sections/blog-preview'
 import { TechStackSection } from '@/components/sections/tech-stack'
 import { CTASection } from '@/components/sections/cta'
 import { SmoothScrollProvider } from '@/components/providers/smooth-scroll-provider'
+
+export const metadata: Metadata = {
+  title: 'Meganods | Innovating the Future of Technology',
+  description: 'Meganods delivers cutting-edge AI technology, cloud computing, cybersecurity, and digital transformation services to empower businesses worldwide.',
+  alternates: {
+    canonical: 'https://www.meganods.com',
+  },
+}
 
 export default function HomePage() {
   return (

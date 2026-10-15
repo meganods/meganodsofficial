@@ -75,9 +75,11 @@ const processSteps = [
   },
 ]
 
+import { defaultServices } from "@/lib/data/services"
+
 export default function ServicesPage() {
-  const [services, setServices] = useState<any[]>([])
-  const [isLoading, setIsLoading] = useState(true)
+  const [services, setServices] = useState<any[]>(defaultServices)
+  const [isLoading, setIsLoading] = useState(false)
 
   useEffect(() => {
     const fetchServices = async () => {
@@ -85,17 +87,20 @@ export default function ServicesPage() {
         const q = query(
           collection(db, "services"), 
           where("isActive", "==", true),
-          orderBy("order", "asc"), 
-          orderBy("createdAt", "desc")
+          orderBy("order", "asc")
         );
         const querySnapshot = await getDocs(q);
-        const docs = querySnapshot.docs.map(doc => ({
-          id: doc.id,
-          ...doc.data()
-        }));
-        setServices(docs);
+        if (!querySnapshot.empty) {
+          const docs = querySnapshot.docs.map(doc => ({
+            id: doc.id,
+            ...doc.data()
+          }));
+          if (docs.length > 0) {
+            setServices(docs);
+          }
+        }
       } catch (error) {
-        console.error("SERVICE_FETCH_ERROR:", error);
+        console.warn("SERVICE_FETCH_FALLBACK_DEFAULT:", error);
       } finally {
         setIsLoading(false);
       }

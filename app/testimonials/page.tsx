@@ -26,22 +26,28 @@ import { Button } from "@/components/ui/button"
 import { db } from "@/lib/firebase";
 import { collection, getDocs, query, orderBy } from "firebase/firestore";
 
+import { defaultTestimonials } from "@/lib/data/testimonials"
+
 export default function TestimonialsPage() {
-  const [testimonials, setTestimonials] = useState<any[]>([])
-  const [isLoading, setIsLoading] = useState(true)
+  const [testimonials, setTestimonials] = useState<any[]>(defaultTestimonials)
+  const [isLoading, setIsLoading] = useState(false)
 
   useEffect(() => {
     const fetchTestimonials = async () => {
       try {
         const q = query(collection(db, "testimonials"), orderBy("createdAt", "desc"));
         const querySnapshot = await getDocs(q);
-        const docs = querySnapshot.docs.map(doc => ({
-          id: doc.id,
-          ...doc.data()
-        }));
-        setTestimonials(docs);
+        if (!querySnapshot.empty) {
+          const docs = querySnapshot.docs.map(doc => ({
+            id: doc.id,
+            ...doc.data()
+          }));
+          if (docs.length > 0) {
+            setTestimonials(docs);
+          }
+        }
       } catch (error) {
-        console.error("TESTIMONIALS_FETCH_ERROR:", error);
+        console.warn("TESTIMONIALS_FETCH_FALLBACK_DEFAULT:", error);
       } finally {
         setIsLoading(false);
       }
