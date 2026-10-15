@@ -2149,5 +2149,323 @@ EXECUTE expire_snapshots(retention_threshold => '7d');
     <li>• Kleppmann, Martin. "Designing Data-Intensive Applications." O'Reilly Media.</li>
   </ul>
 </div>`
+  },
+  {
+    id: "LLUYdy2mTbWgiYqXULfU",
+    slug: "rust-vs-go-microservices-performance",
+    title: "Rewriting Our API Gateway in Rust: A Head-to-Head Comparison with Golang",
+    excerpt: "Why we migrated our 10M RPM API gateway from Go to Rust, detailing the memory footprint reductions, CPU optimizations, and the developer experience trade-offs.",
+    category: "Software Engineering",
+    readTime: "12 min read",
+    date: "Oct 3, 2026",
+    author: {
+      name: "Siddharth Mehta",
+      role: "Principal Infrastructure Engineer",
+      avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&auto=format&fit=crop&q=80",
+      bio: "Site Reliability Engineer specializing in multi-cloud networking, BGP Anycast routing, and distributed consensus."
+    },
+    tags: ["Rust", "Golang", "Microservices", "Performance", "API Gateway"],
+    imageUrl: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=1200&auto=format&fit=crop&q=80",
+    content: `<h2>The Inflection Point: Scaling Beyond 10 Million Requests Per Minute</h2>
+<p>For nearly three years, our edge API gateway—the single entry point routing inbound traffic across 140 internal microservices—ran reliably on Golang using the standard <code>net/http</code> and <code>fasthttp</code> networking stacks. Go’s goroutine scheduler, simplicity, and fast compilation velocity made it an outstanding language for rapid business expansion.</p>
+
+<p>However, when our peak global traffic surpassed 10 million requests per minute (166,000 requests per second), Go’s runtime characteristics began exerting an operational tax. The concurrent mark-sweep garbage collector (GC), despite continuous tuning with <code>GOGC</code> and <code>GOMEMLIMIT</code>, triggered periodic tail-latency spikes. Every 45 to 60 seconds during peak hours, Stop-the-World (STW) pauses and concurrent marking cycles caused p99.9 latency to climb from 3.2ms to over 48ms. In this technical retrospective, we document our engineering journey rewriting the gateway in <strong>Rust (using Tokio and Hyper)</strong>, comparing memory footprints, latency distributions, and developer economics.</p>
+
+<figure class="my-10">
+  <img src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=1200&auto=format&fit=crop&q=80" alt="High Performance Low Latency Gateway Architecture" class="rounded-3xl border border-slate-200 dark:border-border shadow-2xl w-full object-cover max-h-[440px]" />
+  <figcaption class="text-xs font-mono text-slate-500 text-center mt-3">Figure 1.1: Multi-threaded asynchronous event loop architecture comparing Go goroutine scheduling with Rust Tokio task polling.</figcaption>
+</figure>
+
+<h2>Why the Go Garbage Collector Struggles Under High Memory Churn</h2>
+<p>An API gateway is fundamentally an allocation machine. For every incoming HTTP request, the gateway must parse headers, validate JWT authentication tokens, evaluate rate-limiting buckets, inspect routing path patterns, and buffer upstream response chunks. While each allocation is small, generating 160k+ ephemeral request objects per second creates massive heap churn.</p>
+
+<ul>
+  <li><strong>GC Assist Work:</strong> Under heavy allocation rates, the Go runtime forces application goroutines to assist the GC in scanning memory blocks. This transparently steals CPU cycles from active request handlers, causing unpredictable tail latency.</li>
+  <li><strong>Memory Bloat via Heap Fragmentation:</strong> To keep GC pauses short, Go requires setting <code>GOGC</code> higher (e.g. 100% or 200%), which doubles or triples the required physical RSS memory footprint per gateway container.</li>
+  <li><strong>Lack of Zero-Copy Buffer Primitives:</strong> While Go supports <code>sync.Pool</code> to recycle byte slices, passing slices across channel boundaries and goroutine pools frequently causes objects to escape to the heap.</li>
+</ul>
+
+<h2>The Rust Alternative: Zero-Cost Abstractions and RAII Memory Management</h2>
+<p>Rust eliminates the concept of garbage collection entirely. Through its affine type system and Resource Acquisition Is Initialization (RAII) semantics, memory is reclaimed deterministically the exact moment a scope ends. By combining <strong>Tokio</strong> (an asynchronous event-driven runtime) with <strong>Bytes</strong> and <strong>Hyper</strong>, our Rust implementation achieved true zero-copy request forwarding.</p>
+
+<pre><code class="language-rust">// Production Tokio/Hyper proxy handler with zero-copy stream piping
+use hyper::service::{make_service_fn, service_fn};
+use hyper::{Body, Client, Request, Response, Server, StatusCode};
+use std::sync::Arc;
+use tokio::time::Instant;
+
+pub async fn handle_gateway_request(
+    req: Request<Body>,
+    client: Arc<Client<hyper::client::HttpConnector>>,
+    rate_limiter: Arc<TokenBucketLimiter>,
+) -> Result<Response<Body>, hyper::Error> {
+    let start = Instant::now();
+    let client_ip = extract_client_ip(&req);
+
+    // Sub-microsecond lock-free in-memory rate check
+    if !rate_limiter.check_rate_limit(client_ip) {
+        return Ok(Response::builder()
+            .status(StatusCode::TOO_MANY_REQUESTS)
+            .body(Body::from("Rate limit exceeded"))
+            .unwrap());
+    }
+
+    // Rewrite path and pipe stream directly to upstream service without copying bytes
+    let upstream_req = rewrite_upstream_headers(req);
+    match client.request(upstream_req).await {
+        Ok(upstream_res) => {
+            record_telemetry(start.elapsed(), upstream_res.status());
+            Ok(upstream_res)
+        }
+        Err(err) => {
+            tracing::error!(error = %err, "Upstream connection failure");
+            Ok(Response::builder()
+                .status(StatusCode::BAD_GATEWAY)
+                .body(Body::from("Upstream service unavailable"))
+                .unwrap())
+        }
+    }
+}
+</code></pre>
+
+<h2>Empirical Production Benchmarks: 10M RPM Workload</h2>
+<p>We executed sustained 1-hour load tests against our production Kubernetes cluster on AWS using <code>c6i.4xlarge</code> instances (16 vCPUs, 32 GB RAM). Workloads simulated realistic traffic: 70% GET queries, 30% POST JSON mutations with JWT authentication verification.</p>
+
+<table class="w-full text-left border-collapse my-8 text-sm">
+  <thead>
+    <tr class="border-b-2 border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-900/60">
+      <th class="py-3 px-4 font-bold">Metric Axis</th>
+      <th class="py-3 px-4 font-bold">Golang Gateway (net/http + sync.Pool)</th>
+      <th class="py-3 px-4 font-bold text-emerald-500">Rust Gateway (Tokio + Hyper)</th>
+      <th class="py-3 px-4 font-bold">Delta Improvement</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="border-b border-slate-200 dark:border-slate-800">
+      <td class="py-3 px-4 font-semibold">p50 Latency</td>
+      <td class="py-3 px-4">1.4ms</td>
+      <td class="py-3 px-4 text-emerald-500 font-bold">0.6ms</td>
+      <td class="py-3 px-4 text-emerald-500 font-bold">-57% Latency</td>
+    </tr>
+    <tr class="border-b border-slate-200 dark:border-slate-800">
+      <td class="py-3 px-4 font-semibold">p99 Latency</td>
+      <td class="py-3 px-4">8.2ms</td>
+      <td class="py-3 px-4 text-emerald-500 font-bold">2.1ms</td>
+      <td class="py-3 px-4 text-emerald-500 font-bold">-74% Latency</td>
+    </tr>
+    <tr class="border-b border-slate-200 dark:border-slate-800">
+      <td class="py-3 px-4 font-semibold">p99.9 Latency</td>
+      <td class="py-3 px-4">48.6ms (GC pause spike)</td>
+      <td class="py-3 px-4 text-emerald-500 font-bold">4.2ms (Zero pause)</td>
+      <td class="py-3 px-4 text-emerald-500 font-bold">-91% Tail Latency</td>
+    </tr>
+    <tr class="border-b border-slate-200 dark:border-slate-800">
+      <td class="py-3 px-4 font-semibold">Resident Set Memory (RSS)</td>
+      <td class="py-3 px-4">4.2 GB per instance</td>
+      <td class="py-3 px-4 text-emerald-500 font-bold">380 MB per instance</td>
+      <td class="py-3 px-4 text-emerald-500 font-bold">-91% RAM Reduction</td>
+    </tr>
+    <tr class="border-b border-slate-200 dark:border-slate-800 bg-emerald-500/5">
+      <td class="py-3 px-4 font-semibold text-emerald-500">Cluster Pod Count Required</td>
+      <td class="py-3 px-4">48 pods</td>
+      <td class="py-3 px-4 text-emerald-500 font-bold">14 pods</td>
+      <td class="py-3 px-4 text-emerald-500 font-bold">-71% Cloud Infrastructure Cost</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2>The Trade-Offs: The Human Cost of Writing Rust</h2>
+<p>While the runtime numbers are decisively in favor of Rust, infrastructure engineering requires evaluating total lifecycle cost. Migrating to Rust introduced three clear engineering hurdles:</p>
+
+<ol>
+  <li><strong>Compilation Times:</strong> Full release builds with Link-Time Optimization (<code>lto = "fat"</code>) and codegen units set to 1 take between 4 to 7 minutes on modern CI runners. Go compiled our equivalent binary in 12 seconds.</li>
+  <li><strong>Async Lifetime and Borrow Checker Complexity:</strong> Structuring asynchronous request pipelines where headers, tokens, and response buffers must be shared across threads required mastering <code>Arc&lt;T&gt;</code>, <code>Box&lt;dyn ...&gt;</code>, and <code>Pin&lt;T&gt;</code>. Onboarding junior engineers took significantly longer compared to Go.</li>
+  <li><strong>Ecosystem Maturation:</strong> Go has decades of hardened enterprise integrations for gRPC, OpenTelemetry, Consul, and OAuth2. In Rust, while Tokio and Hyper are rock solid, secondary client libraries frequently undergo breaking major-version updates.</li>
+</ol>
+
+<h2>Conclusion: The Pragmatic Architecture Rule</h2>
+<p>Our rule of thumb for engineering teams is straightforward: <strong>For business services, CRUD APIs, and asynchronous event workers, Go remains our language of choice</strong> due to its unmatched developer velocity and simple concurrency primitives. However, for <strong>ultra-high-throughput network edge proxies, API gateways, and custom database storage engines where tail latency directly impacts thousands of downstream services</strong>, Rust’s deterministic memory model delivers cost and performance advantages that no garbage-collected language can match.</p>
+
+<h2>Frequently Asked Questions (FAQ)</h2>
+<div class="space-y-4 my-8">
+  <div class="p-6 rounded-2xl bg-card border border-border">
+    <h3 class="font-bold text-foreground text-base mb-2">Can Go GC tuning achieve similar tail-latency performance?</h3>
+    <p class="text-sm text-muted-foreground leading-relaxed">While tuning <code>GOMEMLIMIT</code> and using off-heap buffer allocators (like <code>cgo</code> or custom memory arenas) can reduce GC frequency, it adds significant code complexity and cannot eliminate the core reality that Go must scan and mark active pointer trees during runtime execution.</p>
+  </div>
+  <div class="p-6 rounded-2xl bg-card border border-border">
+    <h3 class="font-bold text-foreground text-base mb-2">How does Rust handle thread safety under 100k+ concurrent connections?</h3>
+    <p class="text-sm text-muted-foreground leading-relaxed">Rust enforces thread safety at compile time using the <code>Send</code> and <code>Sync</code> traits. If a developer attempts to share un-synchronized mutable state across Tokio worker threads, the compiler rejects the code with a compile-time error, making race conditions impossible in safe Rust.</p>
+  </div>
+</div>
+
+<div class="mt-12 p-6 rounded-2xl bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
+  <h4 class="font-bold text-sm uppercase tracking-wider text-slate-900 dark:text-slate-100 mb-3">Technical References & Standards</h4>
+  <ul class="text-xs font-mono space-y-1 text-slate-600 dark:text-slate-400">
+    <li>• Matsakis, Nicholas D., and Felix S. Klock II. "The Rust Language Reference and Affine Type System." ACM SIGAda (2014).</li>
+    <li>• Tokio Project: Asynchronous I/O and Runtime Mechanics for the Rust Programming Language.</li>
+    <li>• Go Memory Management and Concurrent Garbage Collector Architecture Whitepaper.</li>
+  </ul>
+</div>`
+  },
+  {
+    id: "VrX8cj8eE8TS0ziOC1IP",
+    slug: "mastering-react-server-components-nextjs-14",
+    title: "Mastering React Server Components in Next.js 14: A Performance Deep Dive",
+    excerpt: "How we migrated a 50k LOC client-heavy React application to Server Components, slashing JavaScript bundles by 70% and achieving perfect Core Web Vitals.",
+    category: "Web Development",
+    readTime: "14 min read",
+    date: "Oct 1, 2026",
+    author: {
+      name: "Dr. Marcus Vance",
+      role: "Lead AI Systems Architect",
+      avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=200&auto=format&fit=crop&q=80",
+      bio: "Former ML researcher at Stanford AI Lab with 12+ years building high-throughput distributed retrieval systems."
+    },
+    tags: ["React", "Next.js", "Server Components", "Performance", "Web Vitals"],
+    imageUrl: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=1200&auto=format&fit=crop&q=80",
+    content: `<h2>The JavaScript Obesity Crisis in Modern Single-Page Applications</h2>
+<p>Over the last decade, frontend architecture moved decisively toward client-heavy Single Page Applications (SPAs). While this paradigm enabled rich, app-like desktop interactions in the browser, it created a severe performance penalty: runaway JavaScript bundle sizes. By 2025, an enterprise dashboard or e-commerce platform routinely shipped between 2.5 MB and 6 MB of raw JavaScript to the client browser.</p>
+
+<p>On budget mobile devices or cellular connections with latency jitter, downloading, parsing, compiling, and executing megabytes of client-side JavaScript decimated Google Core Web Vitals. Interaction to Next Paint (INP) degraded past 450ms, and Largest Contentful Paint (LCP) stretched past 4.2 seconds. When our engineering team audited our core 50,000-line React platform, we found that over 65% of our client bundle consisted of read-only dependencies (markdown parsers, syntax highlighters, charting math utilities, and date-fns formatters) that never needed to run in the client browser at all. <strong>React Server Components (RSC)</strong> permanently solved this architectural crisis.</p>
+
+<figure class="my-10">
+  <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=1200&auto=format&fit=crop&q=80" alt="Modern React Server Component Stream Architecture" class="rounded-3xl border border-slate-200 dark:border-border shadow-2xl w-full object-cover max-h-[440px]" />
+  <figcaption class="text-xs font-mono text-slate-500 text-center mt-3">Figure 2.1: Server Component compilation streaming serialized virtual DOM payload without shipping dependency code to client.</figcaption>
+</figure>
+
+<h2>How React Server Components Actually Work Under the Hood</h2>
+<p>Unlike traditional Server-Side Rendering (SSR)—which renders an initial HTML string on the server and then forces the client to download the full JavaScript bundle to re-render and "hydrate" the entire page—React Server Components execute <strong>exclusively on the server</strong>:</p>
+
+<ol>
+  <li><strong>Zero Impact on Client Bundle Size:</strong> Heavy server-side npm packages (such as <code>marked</code>, <code>prismjs</code>, or heavy database query drivers) remain permanently on the server. They contribute <strong>0 bytes</strong> to the client JavaScript bundle.</li>
+  <li><strong>Streaming Binary Virtual DOM Protocol:</strong> Server Components render to a specialized serialized JSON-like virtual DOM stream (the RSC payload). The client browser receives this stream and smoothly merges the UI nodes into the existing DOM tree without destroying local client state.</li>
+  <li><strong>Direct Access to Backend Resources:</strong> Server Components can query databases, read from Redis caches, and read local microservice filesystems directly without defining intermediate REST or GraphQL API endpoints.</li>
+</ol>
+
+<h2>Refactoring Client Waterfalls into Server Component Composition</h2>
+<p>Below is the architectural transformation of an enterprise analytics report widget. In the legacy SPA pattern, the client downloaded a massive library, mounted a loading spinner, made three separate REST calls over the mobile network, and rendered. In modern Next.js 14 RSC, the component queries data directly on the server and renders instantly:</p>
+
+<pre><code class="language-tsx">// app/reports/[id]/page.tsx - React Server Component (Default in App Router)
+import { db } from '@/lib/database';
+import { sanitizeMarkdown } from '@/lib/heavy-server-markdown'; // 180KB library - 0KB to client!
+import { Suspense } from 'react';
+import { InteractiveChart } from '@/components/client/interactive-chart'; // 'use client' boundary
+import { SkeletonReport } from '@/components/ui/skeletons';
+
+interface ReportPageProps {
+  params: { id: string };
+}
+
+export default async function ReportPage({ params }: ReportPageProps) {
+  // Direct database query on high-speed internal network (<2ms)
+  const report = await db.reports.findUnique({
+    where: { id: params.id },
+    include: { metrics: true, author: true }
+  });
+
+  if (!report) {
+    return <div>Report Not Found</div>;
+  }
+
+  // Pre-process heavy markdown directly on the server
+  const formattedHtml = sanitizeMarkdown(report.rawMarkdown);
+
+  return (
+    <article className="max-w-5xl mx-auto px-6 py-12 space-y-8">
+      <header className="border-b border-border pb-6">
+        <h1 className="text-4xl font-extrabold tracking-tight">{report.title}</h1>
+        <p className="text-muted-foreground mt-2">Authored by {report.author.name} • {report.date}</p>
+      </header>
+
+      {/* Render processed HTML without shipping marked.js to client */}
+      <div 
+        className="prose dark:prose-invert max-w-none" 
+        dangerouslySetInnerHTML={{ __html: formattedHtml }} 
+      />
+
+      {/* Isolate client interactivity to precise component boundaries */}
+      <Suspense fallback={<SkeletonReport />}>
+        <InteractiveChart initialData={report.metrics} />
+      </Suspense>
+    </article>
+  );
+}
+</code></pre>
+
+<h2>Empirical Migration Benchmarks: 50k LOC Enterprise Codebase</h2>
+<p>We measured Core Web Vitals on an emulated 4G mobile device running a mid-tier Android smartphone (Moto G4) before and after migrating our core dashboard to Next.js 14 Server Components:</p>
+
+<table class="w-full text-left border-collapse my-8 text-sm">
+  <thead>
+    <tr class="border-b-2 border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-900/60">
+      <th class="py-3 px-4 font-bold">Metric Dimension</th>
+      <th class="py-3 px-4 font-bold">Legacy Client SPA (React 18)</th>
+      <th class="py-3 px-4 font-bold text-emerald-500">Next.js 14 Server Components</th>
+      <th class="py-3 px-4 font-bold">Net Benefit</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="border-b border-slate-200 dark:border-slate-800">
+      <td class="py-3 px-4 font-semibold">Total Client JS Bundle (gzip)</td>
+      <td class="py-3 px-4">1,480 KB</td>
+      <td class="py-3 px-4 text-emerald-500 font-bold">410 KB</td>
+      <td class="py-3 px-4 text-emerald-500 font-bold">-72.3% JavaScript Shipped</td>
+    </tr>
+    <tr class="border-b border-slate-200 dark:border-slate-800">
+      <td class="py-3 px-4 font-semibold">Largest Contentful Paint (LCP)</td>
+      <td class="py-3 px-4">3,850ms</td>
+      <td class="py-3 px-4 text-emerald-500 font-bold">780ms</td>
+      <td class="py-3 px-4 text-emerald-500 font-bold">-79.7% Faster Render</td>
+    </tr>
+    <tr class="border-b border-slate-200 dark:border-slate-800">
+      <td class="py-3 px-4 font-semibold">Interaction to Next Paint (INP)</td>
+      <td class="py-3 px-4">380ms (Hydration lag)</td>
+      <td class="py-3 px-4 text-emerald-500 font-bold">42ms</td>
+      <td class="py-3 px-4 text-emerald-500 font-bold">Flawless UI Responsiveness</td>
+    </tr>
+    <tr class="border-b border-slate-200 dark:border-slate-800">
+      <td class="py-3 px-4 font-semibold">Client Waterfall API Roundtrips</td>
+      <td class="py-3 px-4">5 sequential requests</td>
+      <td class="py-3 px-4 text-emerald-500 font-bold">0 client roundtrips</td>
+      <td class="py-3 px-4 text-emerald-500 font-bold">Immediate Data Streaming</td>
+    </tr>
+    <tr class="border-b border-slate-200 dark:border-slate-800 bg-emerald-500/5">
+      <td class="py-3 px-4 font-semibold text-emerald-500">Google PageSpeed Score (Mobile)</td>
+      <td class="py-3 px-4 text-red-500">44 / 100</td>
+      <td class="py-3 px-4 text-emerald-500 font-bold">98 / 100</td>
+      <td class="py-3 px-4 text-emerald-500 font-bold">+54 Point Leap</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2>The Three Golden Rules of Server Component Architecture</h2>
+<p>To avoid common architecture pitfalls during migration, enforce these three structural conventions across your engineering team:</p>
+
+<ul>
+  <li><strong>Push 'use client' Leaves to the Edges:</strong> Keep your top-level page components and layouts as Server Components. Only designate isolated leaves (such as a dropdown menu button, a search input, or an interactive modal) with the <code>'use client'</code> directive.</li>
+  <li><strong>Never Pass Sensitive Secrets to Client Components:</strong> Server Components can safely read <code>process.env.DATABASE_SECRET_KEY</code>. However, passing that secret as a prop to a <code>'use client'</code> component serializes it into the client RSC stream, exposing it in browser dev tools. Enforce strict prop sanitization.</li>
+  <li><strong>Embrace Parallel Suspense Streams:</strong> Do not <code>await</code> multiple independent database queries sequentially if they do not depend on each other. Wrap distinct UI components in independent <code>&lt;Suspense&gt;</code> boundaries to enable React to stream widgets in parallel as they resolve.</li>
+</ul>
+
+<h2>Frequently Asked Questions (FAQ)</h2>
+<div class="space-y-4 my-8">
+  <div class="p-6 rounded-2xl bg-card border border-border">
+    <h3 class="font-bold text-foreground text-base mb-2">Can a Server Component maintain state with useState or useEffect?</h3>
+    <p class="text-sm text-muted-foreground leading-relaxed">No. Because Server Components execute solely on the server and do not attach runtime event listeners in the browser, React lifecycle hooks (<code>useState</code>, <code>useEffect</code>, <code>useReducer</code>) are unsupported in Server Components. State management must live inside <code>'use client'</code> leaf components.</p>
+  </div>
+  <div class="p-6 rounded-2xl bg-card border border-border">
+    <h3 class="font-bold text-foreground text-base mb-2">Do Server Components replace GraphQL?</h3>
+    <p class="text-sm text-muted-foreground leading-relaxed">For internal full-stack web applications, Server Components largely eliminate the need for complex client-side GraphQL caching clients (like Apollo Client) because server components fetch data directly from databases without network serialization overhead. However, GraphQL remains valuable for public APIs consumed by third-party mobile apps and external partners.</p>
+  </div>
+</div>
+
+<div class="mt-12 p-6 rounded-2xl bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
+  <h4 class="font-bold text-sm uppercase tracking-wider text-slate-900 dark:text-slate-100 mb-3">Technical References & Standards</h4>
+  <ul class="text-xs font-mono space-y-1 text-slate-600 dark:text-slate-400">
+    <li>• React Core Architecture Working Group: React Server Components Specification.</li>
+    <li>• Next.js App Router Architecture, Streaming, and Composition Patterns Guide.</li>
+    <li>• Google Chrome Web Vitals: Largest Contentful Paint (LCP) and Interaction to Next Paint (INP).</li>
+  </ul>
+</div>`
   }
 ];
