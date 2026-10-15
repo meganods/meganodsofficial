@@ -166,6 +166,75 @@ export default function TestimonialsPage() {
           </div>
         </section>
 
+        {/* Quality Assurance & Verification Standards Section */}
+        <section className="py-24 relative z-10 px-6 border-t border-white/5 bg-white/[0.01]">
+          <div className="container mx-auto max-w-7xl">
+            <div className="text-center max-w-3xl mx-auto mb-16">
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-500/10 text-emerald-400 font-mono text-[10px] uppercase tracking-[0.3em] font-bold mb-4">
+                <ShieldCheck className="w-3.5 h-3.5" /> Quality Assurance Protocol
+              </div>
+              <h2 className="text-3xl md:text-5xl font-black text-white tracking-tight uppercase">
+                How We Guarantee Client Success
+              </h2>
+              <p className="text-white/50 text-sm md:text-base mt-4 leading-relaxed font-normal">
+                Every testimonial represents a verified production rollout backed by deterministic service level agreements, transparent milestones, and enterprise security compliance.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+              <div className="p-8 rounded-3xl bg-white/[0.02] border border-white/5 hover:border-indigo-500/30 transition-all">
+                <div className="w-12 h-12 rounded-2xl bg-indigo-500/10 text-indigo-400 flex items-center justify-center font-mono font-black text-base mb-6">
+                  01
+                </div>
+                <h3 className="text-xl font-bold text-white mb-3">Milestone-Based Acceptance</h3>
+                <p className="text-white/60 text-sm leading-relaxed">
+                  We operate strictly under objective acceptance criteria. Invoices and phase transitions are tied directly to demonstrable software deliverables verified in isolated staging environments.
+                </p>
+              </div>
+
+              <div className="p-8 rounded-3xl bg-white/[0.02] border border-white/5 hover:border-emerald-500/30 transition-all">
+                <div className="w-12 h-12 rounded-2xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center font-mono font-black text-base mb-6">
+                  02
+                </div>
+                <h3 className="text-xl font-bold text-white mb-3">Automated Security Auditing</h3>
+                <p className="text-white/60 text-sm leading-relaxed">
+                  Before any deployment touches production, our automated pipelines execute end-to-end vulnerability scanning, dependency auditing, and strict zero-trust network access validation.
+                </p>
+              </div>
+
+              <div className="p-8 rounded-3xl bg-white/[0.02] border border-white/5 hover:border-blue-500/30 transition-all">
+                <div className="w-12 h-12 rounded-2xl bg-blue-500/10 text-blue-400 flex items-center justify-center font-mono font-black text-base mb-6">
+                  03
+                </div>
+                <h3 className="text-xl font-bold text-white mb-3">Enterprise SLA Support</h3>
+                <p className="text-white/60 text-sm leading-relaxed">
+                  Our engagement does not end at deployment. We provide multi-tier incident support, sub-hour emergency response times, and automated uptime telemetry monitoring.
+                </p>
+              </div>
+            </div>
+
+            {/* Empirical Satisfaction Metrics */}
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-6 p-8 rounded-3xl bg-white/[0.02] border border-white/5 text-center">
+              <div>
+                <div className="text-3xl lg:text-4xl font-black text-white mb-1">98.4%</div>
+                <div className="text-xs font-mono uppercase tracking-widest text-indigo-400">Client Retention</div>
+              </div>
+              <div>
+                <div className="text-3xl lg:text-4xl font-black text-white mb-1">50+</div>
+                <div className="text-xs font-mono uppercase tracking-widest text-emerald-400">Systems Shipped</div>
+              </div>
+              <div>
+                <div className="text-3xl lg:text-4xl font-black text-white mb-1">&lt; 1 Hour</div>
+                <div className="text-xs font-mono uppercase tracking-widest text-cyan-400">SLA Response</div>
+              </div>
+              <div>
+                <div className="text-3xl lg:text-4xl font-black text-white mb-1">100%</div>
+                <div className="text-xs font-mono uppercase tracking-widest text-amber-400">Verified NDA</div>
+              </div>
+            </div>
+          </div>
+        </section>
+
         {/* Cinematic CTA */}
         <section className="py-40 relative z-10 px-6">
            <div className="container mx-auto max-w-5xl">

@@ -316,6 +316,105 @@ export default function ContactPage() {
             </motion.div>
 
           </div>
+
+          {/* Enterprise Consultation & Engagement Process Section */}
+          <div className="mt-20 pt-16 border-t border-slate-200 dark:border-white/10">
+            <div className="text-center max-w-3xl mx-auto mb-14">
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 font-mono text-[10px] uppercase tracking-[0.3em] font-bold mb-4">
+                <Shield className="w-3.5 h-3.5" /> Structured Delivery Roadmap
+              </div>
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-black text-slate-900 dark:text-white tracking-tight uppercase">
+                Enterprise Engagement Lifecycle
+              </h2>
+              <p className="text-slate-600 dark:text-white/50 text-sm sm:text-base mt-3 leading-relaxed">
+                From initial technical discovery to global production deployment, every project follows our verified four-stage engineering methodology.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-16">
+              <div className="p-6 rounded-2xl bg-white dark:bg-white/[0.02] border border-slate-200 dark:border-white/10 shadow-sm">
+                <div className="w-10 h-10 rounded-xl bg-indigo-500/10 text-indigo-500 dark:text-indigo-400 font-mono font-black flex items-center justify-center text-sm mb-4">
+                  01
+                </div>
+                <h3 className="font-bold text-slate-900 dark:text-white text-base mb-2">Technical Discovery</h3>
+                <p className="text-slate-600 dark:text-white/60 text-xs sm:text-sm leading-relaxed">
+                  We review your business goals, current tech stack, performance bottlenecks, and compliance requirements under a mutual Non-Disclosure Agreement (NDA).
+                </p>
+              </div>
+
+              <div className="p-6 rounded-2xl bg-white dark:bg-white/[0.02] border border-slate-200 dark:border-white/10 shadow-sm">
+                <div className="w-10 h-10 rounded-xl bg-emerald-500/10 text-emerald-500 dark:text-emerald-400 font-mono font-black flex items-center justify-center text-sm mb-4">
+                  02
+                </div>
+                <h3 className="font-bold text-slate-900 dark:text-white text-base mb-2">System Architecture</h3>
+                <p className="text-slate-600 dark:text-white/60 text-xs sm:text-sm leading-relaxed">
+                  Our systems architects draft an actionable technical blueprint detailing data schemas, API contracts, cloud topologies, and milestone milestones.
+                </p>
+              </div>
+
+              <div className="p-6 rounded-2xl bg-white dark:bg-white/[0.02] border border-slate-200 dark:border-white/10 shadow-sm">
+                <div className="w-10 h-10 rounded-xl bg-cyan-500/10 text-cyan-500 dark:text-cyan-400 font-mono font-black flex items-center justify-center text-sm mb-4">
+                  03
+                </div>
+                <h3 className="font-bold text-slate-900 dark:text-white text-base mb-2">Agile Sprint Delivery</h3>
+                <p className="text-slate-600 dark:text-white/60 text-xs sm:text-sm leading-relaxed">
+                  Bi-weekly sprint demos with automated CI/CD staging environments. Clients maintain real-time visibility into GitHub commits and ticket progression.
+                </p>
+              </div>
+
+              <div className="p-6 rounded-2xl bg-white dark:bg-white/[0.02] border border-slate-200 dark:border-white/10 shadow-sm">
+                <div className="w-10 h-10 rounded-xl bg-amber-500/10 text-amber-500 dark:text-amber-400 font-mono font-black flex items-center justify-center text-sm mb-4">
+                  04
+                </div>
+                <h3 className="font-bold text-slate-900 dark:text-white text-base mb-2">Production Ramp & SLA</h3>
+                <p className="text-slate-600 dark:text-white/60 text-xs sm:text-sm leading-relaxed">
+                  Zero-downtime deployment, automated observability instrumentation, and dedicated 24/7 incident response SLA coverage for critical enterprise systems.
+                </p>
+              </div>
+            </div>
+
+            {/* Frequently Asked Questions */}
+            <div className="max-w-4xl mx-auto mt-16">
+              <div className="text-center mb-10">
+                <h3 className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white uppercase tracking-tight">
+                  Frequently Asked Questions
+                </h3>
+                <p className="text-slate-600 dark:text-white/50 text-xs sm:text-sm mt-1">
+                  Common inquiries regarding our engagement terms, response guarantees, and confidentiality.
+                </p>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="p-5 rounded-2xl bg-white dark:bg-white/[0.02] border border-slate-200 dark:border-white/10">
+                  <h4 className="font-bold text-sm text-slate-900 dark:text-white mb-2">How quickly can we expect a consultation response?</h4>
+                  <p className="text-xs sm:text-sm text-slate-600 dark:text-white/60 leading-relaxed">
+                    Our technical leads review inbound inquiries within 2 business hours. If an inquiry meets our project scope, an initial 30-minute architectural discovery call is scheduled within 24 hours.
+                  </p>
+                </div>
+
+                <div className="p-5 rounded-2xl bg-white dark:bg-white/[0.02] border border-slate-200 dark:border-white/10">
+                  <h4 className="font-bold text-sm text-slate-900 dark:text-white mb-2">Can we execute a Non-Disclosure Agreement (NDA)?</h4>
+                  <p className="text-xs sm:text-sm text-slate-600 dark:text-white/60 leading-relaxed">
+                    Yes. We routinely execute standard bilateral or enterprise-specific NDAs prior to receiving source code, proprietary algorithms, database schemas, or business operational documentation.
+                  </p>
+                </div>
+
+                <div className="p-5 rounded-2xl bg-white dark:bg-white/[0.02] border border-slate-200 dark:border-white/10">
+                  <h4 className="font-bold text-sm text-slate-900 dark:text-white mb-2">What flexible engagement models are available?</h4>
+                  <p className="text-xs sm:text-sm text-slate-600 dark:text-white/60 leading-relaxed">
+                    We offer three primary engagement models: Fixed-Price Milestone Contracts (ideal for defined MVPs and migrations), Dedicated Engineering Pods (monthly retainer for ongoing feature velocity), and Strategic Advisory Retainers.
+                  </p>
+                </div>
+
+                <div className="p-5 rounded-2xl bg-white dark:bg-white/[0.02] border border-slate-200 dark:border-slate-800">
+                  <h4 className="font-bold text-sm text-slate-900 dark:text-white mb-2">Do you support international clients across time zones?</h4>
+                  <p className="text-xs sm:text-sm text-slate-600 dark:text-white/60 leading-relaxed">
+                    Yes. We actively serve enterprise clients across North America (EST/PST), Europe (GMT/CET), the Middle East (GST), and Asia-Pacific (SGT). We provide daily 4-hour synchronous working overlap regardless of geography.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
 
       </main>
