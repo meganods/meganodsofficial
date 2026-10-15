@@ -63,10 +63,17 @@ export default function BlogPage() {
             id: doc.id,
             ...doc.data()
           }));
-          // Merge dynamic Firestore blogs with default high-quality static articles
+          // Merge dynamic Firestore blogs with default high-quality static articles, upgrading any thin content
+          const merged = docs.map((d: any) => {
+            const def = defaultBlogs.find(b => b.slug === d.slug || b.id === d.id);
+            if (def && (!d.content || d.content.length < def.content.length)) {
+              return { ...d, ...def };
+            }
+            return d;
+          });
           const existingSlugs = new Set(docs.map((d: any) => d.slug || d.id));
-          const merged = [...docs, ...defaultBlogs.filter(b => !existingSlugs.has(b.slug) && !existingSlugs.has(b.id))];
-          setBlogs(merged);
+          const finalBlogs = [...merged, ...defaultBlogs.filter(b => !existingSlugs.has(b.slug) && !existingSlugs.has(b.id))];
+          setBlogs(finalBlogs);
         }
       } catch (error) {
         console.error("BLOG_FETCH_ERROR:", error);

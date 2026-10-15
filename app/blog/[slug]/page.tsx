@@ -38,11 +38,11 @@ async function getBlogPost(slug: string) {
       }
     }
 
-    // Fallback to rich static humanized articles
-    if (!postData) {
-      const localPost = defaultBlogs.find((b) => b.slug === slug || b.id === slug)
-      if (localPost) {
-        postData = { ...localPost }
+    // Fallback or upgrade to rich high-value technical articles
+    const localPost = defaultBlogs.find((b) => b.slug === slug || b.id === slug)
+    if (localPost) {
+      if (!postData || !postData.content || postData.content.length < localPost.content.length) {
+        postData = { ...(postData || {}), ...localPost }
       }
     }
 
