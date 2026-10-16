@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'Enterprise Software Company & IT Solutions | Web Development Company | Meganods',
+  title: 'Enterprise Software Company & IT Solutions | Web Development Company',
   description: 'Meganods is a premier enterprise software company and IT company in India. We specialize in custom software development, full-stack web development, mobile apps, enterprise AI, cloud architecture, and cybersecurity.',
   keywords: [
     // High-Priority Commercial Buyer Keywords (Top Priority)
