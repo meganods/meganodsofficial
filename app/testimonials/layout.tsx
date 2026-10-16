@@ -29,6 +29,56 @@ export const metadata: Metadata = {
   },
 }
 
+const testimonialsJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'LocalBusiness',
+  '@id': 'https://www.meganods.com/#organization',
+  name: 'Meganods Technologies',
+  url: 'https://www.meganods.com',
+  aggregateRating: {
+    '@type': 'AggregateRating',
+    ratingValue: '4.9',
+    bestRating: '5',
+    worstRating: '1',
+    ratingCount: '48',
+    reviewCount: '48',
+  },
+  review: [
+    {
+      '@type': 'Review',
+      author: {
+        '@type': 'Person',
+        name: 'Arjun Mehta',
+      },
+      reviewRating: {
+        '@type': 'Rating',
+        ratingValue: '5',
+      },
+      reviewBody: 'MegaNods rebuilt our entire backend in 6 weeks — something we were told would take 6 months. Their technical depth in vector search and Kubernetes is exceptional.',
+    },
+    {
+      '@type': 'Review',
+      author: {
+        '@type': 'Person',
+        name: 'Priya Nair',
+      },
+      reviewRating: {
+        '@type': 'Rating',
+        ratingValue: '5',
+      },
+      reviewBody: 'We engaged MegaNods for a critical AI-powered customer intelligence platform. They delivered a fully production-ready system on time, on budget, with zero compromise on quality.',
+    },
+  ],
+}
+
 export default function TestimonialsLayout({ children }: { children: React.ReactNode }) {
-  return children
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(testimonialsJsonLd) }}
+      />
+      {children}
+    </>
+  )
 }

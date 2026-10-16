@@ -10,6 +10,7 @@ export async function GET() {
       'Content-Type': 'text/plain; charset=utf-8',
       'Access-Control-Allow-Origin': '*',
       'Cache-Control': 'public, max-age=3600, s-maxage=3600, stale-while-revalidate=86400',
+      'X-Robots-Tag': 'noindex',
     },
   })
 }

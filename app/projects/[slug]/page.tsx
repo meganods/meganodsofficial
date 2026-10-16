@@ -102,6 +102,12 @@ export default async function ProjectDetailPage({ params }: PageProps) {
   let creativeWorkSchema: any = null
   if (project) {
     const pageUrl = `https://www.meganods.com/projects/${encodeURIComponent(slug)}`
+    const heroImgUrl = project.heroImage
+      ? project.heroImage.startsWith('http')
+        ? project.heroImage
+        : `https://www.meganods.com${project.heroImage.startsWith('/') ? '' : '/'}${project.heroImage}`
+      : 'https://www.meganods.com/og-image.jpg'
+
     creativeWorkSchema = {
       '@context': 'https://schema.org',
       '@type': 'CreativeWork',
@@ -112,7 +118,7 @@ export default async function ProjectDetailPage({ params }: PageProps) {
       name: project.title,
       headline: project.title,
       description: project.description || project.tagline,
-      image: project.heroImage ? [`https://www.meganods.com${project.heroImage.startsWith('/') ? '' : '/'}${project.heroImage}`] : ['https://www.meganods.com/og-image.jpg'],
+      image: [heroImgUrl],
       creator: {
         '@type': 'Organization',
         name: 'Meganods',
