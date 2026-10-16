@@ -30,20 +30,30 @@ export function HeroSection() {
     video.volume = 1.0
     video.playsInline = true
 
-    const playPromise = video.play()
-    if (playPromise !== undefined) {
-      playPromise
-        .then(() => {
-          setIsMuted(false)
-        })
-        .catch(() => {
-          // If browser autoplay policy blocks unmuted audio on load, fallback to muted playback
-          if (videoRef.current) {
-            videoRef.current.muted = true
-            videoRef.current.play().catch(() => {})
-          }
-          setIsMuted(true)
-        })
+    let playTimer: ReturnType<typeof setTimeout>
+    const startPlayback = () => {
+      const playPromise = video.play()
+      if (playPromise !== undefined) {
+        playPromise
+          .then(() => {
+            setIsMuted(false)
+          })
+          .catch(() => {
+            // If browser autoplay policy blocks unmuted audio on load, fallback to muted playback
+            if (videoRef.current) {
+              videoRef.current.muted = true
+              videoRef.current.play().catch(() => {})
+            }
+            setIsMuted(true)
+          })
+      }
+    }
+
+    // Defer video stream slightly to prioritize critical above-the-fold paint and optimal LCP
+    if (typeof window !== 'undefined' && 'requestIdleCallback' in window) {
+      window.requestIdleCallback(() => startPlayback(), { timeout: 1200 })
+    } else {
+      playTimer = setTimeout(startPlayback, 400)
     }
 
     // Unmute automatically on first genuine user interaction if initially restricted by browser
@@ -78,6 +88,7 @@ export function HeroSection() {
     window.addEventListener('keydown', handleFirstInteraction, { once: true, passive: true })
 
     return () => {
+      clearTimeout(playTimer)
       cleanupListeners()
     }
   }, [])
@@ -299,11 +310,10 @@ export function HeroSection() {
                   ref={videoRef}
                   src="/hero-video.mp4"
                   poster="/robot-hero.jpg"
-                  autoPlay
                   loop
                   muted={isMuted}
                   playsInline
-                  preload="metadata"
+                  preload="none"
                   className="w-full h-auto aspect-[16/9] object-cover block"
                   aria-label="Meganods intelligent enterprise platform preview"
                 >
@@ -347,7 +357,7 @@ export function HeroSection() {
               <div className="w-12 h-12 rounded-xl bg-indigo-50 border border-indigo-100 flex items-center justify-center text-indigo-600 mb-4 group-hover:scale-110 group-hover:bg-indigo-600 group-hover:text-white transition-all duration-300">
                 <Cpu className="w-6 h-6" />
               </div>
-              <h3 className="text-base font-bold text-slate-900 mb-1">AI & Neural Systems</h3>
+              <h2 className="text-base font-bold text-slate-900 mb-1">AI & Neural Systems</h2>
               <p className="text-xs text-slate-500 font-medium leading-relaxed">
                 Autonomous cognitive agents, custom LLM fine-tuning, and scalable neural inference.
               </p>
@@ -357,7 +367,7 @@ export function HeroSection() {
               <div className="w-12 h-12 rounded-xl bg-indigo-50 border border-indigo-100 flex items-center justify-center text-indigo-600 mb-4 group-hover:scale-110 group-hover:bg-indigo-600 group-hover:text-white transition-all duration-300">
                 <Layers className="w-6 h-6" />
               </div>
-              <h3 className="text-base font-bold text-slate-900 mb-1">High-Speed Platforms</h3>
+              <h2 className="text-base font-bold text-slate-900 mb-1">High-Speed Platforms</h2>
               <p className="text-xs text-slate-500 font-medium leading-relaxed">
                 Sub-second reactive web platforms, native mobile SDKs, and high-frequency architecture.
               </p>
@@ -367,7 +377,7 @@ export function HeroSection() {
               <div className="w-12 h-12 rounded-xl bg-indigo-50 border border-indigo-100 flex items-center justify-center text-indigo-600 mb-4 group-hover:scale-110 group-hover:bg-indigo-600 group-hover:text-white transition-all duration-300">
                 <ShieldCheck className="w-6 h-6" />
               </div>
-              <h3 className="text-base font-bold text-slate-900 mb-1">Enterprise Cloud & SecOps</h3>
+              <h2 className="text-base font-bold text-slate-900 mb-1">Enterprise Cloud & SecOps</h2>
               <p className="text-xs text-slate-500 font-medium leading-relaxed">
                 Zero-trust encryption meshes, automated Kubernetes orchestration, and global edge computing.
               </p>

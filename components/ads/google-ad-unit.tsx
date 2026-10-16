@@ -33,7 +33,9 @@ export function GoogleAdUnit({
         ;(window.adsbygoogle = window.adsbygoogle || []).push({})
       }
     } catch (err) {
-      console.error('AdSense ad render error:', err)
+      if (process.env.NODE_ENV !== 'production') {
+        console.warn('AdSense ad render notice:', err)
+      }
     }
   }, [])
 
