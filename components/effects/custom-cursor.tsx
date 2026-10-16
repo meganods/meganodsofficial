@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef } from 'react'
 
 interface Point {
   x: number
@@ -9,13 +9,13 @@ interface Point {
 }
 
 export function CustomCursor() {
-  const [mounted, setMounted] = useState(false)
   const canvasRef = useRef<HTMLCanvasElement | null>(null)
   const mousePos = useRef({ x: -100, y: -100 })
   const trailPoints = useRef<Point[]>([])
   const isHoveringRef = useRef(false)
   const isClickingRef = useRef(false)
   const isVisibleRef = useRef(false)
+  const isTextRef = useRef(false)
   const isRunningRef = useRef(false)
 
   useEffect(() => {
@@ -23,8 +23,6 @@ export function CustomCursor() {
     if (typeof window === 'undefined' || !window.matchMedia('(pointer: fine)').matches) {
       return
     }
-
-    setMounted(true)
 
     const canvas = canvasRef.current
     if (!canvas) return
@@ -61,7 +59,7 @@ export function CustomCursor() {
         age: 0,
       })
 
-      if (trailPoints.current.length > 16) {
+      if (trailPoints.current.length > 18) {
         trailPoints.current.pop()
       }
 
@@ -92,15 +90,19 @@ export function CustomCursor() {
       const target = e.target as HTMLElement | null
       if (!target) return
 
-      const isInteractive =
-        target.closest('a') ||
-        target.closest('button') ||
+      const isText =
         target.closest('input') ||
         target.closest('textarea') ||
         target.closest('select') ||
+        target.closest('[contenteditable="true"]')
+
+      const isInteractive =
+        target.closest('a') ||
+        target.closest('button') ||
         target.closest('[role="button"]') ||
         target.closest('.cursor-pointer')
 
+      isTextRef.current = !!isText
       isHoveringRef.current = !!isInteractive
       startLoop()
     }
@@ -112,7 +114,7 @@ export function CustomCursor() {
     document.body.addEventListener('mouseenter', handleMouseEnter, { passive: true })
     window.addEventListener('mouseover', handleOver, { passive: true })
 
-    // Render loop - automatically pauses when trail is clear and cursor is stationary
+    // Render loop - stays visible while mouse is inside viewport
     const render = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height)
 
@@ -121,52 +123,69 @@ export function CustomCursor() {
       const points = trailPoints.current
       const isHovering = isHoveringRef.current
       const isClicking = isClickingRef.current
+      const isVisible = isVisibleRef.current
+      const isText = isTextRef.current
 
       // Age trail points
       for (let i = points.length - 1; i >= 0; i--) {
         points[i].age += 1
-        if (points[i].age > 16) {
+        if (points[i].age > 18) {
           points.splice(i, 1)
         }
       }
 
-      if (points.length > 1) {
+      // Draw trailing tail (only if not over text input)
+      if (!isText && points.length > 1) {
         for (let i = 0; i < points.length - 1; i++) {
           const p1 = points[i]
           const p2 = points[i + 1]
-          const progress = 1 - p1.age / 16
+          const progress = 1 - p1.age / 18
           const width = progress * (isHovering ? 8 : 5)
 
           ctx.beginPath()
           ctx.moveTo(p1.x, p1.y)
           ctx.lineTo(p2.x, p2.y)
-          ctx.strokeStyle = `rgba(79, 70, 229, ${progress * 0.4})`
+          ctx.strokeStyle = `rgba(79, 70, 229, ${progress * 0.45})`
           ctx.lineWidth = width
           ctx.lineCap = 'round'
           ctx.stroke()
         }
 
+        // Particle sparks
         for (let i = 0; i < points.length; i += 2) {
           const p = points[i]
-          const progress = 1 - p.age / 16
+          const progress = 1 - p.age / 18
           ctx.beginPath()
           ctx.arc(p.x, p.y, progress * 2.5, 0, Math.PI * 2)
-          ctx.fillStyle = `rgba(99, 102, 241, ${progress * 0.5})`
+          ctx.fillStyle = `rgba(99, 102, 241, ${progress * 0.6})`
           ctx.fill()
         }
       }
 
-      // Draw Cursor Reticle
-      if (isVisibleRef.current && mx > 0 && my > 0) {
-        const radius = isClicking ? 6 : isHovering ? 14 : 9
-        const tickLength = isHovering ? 5 : 3
+      // Draw Cursor Reticle (only when visible and not over text input)
+      if (isVisible && !isText && mx > 0 && my > 0) {
+        const radius = isClicking ? 7 : isHovering ? 15 : 10
+        const tickLength = isHovering ? 6 : 4
         const gap = radius + 2
 
+        // Outer Ring
         ctx.beginPath()
         ctx.arc(mx, my, radius, 0, Math.PI * 2)
-        ctx.strokeStyle = isHovering ? 'rgba(99, 102, 241, 0.85)' : 'rgba(99, 102, 241, 0.4)'
+        ctx.strokeStyle = isHovering ? 'rgba(79, 70, 229, 0.95)' : 'rgba(99, 102, 241, 0.75)'
         ctx.lineWidth = isHovering ? 2 : 1.5
         ctx.stroke()
+
+        // Subtle Inner Fill on Hover
+        if (isHovering) {
+          ctx.beginPath()
+          ctx.arc(mx, my, radius, 0, Math.PI * 2)
+          ctx.fillStyle = 'rgba(79, 70, 229, 0.12)'
+          ctx.fill()
+        }
+
+        // Precision 4-Axis Cardinal Ticks (Top, Bottom, Left, Right)
+        ctx.strokeStyle = isHovering ? '#4338ca' : '#6366f1'
+        ctx.lineWidth = 1.5
 
         // Top Tick
         ctx.beginPath()
@@ -192,20 +211,23 @@ export function CustomCursor() {
         ctx.lineTo(mx + gap + tickLength, my)
         ctx.stroke()
 
-        // Center Core
+        // Center Core Dot - High contrast on both light and dark themes
+        const isDark = typeof document !== 'undefined' && document.documentElement.classList.contains('dark')
         ctx.beginPath()
-        ctx.arc(mx, my, isClicking ? 3 : isHovering ? 2.5 : 2, 0, Math.PI * 2)
-        ctx.fillStyle = '#ffffff'
+        ctx.arc(mx, my, isClicking ? 3.5 : isHovering ? 3 : 2.5, 0, Math.PI * 2)
+        ctx.fillStyle = isDark ? '#ffffff' : '#1e1b4b'
+        ctx.shadowColor = '#6366f1'
+        ctx.shadowBlur = 4
         ctx.fill()
+        ctx.shadowBlur = 0
       }
 
-      // If trail has drained and cursor is stable, sleep to preserve CPU
-      if (points.length === 0) {
+      // Loop continues while cursor is inside window so reticle never vanishes when stationary
+      if (isVisible) {
+        animationFrameId = requestAnimationFrame(render)
+      } else {
         isRunningRef.current = false
-        return
       }
-
-      animationFrameId = requestAnimationFrame(render)
     }
 
     return () => {
@@ -220,8 +242,6 @@ export function CustomCursor() {
       isRunningRef.current = false
     }
   }, [])
-
-  if (!mounted) return null
 
   return (
     <canvas

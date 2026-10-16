@@ -321,10 +321,13 @@
   }
 }
 
-/* Custom Cursor - Hide native cursor on desktop fine pointers */
+/* Custom Cursor - Hide native arrow cursor on desktop fine pointers, but preserve standard text cursor for form fields */
 @media (pointer: fine) {
-  html, body, a, button, input, select, textarea, [role="button"], .cursor-pointer {
+  html, body, a, button, [role="button"], .cursor-pointer {
     cursor: none !important;
+  }
+  input, textarea, select, [contenteditable="true"] {
+    cursor: text !important;
   }
 }
 
