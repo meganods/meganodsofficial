@@ -349,9 +349,44 @@ const ServiceVisual = ({ service, gradient }: { service: any, gradient: string }
   )
 }
 
+const DEFAULT_SERVICES = [
+  {
+    id: 'wordpress-development',
+    title: 'WordPress & Headless CMS',
+    category: 'CMS Infrastructure',
+    description: 'Enterprise-grade WordPress architectures. We bypass the bloat to deliver decoupled, secure, and SEO-fortified content management systems for modern organizations.',
+    gradient: 'from-blue-600 to-indigo-600',
+    features: ['Headless WP (GraphQL)', 'Custom Gutenberg Blocks', 'Security Hardening Pro', 'High-Volume Performance']
+  },
+  {
+    id: 'web-development',
+    title: 'Next-Gen Web Applications',
+    category: 'Digital Systems',
+    description: 'High-performance web platforms engineered with Next.js 14, TypeScript, and edge rendering for lightning-fast sub-second experiences.',
+    gradient: 'from-emerald-500 to-teal-500',
+    features: ['Sub-100ms TTFB', 'Server Components', 'Micro-Frontend Mesh', 'Global Edge CDN']
+  },
+  {
+    id: 'app-development',
+    title: 'Mobile & Native Mobility',
+    category: 'Mobile Ecosystems',
+    description: 'Native iOS and Android architectures delivering immersive fluid animations, offline-first sync, and native device hardware integration.',
+    gradient: 'from-indigo-600 to-cyan-500',
+    features: ['Swift & Kotlin', 'React Native & Flutter', 'Offline-First Telemetry', 'Biometric Security']
+  },
+  {
+    id: 'ai-cognitive',
+    title: 'Artificial Intelligence & Neural Systems',
+    category: 'Cognitive Computing',
+    description: 'Custom LLMs, cognitive vector agents, and predictive AI pipelines tailored to automate multi-department enterprise workflows.',
+    gradient: 'from-purple-600 to-pink-500',
+    features: ['Custom Enterprise LLMs', 'Vector Embeddings', 'Automated Agents', 'Sub-8ms Inference']
+  }
+]
+
 export function ServicesPreviewSection() {
-  const [services, setServices] = useState<any[]>([])
-  const [isLoading, setIsLoading] = useState(true)
+  const [services, setServices] = useState<any[]>(DEFAULT_SERVICES)
+  const [isLoading, setIsLoading] = useState(false)
   const [index, setIndex] = useState(0)
   const [direction, setDirection] = useState(0)
   const [isAutoPlaying, setIsAutoPlaying] = useState(true)
@@ -361,56 +396,20 @@ export function ServicesPreviewSection() {
       try {
         const q = query(
           collection(db, "services"), 
-          where("isActive", "==", true),
-          orderBy("order", "asc"), 
-          orderBy("createdAt", "desc")
+          where("isActive", "==", true)
         )
         const querySnapshot = await getDocs(q)
         if (!querySnapshot.empty) {
           const docs = querySnapshot.docs.map(doc => ({
             id: doc.id,
             ...doc.data()
-          }))
+          })) as any[]
+          docs.sort((a, b) => (a.order ?? 0) - (b.order ?? 0))
           setServices(docs)
-        } else {
-          // Robust Default Services Catalog
-          setServices([
-            {
-              id: 'wordpress-development',
-              title: 'WordPress & Headless CMS',
-              category: 'CMS Infrastructure',
-              description: 'Enterprise-grade WordPress architectures. We bypass the bloat to deliver decoupled, secure, and SEO-fortified content management systems for modern organizations.',
-              gradient: 'from-blue-600 to-indigo-600',
-              features: ['Headless WP (GraphQL)', 'Custom Gutenberg Blocks', 'Security Hardening Pro', 'High-Volume Performance']
-            },
-            {
-              id: 'web-development',
-              title: 'Next-Gen Web Applications',
-              category: 'Digital Systems',
-              description: 'High-performance web platforms engineered with Next.js 14, TypeScript, and edge rendering for lightning-fast sub-second experiences.',
-              gradient: 'from-emerald-500 to-teal-500',
-              features: ['Sub-100ms TTFB', 'Server Components', 'Micro-Frontend Mesh', 'Global Edge CDN']
-            },
-            {
-              id: 'app-development',
-              title: 'Mobile & Native Mobility',
-              category: 'Mobile Ecosystems',
-              description: 'Native iOS and Android architectures delivering immersive fluid animations, offline-first sync, and native device hardware integration.',
-              gradient: 'from-indigo-600 to-cyan-500',
-              features: ['Swift & Kotlin', 'React Native & Flutter', 'Offline-First Telemetry', 'Biometric Security']
-            },
-            {
-              id: 'ai-cognitive',
-              title: 'Artificial Intelligence & Neural Systems',
-              category: 'Cognitive Computing',
-              description: 'Custom LLMs, cognitive vector agents, and predictive AI pipelines tailored to automate multi-department enterprise workflows.',
-              gradient: 'from-purple-600 to-pink-500',
-              features: ['Custom Enterprise LLMs', 'Vector Embeddings', 'Automated Agents', 'Sub-8ms Inference']
-            }
-          ])
         }
-      } catch (error) {
-        console.error("SERVICES_FETCH_ERROR:", error)
+      } catch {
+        // Fallback gracefully without noisy console error
+        setServices(DEFAULT_SERVICES)
       } finally {
         setIsLoading(false)
       }

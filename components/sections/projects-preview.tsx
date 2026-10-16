@@ -27,8 +27,6 @@ export function ProjectsPreviewSection() {
       try {
         const q = query(
           collection(db, "projects"), 
-          orderBy("order", "asc"),
-          orderBy("createdAt", "desc"),
           limit(12)
         );
         const querySnapshot = await getDocs(q);
@@ -39,14 +37,14 @@ export function ProjectsPreviewSection() {
           const docs = querySnapshot.docs.map(doc => ({
             id: doc.id,
             ...doc.data()
-          }));
+          })) as any[];
+          docs.sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
           const otherDocs = docs.filter((d: any) => !prioritySlugs.has(d.slug));
           setProjects([...priorityProjects, ...otherDocs]);
         } else {
           setProjects(defaultProjects);
         }
-      } catch (error) {
-        console.error("PROJECTS_FETCH_ERROR:", error);
+      } catch {
         setProjects(defaultProjects);
       }
     }

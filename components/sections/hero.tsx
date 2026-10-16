@@ -113,12 +113,7 @@ export function HeroSection() {
             <div className="lg:col-span-6 flex flex-col items-center lg:items-start text-center lg:text-left space-y-5">
               
               {/* Top Pill: Next-Gen Isometric Status Beacon */}
-              <motion.div
-                initial={{ opacity: 0, y: -15, scale: 0.95 }}
-                animate={{ opacity: 1, y: 0, scale: 1 }}
-                transition={{ duration: 0.5 }}
-                className="group relative inline-flex items-center gap-3 rounded-full border border-indigo-200/90 bg-white/90 px-4 py-1.5 text-xs font-semibold text-slate-800 shadow-md shadow-indigo-500/5 backdrop-blur-xl transition-all hover:border-indigo-400 hover:shadow-xl hover:shadow-indigo-500/10 cursor-default"
-              >
+              <div className="group relative inline-flex items-center gap-3 rounded-full border border-indigo-200/90 bg-white/90 px-4 py-1.5 text-xs font-semibold text-slate-800 shadow-md shadow-indigo-500/5 backdrop-blur-xl transition-all hover:border-indigo-400 hover:shadow-xl hover:shadow-indigo-500/10 cursor-default">
                 <span className="relative flex h-2.5 w-2.5">
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
                   <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500" />
@@ -131,54 +126,34 @@ export function HeroSection() {
                   MegaNods Enterprise Platform
                 </span>
                 <Sparkles className="w-3.5 h-3.5 text-indigo-600 animate-pulse" />
-              </motion.div>
+              </div>
 
               {/* Sub-headline / Slogan */}
-              <motion.div
-                initial={{ opacity: 0, y: 15 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.05 }}
-                className="text-xs sm:text-sm font-mono tracking-[0.3em] text-slate-400 uppercase font-bold"
-              >
+              <div className="text-xs sm:text-sm font-mono tracking-[0.3em] text-slate-400 uppercase font-bold">
                 Innovate • Build • Scale • <span className="text-emerald-500 font-black">Deliver</span>
-              </motion.div>
+              </div>
 
-              {/* Main Headline */}
+              {/* Main Headline - Instant Server Paint for optimal LCP */}
               <div className="relative pt-1 pb-1">
                 <div className="absolute top-1/2 left-1/2 lg:left-0 -translate-x-1/2 lg:translate-x-0 -translate-y-1/2 w-full max-w-lg h-28 bg-gradient-to-r from-blue-500/15 via-indigo-500/20 to-teal-400/15 rounded-full blur-3xl pointer-events-none -z-10 animate-pulse" />
 
-                <motion.h1 
-                  initial={{ opacity: 0, y: 22 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1], delay: 0.1 }}
-                  className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight text-slate-900 leading-[1.12]"
-                >
+                <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight text-slate-900 leading-[1.12]">
                   <span className="block text-slate-900 drop-shadow-sm">
                     Engineering
                   </span>
                   <span className="relative inline-block mt-1 font-extrabold italic bg-gradient-to-r from-blue-600 via-indigo-600 via-purple-600 via-cyan-500 to-blue-600 bg-clip-text text-transparent animate-gradient-flow drop-shadow-sm">
                     Intelligence at Scale.
                   </span>
-                </motion.h1>
+                </h1>
               </div>
 
               {/* Subtext Paragraph */}
-              <motion.p 
-                initial={{ opacity: 0, y: 15 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.18 }}
-                className="max-w-xl text-base sm:text-lg text-slate-600 leading-relaxed font-normal"
-              >
+              <p className="max-w-xl text-base sm:text-lg text-slate-600 leading-relaxed font-normal">
                 We architect <span className="font-semibold text-slate-900">intelligent systems</span> and craft high-performance <span className="font-semibold text-slate-900">mobile and web experiences</span> — engineered from concept to global deployment.
-              </motion.p>
+              </p>
 
               {/* Action Buttons */}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.24 }}
-                className="flex flex-wrap items-center justify-center lg:justify-start gap-4 pt-2"
-              >
+              <div className="flex flex-wrap items-center justify-center lg:justify-start gap-4 pt-2">
                 <Link href="/contact">
                   <Button
                     size="lg"
@@ -188,28 +163,18 @@ export function HeroSection() {
                     <ArrowRight className="h-4 w-4" />
                   </Button>
                 </Link>
-              </motion.div>
+              </div>
             </div>
 
             {/* RIGHT COLUMN: 3D Isometric Motion Illustration */}
-            <motion.div 
-              initial={{ opacity: 0, scale: 0.95, x: 20 }}
-              animate={{ opacity: 1, scale: 1, x: 0 }}
-              transition={{ duration: 0.7, delay: 0.25 }}
-              className="lg:col-span-6 flex items-center justify-center relative w-full"
-            >
+            <div className="lg:col-span-6 flex items-center justify-center relative w-full">
               <IsometricHeroAnimation />
-            </motion.div>
+            </div>
 
           </div>
 
-          {/* 3D ISOMETRIC / DRIBBBLE-STYLE FLOATING SHOWCASE CONTAINER */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.96, y: 30 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.3 }}
-            className="w-full max-w-6xl pt-4 relative"
-          >
+          {/* 3D ISOMETRIC / DRIBBBLE-STYLE FLOATING SHOWCASE CONTAINER - Visible immediately on SSR */}
+          <div className="w-full max-w-6xl pt-4 relative">
             {/* FLOATING 3D GLASS TELEMETRY CARDS (Dribbble 3D Crypto & Isometric Style) */}
             
             {/* 1. Top-Left Floating Card: Latency Metric */}
@@ -329,15 +294,10 @@ export function HeroSection() {
                 )}
               </div>
             </div>
-          </motion.div>
+          </div>
 
           {/* 3 Elevated High-Tech Feature Cards */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.35 }}
-            className="grid grid-cols-1 sm:grid-cols-3 gap-6 pt-4 w-full max-w-5xl"
-          >
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 pt-4 w-full max-w-5xl">
             <div className="p-6 rounded-2xl bg-white border border-slate-200/80 shadow-md shadow-slate-200/50 flex flex-col items-center text-center group hover:border-indigo-300 hover:shadow-xl hover:shadow-indigo-500/10 transition-all duration-300">
               <div className="w-12 h-12 rounded-xl bg-indigo-50 border border-indigo-100 flex items-center justify-center text-indigo-600 mb-4 group-hover:scale-110 group-hover:bg-indigo-600 group-hover:text-white transition-all duration-300">
                 <Cpu className="w-6 h-6" />
@@ -367,7 +327,7 @@ export function HeroSection() {
                 Zero-trust encryption meshes, automated Kubernetes orchestration, and global edge computing.
               </p>
             </div>
-          </motion.div>
+          </div>
 
         </div>
       </div>
