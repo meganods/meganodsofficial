@@ -3,7 +3,6 @@ import { Inter, Space_Grotesk } from 'next/font/google'
 import Script from 'next/script'
 import { Analytics } from '@vercel/analytics/next'
 import { StarField } from '@/components/effects/shooting-stars'
-import { Preloader } from '@/components/ui/preloader'
 import { CustomCursor } from '@/components/effects/custom-cursor'
 import { CookieConsent } from '@/components/ui/cookie-consent'
 import { CommandPalette } from '@/components/ui/command-palette'
@@ -103,10 +102,10 @@ export default function RootLayout({
         <meta name="google-adsense-account" content="ca-pub-5266755800049907" />
       </head>
       <body className={`${inter.variable} ${spaceGrotesk.variable} font-sans antialiased`}>
-        {/* Google AdSense Script */}
+        {/* Google AdSense Script - lazyOnload so it never blocks FCP / LCP */}
         <Script
           id="adsense-script"
-          strategy="afterInteractive"
+          strategy="lazyOnload"
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5266755800049907"
           crossOrigin="anonymous"
         />
@@ -131,7 +130,6 @@ export default function RootLayout({
           }}
         />
         <CustomCursor />
-        <Preloader />
         <StarField />
         <JsonLd />
         <CookieConsent />

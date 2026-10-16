@@ -117,7 +117,8 @@ export function StarField() {
 
   useEffect(() => {
     setMounted(true)
-    const newStars = Array.from({ length: 100 }).map(() => ({
+    const count = typeof window !== 'undefined' && window.innerWidth < 768 ? 25 : 50
+    const newStars = Array.from({ length: count }).map(() => ({
       size: Math.random() * 2 + 0.5,
       duration: 3 + Math.random() * 4,
       left: Math.random() * 100,
@@ -133,27 +134,20 @@ export function StarField() {
 
   return (
     <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
-      {/* Particle field */}
+      {/* Particle field - GPU composited CSS */}
       <div className="absolute inset-0">
         {stars.map((star, i) => (
-          <motion.div
+          <div
             key={i}
-            className="absolute rounded-full"
+            className="absolute rounded-full animate-pulse"
             style={{
               width: star.size,
               height: star.size,
               left: `${star.left}%`,
               top: `${star.top}%`,
-              background: `rgba(${star.color}, ${star.opacity})`
-            }}
-            animate={{
-              opacity: [0.2, 0.8, 0.2],
-              scale: [1, 1.5, 1]
-            }}
-            transition={{
-              duration: star.duration,
-              repeat: Infinity,
-              delay: star.delay
+              background: `rgba(${star.color}, ${star.opacity})`,
+              animationDuration: `${star.duration}s`,
+              animationDelay: `${star.delay}s`,
             }}
           />
         ))}

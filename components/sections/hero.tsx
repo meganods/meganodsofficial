@@ -3,6 +3,7 @@
 import { useRef, useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
+import Image from 'next/image'
 import { 
   ArrowRight, 
   Sparkles, 
@@ -19,6 +20,7 @@ import { IsometricHeroAnimation } from '@/components/effects/isometric-hero-anim
 export function HeroSection() {
   const videoRef = useRef<HTMLVideoElement>(null)
   const [isMuted, setIsMuted] = useState(false)
+  const [videoActive, setVideoActive] = useState(false)
 
   useEffect(() => {
     const video = videoRef.current
@@ -32,46 +34,47 @@ export function HeroSection() {
 
     let playTimer: ReturnType<typeof setTimeout>
     const startPlayback = () => {
-      const playPromise = video.play()
-      if (playPromise !== undefined) {
-        playPromise
-          .then(() => {
-            setIsMuted(false)
-          })
-          .catch(() => {
-            // If browser autoplay policy blocks unmuted audio on load, fallback to muted playback
-            if (videoRef.current) {
-              videoRef.current.muted = true
-              videoRef.current.play().catch(() => {})
-            }
-            setIsMuted(true)
-          })
-      }
-    }
-
-    // Defer video stream slightly to prioritize critical above-the-fold paint and optimal LCP
-    if (typeof window !== 'undefined' && 'requestIdleCallback' in window) {
-      window.requestIdleCallback(() => startPlayback(), { timeout: 1200 })
-    } else {
-      playTimer = setTimeout(startPlayback, 400)
-    }
-
-    // Unmute automatically on first genuine user interaction if initially restricted by browser
-    const handleFirstInteraction = () => {
-      if (videoRef.current) {
-        videoRef.current.muted = false
-        videoRef.current.volume = 1.0
-        const promise = videoRef.current.play()
-        if (promise !== undefined) {
-          promise
+      setVideoActive(true)
+      setTimeout(() => {
+        const v = videoRef.current
+        if (!v) return
+        v.muted = false
+        v.defaultMuted = false
+        v.volume = 1.0
+        v.playsInline = true
+        const playPromise = v.play()
+        if (playPromise !== undefined) {
+          playPromise
             .then(() => {
               setIsMuted(false)
             })
-            .catch(() => {})
+            .catch(() => {
+              if (videoRef.current) {
+                videoRef.current.muted = true
+                videoRef.current.play().catch(() => {})
+              }
+              setIsMuted(true)
+            })
+        }
+      }, 100)
+    }
+
+    // Only auto-stream video after initial page load settles on desktop
+    // On mobile or throttled audits, defer until user interaction to guarantee sub-1.2s LCP
+    if (typeof window !== 'undefined') {
+      const isMobile = window.innerWidth < 768
+      if (!isMobile) {
+        if ('requestIdleCallback' in window) {
+          window.requestIdleCallback(() => startPlayback(), { timeout: 3500 })
         } else {
-          setIsMuted(false)
+          playTimer = setTimeout(startPlayback, 3000)
         }
       }
+    }
+
+    // Trigger video playback immediately on first user scroll, touch, or click
+    const handleFirstInteraction = () => {
+      startPlayback()
       cleanupListeners()
     }
 
@@ -79,12 +82,14 @@ export function HeroSection() {
       window.removeEventListener('click', handleFirstInteraction)
       window.removeEventListener('pointerdown', handleFirstInteraction)
       window.removeEventListener('touchstart', handleFirstInteraction)
+      window.removeEventListener('scroll', handleFirstInteraction)
       window.removeEventListener('keydown', handleFirstInteraction)
     }
 
     window.addEventListener('click', handleFirstInteraction, { once: true, passive: true })
     window.addEventListener('pointerdown', handleFirstInteraction, { once: true, passive: true })
     window.addEventListener('touchstart', handleFirstInteraction, { once: true, passive: true })
+    window.addEventListener('scroll', handleFirstInteraction, { once: true, passive: true })
     window.addEventListener('keydown', handleFirstInteraction, { once: true, passive: true })
 
     return () => {
@@ -305,16 +310,25 @@ export function HeroSection() {
 
             {/* Main Central 3D Video Frame with Glowing Multi-tone Border */}
             <div className="relative w-full rounded-3xl p-[2px] bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-500 shadow-2xl shadow-indigo-950/20 group">
-              <div className="relative w-full rounded-[22px] overflow-hidden bg-slate-950">
+              <div className="relative w-full rounded-[22px] overflow-hidden bg-slate-950 aspect-[16/9]">
+                {/* Instant-Paint Optimized Hero Poster for Fast LCP */}
+                <Image
+                  src="/robot-hero.jpg"
+                  alt="Meganods Enterprise AI Platform Preview"
+                  fill
+                  priority
+                  className={`object-cover transition-opacity duration-700 ${videoActive ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 90vw, 1152px"
+                />
+
                 <video
                   ref={videoRef}
-                  src="/hero-video.mp4"
-                  poster="/robot-hero.jpg"
+                  src={videoActive ? "/hero-video.mp4" : undefined}
                   loop
                   muted={isMuted}
                   playsInline
                   preload="none"
-                  className="w-full h-auto aspect-[16/9] object-cover block"
+                  className={`w-full h-full object-cover block transition-opacity duration-700 ${videoActive ? 'opacity-100' : 'opacity-0'}`}
                   aria-label="Meganods intelligent enterprise platform preview"
                 >
                   <track kind="captions" />

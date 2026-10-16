@@ -108,6 +108,8 @@ export function BlogPreviewSection() {
                           src={featuredPost.imageUrl} 
                           alt={featuredPost.title}
                           className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
+                          loading="lazy"
+                          decoding="async"
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent opacity-60" />
                       </div>
@@ -179,6 +181,8 @@ export function BlogPreviewSection() {
                            src={post.imageUrl} 
                            alt={post.title}
                            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                           loading="lazy"
+                           decoding="async"
                          />
                        ) : (
                          <>

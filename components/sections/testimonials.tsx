@@ -264,6 +264,8 @@ export function TestimonialsSection() {
                           src={active.avatar}
                           alt={active.name}
                           className="w-full h-full object-cover object-top"
+                          loading="lazy"
+                          decoding="async"
                           onError={(e) => {
                             // Fallback if image fails to load
                             (e.target as HTMLImageElement).style.display = 'none'

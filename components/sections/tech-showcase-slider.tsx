@@ -239,7 +239,8 @@ export function TechShowcaseSlider() {
                             className={`object-cover transition-transform duration-700 ease-out ${
                               isCenter ? 'scale-105 filter brightness-100 group-hover:scale-110' : 'scale-100 filter brightness-75'
                             }`}
-                            priority={isCenter}
+                            loading="lazy"
+                            sizes="(max-width: 768px) 90vw, 600px"
                           />
                           {/* Gradient Overlays for High Legibility */}
                           <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/70 to-slate-950/30" />
