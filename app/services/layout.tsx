@@ -1,9 +1,26 @@
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'Enterprise Services | AI, Cloud & Cybersecurity',
-  description: 'Explore Meganods services — AI & Machine Learning solutions, cloud infrastructure, cybersecurity operations, data analytics, and enterprise web & mobile development.',
+  title: 'Enterprise Software Company & IT Solutions | Web Development Company | Meganods',
+  description: 'Meganods is a premier enterprise software company and IT company in India. We specialize in custom software development, full-stack web development, mobile apps, enterprise AI, cloud architecture, and cybersecurity.',
   keywords: [
+    // High-Priority Commercial Buyer Keywords (Top Priority)
+    'Software Company',
+    'Software Development Company',
+    'IT Company',
+    'IT Company in India',
+    'Web Development Company',
+    'Custom Software Development Company',
+    'Full-Stack Web Development Company',
+    'Mobile App Development Company',
+    'IT Services & Solutions Company',
+    'Enterprise Software Company',
+    'AI Software Company',
+    'Cloud Computing Company',
+    'Cybersecurity Company',
+    'Next.js Web Development Agency',
+
+    // Technical Domain & Category Keywords (Original Keywords)
     'IT Services',
     'AI Solutions',
     'Cloud Computing',
@@ -16,8 +33,8 @@ export const metadata: Metadata = {
     'Meganods Services',
   ],
   openGraph: {
-    title: 'Enterprise Services | AI, Cloud & Cybersecurity',
-    description: 'Multi-sector intelligence and high-performance infrastructure services by Meganods. AI, cloud, security, and custom software development.',
+    title: 'Enterprise Software Company & IT Solutions | Meganods',
+    description: 'Premier enterprise software company and web development agency. Custom software, AI systems, cloud infrastructure, and cybersecurity.',
     url: 'https://www.meganods.com/services',
     type: 'website',
     images: [
@@ -25,14 +42,14 @@ export const metadata: Metadata = {
         url: '/og-image.jpg',
         width: 1200,
         height: 630,
-        alt: 'Meganods Enterprise Services',
+        alt: 'Meganods Enterprise Software and IT Services',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Enterprise Services | AI, Cloud & Cybersecurity',
-    description: 'Multi-sector intelligence and high-performance infrastructure services by Meganods.',
+    title: 'Enterprise Software Company & IT Solutions | Meganods',
+    description: 'Multi-sector intelligence, custom software engineering, and web development services by Meganods.',
     images: ['/og-image.jpg'],
   },
   alternates: {
@@ -43,8 +60,8 @@ export const metadata: Metadata = {
 const servicesJsonLd = {
   '@context': 'https://schema.org',
   '@type': 'ItemList',
-  name: 'Meganods Technology Services',
-  description: 'Comprehensive enterprise services spanning Artificial Intelligence, Cloud Infrastructure, Cybersecurity, and Software Engineering.',
+  name: 'Meganods Software & IT Services',
+  description: 'Enterprise technology services spanning Custom Software Development, Web Development, Mobile Apps, AI Engineering, Cloud Infrastructure, and Cybersecurity.',
   url: 'https://www.meganods.com/services',
   numberOfItems: 6,
   itemListElement: [
@@ -53,8 +70,9 @@ const servicesJsonLd = {
       position: 1,
       item: {
         '@type': 'Service',
-        name: 'AI & Neural Systems Development',
-        description: 'End-to-end machine learning engineering, LLM pipeline fine-tuning, autonomous agents, and computer vision architectures.',
+        name: 'Custom Software Development & Cognitive AI',
+        serviceType: 'Software Development Company',
+        description: 'End-to-end custom software development, enterprise machine learning engineering, LLM pipeline fine-tuning, and autonomous agents.',
         provider: {
           '@type': 'Organization',
           name: 'Meganods',
@@ -67,8 +85,9 @@ const servicesJsonLd = {
       position: 2,
       item: {
         '@type': 'Service',
-        name: 'Cloud Mesh & Edge Infrastructure',
-        description: 'Kubernetes orchestration, multi-cloud disaster resilience, serverless architectures, and sub-45ms latency optimization.',
+        name: 'Web Development Company & High-Scale Platforms',
+        serviceType: 'Web Development Company',
+        description: 'High-performance Next.js 16 web applications, distributed edge systems, micro-frontends, and scalable cloud database clusters.',
         provider: {
           '@type': 'Organization',
           name: 'Meganods',
@@ -81,8 +100,9 @@ const servicesJsonLd = {
       position: 3,
       item: {
         '@type': 'Service',
-        name: 'Zero-Trust Cybersecurity & Defense',
-        description: 'eBPF kernel-level threat detection, penetration testing, cryptographic security audits, and continuous compliance monitoring.',
+        name: 'Mobile App Development Company',
+        serviceType: 'Mobile Application Development',
+        description: 'Fluid iOS and Android mobile app development engineered with React Native and native Swift/Kotlin architectures.',
         provider: {
           '@type': 'Organization',
           name: 'Meganods',
@@ -95,8 +115,9 @@ const servicesJsonLd = {
       position: 4,
       item: {
         '@type': 'Service',
-        name: 'Real-Time Data Analytics & BI',
-        description: 'Scalable data lakes, streaming ETL pipelines with Kafka, vector database search, and executive analytics dashboards.',
+        name: 'Cloud Infrastructure & DevOps IT Company',
+        serviceType: 'IT Solutions & Cloud',
+        description: 'Multi-region cloud infrastructure, Kubernetes orchestration, automated CI/CD pipelines, and 99.99% uptime SLA.',
         provider: {
           '@type': 'Organization',
           name: 'Meganods',
@@ -109,8 +130,9 @@ const servicesJsonLd = {
       position: 5,
       item: {
         '@type': 'Service',
-        name: 'High-Performance Web & Mobile Engineering',
-        description: 'Ultra-fast Next.js web applications, responsive cross-platform React Native apps, and micro-frontend design systems.',
+        name: 'Zero-Trust Cybersecurity & IT Compliance',
+        serviceType: 'Cybersecurity Company',
+        description: 'Proactive penetration testing, FIDO2 WebAuthn authentication, eBPF kernel-level monitoring, and SOC2/ISO compliance.',
         provider: {
           '@type': 'Organization',
           name: 'Meganods',
@@ -123,8 +145,9 @@ const servicesJsonLd = {
       position: 6,
       item: {
         '@type': 'Service',
-        name: 'Digital Transformation & Legacy Modernization',
-        description: 'Migrating monolithic systems to event-driven microservices with zero downtime and automated CI/CD deployment pipelines.',
+        name: 'Business Automation & Custom CRM Software',
+        serviceType: 'Enterprise Software Solutions',
+        description: 'Bespoke internal software tools, ERP systems, lead routing pipelines, and automated multi-step business logic.',
         provider: {
           '@type': 'Organization',
           name: 'Meganods',

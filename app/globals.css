@@ -321,13 +321,13 @@
   }
 }
 
-/* Custom Cursor - Hide native arrow cursor on desktop fine pointers, but preserve standard text cursor for form fields */
+/* Custom Cursor & Pointer Styles - Keep cursor visible and responsive */
 @media (pointer: fine) {
-  html, body, a, button, [role="button"], .cursor-pointer {
-    cursor: none !important;
+  a, button, [role="button"], .cursor-pointer {
+    cursor: pointer;
   }
   input, textarea, select, [contenteditable="true"] {
-    cursor: text !important;
+    cursor: text;
   }
 }
 

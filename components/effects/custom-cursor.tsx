@@ -110,8 +110,8 @@ export function CustomCursor() {
     window.addEventListener('mousemove', handleMouseMove, { passive: true })
     window.addEventListener('mousedown', handleMouseDown, { passive: true })
     window.addEventListener('mouseup', handleMouseUp, { passive: true })
-    document.body.addEventListener('mouseleave', handleMouseLeave, { passive: true })
-    document.body.addEventListener('mouseenter', handleMouseEnter, { passive: true })
+    document.addEventListener('mouseleave', handleMouseLeave, { passive: true })
+    document.addEventListener('mouseenter', handleMouseEnter, { passive: true })
     window.addEventListener('mouseover', handleOver, { passive: true })
 
     // Render loop - stays visible while mouse is inside viewport

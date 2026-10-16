@@ -166,7 +166,7 @@ export default function ServicesPage() {
                   transition={{ duration: 0.5, delay: 0.05 }}
                   className="text-[10px] sm:text-xs font-mono tracking-[0.25em] text-slate-400 uppercase font-bold"
                 >
-                  Design • Develop • Deploy • <span className="text-emerald-500 font-black">Scale</span>
+                  Software Company • IT Solutions • Web Development • <span className="text-emerald-500 font-black">Global Scale</span>
                 </motion.div>
 
                 {/* Main headline */}
@@ -178,9 +178,9 @@ export default function ServicesPage() {
                     transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1], delay: 0.1 }}
                     className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black tracking-tight text-slate-900 leading-[1.1]"
                   >
-                    <span className="block text-slate-900 drop-shadow-sm">Strategic</span>
+                    <span className="block text-slate-900 drop-shadow-sm">Premier Software &</span>
                     <span className="relative inline-block mt-1 font-extrabold italic bg-gradient-to-r from-blue-600 via-indigo-600 via-purple-600 via-cyan-500 to-blue-600 bg-clip-text text-transparent animate-gradient-flow drop-shadow-sm">
-                      Digital Services.
+                      Web Development Company.
                     </span>
                   </motion.h1>
                 </div>
@@ -192,7 +192,7 @@ export default function ServicesPage() {
                   transition={{ duration: 0.6, delay: 0.18 }}
                   className="max-w-xl text-sm sm:text-base lg:text-lg text-slate-600 leading-relaxed font-normal"
                 >
-                  From <span className="font-semibold text-slate-900">custom web & mobile apps</span> to <span className="font-semibold text-slate-900">AI integrations</span> and enterprise infrastructure — end-to-end technology services built to perform at scale.
+                  Meganods is an enterprise <span className="font-semibold text-slate-900">software company</span> and leading <span className="font-semibold text-slate-900">IT company</span> delivering bespoke <span className="font-semibold text-slate-900">web development</span>, mobile applications, and cognitive AI architectures built to scale globally.
                 </motion.p>
 
                 {/* CTA Buttons */}

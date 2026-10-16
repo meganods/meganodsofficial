@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { 
   ArrowLeft, 
@@ -32,6 +32,8 @@ import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { toast } from "sonner"
+import { db } from "@/lib/firebase"
+import { doc, getDoc, setDoc } from "firebase/firestore"
 
 export default function AdminConfigPage() {
   const router = useRouter()
@@ -39,29 +41,31 @@ export default function AdminConfigPage() {
   const [isAiModalOpen, setIsAiModalOpen] = useState(false)
   const [aiPrompt, setAiPrompt] = useState("")
   const [isGenerating, setIsGenerating] = useState(false)
+  const [isSaving, setIsSaving] = useState(false)
   
   const [config, setConfig] = useState({
     general: {
        siteName: "Meganods",
-       siteTitle: "High-Fidelity Deep Tech Solutions",
-       description: "Architecting the future of human industry with specialized neural networks and fortified infrastructure.",
-       keywords: "AI, Blockchain, Enterprise Solutions, Deep Tech",
+       siteTitle: "Enterprise Software Company & IT Solutions",
+       description: "Meganods is a premier enterprise software and IT company delivering custom software development, web & mobile engineering, AI systems, and cloud infrastructure.",
+       keywords: "Software Company, Software Development Company, IT Company, Web Development Company, AI Solutions, Cloud Mesh, Cybersecurity, Meganods",
        status: "Operational"
     },
     contact: {
-       email: "hello@patelpulse.com",
-       phone: "+1 800 PULSE CORE",
-       address: "Decentralized Operations Center 01",
+       email: "admin@meganods.com",
+       phone: "+91 8796140682",
+       address: "OC-821, 8th Floor, Gaur City Centre, Greater Noida West, Uttar Pradesh 201306, India",
        social: {
-          linkedin: "https://linkedin.com/company/patelpulse",
-          twitter: "https://twitter.com/patelpulse",
-          github: "https://github.com/patelpulse-ventures"
+          linkedin: "https://www.linkedin.com/in/meganods-08b7b5400/",
+          twitter: "https://x.com/MegaNods33550",
+          instagram: "https://www.instagram.com/mega.nods/",
+          github: "https://github.com/meganods"
        }
     },
     protocols: {
        geminiKey: "AIzaSyAhNwn7...",
-       analyticsId: "G-PULSE-CORE-001",
-       deploymentNode: "US-EAST-01-PRIMARY"
+       analyticsId: "G-EHJZPCJ8NP",
+       deploymentNode: "GLOBAL-EDGE-NODE-01"
     },
     appearance: {
        theme: "System Managed",
@@ -76,10 +80,39 @@ export default function AdminConfigPage() {
     }
   })
 
+  useEffect(() => {
+    const loadConfig = async () => {
+      try {
+        const docRef = doc(db, "settings", "general")
+        const docSnap = await getDoc(docRef)
+        if (docSnap.exists()) {
+          const data = docSnap.data()
+          setConfig(prev => ({
+            ...prev,
+            ...data,
+            general: { ...prev.general, ...data.general },
+            contact: { ...prev.contact, ...data.contact, social: { ...prev.contact.social, ...data.contact?.social } }
+          }))
+        }
+      } catch (err) {
+        console.warn("Could not load Firestore settings, using default:", err)
+      }
+    }
+    loadConfig()
+  }, [])
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    console.log("SYNCHRONIZING_SYSTEM_CONFIG:", config)
-    toast.success("SYSTEM_CONFIG_SYNCHRONIZED")
+    setIsSaving(true)
+    try {
+      await setDoc(doc(db, "settings", "general"), config, { merge: true })
+      toast.success("SYSTEM_CONFIG_SYNCHRONIZED")
+    } catch (err: any) {
+      console.error("Config save error:", err)
+      toast.error(`SAVE_FAILED: ${err.message || 'Error saving settings'}`)
+    } finally {
+      setIsSaving(false)
+    }
   }
 
   const handleAiOptimize = async () => {
@@ -140,9 +173,9 @@ export default function AdminConfigPage() {
                  <Sparkles className="w-5 h-5" />
                  <span className="font-bold uppercase tracking-widest text-xs">Neural Optimization</span>
               </Button>
-              <Button onClick={handleSubmit} className="h-16 px-10 bg-indigo-600 hover:bg-indigo-700 text-white rounded-2xl shadow-xl shadow-indigo-600/20 flex items-center gap-3">
-                 <Save className="w-5 h-5" />
-                 <span className="font-black uppercase tracking-widest text-xs">Authorize Sync</span>
+              <Button onClick={handleSubmit} disabled={isSaving} className="h-16 px-10 bg-indigo-600 hover:bg-indigo-700 text-white rounded-2xl shadow-xl shadow-indigo-600/20 flex items-center gap-3 cursor-pointer">
+                 {isSaving ? <Loader2 className="w-5 h-5 animate-spin" /> : <Save className="w-5 h-5" />}
+                 <span className="font-black uppercase tracking-widest text-xs">{isSaving ? "Syncing..." : "Authorize Sync"}</span>
               </Button>
            </div>
         </div>
