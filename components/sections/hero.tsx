@@ -13,6 +13,7 @@ import {
   Cpu, 
   Volume2, 
   VolumeX, 
+  Play,
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { IsometricHeroAnimation } from '@/components/effects/isometric-hero-animation'
@@ -22,81 +23,31 @@ export function HeroSection() {
   const [isMuted, setIsMuted] = useState(false)
   const [videoActive, setVideoActive] = useState(false)
 
-  useEffect(() => {
-    const video = videoRef.current
-    if (!video) return
-
-    // Start video unmuted by default
-    video.muted = false
-    video.defaultMuted = false
-    video.volume = 1.0
-    video.playsInline = true
-
-    let playTimer: ReturnType<typeof setTimeout>
-    const startPlayback = () => {
-      setVideoActive(true)
-      setTimeout(() => {
-        const v = videoRef.current
-        if (!v) return
-        v.muted = false
-        v.defaultMuted = false
-        v.volume = 1.0
-        v.playsInline = true
-        const playPromise = v.play()
-        if (playPromise !== undefined) {
-          playPromise
-            .then(() => {
-              setIsMuted(false)
-            })
-            .catch(() => {
-              if (videoRef.current) {
-                videoRef.current.muted = true
-                videoRef.current.play().catch(() => {})
-              }
-              setIsMuted(true)
-            })
-        }
-      }, 100)
-    }
-
-    // Only auto-stream video after initial page load settles on desktop
-    // On mobile or throttled audits, defer until user interaction to guarantee sub-1.2s LCP
-    if (typeof window !== 'undefined') {
-      const isMobile = window.innerWidth < 768
-      if (!isMobile) {
-        if ('requestIdleCallback' in window) {
-          window.requestIdleCallback(() => startPlayback(), { timeout: 3500 })
-        } else {
-          playTimer = setTimeout(startPlayback, 3000)
-        }
+  const startPlayback = () => {
+    setVideoActive(true)
+    setTimeout(() => {
+      const v = videoRef.current
+      if (!v) return
+      v.muted = false
+      v.defaultMuted = false
+      v.volume = 1.0
+      v.playsInline = true
+      const playPromise = v.play()
+      if (playPromise !== undefined) {
+        playPromise
+          .then(() => {
+            setIsMuted(false)
+          })
+          .catch(() => {
+            if (videoRef.current) {
+              videoRef.current.muted = true
+              videoRef.current.play().catch(() => {})
+            }
+            setIsMuted(true)
+          })
       }
-    }
-
-    // Trigger video playback immediately on first user scroll, touch, or click
-    const handleFirstInteraction = () => {
-      startPlayback()
-      cleanupListeners()
-    }
-
-    const cleanupListeners = () => {
-      window.removeEventListener('click', handleFirstInteraction)
-      window.removeEventListener('pointerdown', handleFirstInteraction)
-      window.removeEventListener('touchstart', handleFirstInteraction)
-      window.removeEventListener('scroll', handleFirstInteraction)
-      window.removeEventListener('keydown', handleFirstInteraction)
-    }
-
-    window.addEventListener('click', handleFirstInteraction, { once: true, passive: true })
-    window.addEventListener('pointerdown', handleFirstInteraction, { once: true, passive: true })
-    window.addEventListener('touchstart', handleFirstInteraction, { once: true, passive: true })
-    window.addEventListener('scroll', handleFirstInteraction, { once: true, passive: true })
-    window.addEventListener('keydown', handleFirstInteraction, { once: true, passive: true })
-
-    return () => {
-      clearTimeout(playTimer)
-      cleanupListeners()
-    }
-  }, [])
+    }, 100)
+  }
 
   const toggleMute = () => {
     const video = videoRef.current
@@ -335,27 +286,47 @@ export function HeroSection() {
                 </video>
 
                 {/* Subtle Gradient Overlays */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent pointer-events-none" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-black/10 pointer-events-none" />
 
-                {/* Mute / Unmute Button */}
-                <button
-                  type="button"
-                  onClick={toggleMute}
-                  aria-label={isMuted ? "Unmute Sound" : "Mute Sound"}
-                  className="absolute bottom-4 right-4 z-30 flex items-center gap-2 rounded-full bg-slate-900/90 hover:bg-slate-950 text-white backdrop-blur-md px-4 py-2 text-xs font-bold shadow-2xl transition-all cursor-pointer border border-white/30 hover:scale-105 active:scale-95"
-                >
-                  {isMuted ? (
-                    <>
-                      <VolumeX className="h-4 w-4 text-rose-400" />
-                      <span>Unmute Sound</span>
-                    </>
-                  ) : (
-                    <>
-                      <Volume2 className="h-4 w-4 text-emerald-400 animate-pulse" />
-                      <span className="text-emerald-300">Sound On</span>
-                    </>
-                  )}
-                </button>
+                {/* Interactive Play Trigger Button when Video is Inactive */}
+                {!videoActive ? (
+                  <button
+                    type="button"
+                    onClick={startPlayback}
+                    aria-label="Play Meganods Platform Interactive Demo"
+                    className="absolute inset-0 z-30 flex items-center justify-center cursor-pointer group/overlay bg-slate-950/20 hover:bg-slate-950/40 transition-colors"
+                  >
+                    <div className="flex items-center gap-3 px-6 py-3 rounded-full bg-slate-950/85 hover:bg-slate-900 text-white backdrop-blur-xl border border-white/30 shadow-2xl group-hover/overlay:scale-105 active:scale-95 transition-all">
+                      <div className="w-8 h-8 rounded-full bg-gradient-to-r from-blue-500 via-indigo-600 to-purple-600 flex items-center justify-center text-white shadow-lg shadow-indigo-500/50">
+                        <Play className="h-4 w-4 fill-white ml-0.5" />
+                      </div>
+                      <div className="text-left font-mono">
+                        <span className="text-[10px] font-bold uppercase tracking-wider text-indigo-400 block leading-tight">INTERACTIVE DEMO</span>
+                        <span className="text-xs font-black text-white block leading-tight">Watch Platform Preview</span>
+                      </div>
+                    </div>
+                  </button>
+                ) : (
+                  /* Mute / Unmute Button once playing */
+                  <button
+                    type="button"
+                    onClick={toggleMute}
+                    aria-label={isMuted ? "Unmute Sound" : "Mute Sound"}
+                    className="absolute bottom-4 right-4 z-30 flex items-center gap-2 rounded-full bg-slate-900/90 hover:bg-slate-950 text-white backdrop-blur-md px-4 py-2 text-xs font-bold shadow-2xl transition-all cursor-pointer border border-white/30 hover:scale-105 active:scale-95"
+                  >
+                    {isMuted ? (
+                      <>
+                        <VolumeX className="h-4 w-4 text-rose-400" />
+                        <span>Unmute Sound</span>
+                      </>
+                    ) : (
+                      <>
+                        <Volume2 className="h-4 w-4 text-emerald-400 animate-pulse" />
+                        <span className="text-emerald-300">Sound On</span>
+                      </>
+                    )}
+                  </button>
+                )}
               </div>
             </div>
           </motion.div>
