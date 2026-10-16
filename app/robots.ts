@@ -5,7 +5,7 @@ export default function robots(): MetadataRoute.Robots {
     rules: [
       {
         userAgent: '*',
-        allow: ['/', '/ads.txt', '/sitemap.xml'],
+        allow: '/',
         disallow: ['/admin/', '/api/'],
       },
       {
@@ -26,7 +26,7 @@ export default function robots(): MetadataRoute.Robots {
       },
       {
         userAgent: 'Googlebot',
-        allow: ['/', '/ads.txt', '/sitemap.xml'],
+        allow: '/',
         disallow: ['/admin/', '/api/'],
       },
       {
@@ -68,6 +68,5 @@ export default function robots(): MetadataRoute.Robots {
       },
     ],
     sitemap: 'https://www.meganods.com/sitemap.xml',
-    host: 'https://www.meganods.com',
   }
 }

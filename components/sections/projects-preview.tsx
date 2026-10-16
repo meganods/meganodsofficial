@@ -285,8 +285,12 @@ export function ProjectsPreviewSection() {
                     key={i}
                     onClick={() => scrollToProject(i)}
                     aria-label={`Go to project ${i + 1}`}
-                    className={`h-1.5 rounded-full transition-all duration-300 cursor-pointer ${i === activeIndex ? 'w-8 sm:w-12 bg-indigo-600 dark:bg-indigo-500' : 'w-2 bg-border hover:bg-indigo-400'}`}
-                 />
+                    className="py-3 px-1 flex items-center justify-center focus:outline-none cursor-pointer"
+                 >
+                    <span
+                       className={`block h-1.5 rounded-full transition-all duration-300 ${i === activeIndex ? 'w-8 sm:w-12 bg-indigo-600 dark:bg-indigo-500' : 'w-2 bg-border hover:bg-indigo-400'}`}
+                    />
+                 </button>
               ))}
            </div>
            

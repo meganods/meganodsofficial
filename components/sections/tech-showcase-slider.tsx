@@ -357,7 +357,7 @@ export function TechShowcaseSlider() {
             <ChevronLeft className="w-4 h-4" />
           </button>
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1">
             {TECHNOLOGIES_DATA.map((_, dotIdx) => {
               const isActive = dotIdx === currentRealIndex
               return (
@@ -365,12 +365,16 @@ export function TechShowcaseSlider() {
                   key={dotIdx}
                   onClick={() => goToSlide(dotIdx)}
                   aria-label={`Go to slide ${dotIdx + 1}`}
-                  className={`transition-all duration-300 rounded-full ${
-                    isActive
-                      ? 'w-8 sm:w-9 h-2 sm:h-2.5 bg-gradient-to-r from-blue-600 to-indigo-600 ring-2 ring-blue-500/30'
-                      : 'w-2 sm:w-2.5 h-2 sm:h-2.5 bg-slate-300 hover:bg-slate-400'
-                  }`}
-                />
+                  className="p-2 flex items-center justify-center focus:outline-none"
+                >
+                  <span
+                    className={`block transition-all duration-300 rounded-full ${
+                      isActive
+                        ? 'w-8 sm:w-9 h-2 sm:h-2.5 bg-gradient-to-r from-blue-600 to-indigo-600 ring-2 ring-blue-500/30'
+                        : 'w-2.5 h-2.5 bg-slate-300 hover:bg-slate-400'
+                    }`}
+                  />
+                </button>
               )
             })}
           </div>

@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'Contact Us | Get in Touch with Meganods',
+  title: 'Contact Us | Enterprise AI & Cloud Consultation',
   description: 'Contact Meganods for AI solutions, cloud infrastructure, cybersecurity, and digital transformation services. Reach our global offices or submit a project inquiry.',
   keywords: [
     'Contact Meganods',
@@ -13,14 +13,24 @@ export const metadata: Metadata = {
     'Business Inquiry',
   ],
   openGraph: {
-    title: 'Contact Us | Meganods',
+    title: 'Contact Us | Enterprise AI & Cloud Consultation',
     description: 'Get in touch with Meganods for AI, cloud, and cybersecurity solutions. Submit your project inquiry today.',
     url: 'https://www.meganods.com/contact',
     type: 'website',
+    images: [
+      {
+        url: '/og-image.jpg',
+        width: 1200,
+        height: 630,
+        alt: 'Meganods - Contact Us',
+      },
+    ],
   },
   twitter: {
-    title: 'Contact Meganods | Get in Touch',
+    card: 'summary_large_image',
+    title: 'Contact Us | Enterprise AI & Cloud Consultation',
     description: 'Reach out to Meganods for AI, cloud, and cybersecurity solutions.',
+    images: ['/og-image.jpg'],
   },
   alternates: {
     canonical: 'https://www.meganods.com/contact',

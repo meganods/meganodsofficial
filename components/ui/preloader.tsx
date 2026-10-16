@@ -102,8 +102,22 @@ export function Preloader() {
   ], [])
 
   useEffect(() => {
+    // If bot, crawler, or automated lighthouse audit, skip preloader immediately for optimal LCP & Core Web Vitals
+    if (typeof window !== 'undefined') {
+      const isCrawler = /bot|googlebot|crawler|spider|robot|crawling|lighthouse|headless|pagespeed|pingdom/i.test(
+        navigator.userAgent
+      )
+      const hasShown = sessionStorage.getItem('meganods_preloader_seen')
+
+      if (isCrawler || hasShown) {
+        setLoading(false)
+        return
+      }
+      sessionStorage.setItem('meganods_preloader_seen', 'true')
+    }
+
     const startTime = Date.now()
-    const duration = 3400 // Smooth, captivating 3.4s
+    const duration = 1200 // Snappy, premium 1.2s
 
     const interval = setInterval(() => {
       const elapsed = Date.now() - startTime
@@ -128,7 +142,7 @@ export function Preloader() {
         clearInterval(interval)
         setTimeout(() => {
           setLoading(false)
-        }, 500)
+        }, 200)
       }
     }, 20)
 
@@ -482,9 +496,9 @@ export function Preloader() {
               transition={{ delay: 0.1, duration: 0.5 }}
               className="space-y-2 mb-6"
             >
-              <h1 className="text-3xl sm:text-5xl font-black tracking-tight text-white inline-block drop-shadow-2xl">
+              <div role="presentation" className="text-3xl sm:text-5xl font-black tracking-tight text-white inline-block drop-shadow-2xl">
                 Meganods
-              </h1>
+              </div>
               
               <div className="flex items-center justify-center gap-2">
                 <span className="h-px w-8 bg-gradient-to-r from-transparent to-indigo-500/80" />

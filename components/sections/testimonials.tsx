@@ -218,13 +218,15 @@ export function TestimonialsSection() {
             <div className="flex gap-3">
               <button
                 onClick={handlePrev}
-                className="w-12 h-12 rounded-full border border-border flex items-center justify-center hover:bg-secondary transition-colors text-foreground"
+                aria-label="Previous testimonial"
+                className="w-12 h-12 rounded-full border border-border flex items-center justify-center hover:bg-secondary transition-colors text-foreground focus:outline-none focus:ring-2 focus:ring-indigo-500"
               >
                 <ChevronLeft className="w-5 h-5" />
               </button>
               <button
                 onClick={handleNext}
-                className="w-12 h-12 rounded-full border border-border flex items-center justify-center hover:bg-secondary transition-colors text-foreground"
+                aria-label="Next testimonial"
+                className="w-12 h-12 rounded-full border border-border flex items-center justify-center hover:bg-secondary transition-colors text-foreground focus:outline-none focus:ring-2 focus:ring-indigo-500"
               >
                 <ChevronRight className="w-5 h-5" />
               </button>
@@ -386,17 +388,22 @@ export function TestimonialsSection() {
           </AnimatePresence>
 
           {/* Progress dots */}
-          <div className="mt-14 flex justify-center lg:justify-start gap-2.5">
+          <div className="mt-14 flex justify-center lg:justify-start items-center gap-1.5">
             {testimonials.map((_, index) => (
               <button
                 key={index}
                 onClick={() => { setIsAutoPlaying(false); setActiveIndex(index) }}
-                className={`h-1.5 rounded-full transition-all duration-700 ${
-                  index === activeIndex
-                    ? 'w-16 bg-indigo-600 dark:bg-indigo-500 opacity-100'
-                    : 'w-5 bg-foreground opacity-15 hover:opacity-35'
-                }`}
-              />
+                aria-label={`Go to testimonial ${index + 1}`}
+                className="py-3 px-1 flex items-center justify-center focus:outline-none"
+              >
+                <span
+                  className={`block h-1.5 rounded-full transition-all duration-700 ${
+                    index === activeIndex
+                      ? 'w-16 bg-indigo-600 dark:bg-indigo-500 opacity-100'
+                      : 'w-5 bg-foreground opacity-15 hover:opacity-35'
+                  }`}
+                />
+              </button>
             ))}
           </div>
         </div>

@@ -16,7 +16,7 @@ import { CTASection } from '@/components/sections/cta'
 import { SmoothScrollProvider } from '@/components/providers/smooth-scroll-provider'
 
 export const metadata: Metadata = {
-  title: 'Meganods | Innovating the Future of Technology',
+  title: 'Meganods | Innovating the Future of AI & Cloud Technology',
   description: 'Meganods delivers cutting-edge AI technology, cloud computing, cybersecurity, and digital transformation services to empower businesses worldwide.',
   alternates: {
     canonical: 'https://www.meganods.com',

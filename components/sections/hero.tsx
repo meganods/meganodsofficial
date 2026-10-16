@@ -298,14 +298,17 @@ export function HeroSection() {
                 <video
                   ref={videoRef}
                   src="/hero-video.mp4"
-                  poster="https://cdn.jumpshare.com/preview/FlVNv5fa6Yuzv8WzU517lvfTt_eD4Xx8Dagk3cadFfaXMZ2lFLMZw9iIAxaO--i9YOHe-2CSey8F1wMafnLCe_jfowcVPMucKCCZM-4V7t4-4h3unfsVFOq8J"
+                  poster="/robot-hero.jpg"
                   autoPlay
                   loop
                   muted={isMuted}
                   playsInline
-                  preload="auto"
+                  preload="metadata"
                   className="w-full h-auto aspect-[16/9] object-cover block"
-                />
+                  aria-label="Meganods intelligent enterprise platform preview"
+                >
+                  <track kind="captions" />
+                </video>
 
                 {/* Subtle Gradient Overlays */}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent pointer-events-none" />
@@ -314,7 +317,7 @@ export function HeroSection() {
                 <button
                   type="button"
                   onClick={toggleMute}
-                  aria-label={isMuted ? "Unmute audio" : "Mute audio"}
+                  aria-label={isMuted ? "Unmute Sound" : "Mute Sound"}
                   className="absolute bottom-4 right-4 z-30 flex items-center gap-2 rounded-full bg-slate-900/90 hover:bg-slate-950 text-white backdrop-blur-md px-4 py-2 text-xs font-bold shadow-2xl transition-all cursor-pointer border border-white/30 hover:scale-105 active:scale-95"
                 >
                   {isMuted ? (

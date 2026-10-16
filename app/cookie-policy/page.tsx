@@ -7,16 +7,30 @@ import { Cookie, Shield, Eye, Settings, ArrowLeft } from 'lucide-react'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'Cookie Policy | MegaNods',
+  title: 'Cookie Policy & Tracking Technologies',
   description: 'Understand how MegaNods uses cookies, third-party advertising cookies, and tracking technologies to improve your experience.',
   alternates: {
     canonical: 'https://www.meganods.com/cookie-policy',
   },
   openGraph: {
-    title: 'Cookie Policy | MegaNods',
+    title: 'Cookie Policy & Tracking Technologies',
     description: 'Understand how MegaNods uses cookies, third-party advertising cookies, and tracking technologies.',
     url: 'https://www.meganods.com/cookie-policy',
     type: 'website',
+    images: [
+      {
+        url: '/og-image.jpg',
+        width: 1200,
+        height: 630,
+        alt: 'Meganods Cookie Policy',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Cookie Policy & Tracking Technologies',
+    description: 'Understand how MegaNods uses cookies, third-party advertising cookies, and tracking technologies.',
+    images: ['/og-image.jpg'],
   },
 }
 

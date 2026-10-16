@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'Services | AI Solutions, Cloud Computing & Cybersecurity',
+  title: 'Enterprise Services | AI, Cloud & Cybersecurity',
   description: 'Explore Meganods services — AI & Machine Learning solutions, cloud infrastructure, cybersecurity operations, data analytics, and enterprise web & mobile development.',
   keywords: [
     'IT Services',
@@ -16,14 +16,24 @@ export const metadata: Metadata = {
     'Meganods Services',
   ],
   openGraph: {
-    title: 'Services | Meganods — AI Solutions, Cloud & Cybersecurity',
+    title: 'Enterprise Services | AI, Cloud & Cybersecurity',
     description: 'Multi-sector intelligence and high-performance infrastructure services by Meganods. AI, cloud, security, and custom software development.',
     url: 'https://www.meganods.com/services',
     type: 'website',
+    images: [
+      {
+        url: '/og-image.jpg',
+        width: 1200,
+        height: 630,
+        alt: 'Meganods Enterprise Services',
+      },
+    ],
   },
   twitter: {
-    title: 'Meganods Services | AI, Cloud & Cybersecurity',
+    card: 'summary_large_image',
+    title: 'Enterprise Services | AI, Cloud & Cybersecurity',
     description: 'Multi-sector intelligence and high-performance infrastructure services by Meganods.',
+    images: ['/og-image.jpg'],
   },
   alternates: {
     canonical: 'https://www.meganods.com/services',

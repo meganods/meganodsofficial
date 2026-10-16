@@ -132,11 +132,13 @@ export function Footer() {
                 <a
                   key={social.label}
                   href={social.href}
+                  aria-label={social.label}
                   target={social.href.startsWith('http') ? '_blank' : undefined}
                   rel={social.href.startsWith('http') ? 'noopener noreferrer' : undefined}
                   className={`w-11 h-11 rounded-xl bg-slate-50 dark:bg-card border border-slate-200 dark:border-border flex items-center justify-center text-slate-900 dark:text-slate-100 transition-all shadow-sm group ${social.color}`}
                 >
                   <social.icon className="w-5 h-5 group-hover:scale-110 transition-transform" />
+                  <span className="sr-only">{social.label}</span>
                 </a>
               ))}
             </div>

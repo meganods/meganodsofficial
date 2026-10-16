@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'About Meganods | Our Mission, Vision & Story',
+  title: 'About Us | Our Mission, Vision & Global Story',
   description: 'Learn about Meganods — our mission to innovate the future of technology through AI, cloud computing, and digital transformation. Discover our values, milestones, and global impact.',
   keywords: [
     'About Meganods',
@@ -14,14 +14,24 @@ export const metadata: Metadata = {
     'Technology Vision',
   ],
   openGraph: {
-    title: 'About Meganods | Our Mission, Vision & Story',
+    title: 'About Us | Our Mission, Vision & Global Story',
     description: 'Discover the mission, values, and milestones behind Meganods — a technology company innovating the future through AI and digital transformation.',
     url: 'https://www.meganods.com/about',
     type: 'website',
+    images: [
+      {
+        url: '/og-image.jpg',
+        width: 1200,
+        height: 630,
+        alt: 'About Meganods',
+      },
+    ],
   },
   twitter: {
-    title: 'About Meganods | Our Mission, Vision & Story',
+    card: 'summary_large_image',
+    title: 'About Us | Our Mission, Vision & Global Story',
     description: 'Discover the mission, values, and milestones behind Meganods.',
+    images: ['/og-image.jpg'],
   },
   alternates: {
     canonical: 'https://www.meganods.com/about',

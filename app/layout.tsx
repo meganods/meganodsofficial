@@ -24,7 +24,7 @@ const spaceGrotesk = Space_Grotesk({
 
 export const metadata: Metadata = {
   title: {
-    default: 'Meganods | Innovating the Future of Technology',
+    default: 'Meganods | Innovating the Future of AI & Cloud Technology',
     template: '%s | Meganods'
   },
   description: 'Meganods delivers cutting-edge AI technology, cloud computing, cybersecurity, and digital transformation services to empower businesses worldwide.',
