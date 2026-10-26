@@ -259,7 +259,7 @@ export function VisitorInquiryModal() {
                     <input
                       type="text"
                       required
-                      placeholder="e.g. John Doe"
+                      placeholder="Your Name"
                       value={formData.name}
                       onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                       className="w-full h-11 pl-10 pr-3 rounded-xl bg-slate-50/90 dark:bg-white/[0.04] border border-slate-200 dark:border-white/10 text-slate-900 dark:text-white text-xs sm:text-sm font-medium focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 transition-all placeholder:text-slate-400 dark:placeholder:text-white/20"
@@ -278,7 +278,7 @@ export function VisitorInquiryModal() {
                     <input
                       type="email"
                       required
-                      placeholder="john@company.com"
+                      placeholder="Your Email Address"
                       value={formData.email}
                       onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                       className="w-full h-11 pl-10 pr-3 rounded-xl bg-slate-50/90 dark:bg-white/[0.04] border border-slate-200 dark:border-white/10 text-slate-900 dark:text-white text-xs sm:text-sm font-medium focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 transition-all placeholder:text-slate-400 dark:placeholder:text-white/20"
@@ -299,7 +299,7 @@ export function VisitorInquiryModal() {
                     <input
                       type="tel"
                       required
-                      placeholder="e.g. +91 98765 43210"
+                      placeholder="Your Mobile Number"
                       value={formData.phone}
                       onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                       className="w-full h-11 pl-10 pr-3 rounded-xl bg-slate-50/90 dark:bg-white/[0.04] border border-slate-200 dark:border-white/10 text-slate-900 dark:text-white text-xs sm:text-sm font-medium focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 transition-all placeholder:text-slate-400 dark:placeholder:text-white/20"
@@ -366,7 +366,7 @@ export function VisitorInquiryModal() {
                     <FileText className="absolute left-3.5 top-3 w-4 h-4 text-slate-400 dark:text-white/30" />
                     <textarea
                       rows={2}
-                      placeholder="e.g. Building an AI-driven platform, looking to launch MVP in 6-8 weeks..."
+                      placeholder="Your Message"
                       value={formData.message}
                       onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                       className="w-full pl-10 pr-3 py-2.5 rounded-xl bg-slate-50/90 dark:bg-white/[0.04] border border-slate-200 dark:border-white/10 text-slate-900 dark:text-white text-xs sm:text-sm font-medium focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 transition-all resize-none placeholder:text-slate-400 dark:placeholder:text-white/20"
