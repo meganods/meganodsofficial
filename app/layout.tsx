@@ -101,15 +101,14 @@ export default function RootLayout({
       <head>
         {/* Google AdSense Account Meta Tag */}
         <meta name="google-adsense-account" content="ca-pub-5266755800049907" />
-      </head>
-      <body className={`${inter.variable} ${spaceGrotesk.variable} font-sans antialiased`}>
-        {/* Google AdSense Script - lazyOnload so it never blocks FCP / LCP */}
-        <Script
-          id="adsense-script"
-          strategy="lazyOnload"
+        {/* Google AdSense Native Head Script (prevents data-nscript warning) */}
+        <script
+          async
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5266755800049907"
           crossOrigin="anonymous"
         />
+      </head>
+      <body className={`${inter.variable} ${spaceGrotesk.variable} font-sans antialiased`}>
 
         {/* Google tag (gtag.js) for Google Analytics & Google Ads */}
         <Script
