@@ -35,7 +35,7 @@ export function BlogPreviewSection() {
           setPosts(fetchedPosts)
         }
       } catch (error) {
-        console.error('BLOG_FETCH_ERROR:', error)
+        // Fallback to static default blogs if firestore is offline or rules are pending
       } finally {
         setIsLoading(false)
       }

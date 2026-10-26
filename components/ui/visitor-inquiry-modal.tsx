@@ -52,38 +52,16 @@ export function VisitorInquiryModal() {
       return
     }
 
-    // Check if user has already submitted or recently dismissed
-    try {
-      const alreadySubmitted = localStorage.getItem('meganods_popup_submitted')
-      if (alreadySubmitted === 'true') {
-        return
-      }
+    // Show popup after 3 seconds of browsing on every refresh/load
+    const timer = setTimeout(() => {
+      setIsOpen(true)
+    }, 3000)
 
-      const dismissedUntil = localStorage.getItem('meganods_popup_dismissed_until')
-      if (dismissedUntil && Date.now() < parseInt(dismissedUntil, 10)) {
-        return
-      }
-
-      // Show popup after 3 seconds of browsing
-      const timer = setTimeout(() => {
-        setIsOpen(true)
-      }, 3000)
-
-      return () => clearTimeout(timer)
-    } catch {
-      // LocalStorage access may fail in restricted/incognito modes
-    }
+    return () => clearTimeout(timer)
   }, [pathname])
 
   const handleDismiss = () => {
     setIsOpen(false)
-    try {
-      // Don't show again for 24 hours if dismissed
-      const oneDayLater = Date.now() + 24 * 60 * 60 * 1000
-      localStorage.setItem('meganods_popup_dismissed_until', oneDayLater.toString())
-    } catch {
-      // Ignore storage errors
-    }
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -143,17 +121,12 @@ export function VisitorInquiryModal() {
 
       setIsSubmitted(true)
 
-      try {
-        localStorage.setItem('meganods_popup_submitted', 'true')
-      } catch {
-        // Ignore storage errors
-      }
-
       toast.success('Your inquiry has been received! Our engineering team will contact you shortly.')
 
       // Auto close after 2.5 seconds
       setTimeout(() => {
         setIsOpen(false)
+        setIsSubmitted(false)
       }, 2500)
     } catch (err: any) {
       console.error('Popup submission error:', err)

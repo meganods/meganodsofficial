@@ -50,7 +50,7 @@ export function TeamPreviewSection() {
           }
         }
       } catch (error) {
-        console.warn("TEAM_PREVIEW_FALLBACK_DEFAULT:", error);
+        // Fallback to static default team members if firestore is offline or rules are pending
       } finally {
         setIsLoading(false);
       }
