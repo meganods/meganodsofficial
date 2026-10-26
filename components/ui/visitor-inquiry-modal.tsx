@@ -6,15 +6,25 @@ import {
   X, 
   Send, 
   Sparkles, 
-  CheckCircle, 
+  CheckCircle2, 
   Globe, 
   Smartphone, 
   Bot, 
   Cpu, 
   Cloud, 
-  MessageSquare,
-  Loader2,
-  ShieldCheck
+  MessageSquare, 
+  Loader2, 
+  ShieldCheck,
+  User,
+  Mail,
+  Phone,
+  ArrowRight,
+  FileText,
+  Lock,
+  Zap,
+  Check,
+  ChevronDown,
+  Layers
 } from 'lucide-react'
 import { usePathname } from 'next/navigation'
 import { Button } from '@/components/ui/button'
@@ -24,12 +34,12 @@ import { db } from '@/lib/firebase'
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore'
 
 const SERVICE_OPTIONS = [
-  { id: 'Website Development', label: 'Website / Web App', icon: Globe },
-  { id: 'Mobile App Development', label: 'Mobile App (iOS/Android)', icon: Smartphone },
-  { id: 'AI & Automation', label: 'AI & Machine Learning', icon: Bot },
-  { id: 'Custom Software', label: 'Custom Software / SaaS', icon: Cpu },
-  { id: 'Cloud Solutions', label: 'Cloud & Infrastructure', icon: Cloud },
-  { id: 'Consultation', label: 'Technical Consultation', icon: MessageSquare },
+  { id: 'Website Development', label: 'Web & Cloud App Development' },
+  { id: 'Mobile App Development', label: 'Mobile App Development (iOS & Android)' },
+  { id: 'AI & Automation', label: 'AI, Machine Learning & Automation' },
+  { id: 'Custom Software', label: 'Custom Enterprise Software / SaaS' },
+  { id: 'Cloud Solutions', label: 'Cloud Solutions & DevOps Mesh' },
+  { id: 'Consultation', label: 'Technical Consultation & Architecture' },
 ]
 
 export function VisitorInquiryModal() {
@@ -37,6 +47,7 @@ export function VisitorInquiryModal() {
   const [isOpen, setIsOpen] = useState(false)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isSubmitted, setIsSubmitted] = useState(false)
+  const [submittedLeadId, setSubmittedLeadId] = useState('')
 
   const [formData, setFormData] = useState({
     name: '',
@@ -52,8 +63,9 @@ export function VisitorInquiryModal() {
       return
     }
 
-    // Show popup after 3 seconds of browsing on every refresh/load
+    // Trigger popup after 3 seconds on every page load/refresh
     const timer = setTimeout(() => {
+      setIsSubmitted(false)
       setIsOpen(true)
     }, 3000)
 
@@ -68,17 +80,18 @@ export function VisitorInquiryModal() {
     e.preventDefault()
 
     if (!formData.name.trim() || !formData.email.trim() || !formData.phone.trim()) {
-      toast.error('Please provide your name, email, and mobile number.')
+      toast.error('Please provide your name, email, and mobile/WhatsApp number.')
       return
     }
 
     setIsSubmitting(true)
 
-    const leadId = `LEAD-${Date.now()}`
+    const leadId = `MN-${Date.now().toString().slice(-6)}`
+    setSubmittedLeadId(leadId)
     const timestampStr = new Date().toLocaleString('en-US', { timeZone: 'Asia/Kolkata' })
 
     try {
-      // 1. Sync to Google Sheet Webhook immediately (guaranteed delivery)
+      // 1. Sync to Google Sheet Webhook immediately
       const webhookUrl = process.env.NEXT_PUBLIC_GOOGLE_SHEETS_WEBHOOK_URL
       if (webhookUrl) {
         fetch(webhookUrl, {
@@ -93,7 +106,7 @@ export function VisitorInquiryModal() {
             email: formData.email.trim().toLowerCase(),
             phone: formData.phone.trim(),
             service: formData.service,
-            message: formData.message.trim() || 'Direct inquiry via welcome popup',
+            message: formData.message.trim() || 'Direct inquiry via welcome consultation popup',
             status: 'NEW',
           }),
         }).catch((err) => console.error('Google Sheet sync error:', err))
@@ -107,27 +120,26 @@ export function VisitorInquiryModal() {
           phone: formData.phone.trim(),
           company: 'Website Visitor',
           service: formData.service,
-          message: formData.message.trim() || 'Direct inquiry via welcome popup',
+          message: formData.message.trim() || 'Direct inquiry via welcome consultation popup',
           source: 'WEBSITE_POPUP',
           status: 'NEW',
           timestamp: serverTimestamp(),
         })
       } catch (dbErr) {
-        console.warn('Firestore write warning (verify firestore rules):', dbErr)
+        // Silent catch for firestore permission if rules pending
       }
 
       // 3. Fire Google Ads conversion
       gtag_report_conversion()
 
       setIsSubmitted(true)
+      toast.success('Your project inquiry has been queued for immediate architectural review!')
 
-      toast.success('Your inquiry has been received! Our engineering team will contact you shortly.')
-
-      // Auto close after 2.5 seconds
+      // Auto close after 3 seconds
       setTimeout(() => {
         setIsOpen(false)
         setIsSubmitted(false)
-      }, 2500)
+      }, 3200)
     } catch (err: any) {
       console.error('Popup submission error:', err)
       toast.error('Could not submit inquiry. Please try again or use our contact page.')
@@ -140,180 +152,221 @@ export function VisitorInquiryModal() {
 
   return (
     <AnimatePresence>
-      <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 overflow-y-auto">
-        {/* Backdrop */}
+      <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-5 overflow-y-auto">
+        {/* Backdrop with sophisticated blur */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           onClick={handleDismiss}
-          className="fixed inset-0 bg-slate-950/70 backdrop-blur-md transition-opacity"
+          className="fixed inset-0 bg-slate-950/65 backdrop-blur-md transition-opacity"
         />
 
         {/* Modal Window */}
         <motion.div
-          initial={{ opacity: 0, scale: 0.95, y: 20 }}
+          initial={{ opacity: 0, scale: 0.94, y: 16 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
-          exit={{ opacity: 0, scale: 0.95, y: 20 }}
-          transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-          className="relative w-full max-w-lg rounded-3xl bg-white dark:bg-[#06060c] border border-slate-200 dark:border-white/10 shadow-2xl overflow-hidden p-6 sm:p-8 z-10 text-slate-900 dark:text-white"
+          exit={{ opacity: 0, scale: 0.94, y: 16 }}
+          transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+          className="relative w-full max-w-[480px] rounded-[28px] sm:rounded-[32px] bg-white/95 dark:bg-[#07070f]/95 border border-slate-200/90 dark:border-white/10 shadow-[0_25px_70px_rgba(15,23,42,0.22)] dark:shadow-[0_25px_80px_rgba(79,70,229,0.18)] backdrop-blur-2xl overflow-hidden z-10 text-slate-900 dark:text-white"
         >
-          {/* Ambient Corner Glow */}
-          <div className="absolute top-0 right-0 w-48 h-48 bg-gradient-to-br from-indigo-500/20 via-purple-500/10 to-transparent blur-3xl pointer-events-none" />
-          <div className="absolute bottom-0 left-0 w-48 h-48 bg-gradient-to-tr from-emerald-500/10 to-transparent blur-3xl pointer-events-none" />
+          {/* Top Decorative Gradient Accent Bar */}
+          <div className="h-1.5 w-full bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500" />
+
+          {/* Ambient Lighting Background Accents */}
+          <div className="absolute top-0 right-0 w-72 h-72 bg-gradient-to-bl from-indigo-500/15 via-purple-500/10 to-transparent blur-3xl pointer-events-none" />
+          <div className="absolute bottom-0 left-0 w-72 h-72 bg-gradient-to-tr from-emerald-500/10 via-cyan-500/5 to-transparent blur-3xl pointer-events-none" />
 
           {/* Close Button */}
           <button
             onClick={handleDismiss}
             aria-label="Close modal"
-            className="absolute top-5 right-5 w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 dark:bg-white/5 dark:hover:bg-white/10 flex items-center justify-center text-slate-400 hover:text-slate-600 dark:hover:text-white transition-colors cursor-pointer z-20"
+            className="absolute top-4 right-4 sm:top-5 sm:right-5 w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 dark:bg-white/5 dark:hover:bg-white/10 flex items-center justify-center text-slate-400 hover:text-slate-800 dark:hover:text-white transition-all cursor-pointer z-30 group"
           >
-            <X className="w-4 h-4" />
+            <X className="w-4 h-4 transition-transform group-hover:rotate-90 duration-200" />
           </button>
 
           {isSubmitted ? (
+            /* Success State */
             <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
+              initial={{ opacity: 0, scale: 0.92 }}
               animate={{ opacity: 1, scale: 1 }}
-              className="py-10 text-center flex flex-col items-center justify-center"
+              className="py-12 px-6 sm:px-10 text-center flex flex-col items-center justify-center"
             >
-              <div className="w-16 h-16 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-500 dark:text-emerald-400 mb-4 shadow-lg">
-                <CheckCircle className="w-9 h-9" />
+              <div className="relative mb-5">
+                <div className="w-20 h-20 rounded-3xl bg-gradient-to-tr from-emerald-500/20 to-teal-500/20 border border-emerald-500/30 flex items-center justify-center text-emerald-500 dark:text-emerald-400 shadow-xl shadow-emerald-500/10">
+                  <CheckCircle2 className="w-10 h-10" />
+                </div>
+                <div className="absolute -inset-1 rounded-3xl bg-emerald-500/20 blur-md -z-10 animate-pulse" />
               </div>
-              <h3 className="text-2xl font-black uppercase tracking-tight text-slate-900 dark:text-white mb-2">
-                Inquiry Received!
+
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-600 dark:text-emerald-400 font-mono text-[10px] uppercase tracking-widest font-bold mb-3">
+                <ShieldCheck className="w-3.5 h-3.5" />
+                <span>Ticket ID #{submittedLeadId}</span>
+              </div>
+
+              <h3 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-slate-900 dark:text-white mb-2">
+                Consultation Queued!
               </h3>
-              <p className="text-xs sm:text-sm text-slate-500 dark:text-white/60 max-w-xs leading-relaxed">
-                Thank you for reaching out. A Meganods technical consultant will review your project scope and connect with you shortly.
+              <p className="text-xs sm:text-sm text-slate-600 dark:text-white/60 max-w-sm leading-relaxed mb-6">
+                Thank you for reaching out. A Senior Solutions Architect at Meganods has received your parameters and will respond with an architectural scope within <span className="font-semibold text-slate-900 dark:text-white">2 hours</span>.
               </p>
+
+              <div className="w-full max-w-xs p-3.5 rounded-2xl bg-slate-50 dark:bg-white/5 border border-slate-200/80 dark:border-white/10 text-left flex items-center justify-between text-xs">
+                <span className="text-slate-500 dark:text-white/40 font-mono">Priority Dispatch</span>
+                <span className="text-emerald-600 dark:text-emerald-400 font-bold font-mono flex items-center gap-1.5">
+                  <span className="w-2 h-2 rounded-full bg-emerald-500 animate-ping" />
+                  Active In Queue
+                </span>
+              </div>
             </motion.div>
           ) : (
-            <div>
-              {/* Badge & Title */}
-              <div className="flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-600 dark:text-indigo-400 font-mono text-[10px] uppercase tracking-widest font-bold w-fit mb-3">
-                <Sparkles className="w-3.5 h-3.5 text-indigo-500" />
-                <span>Project Consultation</span>
+            /* Inquiry Form */
+            <div className="p-6 sm:p-7">
+              {/* Single Line Header */}
+              <div className="mb-5 pr-8">
+                <h3 className="text-xl sm:text-2xl font-black tracking-tight text-slate-900 dark:text-white leading-tight">
+                  Get a Free Architectural Roadmap & Estimate
+                </h3>
               </div>
 
-              <h3 className="text-2xl sm:text-3xl font-black tracking-tight text-slate-900 dark:text-white uppercase leading-tight mb-1">
-                Have a Project in Mind?
-              </h3>
-              <p className="text-xs sm:text-sm text-slate-500 dark:text-white/50 mb-6 font-medium leading-relaxed">
-                Tell us about your requirements and get a free architectural roadmap & estimate.
-              </p>
-
-              {/* Form */}
-              <form onSubmit={handleSubmit} className="space-y-4">
-                {/* Name & Email Row */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                  <div>
-                    <label className="block text-[10px] font-mono uppercase tracking-wider text-slate-500 dark:text-white/40 font-bold mb-1">
-                      Your Name *
-                    </label>
+              <form onSubmit={handleSubmit} className="space-y-3.5">
+                {/* 1. Full Name (Below by below) */}
+                <div>
+                  <label className="flex items-center justify-between text-[10px] font-mono uppercase tracking-wider text-slate-600 dark:text-white/60 font-bold mb-1.5">
+                    <span>Full Name</span>
+                    <span className="text-indigo-600 dark:text-indigo-400">*</span>
+                  </label>
+                  <div className="relative">
+                    <User className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 dark:text-white/30" />
                     <input
                       type="text"
                       required
                       placeholder="e.g. John Doe"
                       value={formData.name}
                       onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                      className="w-full h-11 px-3.5 rounded-xl bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 text-slate-900 dark:text-white text-xs sm:text-sm font-medium focus:outline-none focus:border-indigo-500 transition-colors placeholder:text-slate-400 dark:placeholder:text-white/20"
+                      className="w-full h-11 pl-10 pr-3 rounded-xl bg-slate-50/90 dark:bg-white/[0.04] border border-slate-200 dark:border-white/10 text-slate-900 dark:text-white text-xs sm:text-sm font-medium focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 transition-all placeholder:text-slate-400 dark:placeholder:text-white/20"
                     />
                   </div>
+                </div>
 
-                  <div>
-                    <label className="block text-[10px] font-mono uppercase tracking-wider text-slate-500 dark:text-white/40 font-bold mb-1">
-                      Email Address *
-                    </label>
+                {/* 2. Work Email (Below by below) */}
+                <div>
+                  <label className="flex items-center justify-between text-[10px] font-mono uppercase tracking-wider text-slate-600 dark:text-white/60 font-bold mb-1.5">
+                    <span>Work Email</span>
+                    <span className="text-indigo-600 dark:text-indigo-400">*</span>
+                  </label>
+                  <div className="relative">
+                    <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 dark:text-white/30" />
                     <input
                       type="email"
                       required
                       placeholder="john@company.com"
                       value={formData.email}
                       onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                      className="w-full h-11 px-3.5 rounded-xl bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 text-slate-900 dark:text-white text-xs sm:text-sm font-medium focus:outline-none focus:border-indigo-500 transition-colors placeholder:text-slate-400 dark:placeholder:text-white/20"
+                      className="w-full h-11 pl-10 pr-3 rounded-xl bg-slate-50/90 dark:bg-white/[0.04] border border-slate-200 dark:border-white/10 text-slate-900 dark:text-white text-xs sm:text-sm font-medium focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 transition-all placeholder:text-slate-400 dark:placeholder:text-white/20"
                     />
                   </div>
                 </div>
 
-                {/* Mobile / WhatsApp */}
+                {/* 3. Mobile Number / WhatsApp (Below by below - Mandatory) */}
                 <div>
-                  <label className="block text-[10px] font-mono uppercase tracking-wider text-slate-500 dark:text-white/40 font-bold mb-1">
-                    Mobile Number / WhatsApp *
+                  <label className="flex items-center justify-between text-[10px] font-mono uppercase tracking-wider text-slate-600 dark:text-white/60 font-bold mb-1.5">
+                    <span>Mobile Number / WhatsApp</span>
+                    <span className="text-indigo-600 dark:text-indigo-400 font-semibold text-[9px] bg-indigo-50 dark:bg-indigo-950/60 px-2 py-0.5 rounded-full border border-indigo-200 dark:border-indigo-800">
+                      MANDATORY *
+                    </span>
                   </label>
-                  <input
-                    type="tel"
-                    required
-                    placeholder="e.g. +91 98765 43210"
-                    value={formData.phone}
-                    onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                    className="w-full h-11 px-3.5 rounded-xl bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 text-slate-900 dark:text-white text-xs sm:text-sm font-medium focus:outline-none focus:border-indigo-500 transition-colors placeholder:text-slate-400 dark:placeholder:text-white/20"
-                  />
-                </div>
-
-                {/* Service Selection Chips */}
-                <div>
-                  <label className="block text-[10px] font-mono uppercase tracking-wider text-slate-500 dark:text-white/40 font-bold mb-2">
-                    What service are you looking for?
-                  </label>
-                  <div className="grid grid-cols-2 gap-2">
-                    {SERVICE_OPTIONS.map((item) => {
-                      const Icon = item.icon
-                      const isSelected = formData.service === item.id
-                      return (
-                        <button
-                          key={item.id}
-                          type="button"
-                          onClick={() => setFormData({ ...formData, service: item.id })}
-                          className={`flex items-center gap-2 p-2.5 rounded-xl text-left border text-xs font-semibold transition-all cursor-pointer ${
-                            isSelected
-                              ? 'bg-indigo-600 text-white border-indigo-600 shadow-md'
-                              : 'bg-slate-50 dark:bg-white/5 border-slate-200 dark:border-white/10 text-slate-700 dark:text-white/70 hover:border-indigo-500/40'
-                          }`}
-                        >
-                          <Icon className={`w-3.5 h-3.5 shrink-0 ${isSelected ? 'text-white' : 'text-indigo-500'}`} />
-                          <span className="truncate">{item.label}</span>
-                        </button>
-                      )
-                    })}
+                  <div className="relative">
+                    <Phone className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 dark:text-white/30" />
+                    <input
+                      type="tel"
+                      required
+                      placeholder="+91 98765 43210 / +1 (555) 012-3456"
+                      value={formData.phone}
+                      onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                      className="w-full h-11 pl-10 pr-3 rounded-xl bg-slate-50/90 dark:bg-white/[0.04] border border-slate-200 dark:border-white/10 text-slate-900 dark:text-white text-xs sm:text-sm font-medium focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 transition-all placeholder:text-slate-400 dark:placeholder:text-white/20"
+                    />
                   </div>
                 </div>
 
-                {/* Brief Message (Optional) */}
+                {/* 4. Primary Area of Interest (Dropdown) */}
                 <div>
-                  <label className="block text-[10px] font-mono uppercase tracking-wider text-slate-500 dark:text-white/40 font-bold mb-1">
-                    Brief Scope / Timeline <span className="text-slate-400 font-normal">(Optional)</span>
+                  <label className="block text-[10px] font-mono uppercase tracking-wider text-slate-600 dark:text-white/60 font-bold mb-1.5">
+                    Primary Area of Interest
                   </label>
-                  <textarea
-                    rows={2}
-                    placeholder="Tell us a little about your project goals or timeline..."
-                    value={formData.message}
-                    onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 text-slate-900 dark:text-white text-xs sm:text-sm font-medium focus:outline-none focus:border-indigo-500 transition-colors resize-none placeholder:text-slate-400 dark:placeholder:text-white/20"
-                  />
+                  <div className="relative">
+                    <Layers className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 dark:text-white/30 pointer-events-none" />
+                    <select
+                      value={formData.service}
+                      onChange={(e) => setFormData({ ...formData, service: e.target.value })}
+                      className="w-full h-11 pl-10 pr-10 rounded-xl bg-slate-50/90 dark:bg-[#0a0a14] border border-slate-200 dark:border-white/10 text-slate-900 dark:text-white text-xs sm:text-sm font-medium focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 transition-all appearance-none cursor-pointer"
+                    >
+                      {SERVICE_OPTIONS.map((item) => (
+                        <option key={item.id} value={item.id} className="bg-white dark:bg-[#07070f] text-slate-900 dark:text-white py-2">
+                          {item.label}
+                        </option>
+                      ))}
+                    </select>
+                    <ChevronDown className="absolute right-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 dark:text-white/40 pointer-events-none" />
+                  </div>
                 </div>
 
-                {/* Submit Button */}
-                <Button
-                  type="submit"
-                  disabled={isSubmitting}
-                  className="w-full h-12 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl text-xs sm:text-sm uppercase tracking-wider shadow-xl shadow-indigo-500/20 border-0 flex items-center justify-center gap-2 cursor-pointer transition-all"
-                >
-                  {isSubmitting ? (
-                    <>
-                      <Loader2 className="w-4 h-4 animate-spin" />
-                      <span>Transmitting...</span>
-                    </>
-                  ) : (
-                    <>
-                      <span>Get Free Estimate & Proposal</span>
-                      <Send className="w-3.5 h-3.5" />
-                    </>
-                  )}
-                </Button>
+                {/* 5. Brief Scope / Timeline (Optional) */}
+                <div>
+                  <label className="flex items-center justify-between text-[10px] font-mono uppercase tracking-wider text-slate-600 dark:text-white/60 font-bold mb-1.5">
+                    <span>Project Vision / Timeline</span>
+                    <span className="text-slate-400 font-normal normal-case text-[10px]">Optional</span>
+                  </label>
+                  <div className="relative">
+                    <FileText className="absolute left-3.5 top-3 w-4 h-4 text-slate-400 dark:text-white/30" />
+                    <textarea
+                      rows={2}
+                      placeholder="e.g. Building an AI-driven platform, looking to launch MVP in 6-8 weeks..."
+                      value={formData.message}
+                      onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                      className="w-full pl-10 pr-3 py-2.5 rounded-xl bg-slate-50/90 dark:bg-white/[0.04] border border-slate-200 dark:border-white/10 text-slate-900 dark:text-white text-xs sm:text-sm font-medium focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 transition-all resize-none placeholder:text-slate-400 dark:placeholder:text-white/20"
+                    />
+                  </div>
+                </div>
 
-                <div className="flex items-center justify-center gap-1.5 text-[10px] font-mono text-slate-400 dark:text-white/30 pt-1">
-                  <ShieldCheck className="w-3.5 h-3.5 text-emerald-500" />
-                  <span>100% confidential. No spam, ever.</span>
+                {/* Submit Action */}
+                <div className="pt-1">
+                  <Button
+                    type="submit"
+                    disabled={isSubmitting}
+                    className="w-full h-12 bg-gradient-to-r from-indigo-600 via-indigo-700 to-purple-600 hover:from-indigo-500 hover:via-indigo-600 hover:to-purple-500 text-white font-bold rounded-xl text-xs sm:text-sm uppercase tracking-wider shadow-lg shadow-indigo-600/30 border-0 flex items-center justify-center gap-2 cursor-pointer transition-all hover:scale-[1.01] active:scale-[0.99]"
+                  >
+                    {isSubmitting ? (
+                      <>
+                        <Loader2 className="w-4 h-4 animate-spin" />
+                        <span>Transmitting Scope...</span>
+                      </>
+                    ) : (
+                      <>
+                        <span>Request Architecture Roadmap & Quote</span>
+                        <ArrowRight className="w-4 h-4" />
+                      </>
+                    )}
+                  </Button>
+                </div>
+
+                {/* Trust Footer Signals */}
+                <div className="flex items-center justify-center gap-4 text-[10px] font-mono text-slate-500 dark:text-white/40 pt-1">
+                  <span className="flex items-center gap-1">
+                    <Lock className="w-3 h-3 text-indigo-500" />
+                    <span>NDA Protected</span>
+                  </span>
+                  <span>•</span>
+                  <span className="flex items-center gap-1">
+                    <Zap className="w-3 h-3 text-amber-500" />
+                    <span>Avg. Response &lt; 2h</span>
+                  </span>
+                  <span>•</span>
+                  <span className="flex items-center gap-1">
+                    <ShieldCheck className="w-3 h-3 text-emerald-500" />
+                    <span>Zero Spam</span>
+                  </span>
                 </div>
               </form>
             </div>
