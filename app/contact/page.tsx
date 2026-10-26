@@ -24,6 +24,7 @@ import { Button } from "@/components/ui/button"
 import { db } from "@/lib/firebase";
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 import { toast } from "sonner";
+import { gtag_report_conversion } from "@/lib/gtag";
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({
@@ -43,13 +44,37 @@ export default function ContactPage() {
     setIsSubmitting(true)
 
     try {
-      await addDoc(collection(db, "leads"), {
+      const docRef = await addDoc(collection(db, "leads"), {
         ...formData,
+        source: "CONTACT_PAGE",
         status: "NEW",
         timestamp: serverTimestamp(),
       });
       setIsSubmitted(true);
+      gtag_report_conversion();
       toast.success("TRANSMISSION_SUCCESSFUL: DATA_ENCRYPTED_AND_STORED");
+
+      // Sync to Google Sheets Webhook
+      const webhookUrl = process.env.NEXT_PUBLIC_GOOGLE_SHEETS_WEBHOOK_URL;
+      if (webhookUrl) {
+        fetch(webhookUrl, {
+          method: "POST",
+          mode: "no-cors",
+          headers: { "Content-Type": "text/plain" },
+          body: JSON.stringify({
+            id: docRef.id,
+            timestamp: new Date().toLocaleString("en-US", { timeZone: "Asia/Kolkata" }),
+            source: "CONTACT_PAGE",
+            name: formData.name,
+            email: formData.email,
+            phone: formData.phone,
+            company: formData.company,
+            service: formData.service,
+            message: formData.message,
+            status: "NEW",
+          }),
+        }).catch((err) => console.error("Google Sheet sync error:", err));
+      }
     } catch (error: any) {
       console.error("LEAD_SUBMISSION_ERROR:", error);
       toast.error(`TRANSMISSION_FAILURE: ${error.message}`);
@@ -124,7 +149,11 @@ export default function ContactPage() {
                     <Mail className="w-5 h-5 text-emerald-500 dark:text-emerald-400 flex-shrink-0 mt-0.5" />
                     <div className="min-w-0">
                       <div className="text-[9px] sm:text-[10px] font-mono text-slate-400 dark:text-white/30 uppercase tracking-[0.15em] sm:tracking-[0.2em] mb-0.5 font-semibold">Secure Mailbox</div>
-                      <a href="mailto:admin@meganods.com" className="text-sm sm:text-base font-bold text-slate-900 dark:text-white hover:text-emerald-500 dark:hover:text-emerald-400 transition-colors break-all">
+                      <a 
+                        href="mailto:admin@meganods.com" 
+                        onClick={() => gtag_report_conversion()}
+                        className="text-sm sm:text-base font-bold text-slate-900 dark:text-white hover:text-emerald-500 dark:hover:text-emerald-400 transition-colors break-all"
+                      >
                         admin@meganods.com
                       </a>
                     </div>
@@ -134,7 +163,11 @@ export default function ContactPage() {
                     <Phone className="w-5 h-5 text-rose-500 dark:text-rose-400 flex-shrink-0 mt-0.5" />
                     <div className="min-w-0">
                       <div className="text-[9px] sm:text-[10px] font-mono text-slate-400 dark:text-white/30 uppercase tracking-[0.15em] sm:tracking-[0.2em] mb-0.5 font-semibold">Voice Node</div>
-                      <a href="tel:+918796140682" className="text-sm sm:text-base font-bold text-slate-900 dark:text-white hover:text-rose-500 dark:hover:text-rose-400 transition-colors">
+                      <a 
+                        href="tel:+918796140682" 
+                        onClick={() => gtag_report_conversion()}
+                        className="text-sm sm:text-base font-bold text-slate-900 dark:text-white hover:text-rose-500 dark:hover:text-rose-400 transition-colors"
+                      >
                         +91 8796140682
                       </a>
                     </div>

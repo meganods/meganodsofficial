@@ -17,6 +17,7 @@ import {
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { IsometricHeroAnimation } from '@/components/effects/isometric-hero-animation'
+import { gtag_report_conversion } from '@/lib/gtag'
 
 export function HeroSection() {
   const videoRef = useRef<HTMLVideoElement>(null)
@@ -154,7 +155,7 @@ export function HeroSection() {
 
               {/* Action Buttons */}
               <div className="flex flex-wrap items-center justify-center lg:justify-start gap-4 pt-2">
-                <Link href="/contact">
+                <Link href="/contact" onClick={() => gtag_report_conversion()}>
                   <Button
                     size="lg"
                     className="h-12 px-8 bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 hover:from-blue-700 hover:to-indigo-700 text-white font-bold rounded-xl shadow-xl shadow-blue-500/20 text-sm cursor-pointer border-0 flex items-center gap-2 hover:scale-105 active:scale-95 transition-all"

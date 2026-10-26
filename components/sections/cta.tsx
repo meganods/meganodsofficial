@@ -6,6 +6,7 @@ import Link from 'next/link'
 import { ArrowRight, Phone, Mail, Zap, Globe, Shield } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { DeepTechBackground } from '@/components/ui/deep-tech-background'
+import { gtag_report_conversion } from '@/lib/gtag'
 
 export function CTASection() {
   const ref = useRef(null)
@@ -68,7 +69,11 @@ export function CTASection() {
                   asChild
                   className="w-full sm:w-auto h-12 sm:h-14 lg:h-16 px-6 sm:px-8 lg:px-10 bg-foreground text-background hover:bg-foreground/90 font-bold rounded-xl sm:rounded-2xl shadow-xl transition-all text-xs sm:text-sm lg:text-base group border-0 cursor-pointer"
                 >
-                  <Link href="/contact" className="flex items-center justify-center gap-2">
+                  <Link 
+                    href="/contact" 
+                    onClick={() => gtag_report_conversion()}
+                    className="flex items-center justify-center gap-2"
+                  >
                     <span>Initiate Project</span>
                     <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 group-hover:translate-x-1 transition-transform" />
                   </Link>
@@ -78,7 +83,11 @@ export function CTASection() {
                   variant="outline"
                   className="w-full sm:w-auto h-12 sm:h-14 lg:h-16 px-6 sm:px-8 lg:px-10 border border-border text-foreground bg-card/80 hover:bg-secondary rounded-xl sm:rounded-2xl text-xs sm:text-sm lg:text-base backdrop-blur-md shadow-sm cursor-pointer"
                 >
-                  <Link href="/contact#schedule" className="flex items-center justify-center gap-2">
+                  <Link 
+                    href="/contact#schedule" 
+                    onClick={() => gtag_report_conversion()}
+                    className="flex items-center justify-center gap-2"
+                  >
                     <span>Schedule Technical Audit</span>
                     <Phone className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                   </Link>

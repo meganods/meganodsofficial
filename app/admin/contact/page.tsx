@@ -25,7 +25,9 @@ import {
   MessageSquare,
   Cpu,
   Shield,
-  ArrowUpRight
+  ArrowUpRight,
+  FileSpreadsheet,
+  Download
 } from "lucide-react"
 import { db } from "@/lib/firebase"
 import { 
@@ -117,6 +119,60 @@ export default function AdminContactPage() {
       toast.error(`STATUS_UPDATE_FAILURE: ${error.message}`);
     }
   }
+
+  const handleExportCSV = () => {
+    if (leads.length === 0) {
+      toast.error("NO_LEAD_DATA_AVAILABLE_TO_EXPORT");
+      return;
+    }
+
+    const headers = [
+      "Lead ID",
+      "Date & Time",
+      "Source",
+      "Name",
+      "Email",
+      "Phone",
+      "Company / Entity",
+      "Service Requested",
+      "Status",
+      "Requirements / Message"
+    ];
+
+    const escapeCSV = (str: any) => {
+      if (!str) return '""';
+      return `"${String(str).replace(/"/g, '""')}"`;
+    };
+
+    const rows = leads.map((lead) => {
+      const dateStr = lead.timestamp?.toDate 
+        ? new Date(lead.timestamp.toDate()).toLocaleString() 
+        : (lead.createdAt || 'N/A');
+
+      return [
+        escapeCSV(lead.id),
+        escapeCSV(dateStr),
+        escapeCSV(lead.source || 'CONTACT_PAGE'),
+        escapeCSV(lead.name),
+        escapeCSV(lead.email),
+        escapeCSV(lead.phone || 'N/A'),
+        escapeCSV(lead.company || 'N/A'),
+        escapeCSV(lead.service || 'General'),
+        escapeCSV(lead.status || 'NEW'),
+        escapeCSV(lead.message ? lead.message.replace(/\r?\n|\r/g, ' ') : '')
+      ].join(',');
+    });
+
+    const csvContent = "data:text/csv;charset=utf-8," + [headers.join(','), ...rows].join('\n');
+    const encodedUri = encodeURI(csvContent);
+    const link = document.createElement("a");
+    link.setAttribute("href", encodedUri);
+    link.setAttribute("download", `meganods-leads-spreadsheet-${new Date().toISOString().split('T')[0]}.csv`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    toast.success("SPREADSHEET_EXPORTED_SUCCESSFULLY");
+  };
 
   if (isLoading) {
     return (
@@ -351,8 +407,30 @@ export default function AdminContactPage() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
-              className="space-y-12"
+              className="space-y-8"
             >
+              {/* Pipeline Header with Export Button */}
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-6 sm:p-8 rounded-3xl bg-slate-50 dark:bg-[#05050a]/40 border border-slate-200 dark:border-white/5 shadow-sm">
+                <div>
+                  <div className="flex items-center gap-2 text-indigo-600 dark:text-indigo-400 font-mono text-[10px] uppercase tracking-widest font-bold mb-1">
+                    <Shield className="w-3.5 h-3.5" /> Automated Lead Telemetry
+                  </div>
+                  <h2 className="text-xl sm:text-2xl font-black uppercase tracking-tight text-slate-900 dark:text-white">
+                    Inbound Pipeline Registry
+                  </h2>
+                  <p className="text-xs text-slate-500 dark:text-white/40 mt-0.5">
+                    Live capture from Website Visitor Popup and Contact Page.
+                  </p>
+                </div>
+                <Button
+                  onClick={handleExportCSV}
+                  className="h-12 px-6 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs uppercase tracking-wider rounded-xl shadow-lg shadow-emerald-500/20 flex items-center gap-2.5 border-0 cursor-pointer self-start sm:self-auto"
+                >
+                  <FileSpreadsheet className="w-4 h-4" />
+                  <span>Export Spreadsheet (CSV)</span>
+                </Button>
+              </div>
+
               <div className="bg-slate-50 dark:bg-[#05050a]/40 border border-slate-200 dark:border-white/5 rounded-[3rem] overflow-hidden shadow-xl dark:shadow-2xl">
                  <div className="overflow-x-auto">
                     <table className="w-full">
@@ -370,8 +448,19 @@ export default function AdminContactPage() {
                           {leads.map((lead) => (
                              <tr key={lead.id} className="group hover:bg-white dark:hover:bg-white/[0.02] transition-all">
                                 <td className="px-10 py-10">
-                                   <div className="flex flex-col gap-1">
-                                      <span className="text-xl font-black tracking-tight text-slate-900 dark:text-white uppercase">{lead.name}</span>
+                                   <div className="flex flex-col gap-1.5">
+                                      <div className="flex items-center gap-2 flex-wrap">
+                                        <span className="text-xl font-black tracking-tight text-slate-900 dark:text-white uppercase">{lead.name}</span>
+                                        {lead.source === 'WEBSITE_POPUP' ? (
+                                          <span className="px-2 py-0.5 rounded-md bg-purple-500/10 text-purple-600 dark:text-purple-400 font-mono text-[8px] font-black tracking-widest border border-purple-500/20">
+                                            POPUP
+                                          </span>
+                                        ) : (
+                                          <span className="px-2 py-0.5 rounded-md bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 font-mono text-[8px] font-black tracking-widest border border-indigo-500/20">
+                                            FORM
+                                          </span>
+                                        )}
+                                      </div>
                                       <span className="text-[10px] font-mono text-slate-400 dark:text-white/20 uppercase tracking-widest">{lead.timestamp ? new Date(lead.timestamp?.toDate()).toLocaleString() : 'SYSTEM_PENDING'}</span>
                                    </div>
                                 </td>

@@ -6,6 +6,7 @@ import { StarField } from '@/components/effects/shooting-stars'
 import { CustomCursor } from '@/components/effects/custom-cursor'
 import { CookieConsent } from '@/components/ui/cookie-consent'
 import { CommandPalette } from '@/components/ui/command-palette'
+import { VisitorInquiryModal } from '@/components/ui/visitor-inquiry-modal'
 import JsonLd from '@/components/seo/json-ld'
 import './globals.css'
 
@@ -126,6 +127,25 @@ export default function RootLayout({
               gtag('js', new Date());
               gtag('config', 'G-EHJZPCJ8NP');
               gtag('config', 'AW-18420745292');
+
+              function gtag_report_conversion(url) {
+                var callback = function () {
+                  if (typeof(url) != 'undefined' && url) {
+                    window.location = url;
+                  }
+                };
+                if (typeof gtag === 'function') {
+                  gtag('event', 'conversion', {
+                    'send_to': 'AW-18420745292/LhooCOmQtIEdEMyI2c9E',
+                    'transaction_id': '',
+                    'event_callback': callback
+                  });
+                } else {
+                  callback();
+                }
+                return false;
+              }
+              window.gtag_report_conversion = gtag_report_conversion;
             `,
           }}
         />
@@ -134,6 +154,7 @@ export default function RootLayout({
         <JsonLd />
         <CookieConsent />
         <CommandPalette />
+        <VisitorInquiryModal />
         {children}
         {process.env.NODE_ENV === 'production' && <Analytics />}
       </body>

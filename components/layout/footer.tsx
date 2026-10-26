@@ -20,6 +20,7 @@ import {
   ArrowRight
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
+import { gtag_report_conversion } from '@/lib/gtag'
 
 const footerLinks = {
   entity: [
@@ -213,13 +214,25 @@ export function Footer() {
               <li>
                  <div className="flex flex-col gap-1">
                     <span className="text-[10px] font-mono text-slate-900 dark:text-slate-300 font-extrabold uppercase tracking-widest">Global Mail</span>
-                    <a href="mailto:admin@meganods.com" className="text-sm sm:text-base font-bold text-slate-900 dark:text-slate-100 hover:text-indigo-600 transition-colors break-all">admin@meganods.com</a>
+                    <a 
+                      href="mailto:admin@meganods.com" 
+                      onClick={() => gtag_report_conversion()}
+                      className="text-sm sm:text-base font-bold text-slate-900 dark:text-slate-100 hover:text-indigo-600 transition-colors break-all"
+                    >
+                      admin@meganods.com
+                    </a>
                  </div>
               </li>
               <li>
                  <div className="flex flex-col gap-1">
                     <span className="text-[10px] font-mono text-slate-900 dark:text-slate-300 font-extrabold uppercase tracking-widest">Base Phone</span>
-                    <a href="tel:+918796140682" className="text-sm sm:text-base font-bold text-slate-900 dark:text-slate-100 hover:text-indigo-600 transition-colors whitespace-nowrap">+91 8796140682</a>
+                    <a 
+                      href="tel:+918796140682" 
+                      onClick={() => gtag_report_conversion()}
+                      className="text-sm sm:text-base font-bold text-slate-900 dark:text-slate-100 hover:text-indigo-600 transition-colors whitespace-nowrap"
+                    >
+                      +91 8796140682
+                    </a>
                  </div>
               </li>
               <li>
