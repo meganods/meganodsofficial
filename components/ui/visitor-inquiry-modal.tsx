@@ -87,6 +87,7 @@ export function VisitorInquiryModal() {
 
   const handleDismiss = () => {
     setIsOpen(false)
+    setIsSubmitted(false)
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -146,13 +147,15 @@ export function VisitorInquiryModal() {
       gtag_report_conversion()
 
       setIsSubmitted(true)
-      toast.success('Your project inquiry has been queued for immediate architectural review!')
-
-      // Auto close after 3 seconds
-      setTimeout(() => {
-        setIsOpen(false)
-        setIsSubmitted(false)
-      }, 3200)
+      // Reset form fields for subsequent visits
+      setFormData({
+        name: '',
+        email: '',
+        phone: '',
+        service: 'Website Development',
+        message: '',
+      })
+      toast.success('Your message has been received! We will get back to you shortly.')
     } catch (err: any) {
       console.error('Popup submission error:', err)
       toast.error('Could not submit inquiry. Please try again or use our contact page.')
@@ -200,38 +203,34 @@ export function VisitorInquiryModal() {
           </button>
 
           {isSubmitted ? (
-            /* Success State */
+            /* Clean & Simple Success State with OK button */
             <motion.div
-              initial={{ opacity: 0, scale: 0.92 }}
+              initial={{ opacity: 0, scale: 0.94 }}
               animate={{ opacity: 1, scale: 1 }}
-              className="py-12 px-6 sm:px-10 text-center flex flex-col items-center justify-center"
+              className="py-10 px-6 sm:px-8 text-center flex flex-col items-center justify-center"
             >
-              <div className="relative mb-5">
-                <div className="w-20 h-20 rounded-3xl bg-gradient-to-tr from-emerald-500/20 to-teal-500/20 border border-emerald-500/30 flex items-center justify-center text-emerald-500 dark:text-emerald-400 shadow-xl shadow-emerald-500/10">
-                  <CheckCircle2 className="w-10 h-10" />
-                </div>
-                <div className="absolute -inset-1 rounded-3xl bg-emerald-500/20 blur-md -z-10 animate-pulse" />
+              <div className="w-16 h-16 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-500 dark:text-emerald-400 mb-4 shadow-lg shadow-emerald-500/10">
+                <CheckCircle2 className="w-9 h-9" />
               </div>
 
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-600 dark:text-emerald-400 font-mono text-[10px] uppercase tracking-widest font-bold mb-3">
-                <ShieldCheck className="w-3.5 h-3.5" />
-                <span>Ticket ID #{submittedLeadId}</span>
-              </div>
-
-              <h3 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-slate-900 dark:text-white mb-2">
-                Consultation Queued!
+              <h3 className="text-xl sm:text-2xl font-black tracking-tight text-slate-900 dark:text-white mb-2">
+                Message Received!
               </h3>
-              <p className="text-xs sm:text-sm text-slate-600 dark:text-white/60 max-w-sm leading-relaxed mb-6">
-                Thank you for reaching out. A Senior Solutions Architect at Meganods has received your parameters and will respond with an architectural scope within <span className="font-semibold text-slate-900 dark:text-white">2 hours</span>.
+
+              <p className="text-xs sm:text-sm text-slate-600 dark:text-white/60 max-w-xs leading-relaxed mb-6 font-medium">
+                Your message has been received. We will get back to you shortly.
               </p>
 
-              <div className="w-full max-w-xs p-3.5 rounded-2xl bg-slate-50 dark:bg-white/5 border border-slate-200/80 dark:border-white/10 text-left flex items-center justify-between text-xs">
-                <span className="text-slate-500 dark:text-white/40 font-mono">Priority Dispatch</span>
-                <span className="text-emerald-600 dark:text-emerald-400 font-bold font-mono flex items-center gap-1.5">
-                  <span className="w-2 h-2 rounded-full bg-emerald-500 animate-ping" />
-                  Active In Queue
-                </span>
-              </div>
+              <Button
+                type="button"
+                onClick={() => {
+                  setIsOpen(false)
+                  setIsSubmitted(false)
+                }}
+                className="w-full max-w-[160px] h-11 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl text-xs sm:text-sm uppercase tracking-wider shadow-lg shadow-indigo-600/25 border-0 cursor-pointer transition-all hover:scale-[1.02] active:scale-[0.98]"
+              >
+                OK
+              </Button>
             </motion.div>
           ) : (
             /* Inquiry Form */
