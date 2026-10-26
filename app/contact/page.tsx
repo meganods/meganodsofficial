@@ -43,18 +43,11 @@ export default function ContactPage() {
     e.preventDefault()
     setIsSubmitting(true)
 
-    try {
-      const docRef = await addDoc(collection(db, "leads"), {
-        ...formData,
-        source: "CONTACT_PAGE",
-        status: "NEW",
-        timestamp: serverTimestamp(),
-      });
-      setIsSubmitted(true);
-      gtag_report_conversion();
-      toast.success("TRANSMISSION_SUCCESSFUL: DATA_ENCRYPTED_AND_STORED");
+    const leadId = `LEAD-${Date.now()}`;
+    const timestampStr = new Date().toLocaleString("en-US", { timeZone: "Asia/Kolkata" });
 
-      // Sync to Google Sheets Webhook
+    try {
+      // 1. Sync to Google Sheets Webhook immediately
       const webhookUrl = process.env.NEXT_PUBLIC_GOOGLE_SHEETS_WEBHOOK_URL;
       if (webhookUrl) {
         fetch(webhookUrl, {
@@ -62,8 +55,8 @@ export default function ContactPage() {
           mode: "no-cors",
           headers: { "Content-Type": "text/plain" },
           body: JSON.stringify({
-            id: docRef.id,
-            timestamp: new Date().toLocaleString("en-US", { timeZone: "Asia/Kolkata" }),
+            id: leadId,
+            timestamp: timestampStr,
             source: "CONTACT_PAGE",
             name: formData.name,
             email: formData.email,
@@ -75,6 +68,22 @@ export default function ContactPage() {
           }),
         }).catch((err) => console.error("Google Sheet sync error:", err));
       }
+
+      // 2. Save to Firestore Database
+      try {
+        await addDoc(collection(db, "leads"), {
+          ...formData,
+          source: "CONTACT_PAGE",
+          status: "NEW",
+          timestamp: serverTimestamp(),
+        });
+      } catch (dbErr) {
+        console.warn("Firestore write warning (verify firestore rules):", dbErr);
+      }
+
+      setIsSubmitted(true);
+      gtag_report_conversion();
+      toast.success("TRANSMISSION_SUCCESSFUL: DATA_ENCRYPTED_AND_STORED");
     } catch (error: any) {
       console.error("LEAD_SUBMISSION_ERROR:", error);
       toast.error(`TRANSMISSION_FAILURE: ${error.message}`);

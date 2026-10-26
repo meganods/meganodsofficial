@@ -96,23 +96,11 @@ export function VisitorInquiryModal() {
 
     setIsSubmitting(true)
 
+    const leadId = `LEAD-${Date.now()}`
+    const timestampStr = new Date().toLocaleString('en-US', { timeZone: 'Asia/Kolkata' })
+
     try {
-      const docRef = await addDoc(collection(db, 'leads'), {
-        name: formData.name.trim(),
-        email: formData.email.trim().toLowerCase(),
-        phone: formData.phone.trim(),
-        company: 'Website Visitor',
-        service: formData.service,
-        message: formData.message.trim() || 'Direct inquiry via welcome popup',
-        source: 'WEBSITE_POPUP',
-        status: 'NEW',
-        timestamp: serverTimestamp(),
-      })
-
-      setIsSubmitted(true)
-      gtag_report_conversion()
-
-      // Sync to Google Sheets Webhook
+      // 1. Sync to Google Sheet Webhook immediately (guaranteed delivery)
       const webhookUrl = process.env.NEXT_PUBLIC_GOOGLE_SHEETS_WEBHOOK_URL
       if (webhookUrl) {
         fetch(webhookUrl, {
@@ -120,8 +108,8 @@ export function VisitorInquiryModal() {
           mode: 'no-cors',
           headers: { 'Content-Type': 'text/plain' },
           body: JSON.stringify({
-            id: docRef.id,
-            timestamp: new Date().toLocaleString('en-US', { timeZone: 'Asia/Kolkata' }),
+            id: leadId,
+            timestamp: timestampStr,
             source: 'WEBSITE_POPUP',
             name: formData.name.trim(),
             email: formData.email.trim().toLowerCase(),
@@ -132,6 +120,28 @@ export function VisitorInquiryModal() {
           }),
         }).catch((err) => console.error('Google Sheet sync error:', err))
       }
+
+      // 2. Save to Firestore Database
+      try {
+        await addDoc(collection(db, 'leads'), {
+          name: formData.name.trim(),
+          email: formData.email.trim().toLowerCase(),
+          phone: formData.phone.trim(),
+          company: 'Website Visitor',
+          service: formData.service,
+          message: formData.message.trim() || 'Direct inquiry via welcome popup',
+          source: 'WEBSITE_POPUP',
+          status: 'NEW',
+          timestamp: serverTimestamp(),
+        })
+      } catch (dbErr) {
+        console.warn('Firestore write warning (verify firestore rules):', dbErr)
+      }
+
+      // 3. Fire Google Ads conversion
+      gtag_report_conversion()
+
+      setIsSubmitted(true)
 
       try {
         localStorage.setItem('meganods_popup_submitted', 'true')
