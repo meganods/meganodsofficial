@@ -2,18 +2,18 @@
 
 import { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { 
-  X, 
-  Send, 
-  Sparkles, 
-  CheckCircle2, 
-  Globe, 
-  Smartphone, 
-  Bot, 
-  Cpu, 
-  Cloud, 
-  MessageSquare, 
-  Loader2, 
+import {
+  X,
+  Send,
+  Sparkles,
+  CheckCircle2,
+  Globe,
+  Smartphone,
+  Bot,
+  Cpu,
+  Cloud,
+  MessageSquare,
+  Loader2,
   ShieldCheck,
   User,
   Mail,
@@ -235,11 +235,16 @@ export function VisitorInquiryModal() {
           ) : (
             /* Inquiry Form */
             <div className="p-6 sm:p-7">
-              {/* Single Line Header */}
-              <div className="mb-5 pr-8">
-                <h3 className="text-lg sm:text-xl font-black tracking-tight text-slate-900 dark:text-white leading-tight">
-                  Get a Free Architectural Estimate
+              {/* Centered Stylish Header */}
+              <div className="mb-6 text-center">
+                <h3 className="text-xl sm:text-2xl font-black tracking-tight text-slate-900 dark:text-white inline-flex items-center justify-center gap-1.5">
+                  <span>Connect With</span>
+                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-500 dark:from-indigo-400 dark:via-purple-300 dark:to-pink-400">
+                    Us
+                  </span>
+                  <Sparkles className="w-4 h-4 text-indigo-500 inline-block ml-0.5" />
                 </h3>
+                <div className="w-10 h-0.5 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 rounded-full mx-auto mt-2 opacity-80" />
               </div>
 
               <form onSubmit={handleSubmit} className="space-y-3.5">
@@ -318,9 +323,8 @@ export function VisitorInquiryModal() {
                         {SERVICE_OPTIONS.find((item) => item.id === formData.service)?.label || formData.service}
                       </span>
                       <ChevronDown
-                        className={`absolute right-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 dark:text-white/40 transition-transform duration-200 pointer-events-none ${
-                          isDropdownOpen ? 'rotate-180 text-indigo-500' : ''
-                        }`}
+                        className={`absolute right-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 dark:text-white/40 transition-transform duration-200 pointer-events-none ${isDropdownOpen ? 'rotate-180 text-indigo-500' : ''
+                          }`}
                       />
                     </button>
 
@@ -337,11 +341,10 @@ export function VisitorInquiryModal() {
                                 setFormData({ ...formData, service: item.id })
                                 setIsDropdownOpen(false)
                               }}
-                              className={`w-full px-3.5 py-2.5 text-left text-xs sm:text-sm flex items-center justify-between transition-colors cursor-pointer ${
-                                isSelected
-                                  ? 'bg-indigo-50 dark:bg-indigo-950/60 text-indigo-600 dark:text-indigo-400 font-semibold'
-                                  : 'text-slate-700 dark:text-white/80 hover:bg-slate-100 dark:hover:bg-white/5'
-                              }`}
+                              className={`w-full px-3.5 py-2.5 text-left text-xs sm:text-sm flex items-center justify-between transition-colors cursor-pointer ${isSelected
+                                ? 'bg-indigo-50 dark:bg-indigo-950/60 text-indigo-600 dark:text-indigo-400 font-semibold'
+                                : 'text-slate-700 dark:text-white/80 hover:bg-slate-100 dark:hover:bg-white/5'
+                                }`}
                             >
                               <span className="truncate pr-2">{item.label}</span>
                               {isSelected && <Check className="w-4 h-4 text-indigo-600 dark:text-indigo-400 shrink-0" />}
