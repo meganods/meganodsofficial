@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { 
   X, 
@@ -48,6 +48,8 @@ export function VisitorInquiryModal() {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isSubmitted, setIsSubmitted] = useState(false)
   const [submittedLeadId, setSubmittedLeadId] = useState('')
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false)
+  const dropdownRef = useRef<HTMLDivElement>(null)
 
   const [formData, setFormData] = useState({
     name: '',
@@ -56,6 +58,17 @@ export function VisitorInquiryModal() {
     service: 'Website Development',
     message: '',
   })
+
+  // Close custom dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setIsDropdownOpen(false)
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => document.removeEventListener('mousedown', handleClickOutside)
+  }, [])
 
   useEffect(() => {
     // Never show on admin pages
@@ -225,13 +238,13 @@ export function VisitorInquiryModal() {
             <div className="p-6 sm:p-7">
               {/* Single Line Header */}
               <div className="mb-5 pr-8">
-                <h3 className="text-xl sm:text-2xl font-black tracking-tight text-slate-900 dark:text-white leading-tight">
-                  Get a Free Architectural Roadmap & Estimate
+                <h3 className="text-lg sm:text-xl font-black tracking-tight text-slate-900 dark:text-white leading-tight">
+                  Get a Free Architectural Estimate
                 </h3>
               </div>
 
               <form onSubmit={handleSubmit} className="space-y-3.5">
-                {/* 1. Full Name (Below by below) */}
+                {/* 1. Full Name */}
                 <div>
                   <label className="flex items-center justify-between text-[10px] font-mono uppercase tracking-wider text-slate-600 dark:text-white/60 font-bold mb-1.5">
                     <span>Full Name</span>
@@ -250,7 +263,7 @@ export function VisitorInquiryModal() {
                   </div>
                 </div>
 
-                {/* 2. Work Email (Below by below) */}
+                {/* 2. Work Email */}
                 <div>
                   <label className="flex items-center justify-between text-[10px] font-mono uppercase tracking-wider text-slate-600 dark:text-white/60 font-bold mb-1.5">
                     <span>Work Email</span>
@@ -269,7 +282,7 @@ export function VisitorInquiryModal() {
                   </div>
                 </div>
 
-                {/* 3. Mobile Number / WhatsApp (Below by below - Mandatory) */}
+                {/* 3. Mobile Number / WhatsApp (Mandatory) */}
                 <div>
                   <label className="flex items-center justify-between text-[10px] font-mono uppercase tracking-wider text-slate-600 dark:text-white/60 font-bold mb-1.5">
                     <span>Mobile Number / WhatsApp</span>
@@ -282,7 +295,7 @@ export function VisitorInquiryModal() {
                     <input
                       type="tel"
                       required
-                      placeholder="+91 98765 43210 / +1 (555) 012-3456"
+                      placeholder="e.g. +91 98765 43210"
                       value={formData.phone}
                       onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                       className="w-full h-11 pl-10 pr-3 rounded-xl bg-slate-50/90 dark:bg-white/[0.04] border border-slate-200 dark:border-white/10 text-slate-900 dark:text-white text-xs sm:text-sm font-medium focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 transition-all placeholder:text-slate-400 dark:placeholder:text-white/20"
@@ -290,25 +303,54 @@ export function VisitorInquiryModal() {
                   </div>
                 </div>
 
-                {/* 4. Primary Area of Interest (Dropdown) */}
+                {/* 4. Primary Area of Interest (Custom Downward Dropdown) */}
                 <div>
                   <label className="block text-[10px] font-mono uppercase tracking-wider text-slate-600 dark:text-white/60 font-bold mb-1.5">
                     Primary Area of Interest
                   </label>
-                  <div className="relative">
-                    <Layers className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 dark:text-white/30 pointer-events-none" />
-                    <select
-                      value={formData.service}
-                      onChange={(e) => setFormData({ ...formData, service: e.target.value })}
-                      className="w-full h-11 pl-10 pr-10 rounded-xl bg-slate-50/90 dark:bg-[#0a0a14] border border-slate-200 dark:border-white/10 text-slate-900 dark:text-white text-xs sm:text-sm font-medium focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 transition-all appearance-none cursor-pointer"
+                  <div ref={dropdownRef} className="relative">
+                    <button
+                      type="button"
+                      onClick={() => setIsDropdownOpen((prev) => !prev)}
+                      className="w-full h-11 pl-10 pr-10 rounded-xl bg-slate-50/90 dark:bg-[#0a0a14] border border-slate-200 dark:border-white/10 text-slate-900 dark:text-white text-xs sm:text-sm font-medium flex items-center justify-between text-left focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 transition-all cursor-pointer"
                     >
-                      {SERVICE_OPTIONS.map((item) => (
-                        <option key={item.id} value={item.id} className="bg-white dark:bg-[#07070f] text-slate-900 dark:text-white py-2">
-                          {item.label}
-                        </option>
-                      ))}
-                    </select>
-                    <ChevronDown className="absolute right-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 dark:text-white/40 pointer-events-none" />
+                      <Layers className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 dark:text-white/30 pointer-events-none" />
+                      <span className="truncate">
+                        {SERVICE_OPTIONS.find((item) => item.id === formData.service)?.label || formData.service}
+                      </span>
+                      <ChevronDown
+                        className={`absolute right-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 dark:text-white/40 transition-transform duration-200 pointer-events-none ${
+                          isDropdownOpen ? 'rotate-180 text-indigo-500' : ''
+                        }`}
+                      />
+                    </button>
+
+                    {/* Dropdown Menu - Always opens DOWNWARDS */}
+                    {isDropdownOpen && (
+                      <div className="absolute top-full left-0 right-0 mt-1.5 py-1.5 rounded-xl bg-white dark:bg-[#0c0c18] border border-slate-200 dark:border-white/15 shadow-2xl z-50 max-h-52 overflow-y-auto backdrop-blur-2xl">
+                        {SERVICE_OPTIONS.map((item) => {
+                          const isSelected = formData.service === item.id
+                          return (
+                            <button
+                              key={item.id}
+                              type="button"
+                              onClick={() => {
+                                setFormData({ ...formData, service: item.id })
+                                setIsDropdownOpen(false)
+                              }}
+                              className={`w-full px-3.5 py-2.5 text-left text-xs sm:text-sm flex items-center justify-between transition-colors cursor-pointer ${
+                                isSelected
+                                  ? 'bg-indigo-50 dark:bg-indigo-950/60 text-indigo-600 dark:text-indigo-400 font-semibold'
+                                  : 'text-slate-700 dark:text-white/80 hover:bg-slate-100 dark:hover:bg-white/5'
+                              }`}
+                            >
+                              <span className="truncate pr-2">{item.label}</span>
+                              {isSelected && <Check className="w-4 h-4 text-indigo-600 dark:text-indigo-400 shrink-0" />}
+                            </button>
+                          )
+                        })}
+                      </div>
+                    )}
                   </div>
                 </div>
 
@@ -335,18 +377,15 @@ export function VisitorInquiryModal() {
                   <Button
                     type="submit"
                     disabled={isSubmitting}
-                    className="w-full h-12 bg-gradient-to-r from-indigo-600 via-indigo-700 to-purple-600 hover:from-indigo-500 hover:via-indigo-600 hover:to-purple-500 text-white font-bold rounded-xl text-xs sm:text-sm uppercase tracking-wider shadow-lg shadow-indigo-600/30 border-0 flex items-center justify-center gap-2 cursor-pointer transition-all hover:scale-[1.01] active:scale-[0.99]"
+                    className="w-full h-11 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl text-xs sm:text-sm uppercase tracking-wider shadow-lg shadow-indigo-600/25 border-0 flex items-center justify-center gap-2 cursor-pointer transition-all hover:scale-[1.01] active:scale-[0.99]"
                   >
                     {isSubmitting ? (
                       <>
                         <Loader2 className="w-4 h-4 animate-spin" />
-                        <span>Transmitting Scope...</span>
+                        <span>Submitting...</span>
                       </>
                     ) : (
-                      <>
-                        <span>Request Architecture Roadmap & Quote</span>
-                        <ArrowRight className="w-4 h-4" />
-                      </>
+                      <span>Submit</span>
                     )}
                   </Button>
                 </div>
