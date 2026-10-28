@@ -107,7 +107,7 @@ export function CTASection() {
                    </div>
                    <div className="text-foreground font-bold text-xs sm:text-sm tracking-tight flex flex-col gap-0.5">
                       <a href="tel:+918796140682" onClick={() => gtag_report_conversion()} className="hover:text-indigo-600 transition-colors whitespace-nowrap">+91 8796140682</a>
-                      <a href="tel:+917007601257" onClick={() => gtag_report_conversion()} className="hover:text-indigo-600 transition-colors whitespace-nowrap">+91 70076 01257</a>
+                      <a href="tel:+917838130064" onClick={() => gtag_report_conversion()} className="hover:text-indigo-600 transition-colors whitespace-nowrap">+91 78381 30064</a>
                       <a href="tel:+917428128001" onClick={() => gtag_report_conversion()} className="hover:text-indigo-600 transition-colors whitespace-nowrap">+91 7428 128 001</a>
                    </div>
                    <div className="text-muted-foreground text-[9px] sm:text-[10px] uppercase font-mono">Direct Voice Line</div>

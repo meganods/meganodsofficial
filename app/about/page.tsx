@@ -858,7 +858,7 @@ export default function AboutPage() {
                         <div className="flex items-center gap-2 flex-wrap mt-0.5">
                           <a href="tel:+918796140682" className="text-emerald-600 dark:text-emerald-400 font-mono hover:underline font-bold">+91 8796140682</a>
                           <span className="text-slate-400 dark:text-slate-600">/</span>
-                          <a href="tel:+917007601257" className="text-emerald-600 dark:text-emerald-400 font-mono hover:underline font-bold">+91 70076 01257</a>
+                          <a href="tel:+917838130064" className="text-emerald-600 dark:text-emerald-400 font-mono hover:underline font-bold">+91 78381 30064</a>
                           <span className="text-slate-400 dark:text-slate-600">/</span>
                           <a href="tel:+917428128001" className="text-emerald-600 dark:text-emerald-400 font-mono hover:underline font-bold">+91 7428 128 001</a>
                         </div>

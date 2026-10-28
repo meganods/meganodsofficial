@@ -53,7 +53,7 @@ export default function AdminConfigPage() {
     },
     contact: {
        email: "admin@meganods.com",
-       phone: "+91 8796140682, +91 70076 01257, +91 7428 128 001",
+       phone: "+91 8796140682, +91 78381 30064, +91 7428 128 001",
        address: "OC-821, 8th Floor, Gaur City Centre, Greater Noida West, Uttar Pradesh 201306, India",
        social: {
           linkedin: "https://www.linkedin.com/in/meganods-08b7b5400/",

@@ -115,7 +115,7 @@ export default function TermsOfServicePage() {
               </p>
               <div className="font-mono text-sm space-y-1 text-foreground">
                 <p><strong>Email:</strong> <a href="mailto:admin@meganods.com" className="text-primary">admin@meganods.com</a></p>
-                <p><strong>Phone:</strong> <a href="tel:+918796140682" className="text-primary hover:underline">+91 8796140682</a> / <a href="tel:+917007601257" className="text-primary hover:underline">+91 70076 01257</a> / <a href="tel:+917428128001" className="text-primary hover:underline">+91 7428 128 001</a></p>
+                <p><strong>Phone:</strong> <a href="tel:+918796140682" className="text-primary hover:underline">+91 8796140682</a> / <a href="tel:+917838130064" className="text-primary hover:underline">+91 78381 30064</a> / <a href="tel:+917428128001" className="text-primary hover:underline">+91 7428 128 001</a></p>
                 <p><strong>Organization:</strong> Meganods Official Legal Operations</p>
               </div>
             </section>

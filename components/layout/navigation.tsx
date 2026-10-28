@@ -309,8 +309,8 @@ export function Navigation() {
                     +91 8796140682
                   </a>
                   <span>/</span>
-                  <a href="tel:+917007601257" className="hover:text-indigo-600 font-bold whitespace-nowrap">
-                    +91 70076 01257
+                  <a href="tel:+917838130064" className="hover:text-indigo-600 font-bold whitespace-nowrap">
+                    +91 78381 30064
                   </a>
                   <span>/</span>
                   <a href="tel:+917428128001" className="hover:text-indigo-600 font-bold whitespace-nowrap">

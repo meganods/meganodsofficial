@@ -225,7 +225,7 @@ export function VisitorInquiryModal() {
                 For immediate assistance: <br />
                 <a href="tel:+918796140682" onClick={() => gtag_report_conversion()} className="text-indigo-600 dark:text-indigo-400 font-bold hover:underline">+91 8796140682</a>
                 {' / '}
-                <a href="tel:+917007601257" onClick={() => gtag_report_conversion()} className="text-indigo-600 dark:text-indigo-400 font-bold hover:underline">+91 70076 01257</a>
+                <a href="tel:+917838130064" onClick={() => gtag_report_conversion()} className="text-indigo-600 dark:text-indigo-400 font-bold hover:underline">+91 78381 30064</a>
                 {' / '}
                 <a href="tel:+917428128001" onClick={() => gtag_report_conversion()} className="text-indigo-600 dark:text-indigo-400 font-bold hover:underline">+91 7428 128 001</a>
               </p>
@@ -432,11 +432,11 @@ export function VisitorInquiryModal() {
                     </a>
                     {', '}
                     <a
-                      href="tel:+917007601257"
+                      href="tel:+917838130064"
                       onClick={() => gtag_report_conversion()}
                       className="font-bold text-indigo-600 dark:text-indigo-400 hover:underline whitespace-nowrap"
                     >
-                      +91 70076 01257
+                      +91 78381 30064
                     </a>
                     {' or '}
                     <a

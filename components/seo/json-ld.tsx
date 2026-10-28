@@ -62,7 +62,7 @@ export default function JsonLd() {
         '@type': 'ContactPoint',
         contactType: 'client operations',
         email: 'admin@meganods.com',
-        telephone: '+917007601257',
+        telephone: '+917838130064',
         availableLanguage: ['English', 'Hindi'],
       },
       {

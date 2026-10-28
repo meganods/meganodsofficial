@@ -135,7 +135,7 @@ export default function CookiePolicyPage() {
                 If you have questions about our Cookie Policy or data handling practices, please contact our compliance team:
               </p>
               <p className="text-sm font-mono text-primary font-bold">
-                Email: admin@meganods.com | Phone: +91 8796140682 / +91 70076 01257 / +91 7428 128 001
+                Email: admin@meganods.com | Phone: +91 8796140682 / +91 78381 30064 / +91 7428 128 001
               </p>
             </section>
           </div>

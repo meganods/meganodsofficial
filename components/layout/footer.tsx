@@ -235,11 +235,11 @@ export function Footer() {
                         +91 8796140682
                       </a>
                       <a 
-                        href="tel:+917007601257" 
+                        href="tel:+917838130064" 
                         onClick={() => gtag_report_conversion()}
                         className="text-sm sm:text-base font-bold text-slate-900 dark:text-slate-100 hover:text-indigo-600 transition-colors whitespace-nowrap"
                       >
-                        +91 70076 01257
+                        +91 78381 30064
                       </a>
                       <a 
                         href="tel:+917428128001" 
