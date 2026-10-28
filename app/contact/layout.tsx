@@ -48,13 +48,29 @@ const contactPageJsonLd = {
     '@type': 'Organization',
     name: 'Meganods',
     url: 'https://www.meganods.com',
-    contactPoint: {
-      '@type': 'ContactPoint',
-      contactType: 'customer support',
-      email: 'admin@meganods.com',
-      telephone: '+918796140682',
-      availableLanguage: ['English', 'Hindi'],
-    },
+    contactPoint: [
+      {
+        '@type': 'ContactPoint',
+        contactType: 'customer support',
+        email: 'admin@meganods.com',
+        telephone: '+918796140682',
+        availableLanguage: ['English', 'Hindi'],
+      },
+      {
+        '@type': 'ContactPoint',
+        contactType: 'client operations',
+        email: 'admin@meganods.com',
+        telephone: '+917007601257',
+        availableLanguage: ['English', 'Hindi'],
+      },
+      {
+        '@type': 'ContactPoint',
+        contactType: 'technical inquiries',
+        email: 'admin@meganods.com',
+        telephone: '+917428128001',
+        availableLanguage: ['English', 'Hindi'],
+      },
+    ],
     address: {
       '@type': 'PostalAddress',
       streetAddress: 'OC-821, 8th Floor, Gaur City Centre, Greater Noida West',

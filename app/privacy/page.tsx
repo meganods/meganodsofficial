@@ -136,7 +136,7 @@ export default function PrivacyPolicyPage() {
               </p>
               <div className="font-mono text-sm space-y-1 text-foreground">
                 <p><strong>Email:</strong> <a href="mailto:admin@meganods.com" className="text-primary">admin@meganods.com</a></p>
-                <p><strong>Phone:</strong> +91 8796140682</p>
+                <p><strong>Phone:</strong> <a href="tel:+918796140682" className="text-primary hover:underline">+91 8796140682</a> / <a href="tel:+917007601257" className="text-primary hover:underline">+91 70076 01257</a> / <a href="tel:+917428128001" className="text-primary hover:underline">+91 7428 128 001</a></p>
                 <p><strong>Headquarters:</strong> OC-821 8th Floor, Gaur City Centre, Greater Noida West, Uttar Pradesh, India.</p>
               </div>
             </section>

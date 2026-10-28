@@ -217,8 +217,17 @@ export function VisitorInquiryModal() {
                 Message Received!
               </h3>
 
-              <p className="text-xs sm:text-sm text-slate-600 dark:text-white/60 max-w-xs leading-relaxed mb-6 font-medium">
+              <p className="text-xs sm:text-sm text-slate-600 dark:text-white/60 max-w-xs leading-relaxed mb-3 font-medium">
                 Your message has been received. We will get back to you shortly.
+              </p>
+
+              <p className="text-xs text-slate-500 dark:text-white/40 mb-6 font-medium">
+                For immediate assistance: <br />
+                <a href="tel:+918796140682" onClick={() => gtag_report_conversion()} className="text-indigo-600 dark:text-indigo-400 font-bold hover:underline">+91 8796140682</a>
+                {' / '}
+                <a href="tel:+917007601257" onClick={() => gtag_report_conversion()} className="text-indigo-600 dark:text-indigo-400 font-bold hover:underline">+91 70076 01257</a>
+                {' / '}
+                <a href="tel:+917428128001" onClick={() => gtag_report_conversion()} className="text-indigo-600 dark:text-indigo-400 font-bold hover:underline">+91 7428 128 001</a>
               </p>
 
               <Button
@@ -408,6 +417,36 @@ export function VisitorInquiryModal() {
                     <ShieldCheck className="w-3 h-3 text-emerald-500" />
                     <span>Zero Spam</span>
                   </span>
+                </div>
+
+                {/* Direct Dial Assistance */}
+                <div className="pt-2 text-center border-t border-slate-100 dark:border-white/5">
+                  <p className="text-[11px] text-slate-500 dark:text-white/40">
+                    Need instant consultation? Call{' '}
+                    <a
+                      href="tel:+918796140682"
+                      onClick={() => gtag_report_conversion()}
+                      className="font-bold text-indigo-600 dark:text-indigo-400 hover:underline whitespace-nowrap"
+                    >
+                      +91 8796140682
+                    </a>
+                    {', '}
+                    <a
+                      href="tel:+917007601257"
+                      onClick={() => gtag_report_conversion()}
+                      className="font-bold text-indigo-600 dark:text-indigo-400 hover:underline whitespace-nowrap"
+                    >
+                      +91 70076 01257
+                    </a>
+                    {' or '}
+                    <a
+                      href="tel:+917428128001"
+                      onClick={() => gtag_report_conversion()}
+                      className="font-bold text-indigo-600 dark:text-indigo-400 hover:underline whitespace-nowrap"
+                    >
+                      +91 7428 128 001
+                    </a>
+                  </p>
                 </div>
               </form>
             </div>

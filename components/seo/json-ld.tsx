@@ -50,13 +50,29 @@ export default function JsonLd() {
       'Distributed Systems & Microservices',
       'Kubernetes & eBPF Security',
     ],
-    contactPoint: {
-      '@type': 'ContactPoint',
-      contactType: 'customer support',
-      email: 'admin@meganods.com',
-      telephone: '+918796140682',
-      availableLanguage: ['English', 'Hindi'],
-    },
+    contactPoint: [
+      {
+        '@type': 'ContactPoint',
+        contactType: 'customer support',
+        email: 'admin@meganods.com',
+        telephone: '+918796140682',
+        availableLanguage: ['English', 'Hindi'],
+      },
+      {
+        '@type': 'ContactPoint',
+        contactType: 'client operations',
+        email: 'admin@meganods.com',
+        telephone: '+917007601257',
+        availableLanguage: ['English', 'Hindi'],
+      },
+      {
+        '@type': 'ContactPoint',
+        contactType: 'technical inquiries',
+        email: 'admin@meganods.com',
+        telephone: '+917428128001',
+        availableLanguage: ['English', 'Hindi'],
+      },
+    ],
     sameAs: [
       'https://www.linkedin.com/in/meganods-08b7b5400/',
       'https://www.instagram.com/mega.nods/',

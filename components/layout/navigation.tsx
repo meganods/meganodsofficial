@@ -5,7 +5,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Menu, X, ChevronDown, Satellite, ArrowRight, Search, Sparkles } from 'lucide-react'
+import { Menu, X, ChevronDown, Satellite, ArrowRight, Search, Sparkles, Phone } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 
 interface SubmenuItem {
@@ -302,6 +302,21 @@ export function Navigation() {
                     <ArrowRight className="w-3.5 h-3.5" />
                   </Button>
                 </Link>
+
+                <div className="flex items-center justify-center gap-1.5 flex-wrap pt-1 text-[11px] font-mono text-slate-600 dark:text-slate-300">
+                  <Phone className="w-3 h-3 text-indigo-600 dark:text-indigo-400 shrink-0" />
+                  <a href="tel:+918796140682" className="hover:text-indigo-600 font-bold whitespace-nowrap">
+                    +91 8796140682
+                  </a>
+                  <span>/</span>
+                  <a href="tel:+917007601257" className="hover:text-indigo-600 font-bold whitespace-nowrap">
+                    +91 70076 01257
+                  </a>
+                  <span>/</span>
+                  <a href="tel:+917428128001" className="hover:text-indigo-600 font-bold whitespace-nowrap">
+                    +91 7428 128 001
+                  </a>
+                </div>
               </div>
             </div>
           </motion.div>

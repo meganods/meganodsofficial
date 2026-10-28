@@ -99,23 +99,34 @@ export function CTASection() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={isInView ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.5, delay: 0.4 }}
-                className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-10 sm:pt-14 border-t border-border"
+                className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 pt-10 sm:pt-14 border-t border-border"
               >
-                <div className="flex flex-col items-center gap-2">
+                <div className="flex flex-col items-center gap-2 text-center">
+                   <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl bg-secondary flex items-center justify-center border border-border">
+                      <Phone className="w-4 h-4 sm:w-5 sm:h-5 text-rose-500 dark:text-rose-400" />
+                   </div>
+                   <div className="text-foreground font-bold text-xs sm:text-sm tracking-tight flex flex-col gap-0.5">
+                      <a href="tel:+918796140682" onClick={() => gtag_report_conversion()} className="hover:text-indigo-600 transition-colors whitespace-nowrap">+91 8796140682</a>
+                      <a href="tel:+917007601257" onClick={() => gtag_report_conversion()} className="hover:text-indigo-600 transition-colors whitespace-nowrap">+91 70076 01257</a>
+                      <a href="tel:+917428128001" onClick={() => gtag_report_conversion()} className="hover:text-indigo-600 transition-colors whitespace-nowrap">+91 7428 128 001</a>
+                   </div>
+                   <div className="text-muted-foreground text-[9px] sm:text-[10px] uppercase font-mono">Direct Voice Line</div>
+                </div>
+                <div className="flex flex-col items-center gap-2 text-center">
                    <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl bg-secondary flex items-center justify-center border border-border">
                       <Mail className="w-4 h-4 sm:w-5 sm:h-5 text-indigo-600 dark:text-indigo-400" />
                    </div>
-                   <div className="text-foreground font-bold text-xs sm:text-sm tracking-tight">admin@meganods.com</div>
+                   <a href="mailto:admin@meganods.com" onClick={() => gtag_report_conversion()} className="text-foreground font-bold text-xs sm:text-sm tracking-tight hover:text-indigo-600 transition-colors">admin@meganods.com</a>
                    <div className="text-muted-foreground text-[9px] sm:text-[10px] uppercase font-mono">Email Gateway</div>
                 </div>
-                <div className="flex flex-col items-center gap-2">
+                <div className="flex flex-col items-center gap-2 text-center">
                    <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl bg-secondary flex items-center justify-center border border-border">
                       <Globe className="w-4 h-4 sm:w-5 sm:h-5 text-blue-500 dark:text-blue-400" />
                    </div>
                    <div className="text-foreground font-bold text-xs sm:text-sm tracking-tight">Global HQ / Remote</div>
                    <div className="text-muted-foreground text-[9px] sm:text-[10px] uppercase font-mono">Operational Base</div>
                 </div>
-                <div className="flex flex-col items-center gap-2">
+                <div className="flex flex-col items-center gap-2 text-center">
                    <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl bg-secondary flex items-center justify-center border border-border">
                       <Shield className="w-4 h-4 sm:w-5 sm:h-5 text-emerald-600 dark:text-emerald-400" />
                    </div>

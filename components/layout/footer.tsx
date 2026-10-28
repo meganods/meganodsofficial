@@ -224,15 +224,31 @@ export function Footer() {
                  </div>
               </li>
               <li>
-                 <div className="flex flex-col gap-1">
+                 <div className="flex flex-col gap-1.5">
                     <span className="text-[10px] font-mono text-slate-900 dark:text-slate-300 font-extrabold uppercase tracking-widest">Base Phone</span>
-                    <a 
-                      href="tel:+918796140682" 
-                      onClick={() => gtag_report_conversion()}
-                      className="text-sm sm:text-base font-bold text-slate-900 dark:text-slate-100 hover:text-indigo-600 transition-colors whitespace-nowrap"
-                    >
-                      +91 8796140682
-                    </a>
+                    <div className="flex flex-col gap-1">
+                      <a 
+                        href="tel:+918796140682" 
+                        onClick={() => gtag_report_conversion()}
+                        className="text-sm sm:text-base font-bold text-slate-900 dark:text-slate-100 hover:text-indigo-600 transition-colors whitespace-nowrap"
+                      >
+                        +91 8796140682
+                      </a>
+                      <a 
+                        href="tel:+917007601257" 
+                        onClick={() => gtag_report_conversion()}
+                        className="text-sm sm:text-base font-bold text-slate-900 dark:text-slate-100 hover:text-indigo-600 transition-colors whitespace-nowrap"
+                      >
+                        +91 70076 01257
+                      </a>
+                      <a 
+                        href="tel:+917428128001" 
+                        onClick={() => gtag_report_conversion()}
+                        className="text-sm sm:text-base font-bold text-slate-900 dark:text-slate-100 hover:text-indigo-600 transition-colors whitespace-nowrap"
+                      >
+                        +91 7428 128 001
+                      </a>
+                    </div>
                  </div>
               </li>
               <li>

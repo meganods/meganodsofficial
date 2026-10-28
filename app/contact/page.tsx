@@ -171,14 +171,30 @@ export default function ContactPage() {
                   <div className="flex items-start gap-3.5 p-3.5 sm:p-5 rounded-2xl sm:rounded-3xl bg-slate-50 dark:bg-white/[0.02] border border-slate-100 dark:border-white/5 shadow-inner">
                     <Phone className="w-5 h-5 text-rose-500 dark:text-rose-400 flex-shrink-0 mt-0.5" />
                     <div className="min-w-0">
-                      <div className="text-[9px] sm:text-[10px] font-mono text-slate-400 dark:text-white/30 uppercase tracking-[0.15em] sm:tracking-[0.2em] mb-0.5 font-semibold">Voice Node</div>
-                      <a 
-                        href="tel:+918796140682" 
-                        onClick={() => gtag_report_conversion()}
-                        className="text-sm sm:text-base font-bold text-slate-900 dark:text-white hover:text-rose-500 dark:hover:text-rose-400 transition-colors"
-                      >
-                        +91 8796140682
-                      </a>
+                      <div className="text-[9px] sm:text-[10px] font-mono text-slate-400 dark:text-white/30 uppercase tracking-[0.15em] sm:tracking-[0.2em] mb-0.5 font-semibold">Voice Nodes / Direct Lines</div>
+                      <div className="flex flex-col gap-1">
+                        <a 
+                          href="tel:+918796140682" 
+                          onClick={() => gtag_report_conversion()}
+                          className="text-sm sm:text-base font-bold text-slate-900 dark:text-white hover:text-rose-500 dark:hover:text-rose-400 transition-colors whitespace-nowrap"
+                        >
+                          +91 8796140682
+                        </a>
+                        <a 
+                          href="tel:+917007601257" 
+                          onClick={() => gtag_report_conversion()}
+                          className="text-sm sm:text-base font-bold text-slate-900 dark:text-white hover:text-rose-500 dark:hover:text-rose-400 transition-colors whitespace-nowrap"
+                        >
+                          +91 70076 01257
+                        </a>
+                        <a 
+                          href="tel:+917428128001" 
+                          onClick={() => gtag_report_conversion()}
+                          className="text-sm sm:text-base font-bold text-slate-900 dark:text-white hover:text-rose-500 dark:hover:text-rose-400 transition-colors whitespace-nowrap"
+                        >
+                          +91 7428 128 001
+                        </a>
+                      </div>
                     </div>
                   </div>
 

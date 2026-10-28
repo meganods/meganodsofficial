@@ -851,11 +851,17 @@ export default function AboutPage() {
                         <a href="mailto:admin@meganods.com" className="text-emerald-600 dark:text-emerald-400 font-mono hover:underline font-bold">admin@meganods.com</a>
                       </div>
                     </div>
-                    <div className="flex items-center gap-3 pt-2 border-t border-slate-200/60 dark:border-slate-800">
-                      <PhoneCall className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0" />
+                    <div className="flex items-start gap-3 pt-2 border-t border-slate-200/60 dark:border-slate-800">
+                      <PhoneCall className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" />
                       <div>
                         <span className="font-bold text-slate-900 dark:text-slate-100">Direct Phone: </span>
-                        <a href="tel:+918796140682" className="text-emerald-600 dark:text-emerald-400 font-mono hover:underline font-bold">+91 8796140682</a>
+                        <div className="flex items-center gap-2 flex-wrap mt-0.5">
+                          <a href="tel:+918796140682" className="text-emerald-600 dark:text-emerald-400 font-mono hover:underline font-bold">+91 8796140682</a>
+                          <span className="text-slate-400 dark:text-slate-600">/</span>
+                          <a href="tel:+917007601257" className="text-emerald-600 dark:text-emerald-400 font-mono hover:underline font-bold">+91 70076 01257</a>
+                          <span className="text-slate-400 dark:text-slate-600">/</span>
+                          <a href="tel:+917428128001" className="text-emerald-600 dark:text-emerald-400 font-mono hover:underline font-bold">+91 7428 128 001</a>
+                        </div>
                       </div>
                     </div>
                   </div>
